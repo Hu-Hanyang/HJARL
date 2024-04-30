@@ -37,6 +37,8 @@ class Environment(str, Enum):
 
     CARTPOLE = 'cartpole'  # Cartpole system
     QUADROTOR = 'quadrotor'  # Quadrotor, both 1D and 2D
+    CARTPOLE_HJDISTB = 'cartpole_hjdistb'  # Cartpole with hj disturbances
+    
 
 
 class BenchmarkEnv(gym.Env, ABC):
@@ -64,7 +66,7 @@ class BenchmarkEnv(gym.Env, ABC):
                  cost: Cost = Cost.RL_REWARD,
                  pyb_freq: int = 50,
                  ctrl_freq: int = 50,
-                 episode_len_sec: int = 5,
+                 episode_len_sec: int = 10,  # Hanayng: change from 5 to 10 seconds
                  # Initialization.
                  init_state=None,
                  randomized_init: bool = True,

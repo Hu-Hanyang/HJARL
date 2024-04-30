@@ -377,6 +377,7 @@ class CartPole(BenchmarkEnv):
             p.disconnect(physicsClientId=self.PYB_CLIENT)
         self.PYB_CLIENT = -1
 
+    # Hanyang: the dynamics is here, no disturbances are considered
     def _setup_symbolic(self, prior_prop={}, **kwargs):
         '''Creates symbolic (CasADi) models for dynamics, observation, and cost.
 
