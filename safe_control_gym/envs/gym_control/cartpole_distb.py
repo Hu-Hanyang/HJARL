@@ -24,7 +24,7 @@ from safe_control_gym.envs.benchmark_env import BenchmarkEnv, Cost, Task
 from safe_control_gym.envs.constraints import GENERAL_CONSTRAINTS, SymmetricStateConstraint
 from safe_control_gym.math_and_models.normalization import normalize_angle
 from safe_control_gym.math_and_models.symbolic_systems import SymbolicModel
-from safe_control_gym.hj_distbs.distur_gener import distur_gener
+from safe_control_gym.hj_distbs.distur_gener import distur_gener_cartpole
 
 
 class CartPoleHJDistbEnv(BenchmarkEnv):
@@ -138,7 +138,7 @@ class CartPoleHJDistbEnv(BenchmarkEnv):
                  rew_exponential=True,
                  done_on_out_of_bound=True,
                  # Hanyang: add distb
-                 distb_type='fixed',
+                 distb_type='boltzmann',
                  distb_level=0.0,
                  **kwargs
                  ):
@@ -167,7 +167,7 @@ class CartPoleHJDistbEnv(BenchmarkEnv):
         self.done_on_out_of_bound = done_on_out_of_bound
         # Hanyang: set part of the save path
         self.distb_type = distb_type
-        assert self.distb_type in ['fixed', 'boltzmann', 'random'], f"distb_type {self.distb_type} not supported."
+        assert self.distb_type in ['fixed', 'boltzmann', 'random'], f"The distb_type {self.distb_type} is not supported now."
         self.distb_level = distb_level
         #TODO: Whether add a path here?
         # if distb_type == 'fixed' or None:
@@ -189,8 +189,8 @@ class CartPoleHJDistbEnv(BenchmarkEnv):
         p.setPhysicsEngineParameter(enableFileCaching=0)
 
         # Set GUI and rendering constants.
-        self.RENDER_HEIGHT = int(200)
-        self.RENDER_WIDTH = int(320)
+        self.RENDER_HEIGHT = int(400)
+        self.RENDER_WIDTH = int(640)
 
         # Set the initial state.
         if init_state is None:
@@ -623,9 +623,9 @@ class CartPoleHJDistbEnv(BenchmarkEnv):
                 controlMode=p.TORQUE_CONTROL,
                 force=force,
                 physicsClientId=self.PYB_CLIENT)
-            #TODO: Hanyang: add HJ disturbances
+            # Hanyang: add HJ disturbances
             current_states = deepcopy(self.state)
-            _, hj_distb_force = distur_gener(current_states, self.distb_level)
+            _, hj_distb_force = distur_gener_cartpole(current_states, self.distb_level)
             p.setJointMotorControl2(
                 self.CARTPOLE_ID,
                 jointIndex=0,  # Slider-to-cart joint.

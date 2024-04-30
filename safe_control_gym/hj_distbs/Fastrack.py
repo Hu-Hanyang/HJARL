@@ -19,31 +19,6 @@ import argparse
 from dynamics import UAV6D, CartPole4D
 
 
-def str2bool(val):
-    """Converts a string into a boolean.
-
-    Parameters
-    ----------
-    val : str | bool
-        Input value (possibly string) to interpret as boolean.
-
-    Returns
-    -------
-    bool
-        Interpretation of `val` as True or False.
-
-    """
-    if isinstance(val, bool):
-        return val
-    elif val.lower() in ('yes', 'true', 't', 'y', '1'):
-        return True
-    elif val.lower() in ('no', 'false', 'f', 'n', '0'):
-        return False
-    else:
-        raise argparse.ArgumentTypeError("[ERROR] in str2bool(), a Boolean value is expected")
-
-
-
 class UAVSolution(object):
     def __init__(self):
         # warning: grid bound for each dimension should be close, not be too different. 
@@ -258,9 +233,9 @@ class CartPoleSolution(object):
     def __init__(self, distb_level=0.0):
         # warning: grid bound for each dimension should be close, not be too different. 
         self.grid_size = 45
-        self.grid = Grid(np.array([-4.8, -5, -math.pi, -10]), np.array([4.8, 10, math.pi, 5]), 4, np.array([self.grid_size, self.grid_size, self.grid_size, self.grid_size]), [2])
+        self.grid = Grid(np.array([-4.8, -5, -math.pi, -10]), np.array([4.8, 5, math.pi, 10]), 4, np.array([self.grid_size, self.grid_size, self.grid_size, self.grid_size]), [2])
         self.dyn = CartPole4D(x=[0, 0, 0, 0], uMax=10, dMax=2, uMode="min", dMode="max", distb_level=distb_level)  
-        self.lookback_length = 10  # Look-back length and time step of computation
+        self.lookback_length = 4.5  # Look-back length and time step of computation
         self.t_step = 0.025
         self.distb_level = self.dyn.distb_level
         self.result = None
@@ -619,7 +594,7 @@ if __name__ == "__main__":
             print("Loading the value function.")
             slicecut = 7  #for 15*15
             V = np.load(f'safe_control_gym/hj_distbs/FasTrack_data/cartpole/cartpole_{distb_level}.npy')
-            grid = Grid(np.array([-4.8, -5, -math.pi, -10]), np.array([4.8, 10, math.pi, 5]), 4, np.array([45, 45, 45, 45]), [2])
+            grid = Grid(np.array([-4.8, -5, -math.pi, -10]), np.array([4.8, 5, math.pi, 10]), 4, np.array([45, 45, 45, 45]), [2])
             
         else: 
             print("Calculate new value functioning.")

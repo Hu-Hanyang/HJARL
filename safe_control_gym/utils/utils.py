@@ -144,6 +144,7 @@ def set_device_from_config(config):
     '''Sets device, using GPU is set to `cuda` for now, no specific GPU yet.'''
     use_cuda = config.use_gpu and torch.cuda.is_available()
     config.device = 'cuda' if use_cuda else 'cpu'
+    print(f'Using device: {config.device}')
 
 
 def save_video(name, frames, fps=20):

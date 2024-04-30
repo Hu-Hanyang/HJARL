@@ -21,7 +21,7 @@ class ConfigFactory:
             tag='temp',
             seed=None,
             use_gpu=False,
-            output_dir='results',
+            output_dir='training_results',
             restore=None,
         )
 
