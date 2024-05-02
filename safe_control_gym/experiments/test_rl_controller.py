@@ -10,7 +10,7 @@ import cv2
 import numpy as np
 import time
 
-from safe_control_gym.utils.configuration import ConfigFactory
+from safe_control_gym.utils.configuration import ConfigFactoryTest
 from safe_control_gym.utils.plotting import plot_from_logs
 from safe_control_gym.utils.registration import make
 from safe_control_gym.utils.utils import mkdirs, set_device_from_config, set_seed_from_config
@@ -45,12 +45,11 @@ def test():
     '''Training template.
     '''
     # Create the configuration dictionary.
-    fac = ConfigFactory()
+    fac = ConfigFactoryTest()
     config = fac.merge()
     config.algo_config['training'] = False
     config.output_dir = 'test_results'
     total_steps = config.algo_config['max_env_steps']
-
 
     # Hanyang: make output_dir
     output_dir = os.path.join(config.output_dir, config.task, config.algo, f'seed_{config.seed}')
@@ -78,7 +77,11 @@ def test():
                 seed=config.seed,
                 **config.algo_config)
     
-    # Hanyang: load the selected model, the default seed for the test is the same as that for training.
+    # Hanyang: load the selected model, the default task (env) for the test is the same as that for training.
+    if config.trained_task is None:
+        # default: the same task as the training task
+        config.trained_task = config.task
+    
     model_path = os.path.join('training_results', config.task, config.algo, 
                               f'seed_{config.seed}', f'{total_steps}steps', 'model_latest.pt')
     assert os.path.exists(model_path), f"[ERROR] The path '{model_path}' does not exist, please check the loading path or train one first."
@@ -92,13 +95,7 @@ def test():
     elif config.algo == 'rarl':
         eval_results = ctrl.run(render=True, n_episodes=3, use_adv=False) # Hanyang: run 3 episodes.
         ctrl.close()
-    # print(len(eval_results['frames']))
     generate_videos(eval_results['frames'], env_func().RENDER_HEIGHT, env_func().RENDER_WIDTH, config.output_dir)
-
-    # # Training.
-    # ctrl.learn()
-    # ctrl.close()
-    # print('Training done.')
 
     with open(os.path.join(config.output_dir, 'config.yaml'), 'w', encoding='UTF-8') as file:
         yaml.dump(munch.unmunchify(config), file, default_flow_style=False)

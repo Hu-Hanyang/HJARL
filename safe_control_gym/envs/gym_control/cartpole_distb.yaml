@@ -19,7 +19,7 @@ task_info: null
 cost: rl_reward
 # Disturbances
 disturbances: null
-adversary_disturbance: null
+adversary_disturbance: dynamics
 adversary_disturbance_offset: 0.0
 adversary_disturbance_scale: 0.01
 # Constraints

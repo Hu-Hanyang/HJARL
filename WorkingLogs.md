@@ -1,9 +1,6 @@
 # Working Logs
-
 ## Environment Building
-
 ### Features of Envs
-#### 2024.04.28
 **BenchmarkEnv(gym.Env, ABC)**
 1. Basic attributes:
     NAME
@@ -88,13 +85,26 @@ CartPole(BenchmarkEnv)
         obs, rew, done, info = super().after_step(obs, rew, done, info)
 
 
-## Training and Test
-#### Summary
-`python safe_control_gym/experiments/train_rl_controller.py --task cartpole --algo ppo --use_gpu True --seed 42`
-`python safe_control_gym/experiments/test_rl_controller.py --task cartpole --algo ppo --seed 42`
+## Training 
+The training file lies in `safe_control_gym/experiments/train_rl_controller.py`. When run this file, some necessary arguments need to be added: 
+1. `--task` the task environment, now we support `cartpole` and `cartpole_distb`;
+2. `--algo` the training algorithm, now we support `ppo` and `rarl`;
+3. `--use_gpu` the device used in training, should be `True` for using GPU;
+4. `--seed` the training random seed used in training.
 
-`python safe_control_gym/experiments/test_rl_controller.py --task cartpole --algo rarl --seed 42`
+For instance, the training command for the env `cartpole_distb` with algo `ppo` is:
+`python safe_control_gym/experiments/train_rl_controller.py --task cartpole_distb --algo ppo --use_gpu True --seed 42`. 
+
+## Test
+The test file lies in `safe_control_gym/experiments/test_rl_controller.py`. When run this file, some necessary arguments need to be added: 
+1. `--trained_task` the trained env we want to load the model from;
+2. `--algo` the trained algorithm we want to load the model used, now we support `ppo` and `rarl`;
+3. `--task` the test environment, now we support `cartpole` and `cartpole_distb`;
+4. `--seed` the training random seed used in training.
+
+For instance, we want to test the trained algo `rarl` in the env `cartpole` in the test env `cartpole_distb`, the test command is:
+`python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole --algo rarl --task cartpole_distb  --seed 42`. 
+
+## Env Info
 
 
-python safe_control_gym/experiments/train_rl_controller.py --task cartpole --algo rarl --use_gpu True --seed 42
-python safe_control_gym/experiments/train_rl_controller.py --task cartpole_distb --algo ppo --use_gpu True --seed 42
