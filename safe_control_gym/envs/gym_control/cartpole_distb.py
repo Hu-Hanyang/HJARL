@@ -169,14 +169,7 @@ class CartPoleHJDistbEnv(BenchmarkEnv):
         self.distb_type = distb_type
         assert self.distb_type in ['fixed', 'boltzmann', 'random'], f"The distb_type {self.distb_type} is not supported now."
         self.distb_level = distb_level
-        #TODO: Whether add a path here?
-        # if distb_type == 'fixed' or None:
-        #     env_output_dir = os.path.join(self.NAME, 'fixed' + '_'+f'distb_level_{distb_level}')
-        # else:  # 'boltzmann', 'random'
-        #     env_output_dir = os.path.join(self.NAME, distb_type)
-            
-        # BenchmarkEnv constructor, called after defining the custom args,
-        # since some BenchmarkEnv init setup can be task(custom args)-dependent.
+        
         super().__init__(init_state=init_state, inertial_prop=inertial_prop, pyb_freq=pyb_freq, ctrl_freq=ctrl_freq, **kwargs)
 
         # Create PyBullet client connection.
@@ -287,6 +280,8 @@ class CartPoleHJDistbEnv(BenchmarkEnv):
         self.current_physical_action = None  # current_raw_action unnormalized if it was normalized
         self.current_noisy_physical_action = None  # current_physical_action with noise added
         self.current_clipped_action = None  # current_noisy_physical_action clipped to physical action bounds
+        # Hanyang
+        self.out_of_bounds = False
         # Reset the disturbances.
         for mode in self.disturbances.keys():
             self.disturbances[mode].reset(self)
@@ -623,7 +618,7 @@ class CartPoleHJDistbEnv(BenchmarkEnv):
                 controlMode=p.TORQUE_CONTROL,
                 force=force,
                 physicsClientId=self.PYB_CLIENT)
-            # Hanyang: add HJ disturbances
+            #TODO: Hanyang: add HJ disturbances, need to check should I add the distb_force directly to the force?
             current_states = deepcopy(self.state)
             _, hj_distb_force = distur_gener_cartpole(current_states, self.distb_level)
             p.setJointMotorControl2(

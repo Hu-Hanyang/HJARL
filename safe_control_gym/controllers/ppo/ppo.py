@@ -219,27 +219,32 @@ class PPO(BaseController):
         obs, info = env.reset()
         obs = self.obs_normalizer(obs)
         ep_returns, ep_lengths = [], []
+        # Hanyang: extend the frames for visualization.
+        eval_results = {'frames': []}
         frames = []
         while len(ep_returns) < n_episodes:
             action = self.select_action(obs=obs, info=info)
             obs, _, done, info = env.step(action)
             if render:
-                env.render()
-                frames.append(env.render('rgb_array'))
+                # env.render()
+                frames.append(env.render())
             if verbose:
                 print(f'obs {obs} | act {action}')
             if done:
                 assert 'episode' in info
                 ep_returns.append(info['episode']['r'])
                 ep_lengths.append(info['episode']['l'])
+                if render:
+                    eval_results['frames'].append(frames)
+                    frames = []
                 obs, _ = env.reset()
             obs = self.obs_normalizer(obs)
         # Collect evaluation results.
         ep_lengths = np.asarray(ep_lengths)
         ep_returns = np.asarray(ep_returns)
-        eval_results = {'ep_returns': ep_returns, 'ep_lengths': ep_lengths}
-        if len(frames) > 0:
-            eval_results['frames'] = frames
+        eval_results['ep_returns'] = ep_returns
+        eval_results['ep_lengths'] = ep_lengths
+        # eval_results = {'ep_returns': ep_returns, 'ep_lengths': ep_lengths}
         # Other episodic stats from evaluation env.
         if len(env.queued_stats) > 0:
             queued_stats = {k: np.asarray(v) for k, v in env.queued_stats.items()}

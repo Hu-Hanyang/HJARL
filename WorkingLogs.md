@@ -86,3 +86,8 @@ CartPole(BenchmarkEnv)
         done = self._get_done()
         info = self._get_info()
         obs, rew, done, info = super().after_step(obs, rew, done, info)
+
+
+## Training 
+#### Have a try 
+`python safe_control_gym/experiments/train_rl_controller.py --task cartpole --algo ppo --use_gpu True --seed 42`

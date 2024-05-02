@@ -361,6 +361,8 @@ class BenchmarkEnv(gym.Env, ABC):
         self.current_physical_action = None  # current_raw_action unnormalized if it was normalized
         self.current_noisy_physical_action = None  # current_physical_action with noise added
         self.current_clipped_action = None  # current_noisy_physical_action clipped to physical action bounds
+        # Hanyang
+        self.out_of_bounds = False
         # Reset the disturbances.
         for mode in self.disturbances.keys():
             self.disturbances[mode].reset(self)

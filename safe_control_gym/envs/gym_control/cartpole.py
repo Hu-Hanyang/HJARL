@@ -167,8 +167,8 @@ class CartPole(BenchmarkEnv):
         p.setPhysicsEngineParameter(enableFileCaching=0)
 
         # Set GUI and rendering constants.
-        self.RENDER_HEIGHT = int(200)
-        self.RENDER_WIDTH = int(320)
+        self.RENDER_HEIGHT = int(500)
+        self.RENDER_WIDTH = int(800)
 
         # Set the initial state.
         if init_state is None:
@@ -369,7 +369,11 @@ class CartPole(BenchmarkEnv):
                                                  viewMatrix=VIEW_MATRIX,
                                                  projectionMatrix=PROJ_MATRIX,
                                                  physicsClientId=self.PYB_CLIENT)
-        return np.reshape(rgb, (h, w, 4))
+        # Hanyang: resize the frame
+        rgb_array = np.array(rgb)
+        rgb_array = rgb_array[:, :, :3]
+
+        return rgb_array
 
     def close(self):
         '''Clean up the environment and PyBullet connection.'''

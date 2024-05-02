@@ -15,15 +15,20 @@ from safe_control_gym.utils.utils import mkdirs, set_device_from_config, set_see
 
 def train():
     '''Training template.
-
-    TODO: Add restore functionality
     '''
     # Create the configuration dictionary.
     fac = ConfigFactory()
     config = fac.merge()
     config.algo_config['training'] = True
+    config.algo_config['max_ctrl_steps'] = config.task_config['episode_len_sec'] * config.task_config['ctrl_freq']
 
-    shutil.rmtree(config.output_dir, ignore_errors=True)
+    # shutil.rmtree(config.output_dir, ignore_errors=True)
+    # Hanyang: create new envs
+    output_dir = os.path.join(config.output_dir, config.task, config.algo, f'seed_{config.seed}', f'{config.max_env_steps}steps')
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir+'/')
+    config.output_dir = output_dir
+    print(f"The output directory is {config.output_dir}. \n")
 
     set_seed_from_config(config)
     set_device_from_config(config)
@@ -53,7 +58,7 @@ def train():
     with open(os.path.join(config.output_dir, 'config.yaml'), 'w', encoding='UTF-8') as file:
         yaml.dump(munch.unmunchify(config), file, default_flow_style=False)
 
-    make_plots(config)
+    # make_plots(config)
 
 
 def make_plots(config):
