@@ -4,7 +4,7 @@ ctrl_freq: 50
 pyb_freq: 50
 gui: False
 normalized_rl_action_space: False
-episode_len_sec: 5
+episode_len_sec: 10
 # State initialization
 init_state: null
 randomized_init: True
@@ -19,7 +19,7 @@ task_info: null
 cost: rl_reward
 # Disturbances
 disturbances: null
-adversary_disturbance: null
+adversary_disturbance: dynamics
 adversary_disturbance_offset: 0.0
 adversary_disturbance_scale: 0.01
 # Constraints

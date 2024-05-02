@@ -37,7 +37,7 @@ class Environment(str, Enum):
 
     CARTPOLE = 'cartpole'  # Cartpole system
     QUADROTOR = 'quadrotor'  # Quadrotor, both 1D and 2D
-    CARTPOLE_HJDISTB = 'cartpole_hjdistb'  # Cartpole with hj disturbances
+    CARTPOLE_DISTB = 'cartpole_distb'  # Cartpole with hj disturbances
     
 
 

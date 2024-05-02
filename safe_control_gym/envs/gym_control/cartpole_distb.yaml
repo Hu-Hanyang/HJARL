@@ -4,7 +4,7 @@ ctrl_freq: 50
 pyb_freq: 50
 gui: False
 normalized_rl_action_space: False
-episode_len_sec: 5
+episode_len_sec: 10
 # State initialization
 init_state: null
 randomized_init: True

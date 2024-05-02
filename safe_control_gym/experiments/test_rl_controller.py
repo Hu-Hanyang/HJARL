@@ -24,7 +24,7 @@ def generate_videos(frames, render_width, render_height, output_dir):
         env: the quadrotor and task environment
     """
     # Define the output video parameters
-    fps = 50  # Frames per second
+    fps = 24  # Frames per second
     episodes = len(frames)
     
     for episode in range(episodes):
@@ -49,9 +49,11 @@ def test():
     config = fac.merge()
     config.algo_config['training'] = False
     config.output_dir = 'test_results'
+    total_steps = config.algo_config['max_env_steps']
+
 
     # Hanyang: make output_dir
-    output_dir = os.path.join(config.output_dir, config.task, config.algo, f'seed_{config.seed}', f'{config.max_env_steps}steps')
+    output_dir = os.path.join(config.output_dir, config.task, config.algo, f'seed_{config.seed}')
     if not os.path.exists(output_dir):
         os.makedirs(output_dir+'/')
     config.output_dir = output_dir
@@ -77,14 +79,19 @@ def test():
                 **config.algo_config)
     
     # Hanyang: load the selected model, the default seed for the test is the same as that for training.
-    model_path = os.path.join('training_results', config.task, config.algo, f'seed_{config.seed}', f'{config.max_env_steps}steps', 'model_latest.pt')
+    model_path = os.path.join('training_results', config.task, config.algo, 
+                              f'seed_{config.seed}', f'{total_steps}steps', 'model_latest.pt')
     assert os.path.exists(model_path), f"[ERROR] The path '{model_path}' does not exist, please check the loading path or train one first."
     ctrl.load(model_path)
     ctrl.reset()
 
     # Testing.
-    eval_results = ctrl.run(render=True, n_episodes=3) # Hanyang: run 3 episodes.
-    ctrl.close()
+    if config.algo == 'ppo':
+        eval_results = ctrl.run(render=True, n_episodes=3) # Hanyang: run 3 episodes.
+        ctrl.close()
+    elif config.algo == 'rarl':
+        eval_results = ctrl.run(render=True, n_episodes=3, use_adv=False) # Hanyang: run 3 episodes.
+        ctrl.close()
     # print(len(eval_results['frames']))
     generate_videos(eval_results['frames'], env_func().RENDER_HEIGHT, env_func().RENDER_WIDTH, config.output_dir)
 

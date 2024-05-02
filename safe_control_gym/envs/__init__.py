@@ -11,6 +11,6 @@ register(idx='quadrotor',
          config_entry_point='safe_control_gym.envs.gym_pybullet_drones:quadrotor.yaml')
 
 # Hanyang
-register(idx='cartpole-distb',
+register(idx='cartpole_distb',
          entry_point='safe_control_gym.envs.gym_control.cartpole_distb:CartPoleHJDistbEnv',
          config_entry_point='safe_control_gym.envs.gym_control:cartpole_distb.yaml')

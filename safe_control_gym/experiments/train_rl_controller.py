@@ -21,10 +21,11 @@ def train():
     config = fac.merge()
     config.algo_config['training'] = True
     config.algo_config['max_ctrl_steps'] = config.task_config['episode_len_sec'] * config.task_config['ctrl_freq']
+    total_steps = config.algo_config['max_env_steps']
 
     # shutil.rmtree(config.output_dir, ignore_errors=True)
     # Hanyang: create new envs
-    output_dir = os.path.join(config.output_dir, config.task, config.algo, f'seed_{config.seed}', f'{config.max_env_steps}steps')
+    output_dir = os.path.join(config.output_dir, config.task, config.algo, f'seed_{config.seed}', f'{total_steps}steps')
     if not os.path.exists(output_dir):
         os.makedirs(output_dir+'/')
     config.output_dir = output_dir

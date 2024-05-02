@@ -226,8 +226,9 @@ class RARL(BaseController):
         obs, info = env.reset()
         obs = self.obs_normalizer(obs)
         ep_returns, ep_lengths = [], []
+        # Hanyang: extend the frames for visualization.
+        eval_results = {'frames': []}
         frames = []
-
         while len(ep_returns) < n_episodes:
             action = self.select_action(obs=obs, info=info)
 
@@ -242,7 +243,7 @@ class RARL(BaseController):
             obs, _, done, info = env.step(action)
             if render:
                 env.render()
-                frames.append(env.render('rgb_array'))
+                frames.append(env.render())
             if verbose:
                 print(f'obs {obs} | act {action}')
 
@@ -250,13 +251,18 @@ class RARL(BaseController):
                 assert 'episode' in info
                 ep_returns.append(info['episode']['r'])
                 ep_lengths.append(info['episode']['l'])
+                if render:
+                    eval_results['frames'].append(frames)
+                    frames = []
                 obs, _ = env.reset()
             obs = self.obs_normalizer(obs)
 
         # collect evaluation results
         ep_lengths = np.asarray(ep_lengths)
         ep_returns = np.asarray(ep_returns)
-        eval_results = {'ep_returns': ep_returns, 'ep_lengths': ep_lengths}
+        eval_results['ep_returns'] = ep_returns
+        eval_results['ep_lengths'] = ep_lengths
+        # eval_results = {'ep_returns': ep_returns, 'ep_lengths': ep_lengths}
         if len(frames) > 0:
             eval_results['frames'] = frames
         # Other episodic stats from evaluation env.
@@ -382,10 +388,11 @@ class RARL(BaseController):
                     terminal_obs = inf['terminal_observation']
                     terminal_obs_tensor = torch.FloatTensor(terminal_obs).unsqueeze(0).to(self.device)
                     # estimate value for terminated state
+                    # Hanyang: add .cpu() here 
                     if adversary:
-                        terminal_val = self.adversary.ac.critic(terminal_obs_tensor).squeeze().detach().numpy()
+                        terminal_val = self.adversary.ac.critic(terminal_obs_tensor).squeeze().detach().cpu().numpy()
                     else:
-                        terminal_val = self.agent.ac.critic(terminal_obs_tensor).squeeze().detach().numpy()
+                        terminal_val = self.agent.ac.critic(terminal_obs_tensor).squeeze().detach().cpu().numpy()
                     terminal_v[idx] = terminal_val
 
             # collect rollout data
@@ -412,9 +419,9 @@ class RARL(BaseController):
 
         # postprocess
         if adversary:
-            last_val = self.adversary.ac.critic(torch.FloatTensor(obs).to(self.device)).detach().numpy()
+            last_val = self.adversary.ac.critic(torch.FloatTensor(obs).to(self.device)).detach().cpu().numpy()
         else:
-            last_val = self.agent.ac.critic(torch.FloatTensor(obs).to(self.device)).detach().numpy()
+            last_val = self.agent.ac.critic(torch.FloatTensor(obs).to(self.device)).detach().cpu().numpy()
         ret, adv = compute_returns_and_advantages(rollouts.rew,
                                                   rollouts.v,
                                                   rollouts.mask,
@@ -436,7 +443,8 @@ class RARL(BaseController):
         # inner iteration
         for _ in range(self.agent_iterations):
             rollouts = self.collect_rollouts()
-            agent_results = self.agent.update(rollouts)
+            # Hanyang: add self.device
+            agent_results = self.agent.update(rollouts, self.device)
             # add inner iteration stats
             for key, val in agent_results.items():
                 results[key].append(val)
@@ -453,7 +461,8 @@ class RARL(BaseController):
 
         for _ in range(self.adversary_iterations):
             adv_rollouts = self.collect_rollouts(adversary=True)
-            adv_results = self.adversary.update(adv_rollouts)
+            # Hanyang: add self.device
+            adv_results = self.adversary.update(adv_rollouts, self.device)
             # add inner iteration stats
             for key, val in adv_results.items():
                 results[key].append(val)
