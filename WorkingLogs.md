@@ -103,7 +103,7 @@ The test file lies in `safe_control_gym/experiments/test_rl_controller.py`. When
 4. `--seed` the training random seed used in training.
 
 For instance, we want to test the trained algo `rarl` in the env `cartpole` in the test env `cartpole_distb`, the test command is:
-`python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole --algo rarl --task cartpole_distb  --seed 42`. 
+`python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole --algo rarl --task cartpole_distb --seed 42`. 
 
 ## Env Info
 

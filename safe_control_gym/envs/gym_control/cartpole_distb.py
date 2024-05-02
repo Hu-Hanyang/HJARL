@@ -421,7 +421,12 @@ class CartPoleHJDistbEnv(BenchmarkEnv):
                                                  viewMatrix=VIEW_MATRIX,
                                                  projectionMatrix=PROJ_MATRIX,
                                                  physicsClientId=self.PYB_CLIENT)
-        return np.reshape(rgb, (h, w, 4))
+        
+        # Hanyang: resize the frame
+        rgb_array = np.array(rgb)
+        rgb_array = rgb_array[:, :, :3]
+        
+        return rgb_array
 
     def close(self):
         '''Clean up the environment and PyBullet connection.'''

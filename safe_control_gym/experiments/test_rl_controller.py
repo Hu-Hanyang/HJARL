@@ -56,7 +56,7 @@ def test():
     if not os.path.exists(output_dir):
         os.makedirs(output_dir+'/')
     config.output_dir = output_dir
-    print(f"The saving directory is {config.output_dir}. \n")
+    print(f"==============The saving directory is {config.output_dir}.============== \n")
 
     set_seed_from_config(config)
     set_device_from_config(config)
@@ -82,7 +82,7 @@ def test():
         # default: the same task as the training task
         config.trained_task = config.task
     
-    model_path = os.path.join('training_results', config.task, config.algo, 
+    model_path = os.path.join('training_results', config.trained_task, config.algo, 
                               f'seed_{config.seed}', f'{total_steps}steps', 'model_latest.pt')
     assert os.path.exists(model_path), f"[ERROR] The path '{model_path}' does not exist, please check the loading path or train one first."
     ctrl.load(model_path)
@@ -95,6 +95,7 @@ def test():
     elif config.algo == 'rarl':
         eval_results = ctrl.run(render=True, n_episodes=3, use_adv=False) # Hanyang: run 3 episodes.
         ctrl.close()
+        
     generate_videos(eval_results['frames'], env_func().RENDER_HEIGHT, env_func().RENDER_WIDTH, config.output_dir)
 
     with open(os.path.join(config.output_dir, 'config.yaml'), 'w', encoding='UTF-8') as file:
