@@ -193,6 +193,24 @@ class RAP(BaseController):
             # logging
             if self.log_interval and self.total_steps % self.log_interval == 0:
                 self.log_step(results)
+                
+    # Hanyang: implement select_action method
+    def select_action(self, obs, info=None):
+        '''Determine the action to take at the current timestep.
+
+        Args:
+            obs (ndarray): The observation at this timestep.
+            info (dict): The info at this timestep.
+
+        Returns:
+            action (ndarray): The action chosen by the controller.
+        '''
+
+        with torch.no_grad():
+            obs = torch.FloatTensor(obs).to(self.device)
+            action = self.agent.ac.act(obs)
+
+        return action
 
     def run(self, env=None, render=False, n_episodes=10, verbose=False, use_adv=False, **kwargs):
         '''Runs evaluation with current policy.'''
@@ -209,15 +227,19 @@ class RAP(BaseController):
                 env.add_tracker('constraint_values', 0, mode='queue')
                 env.add_tracker('mse', 0, mode='queue')
 
-        obs, _ = env.reset()
+        obs, info = env.reset()
         obs = self.obs_normalizer(obs)
         ep_returns, ep_lengths = [], []
         frames = []
 
         while len(ep_returns) < n_episodes:
-            with torch.no_grad():
-                obs = torch.FloatTensor(obs).to(self.device)
-                action = self.agent.ac.act(obs)
+            # Hanyang: use select_action
+            action = self.select_action(obs=obs, info=info)
+            # with torch.no_grad():
+            #     obs = torch.FloatTensor(obs).to(self.device)
+            #     
+            #     # action = self.select_action(obs=obs, info=info)
+            #     action = self.agent.ac.act(obs)
 
             # no disturbance during testing
             if use_adv:
@@ -267,11 +289,11 @@ class RAP(BaseController):
         rollouts, rollout_splits = self.collect_rollouts()
 
         # perform updates for both agent and adversaries
-        agent_results = self.agent.update(rollouts)
+        agent_results = self.agent.update(rollouts, self.device)
         results.update(agent_results)
 
         for adv_idx, adv_rollouts in rollout_splits:
-            adv_results = self.adversaries[adv_idx].update(adv_rollouts)
+            adv_results = self.adversaries[adv_idx].update(adv_rollouts, self.device)
             adv_results = {k + f'_adv{adv_idx}': v for k, v in adv_results.items()}
             results.update(adv_results)
 
@@ -396,12 +418,12 @@ class RAP(BaseController):
                     terminal_obs_tensor = torch.FloatTensor(terminal_obs).unsqueeze(0).to(self.device)
 
                     # estimate value for terminated state
-                    terminal_val = self.agent.ac.critic(terminal_obs_tensor).squeeze().detach().numpy()
+                    terminal_val = self.agent.ac.critic(terminal_obs_tensor).squeeze().detach().cpu().numpy()
                     terminal_v[idx] = terminal_val
 
                     # estimate terminal value for adversary
                     adversary = self.adversaries[adv_indices[idx]]
-                    terminal_val_adv = adversary.ac.critic(terminal_obs_tensor).squeeze().detach().numpy()
+                    terminal_val_adv = adversary.ac.critic(terminal_obs_tensor).squeeze().cpu().detach().numpy()
                     terminal_v_adv[idx] = terminal_val_adv
 
             # collect rollout data
@@ -420,7 +442,7 @@ class RAP(BaseController):
         self.total_steps += self.rollout_batch_size * self.rollout_steps
 
         # postprocess for main agent
-        last_val = self.agent.ac.critic(torch.FloatTensor(obs).to(self.device)).detach().numpy()
+        last_val = self.agent.ac.critic(torch.FloatTensor(obs).to(self.device)).detach().cpu().numpy()
         ret, adv = compute_returns_and_advantages(rollouts.rew,
                                                   rollouts.v,
                                                   rollouts.mask,
@@ -439,7 +461,7 @@ class RAP(BaseController):
         obs_groups = split_obs_by_adversary(obs, indices_splits)
         last_val_adv = []
         for idx, obs_adv in zip(indices_groups, obs_groups):
-            out = self.adversaries[idx].ac.critic(torch.FloatTensor(obs_adv).to(self.device)).detach().numpy()
+            out = self.adversaries[idx].ac.critic(torch.FloatTensor(obs_adv).to(self.device)).detach().cpu().numpy()
             last_val_adv.append(out)
         last_val_adv = np.concatenate(last_val_adv)
 

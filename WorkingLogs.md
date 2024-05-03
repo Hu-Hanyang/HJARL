@@ -88,7 +88,7 @@ CartPole(BenchmarkEnv)
 ## Training 
 The training file lies in `safe_control_gym/experiments/train_rl_controller.py`. When run this file, some necessary arguments need to be added: 
 1. `--task` the task environment, now we support `cartpole` and `cartpole_distb`;
-2. `--algo` the training algorithm, now we support `ppo` and `rarl`;
+2. `--algo` the training algorithm, now we support `ppo`, `rarl`, and `rap`;
 3. `--use_gpu` the device used in training, should be `True` for using GPU;
 4. `--seed` the training random seed used in training.
 

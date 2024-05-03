@@ -98,7 +98,7 @@ def test():
         
     generate_videos(eval_results['frames'], env_func().RENDER_HEIGHT, env_func().RENDER_WIDTH, config.output_dir)
 
-    with open(os.path.join(config.output_dir, 'config.yaml'), 'w', encoding='UTF-8') as file:
+    with open(os.path.join(config.output_dir, f'config_{time.strftime("%m_%d_%H_%M")}.yaml'), 'w', encoding='UTF-8') as file:
         yaml.dump(munch.unmunchify(config), file, default_flow_style=False)
 
     # make_plots(config)
