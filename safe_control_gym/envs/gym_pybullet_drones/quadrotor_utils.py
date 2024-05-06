@@ -11,6 +11,7 @@ class QuadType(IntEnum):
     ONE_D = 1  # One-dimensional (along z) movement.
     TWO_D = 2  # Two-dimensional (in the x-z plane) movement.
     THREE_D = 3  # Three-dimensional movement.
+    SIX_D = 6  # Six-dimensional movement.
 
 
 def cmd2pwm(thrust, pwm2rpm_scale, pwm2rpm_const, ct, pwm_min, pwm_max):

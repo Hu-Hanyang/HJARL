@@ -14,6 +14,9 @@ import munch
 import numpy as np
 import torch
 import yaml
+import math
+
+from odp.Grid import Grid  # Utility functions to initialize the problem
 
 
 def mkdirs(*paths):
@@ -209,3 +212,164 @@ def Boltzmann(low=0.0, high=2.1, accuracy=0.1):
     # Generate random samples from the Boltzmann distribution
     random_state = np.around(np.random.choice(energies, p=probabilities), 1)  
     return random_state
+
+
+def quat2euler(quat):
+        """
+        Convert a quaternion into euler angles (roll, pitch, yaw)
+        roll is rotation around x in radians (counterclockwise)
+        pitch is rotation around y in radians (counterclockwise)
+        yaw is rotation around z in radians (counterclockwise)
+        """
+        x, y, z, w = quat
+        t0 = +2.0 * (w * x + y * z)
+        t1 = +1.0 - 2.0 * (x * x + y * y)
+        roll_x = math.atan2(t0, t1)
+     
+        t2 = +2.0 * (w * y - z * x)
+        t2 = +1.0 if t2 > +1.0 else t2
+        t2 = -1.0 if t2 < -1.0 else t2
+        pitch_y = math.asin(t2)
+     
+        t3 = +2.0 * (w * z + x * y)
+        t4 = +1.0 - 2.0 * (y * y + z * z)
+        yaw_z = math.atan2(t3, t4)
+     
+        return [roll_x, pitch_y, yaw_z] # in radians
+
+
+def distur_gener_quadrotor(states, distb_level):
+
+
+    def opt_ctrl_non_hcl(uMax, spat_deriv):
+        
+        uOpt1, uOpt2, uOpt3 = uMax[0],uMax[1], uMax[2]
+        uMin = -uMax
+   
+        if spat_deriv[3] > 0:
+            uOpt1 = uMin[0]
+
+        if spat_deriv[4] > 0:
+            uOpt2 = uMin[1]
+                    
+        if spat_deriv[5] > 0:
+            uOpt3 = uMin[2]
+
+
+            
+        return (uOpt1, uOpt2, uOpt3)
+        
+    def spa_deriv(index, V, g, periodic_dims):
+            '''
+        Calculates the spatial derivatives of V at an index for each dimension
+
+        Args:
+            index:
+            V:
+            g:
+            periodic_dims:
+
+        Returns:
+            List of left and right spatial derivatives for each dimension
+
+            '''
+            spa_derivatives = []
+
+            for dim, idx in enumerate(index):
+                if dim == 0:
+                    left_index = []
+                else:
+                    left_index = list(index[:dim])
+
+                if dim == len(index) - 1:
+                    right_index = []
+                else:
+                    right_index = list(index[dim + 1:])
+
+                next_index = tuple(
+                    left_index + [index[dim] + 1] + right_index
+                )
+                prev_index = tuple(
+                left_index + [index[dim] - 1] + right_index
+                )
+                if idx == 0:
+                    if dim in periodic_dims:
+                        left_periodic_boundary_index = tuple(
+                            left_index + [V.shape[dim] - 1] + right_index
+                        )
+                        left_boundary = V[left_periodic_boundary_index]
+                    else:
+                        left_boundary = V[index] + np.abs(V[next_index] - V[index]) * np.sign(V[index])
+                    left_deriv = (V[index] - left_boundary) / g.dx[dim]
+                    right_deriv = (V[next_index] - V[index]) / g.dx[dim]
+                elif idx == V.shape[dim] - 1:
+                    if dim in periodic_dims:
+                        right_periodic_boundary_index = tuple(
+                            left_index + [0] + right_index
+                        )
+                        right_boundary = V[right_periodic_boundary_index]
+                    else:
+                        right_boundary = V[index] + np.abs(V[index] - V[prev_index]) * np.sign([V[index]])
+                    left_deriv = (V[index] - V[prev_index]) / g.dx[dim]
+                    right_deriv = (right_boundary - V[index]) / g.dx[dim]
+                else:
+                    left_deriv = (V[index] - V[prev_index]) / g.dx[dim]
+                    right_deriv = (V[next_index] - V[index]) / g.dx[dim]
+
+                spa_derivatives.append((left_deriv + right_deriv) / 2)
+
+            return  spa_derivatives  # np.array(spa_derivatives)  # Hanyang: change the type of the return
+
+            dyn_sys.x = next_state
+
+    def opt_dstb_non_hcl(dMax, spat_deriv):
+
+        dOpt1,dOpt2,dOpt3 = dMax[0],dMax[1],dMax[2]
+        dMin = -dMax
+        # Joe:
+        if spat_deriv[3] > 0:
+            dOpt1 = dMin[0]
+        if spat_deriv[4] > 0:
+            dOpt2 = dMin[1]
+        if spat_deriv[5] > 0:
+            dOpt3 = dMin[2]
+
+        return (dOpt1, dOpt2, dOpt3)
+
+    def compute_opt_traj(grid: Grid, V, states, umax, dmax): 
+            """
+        Computes the optimal trajectory, controls and disturbance to a minimal BRT/BRS
+
+        Args:
+            grid:
+            V:
+            current states:
+            maximum control
+            maximum disturbance
+
+
+        Returns:
+            opt_u: Optimal control at current time step
+            opt_d: Optimal disturbance at current time step
+
+            """
+            
+            gradient = spa_deriv(grid.get_index(states), V, grid, periodic_dims=[0,1,2])
+            u = opt_ctrl_non_hcl(umax, gradient)
+            d = opt_dstb_non_hcl(dmax, gradient)
+                
+            return u,d
+
+    
+    umax = np.array([5.3*10**-3,  5.3*10**-3,  1.43*10**-4]) 
+    # dmax = 0*umax
+    assert distb_level <= 3.0  # Hanyang: check the output content
+    V = np.load(f'safe_control_gym/hj_distbs/FasTrack_data/quadrotor/quadrotor_{distb_level}_15x15.npy')
+    dmax = distb_level * umax
+
+    grid = Grid(np.array([-math.pi/2.4, -math.pi/2.4, -math.pi/2.4, -math.pi, -math.pi, -math.pi]), np.array([math.pi/2.4, math.pi/2.4, math.pi/2.4, math.pi, math.pi, math.pi]), 6, np.array([15,15,15,15,15,15]), [0,1,2])
+
+    [opt_u, opt_d] = compute_opt_traj(grid, V, states, umax, dmax)
+
+    return opt_u, opt_d
+  
