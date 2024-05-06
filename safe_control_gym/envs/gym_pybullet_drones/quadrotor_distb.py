@@ -295,31 +295,6 @@ class QuadrotorDistb(BaseDistbAviary):
 
         # Determine disturbance force.
         disturb_force = None
-        # passive_disturb = 'dynamics' in self.disturbances
-        # adv_disturb = self.adversary_disturbance == 'dynamics'
-        # if passive_disturb or adv_disturb:
-        #     disturb_force = np.zeros(self.DISTURBANCE_MODES['dynamics']['dim'])
-        # if passive_disturb:
-        #     disturb_force = self.disturbances['dynamics'].apply(
-        #         disturb_force, self)
-        # if adv_disturb and self.adv_action is not None:
-        #     disturb_force = disturb_force + self.adv_action
-        #     # Clear the adversary action, wait for the next one.
-        #     self.adv_action = None
-        # #TODO: Hanyang: need to revise the shape of the disturb_force here
-        # #TODO: Hanyang: it should be a 4-dimensional vector?
-        # # Construct full (3D) disturbance force.
-        # if disturb_force is not None:
-        #     disturb_force = np.asarray(disturb_force)
-            # if self.QUAD_TYPE == QuadType.ONE_D:
-            #     # Only disturb on z direction.
-            #     disturb_force = [0, 0, float(disturb_force)]
-            # elif self.QUAD_TYPE == QuadType.TWO_D:
-            #     # Only disturb on x-z plane.
-            #     disturb_force = [float(disturb_force[0]), 0, float(disturb_force[1])]
-            # elif self.QUAD_TYPE == QuadType.THREE_D:
-            #     disturb_force = np.asarray(disturb_force).flatten()
-
         # Advance the simulation.
         super()._advance_simulation(pwm, disturb_force)
         # Standard Gym return.
@@ -355,7 +330,7 @@ class QuadrotorDistb(BaseDistbAviary):
         return np.reshape(rgb, (h, w, 4))
 
     def _setup_symbolic(self, prior_prop={}, **kwargs):
-        #TODO: Hanyang: not implemented 6D dynamics yet
+        #TODO: Hanyang: not implemented 12D dynamics yet
         '''Creates symbolic (CasADi) models for dynamics, observation, and cost.
 
         Args:
@@ -490,124 +465,27 @@ class QuadrotorDistb(BaseDistbAviary):
 
     def _set_action_space(self):
         '''Sets the action space of the environment.'''
-        # Define action/input dimension, labels, and units.
-        # if self.QUAD_TYPE == QuadType.ONE_D:
-        #     action_dim = 1
-        #     self.ACTION_LABELS = ['T']
-        #     self.ACTION_UNITS = ['N'] if not self.NORMALIZED_RL_ACTION_SPACE else ['-']
-        # elif self.QUAD_TYPE == QuadType.TWO_D:
-        #     action_dim = 2
-        #     self.ACTION_LABELS = ['T1', 'T2']
-        #     self.ACTION_UNITS = ['N', 'N'] if not self.NORMALIZED_RL_ACTION_SPACE else ['-', '-']
-        # elif self.QUAD_TYPE == QuadType.THREE_D:
-        #     action_dim = 4
-        #     self.ACTION_LABELS = ['T1', 'T2', 'T3', 'T4']
-        #     self.ACTION_UNITS = ['N', 'N', 'N', 'N'] if not self.NORMALIZED_RL_ACTION_SPACE else ['-', '-', '-', '-']
-        # # Hanyang: add the action space for 6D quadrotor
-        # elif self.QUAD_TYPE == QuadType.SIX_D:
         action_dim = 4
-        act_lower_bound = np.array([-1*np.ones(action_dim) for i in range(self.NUM_DRONES)])
-        act_upper_bound = np.array([+1*np.ones(action_dim) for i in range(self.NUM_DRONES)])
-
-        # n_mot = 4 / action_dim
-        # a_low = self.KF * n_mot * (self.PWM2RPM_SCALE * self.MIN_PWM + self.PWM2RPM_CONST)**2
-        # a_high = self.KF * n_mot * (self.PWM2RPM_SCALE * self.MAX_PWM + self.PWM2RPM_CONST)**2
-        # self.physical_action_bounds = (np.full(action_dim, a_low, np.float32),
-        #                                np.full(action_dim, a_high, np.float32))
-
-        # if self.NORMALIZED_RL_ACTION_SPACE:
-        #     # Normalized thrust (around hover thrust).
-        #     self.hover_thrust = self.GRAVITY_ACC * self.MASS / action_dim
-        #     self.action_space = spaces.Box(low=-np.ones(action_dim),
-        #                                    high=np.ones(action_dim),
-        #                                    dtype=np.float32)
-        # else:
-        #     # Direct thrust control.
-        #         self.action_space = spaces.Box(low=self.physical_action_bounds[0],
-        #                                     high=self.physical_action_bounds[1],
-        #                                     dtype=np.float32)
+        act_lower_bound = np.array(-1*np.ones(action_dim))
+        act_upper_bound = np.array(+1*np.ones(action_dim))
         # Hanyang: define the action space for 6D quadrotor
         self.action_space = spaces.Box(low=act_lower_bound, high=act_upper_bound, dtype=np.float32)
 
     def _set_observation_space(self):
-        # '''Sets the observation space of the environment.'''
-        # self.x_threshold = 2
-        # self.y_threshold = 2
-        # self.z_threshold = 2
-        # self.phi_threshold_radians = 85 * math.pi / 180
-        # self.theta_threshold_radians = 85 * math.pi / 180
-        # self.psi_threshold_radians = 180 * math.pi / 180  # Do not bound yaw.
-
-        # # Define obs/state bounds, labels and units.
-        # if self.QUAD_TYPE == QuadType.ONE_D:
-        #     # obs/state = {z, z_dot}.
-        #     low = np.array([self.GROUND_PLANE_Z, -np.finfo(np.float32).max])
-        #     high = np.array([self.z_threshold, np.finfo(np.float32).max])
-        #     self.STATE_LABELS = ['z', 'z_dot']
-        #     self.STATE_UNITS = ['m', 'm/s']
-        # elif self.QUAD_TYPE == QuadType.TWO_D:
-        #     # obs/state = {x, x_dot, z, z_dot, theta, theta_dot}.
-        #     low = np.array([
-        #         -self.x_threshold, -np.finfo(np.float32).max,
-        #         self.GROUND_PLANE_Z, -np.finfo(np.float32).max,
-        #         -self.theta_threshold_radians, -np.finfo(np.float32).max
-        #     ])
-        #     high = np.array([
-        #         self.x_threshold, np.finfo(np.float32).max,
-        #         self.z_threshold, np.finfo(np.float32).max,
-        #         self.theta_threshold_radians, np.finfo(np.float32).max
-        #     ])
-        #     self.STATE_LABELS = ['x', 'x_dot', 'z', 'z_dot', 'theta', 'theta_dot']
-        #     self.STATE_UNITS = ['m', 'm/s', 'm', 'm/s', 'rad', 'rad/s']
-        # elif self.QUAD_TYPE == QuadType.THREE_D:
-        #     # obs/state = {x, x_dot, y, y_dot, z, z_dot, phi, theta, psi, p_body, q_body, r_body}.
-        #     low = np.array([
-        #         -self.x_threshold, -np.finfo(np.float32).max,
-        #         -self.y_threshold, -np.finfo(np.float32).max,
-        #         self.GROUND_PLANE_Z, -np.finfo(np.float32).max,
-        #         -self.phi_threshold_radians, -self.theta_threshold_radians, -self.psi_threshold_radians,
-        #         -np.finfo(np.float32).max, -np.finfo(np.float32).max, -np.finfo(np.float32).max
-        #     ])
-        #     high = np.array([
-        #         self.x_threshold, np.finfo(np.float32).max,
-        #         self.y_threshold, np.finfo(np.float32).max,
-        #         self.z_threshold, np.finfo(np.float32).max,
-        #         self.phi_threshold_radians, self.theta_threshold_radians, self.psi_threshold_radians,
-        #         np.finfo(np.float32).max, np.finfo(np.float32).max, np.finfo(np.float32).max
-        #     ])
-        #     self.STATE_LABELS = ['x', 'x_dot', 'y', 'y_dot', 'z', 'z_dot',
-        #                          'phi', 'theta', 'psi', 'p', 'q', 'r']
-        #     self.STATE_UNITS = ['m', 'm/s', 'm', 'm/s', 'm', 'm/s',
-        #                         'rad', 'rad', 'rad', 'rad/s', 'rad/s', 'rad/s']
-        
         #### OBS SPACE OF SIZE 17
         #### Observation vector ### pos, quat, vel, ang_v, last_clipped_action
         lo = -np.inf
         hi = np.inf
 
-        obs_lower_bound = np.array([[lo,lo,0, lo,lo,lo,lo, lo,lo,lo, lo,lo,lo] for i in range(self.NUM_DRONES)])
-        obs_upper_bound = np.array([[hi,hi,hi, hi,hi,hi,hi, hi,hi,hi, hi,hi,hi] for i in range(self.NUM_DRONES)])
+        obs_lower_bound = np.array([lo,lo,0, lo,lo,lo,lo, lo,lo,lo, lo,lo,lo] )
+        obs_upper_bound = np.array([hi,hi,hi, hi,hi,hi,hi, hi,hi,hi, hi,hi,hi] )
         #### Add action buffer to observation space ################
         act_lo = -1
         act_hi = +1
-        obs_lower_bound = np.hstack([obs_lower_bound, np.array([[act_lo,act_lo,act_lo,act_lo] for i in range(self.NUM_DRONES)])])
-        obs_upper_bound = np.hstack([obs_upper_bound, np.array([[act_hi,act_hi,act_hi,act_hi] for i in range(self.NUM_DRONES)])])
-        # Define the state space for the dynamics.
+        obs_lower_bound = np.hstack([obs_lower_bound, np.array([act_lo,act_lo,act_lo,act_lo])])
+        obs_upper_bound = np.hstack([obs_upper_bound, np.array([act_hi,act_hi,act_hi,act_hi])])
+# Define the state space for the dynamics.
         self.state_space = spaces.Box(low=obs_lower_bound, high=obs_upper_bound, dtype=np.float32)
-
-        # Concatenate reference for RL.
-        # if self.COST == Cost.RL_REWARD and self.TASK == Task.TRAJ_TRACKING and self.obs_goal_horizon > 0:
-        #     # Include future goal state(s).
-        #     # e.g. horizon=1, obs = {state, state_target}
-        #     mul = 1 + self.obs_goal_horizon
-        #     low = np.concatenate([low] * mul)
-        #     high = np.concatenate([high] * mul)
-        # elif self.COST == Cost.RL_REWARD and self.TASK == Task.STABILIZATION and self.obs_goal_horizon > 0:
-        #     low = np.concatenate([low] * 2)
-        #     high = np.concatenate([high] * 2)
-
-        # Define obs space exposed to the controller.
-        # Note how the obs space can differ from state space (i.e. augmented with the next reference states for RL)
         self.observation_space = spaces.Box(low=obs_lower_bound, high=obs_upper_bound, dtype=np.float32)
 
     def _setup_disturbances(self):

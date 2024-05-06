@@ -1,5 +1,5 @@
 # Simulation options
-info_in_reset: False
+info_in_reset: True
 ctrl_freq: 100
 pyb_freq: 200
 physics: pyb

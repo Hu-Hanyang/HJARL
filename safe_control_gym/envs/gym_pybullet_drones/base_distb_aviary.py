@@ -479,8 +479,8 @@ class BaseDistbAviary(BenchmarkEnv):
         torques = 5.96e-3 * forces + 1.56e-5  # # Parameters from Julian Förster
         z_torque = (-torques[0] + torques[1] - torques[2] + torques[3])
 
-        if self.DRONE_MODEL == DroneModel.RACE:
-            torques = -torques
+        # if self.DRONE_MODEL == DroneModel.RACE:
+        #     torques = -torques
         # Hanyang: debug
         # print(f"The forces are {forces}")
         # print(f"The z_torques are {z_torque}")
