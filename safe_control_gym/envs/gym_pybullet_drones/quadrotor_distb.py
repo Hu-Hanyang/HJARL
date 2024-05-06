@@ -930,3 +930,14 @@ class QuadrotorNullDistb(QuadrotorDistb):
         kwargs['record'] = True
         kwargs['seed'] = 42
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
+
+class QuadrotorRandomDistb(QuadrotorDistb):
+    NAME = 'quadrotor_random'
+    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
+        # Set disturbance_type to 'fixed' regardless of the input
+        kwargs['distb_type'] = 'random'
+        kwargs['distb_level'] = 0.0
+        kwargs['randomized_init'] = True
+        kwargs['record'] = True
+        kwargs['seed'] = 42
+        super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,

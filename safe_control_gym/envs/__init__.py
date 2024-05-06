@@ -30,3 +30,7 @@ register(idx='quadrotor_boltz',
 register(idx='quadrotor_null',
          entry_point='safe_control_gym.envs.gym_pybullet_drones.quadrotor_distb:QuadrotorNullDistb',
          config_entry_point='safe_control_gym.envs.gym_pybullet_drones:quadrotor_distb.yaml')
+
+register(idx='quadrotor_random',
+         entry_point='safe_control_gym.envs.gym_pybullet_drones.quadrotor_distb:QuadrotorRandomDistb',
+         config_entry_point='safe_control_gym.envs.gym_pybullet_drones:quadrotor_distb.yaml')
