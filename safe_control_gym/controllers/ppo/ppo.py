@@ -41,7 +41,12 @@ class PPO(BaseController):
                  seed=0,
                  **kwargs):
         super().__init__(env_func, training, checkpoint_path, output_dir, use_gpu, seed, **kwargs)
-        # Task.
+        # Task
+        # Hanyang: add some attributes from kwargs
+        # print(f"The kwargs is {kwargs}. \n")
+        self.render_height = kwargs['render_height']
+        self.render_width = kwargs['render_width']
+        
         if self.training:
             # Training and testing.
             self.env = make_vec_envs(env_func, None, self.rollout_batch_size, self.num_workers, seed)
@@ -164,11 +169,12 @@ class PPO(BaseController):
                 self.save(path)
             # Evaluation.
             if self.eval_interval and self.total_steps % self.eval_interval == 0:
-                eval_results = self.run(env=self.eval_env, n_episodes=self.eval_batch_size)
-                
                 # Hanyang: generate videos here
-                eval_output_dir = os.path.join(self.output_dir, 'eval')
-                generate_videos(eval_results['frames'], self.total_steps, self.env().RENDER_HEIGHT, self.env().RENDER_WIDTH, eval_output_dir)
+                eval_results = self.run(env=self.eval_env, n_episodes=self.eval_batch_size)  # render=True
+                # validation_dir = os.path.join(self.output_dir, 'validation_gifs')
+                # if not os.path.exists(validation_dir):
+                #     os.makedirs(validation_dir+'/')
+                # generate_videos(eval_results['frames'], self.total_steps, int(self.render_width), int(self.render_height), validation_dir)
                 
                 results['eval'] = eval_results
                 self.logger.info('Eval | ep_lengths {:.2f} +/- {:.2f} | ep_return {:.3f} +/- {:.3f}'.format(eval_results['ep_lengths'].mean(),

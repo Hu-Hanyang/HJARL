@@ -4,9 +4,10 @@ ctrl_freq: 100
 pyb_freq: 200
 physics: pyb
 gui: False
-quad_type: 2
 normalized_rl_action_space: False
 episode_len_sec: 10
+render_height: 1920
+render_width: 2560
 # State initialization
 init_state: null
 randomized_init: False

@@ -237,6 +237,7 @@ class BaseDistbAviary(BenchmarkEnv):
             p.disconnect(physicsClientId=self.PYB_CLIENT)
         self.PYB_CLIENT = -1
 
+
     def _reset_simulation(self):
         '''Housekeeping function.
 
@@ -307,12 +308,35 @@ class BaseDistbAviary(BenchmarkEnv):
         # for i in range(self.NUM_DRONES):
         # if gui:
         #     self._show_drone_local_axes(i)
+        
+    
+    def before_step(self, action):
+        '''Pre-processing before calling `.step()`.
+
+        Args:
+            action (ndarray): The raw action returned by the controller.
+
+        Returns:
+            action (ndarray): The processed action to be executed in the shape of shape (4,).
+        '''
+        # Sanity check (reset at least once).
+        self._check_initial_reset()
+        # Save the raw input action.
+        action = np.atleast_1d(np.squeeze(action))
+
+        if action.ndim != 1:
+            raise ValueError('[ERROR]: The action returned by the controller must be 1 dimensional.')
+
+        self.current_raw_action = action
+        # Pre-process/clip the action
+        processed_action = self._preprocess_control(action)
+        return processed_action
     
     def _advance_simulation(self, clipped_action, disturbance_force=None):
         '''Advances the environment by one simulation step.
 
         Args:
-            clipped_action (ndarray): The input action for one or more drones,
+            clipped_action (ndarray): The input action for one or more drone,
                                          as PWMs by the specific implementation of
                                          `_preprocess_control()` in each subclass.
             disturbance_force (ndarray, optional): Disturbance force, applied to all drones.

@@ -1,4 +1,5 @@
 from safe_control_gym.envs.gym_control.cartpole_distb import CartPoleHJDistbEnv
+from safe_control_gym.envs.gym_pybullet_drones.quadrotor import Quadrotor
 from safe_control_gym.envs.gym_pybullet_drones.quadrotor_distb import QuadrotorDistb, QuadrotorFixedDistb, QuadrotorBoltzDistb
 import numpy as np
 import imageio
@@ -8,10 +9,10 @@ import imageio
 # env = CartPoleHJDistbEnv()
 # print(env.reset())
 
-# env = QuadrotorFixedDistb()
-env = QuadrotorBoltzDistb()
-env.reset()
-print(f"The initial position is {env.state[0:3]}. \n")
+env = QuadrotorFixedDistb()
+# env = QuadrotorBoltzDistb()
+# env.reset()
+# print(f"The initial position is {env.state[0:3]}. \n")
 # print(f"The obs is {env.observation_space}")
 # print(f"The action is {env.action_space}")
 
@@ -25,9 +26,9 @@ def create_gif(image_list, filename, duration=0.1):
 
 # print(f"The observation space is {env.observation_space}.")
 # print(f"The shape of the observation space is {env.observation_space.shape}")
-print(f"The disturbance level is {env.distb_level}")
+# print(f"The disturbance level is {env.distb_level}")
 # print(f"The observation noise is {env.observation_noise}")
-print(f"The enable reset distribution is {env.RANDOMIZED_INIT}")
+# print(f"The enable reset distribution is {env.RANDOMIZED_INIT}")
 
 # Generate gifs to check
 num_gifs = 1
@@ -51,7 +52,7 @@ while num < num_gifs:
         # Select control
         # manual control
         motor = -0.78
-        action = np.array([[motor, motor, motor, motor]])
+        action = np.array([motor, motor, motor, motor])  # shape: (4, )
         
         # random control
         # action = env.action_space.sample()
@@ -79,3 +80,15 @@ while num < num_gifs:
 env.close()
 
 
+
+# env = Quadrotor()
+# env.reset()
+# # print(f"The observation space is {env.observation_space}.")
+# print(f"The shape of the observation space is {env.observation_space.shape}")
+# # print(f"The action is {env.action_space}")
+# print(f"The shape of action space is {env.action_space.shape}. \n")
+
+# env1 = QuadrotorBoltzDistb()
+# env1.reset()
+# print(f"The shape of the distb env is {env1.observation_space.shape}")
+# print(f"The shape of the distb env is {env1.action_space.shape}")

@@ -22,6 +22,9 @@ def train():
     config.algo_config['training'] = True
     config.algo_config['max_ctrl_steps'] = config.task_config['episode_len_sec'] * config.task_config['ctrl_freq']
     total_steps = config.algo_config['max_env_steps']
+    # For take in some attributes to the algorithm
+    config.algo_config['render_height'] = config.task_config['render_height']
+    config.algo_config['render_width'] = config.task_config['render_width']
 
     # shutil.rmtree(config.output_dir, ignore_errors=True)
     # Hanyang: create new envs
@@ -59,7 +62,7 @@ def train():
     with open(os.path.join(config.output_dir, 'config.yaml'), 'w', encoding='UTF-8') as file:
         yaml.dump(munch.unmunchify(config), file, default_flow_style=False)
 
-    # make_plots(config)
+    # # make_plots(config)
 
 
 def make_plots(config):
