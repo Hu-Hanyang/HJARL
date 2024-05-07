@@ -6,6 +6,7 @@ from copy import deepcopy
 import numpy as np
 import torch
 import torch.nn as nn
+import cv2
 from gymnasium.spaces import Box
 
 from safe_control_gym.math_and_models.distributions import Categorical, Normal
@@ -396,3 +397,27 @@ def compute_returns_and_advantages(rews,
         rets[i] = deepcopy(ret)
         advs[i] = deepcopy(adv)
     return rets, advs
+
+# Hanyang: add the following function
+def generate_videos(frames, eval_steps, render_width, render_height, output_dir):
+    """Hanyang
+    Input:
+        frames: list, a list contains several lists, each containts a sequence of numpy ndarrays 
+        env: the quadrotor and task environment
+    """
+    # Define the output video parameters
+    fps = 24  # Frames per second
+    episodes = len(frames)
+    
+    for episode in range(episodes):
+        filename = f'Trained{eval_steps}steps_Episode{episode}_{len(frames[episode])}steps.mp4'
+
+        # Define the codec and create VideoWriter object
+        fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # You can use other codecs as well (e.g., 'XVID')
+        out = cv2.VideoWriter(output_dir+'/'+filename, fourcc, fps, (render_height, render_width))
+        # Write frames to the video file
+        for frame in frames[episode]:
+            frame = np.asarray(frame, dtype=np.uint8)
+            out.write(frame)
+        # Release the VideoWriter object
+        out.release()

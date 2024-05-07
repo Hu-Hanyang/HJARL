@@ -19,7 +19,7 @@ import numpy as np
 import torch
 
 from safe_control_gym.controllers.base_controller import BaseController
-from safe_control_gym.controllers.ppo.ppo_utils import PPOAgent, PPOBuffer, compute_returns_and_advantages
+from safe_control_gym.controllers.ppo.ppo_utils import PPOAgent, PPOBuffer, compute_returns_and_advantages, generate_videos
 from safe_control_gym.envs.env_wrappers.record_episode_statistics import (RecordEpisodeStatistics,
                                                                           VecRecordEpisodeStatistics)
 from safe_control_gym.envs.env_wrappers.vectorized_env import make_vec_envs
@@ -165,6 +165,11 @@ class PPO(BaseController):
             # Evaluation.
             if self.eval_interval and self.total_steps % self.eval_interval == 0:
                 eval_results = self.run(env=self.eval_env, n_episodes=self.eval_batch_size)
+                
+                # Hanyang: generate videos here
+                eval_output_dir = os.path.join(self.output_dir, 'eval')
+                generate_videos(eval_results['frames'], self.total_steps, self.env().RENDER_HEIGHT, self.env().RENDER_WIDTH, eval_output_dir)
+                
                 results['eval'] = eval_results
                 self.logger.info('Eval | ep_lengths {:.2f} +/- {:.2f} | ep_return {:.3f} +/- {:.3f}'.format(eval_results['ep_lengths'].mean(),
                                                                                                             eval_results['ep_lengths'].std(),

@@ -698,7 +698,7 @@ class QuadrotorFixedDistb(QuadrotorDistb):
         kwargs['distb_type'] = 'fixed'
         kwargs['distb_level'] = 1.0
         kwargs['randomized_init'] = True
-        kwargs['record'] = True
+        kwargs['record'] = False
         kwargs['seed'] = 42
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
 
@@ -710,7 +710,7 @@ class QuadrotorBoltzDistb(QuadrotorDistb):
         kwargs['distb_type'] = 'boltzmann'
         kwargs['distb_level'] = 0.0
         kwargs['randomized_init'] = True
-        kwargs['record'] = True
+        kwargs['record'] = False
         kwargs['seed'] = 42
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
 
@@ -721,7 +721,7 @@ class QuadrotorNullDistb(QuadrotorDistb):
         kwargs['distb_type'] = 'fixed'
         kwargs['distb_level'] = 0.0
         kwargs['randomized_init'] = True
-        kwargs['record'] = True
+        kwargs['record'] = False
         kwargs['seed'] = 42
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
 
@@ -732,6 +732,6 @@ class QuadrotorRandomDistb(QuadrotorDistb):
         kwargs['distb_type'] = 'random'
         kwargs['distb_level'] = 0.0
         kwargs['randomized_init'] = True
-        kwargs['record'] = True
+        kwargs['record'] = False
         kwargs['seed'] = 42
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
