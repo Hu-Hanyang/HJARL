@@ -1,36 +1,81 @@
 from safe_control_gym.envs.gym_control.cartpole_distb import CartPoleHJDistbEnv
 from safe_control_gym.envs.gym_pybullet_drones.quadrotor_distb import QuadrotorDistb, QuadrotorFixedDistb, QuadrotorBoltzDistb
 import numpy as np
-from gymnasium import spaces
+import imageio
+
 
 
 # env = CartPoleHJDistbEnv()
 # print(env.reset())
 
-# env = QuadrotorBoltzDistb()
-# env.reset()
+# env = QuadrotorFixedDistb()
+env = QuadrotorBoltzDistb()
+env.reset()
+print(f"The initial position is {env.state[0:3]}. \n")
 # print(f"The obs is {env.observation_space}")
 # print(f"The action is {env.action_space}")
 
+# Function to create GIF
+def create_gif(image_list, filename, duration=0.1):
+    images = []
+    for img in image_list:
+        images.append(img.astype(np.uint8))  # Convert to uint8 for imageio
+    imageio.mimsave(f'{filename}', images, duration=duration)
 
-lo = -np.inf
-hi = np.inf
 
-obs_lower_bound = np.array([lo,lo,0, lo,lo,lo,lo, lo,lo,lo, lo,lo,lo] )
-obs_upper_bound = np.array([hi,hi,hi, hi,hi,hi,hi, hi,hi,hi, hi,hi,hi] )
-#### Add action buffer to observation space ################
-act_lo = -1
-act_hi = +1
-obs_lower_bound = np.hstack([obs_lower_bound, np.array([act_lo,act_lo,act_lo,act_lo])])
-obs_upper_bound = np.hstack([obs_upper_bound, np.array([act_hi,act_hi,act_hi,act_hi])])
+# print(f"The observation space is {env.observation_space}.")
+# print(f"The shape of the observation space is {env.observation_space.shape}")
+print(f"The disturbance level is {env.distb_level}")
+# print(f"The observation noise is {env.observation_noise}")
+print(f"The enable reset distribution is {env.RANDOMIZED_INIT}")
 
-state_space = spaces.Box(low=obs_lower_bound, high=obs_upper_bound, dtype=np.float32)
+# Generate gifs to check
+num_gifs = 1
+frames = [[] for _ in range(num_gifs)]
 
-action_dim = 4
-act_lower_bound = np.array(-1*np.ones(action_dim))
-act_upper_bound = np.array(+1*np.ones(action_dim))
-# Hanyang: define the action space for 6D quadrotor
-action_space = spaces.Box(low=act_lower_bound, high=act_upper_bound, dtype=np.float32)
+num=0
+while num < num_gifs:
+    terminated, truncated = False, False
+    rewards = 0.0
+    steps = 0
+    max_steps=50
+    init_obs = env.reset()
+    print(f"The init_obs shape is {init_obs.shape}")
+    print(f"The initial position is {init_obs[0:3]}")
+    frames[num].append(env.render())  # the return frame is np.reshape(rgb, (h, w, 4))
+    
+    for _ in range(max_steps):
+        if _ == 0:
+            obs = init_obs
 
-print(f"The action space is {action_space}")
-print(f"The state space is {state_space}")
+        # Select control
+        # manual control
+        motor = -0.78
+        action = np.array([[motor, motor, motor, motor]])
+        
+        # random control
+        # action = env.action_space.sample()
+
+        # # load the trained model
+        # ac, trained_env, env_distb = utils.load_actor_critic_and_env_from_disk(ckpt)
+        # ac.eval()
+        # obs = torch.as_tensor(obs, dtype=torch.float32)
+        # action, *_ = ac(obs)
+
+        obs, reward, done, info = env.step(action)
+        # print(f"The shape of the obs in the output of the env.step is {obs.shape}")
+        # print(f"The current reward of the step{_} is {reward} and this leads to {terminated} and {truncated}")
+        # print(f"The current penalty of the step{_} is {info['current_penalty']} and the current distance is {info['current_dist']}")
+        frames[num].append(env.render())
+        rewards += reward
+        steps += 1
+        
+        if done or steps>=max_steps:
+            print(f"[INFO] Test {num} is done with rewards = {rewards} and {steps} steps.")
+            create_gif(frames[num], f'{num}-{env.NAME}-{env.distb_level}distb_level-motor{motor}-obs_noise{env.RANDOMIZED_INIT}-{steps}steps.gif', duration=0.1)
+            # print(f"The final position is {obs[0:3]}.")
+            num += 1
+            break
+env.close()
+
+

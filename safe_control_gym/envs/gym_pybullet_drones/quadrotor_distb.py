@@ -149,6 +149,8 @@ class QuadrotorDistb(BaseDistbAviary):
                  num_drones: int = 1,
                  record=False,
                  init_state=None,
+                 init_xyzs=np.array([[0, 0, 1]], dtype=np.float32),
+                 init_rpys=np.array([[0, 0, 0]], dtype=np.float32),
                  inertial_prop=None,
                  # custom args
                  norm_act_scale=0.1,
@@ -164,7 +166,11 @@ class QuadrotorDistb(BaseDistbAviary):
         '''Initialize a quadrotor with hj distb environment.
 
         Args:
+            num_drones (int, optional): The desired number of drones in the aviary.
+            record (bool, optional): Whether to save a video of the simulation in folder`files/videos/`.
             init_state (ndarray, optional): The initial state of the environment, (z, z_dot) or (x, x_dot, z, z_dot theta, theta_dot).
+            init_xyzs (ndarray | None, optional, (NUM_DRONES, 3)): The shaped array containing the initial XYZ position of the drones.
+            init_rpys (ndarray | None, optional, (NUM_DRONES, 3)): The shaped array containing the initial orientations of the drones (in radians).
             inertial_prop (ndarray, optional): The inertial properties of the environment (M, Ixx, Iyy, Izz).
             quad_type (QuadType, optional): The choice of motion type (1D along z, 2D in the x-z plane, or 3D).
             norm_act_scale (float): Scaling the [-1,1] action space around hover thrust when `normalized_action_space` is True.
@@ -183,7 +189,8 @@ class QuadrotorDistb(BaseDistbAviary):
         self.norm_act_scale = norm_act_scale
         self.obs_goal_horizon = obs_goal_horizon
        
-        super().__init__(num_drones=num_drones, record=record, init_state=init_state, 
+        super().__init__(num_drones=num_drones, record=record, 
+                         init_state=init_state, init_xyzs=init_xyzs, init_rpys=init_rpys,
                          inertial_prop=inertial_prop, episode_len_sec=episode_len_sec, 
                          randomized_init=randomized_init,  distb_type=distb_type, 
                          distb_level=distb_level, seed=seed,
@@ -193,6 +200,7 @@ class QuadrotorDistb(BaseDistbAviary):
         self.U_GOAL = np.ones(self.action_dim) * self.MASS * self.GRAVITY_ACC / self.action_dim
         if self.TASK == Task.STABILIZATION:
             self.X_GOAL = np.hstack([np.array([0.0, 0.0, 1.0, 0.0, 0.0, 0.0]) for _ in range(self.NUM_DRONES)])  # x = [x, y, z, r, p, y]
+            self.TARGET_POS = np.array([0,0,1])
         elif self.TASK == Task.TRAJ_TRACKING:
             POS_REF, VEL_REF, _ = self._generate_trajectory(traj_type=self.TASK_INFO['trajectory_type'],
                                                     traj_length=self.EPISODE_LEN_SEC,
@@ -228,6 +236,7 @@ class QuadrotorDistb(BaseDistbAviary):
 
 
     def reset(self, seed=None):
+        #TODO: Hanyang: the initialization has bugs!!!
         '''(Re-)initializes the environment to start an episode.
 
         Mandatory to call at least once after __init__().
@@ -326,8 +335,12 @@ class QuadrotorDistb(BaseDistbAviary):
                                              renderer=p.ER_TINY_RENDERER,
                                              flags=p.ER_SEGMENTATION_MASK_OBJECT_AND_LINKINDEX,
                                              physicsClientId=self.PYB_CLIENT)
-        # Image.fromarray(np.reshape(rgb, (h, w, 4)), 'RGBA').show()
-        return np.reshape(rgb, (h, w, 4))
+
+        # Hanyang: resize the frame
+        rgb_array = np.array(rgb)
+        rgb_array = rgb_array[:, :, :3]
+        
+        return rgb_array
 
     def _setup_symbolic(self, prior_prop={}, **kwargs):
         #TODO: Hanyang: not implemented 12D dynamics yet
@@ -520,12 +533,6 @@ class QuadrotorDistb(BaseDistbAviary):
         #TODO: Hanyang: calculate PWM values, need to check the shape here
         pwm = 30000 + np.clip(action, -1, +1) * 30000
 
-        # thrust = np.clip(action, self.physical_action_bounds[0], self.physical_action_bounds[1])
-        # self.current_clipped_action = thrust
-
-        # # convert to quad motor rpm commands
-        # pwm = cmd2pwm(thrust, self.PWM2RPM_SCALE, self.PWM2RPM_CONST, self.KF, self.MIN_PWM, self.MAX_PWM)
-        # rpm = pwm2rpm(pwm, self.PWM2RPM_SCALE, self.PWM2RPM_CONST)
         return pwm
 
     def normalize_action(self, action):
@@ -564,42 +571,12 @@ class QuadrotorDistb(BaseDistbAviary):
         '''
         #TODO: Hanyang: it seems now it only supports 1 drone due to the observation disturbance
         full_state = self._get_drone_state_vector(0)  
-        # pos, _, rpy, vel, ang_v, _ = np.split(full_state, [3, 7, 10, 13, 16])
-        # if self.QUAD_TYPE == QuadType.ONE_D:
-        #     # {z, z_dot}.
-        #     self.state = np.hstack([pos[2], vel[2]]).reshape((2,))
-        # elif self.QUAD_TYPE == QuadType.TWO_D:
-        #     # {x, x_dot, z, z_dot, theta, theta_dot}.
-        #     self.state = np.hstack(
-        #         [pos[0], vel[0], pos[2], vel[2], rpy[1], ang_v[1]]
-        #     ).reshape((6,))
-        # elif self.QUAD_TYPE == QuadType.THREE_D:
-        #     Rob = np.array(p.getMatrixFromQuaternion(self.quat[0])).reshape((3, 3))
-        #     Rbo = Rob.T
-        #     ang_v_body_frame = Rbo @ ang_v
-        #     # {x, x_dot, y, y_dot, z, z_dot, phi, theta, psi, p_body, q_body, r_body}.
-        #     self.state = np.hstack(
-        #         # [pos[0], vel[0], pos[1], vel[1], pos[2], vel[2], rpy, ang_v]  # Note: world ang_v != body frame pqr
-        #         [pos[0], vel[0], pos[1], vel[1], pos[2], vel[2], rpy, ang_v_body_frame]
-        #     ).reshape((12,))
-        # # Hanyang: add the six dynamics
-        # elif self.QUAD_TYPE == QuadType.SIX_D:
-            # {pos(xyz), quaternion, rpy, velocity, angular_velocity, last_action}.
         self.state = np.hstack([full_state[0:3], full_state[3:7], full_state[10:13], full_state[13:16], full_state[16:20]]).reshape(17,)
-        # print(f"The shape of the return of the method _get_observation is {self.state.shape}. \n")
         # Apply observation disturbance.
         full_state = deepcopy(self.state)
         if 'observation' in self.disturbances:
             full_state = self.disturbances['observation'].apply(full_state, self)
 
-        # Concatenate goal info (references state(s)) for RL.
-        # Plus two because ctrl_step_counter has not incremented yet, and we want to return the obs (which would be
-        # ctrl_step_counter + 1 as the action has already been applied), and the next state (+ 2) for the RL to see
-        # the next state.
-        # if self.at_reset:
-        #     full_state = self.extend_obs(full_state, 1)
-        # else:
-        #     full_state = self.extend_obs(full_state, self.ctrl_step_counter + 2)
         return full_state
 
     def _get_reward(self, action):
@@ -625,72 +602,16 @@ class QuadrotorDistb(BaseDistbAviary):
 
         dist = np.linalg.norm(state[0:3] - self.TARGET_POS)
         reward = -dist - penalties
-            
-        # act = np.asarray(self.current_noisy_physical_action)
-        # act_error = act - self.U_GOAL
-        # # Quadratic costs w.r.t state and action
-        # # TODO: consider using multiple future goal states for cost in tracking
-        # if self.TASK == Task.STABILIZATION:
-        #     state_error = state - self.X_GOAL
-        #     dist = np.sum(self.rew_state_weight * state_error * state_error)
-        #     dist += np.sum(self.rew_act_weight * act_error * act_error)
-        # if self.TASK == Task.TRAJ_TRACKING:
-        #     wp_idx = min(self.ctrl_step_counter + 1, self.X_GOAL.shape[0] - 1)  # +1 because state has already advanced but counter not incremented.
-        #     state_error = state - self.X_GOAL[wp_idx]
-        #     dist = np.sum(self.rew_state_weight * state_error * state_error)
-        #     dist += np.sum(self.rew_act_weight * act_error * act_error)
-        # rew = -dist
-        # # Convert rew to be positive and bounded [0,1].
-        # if self.rew_exponential:
-        #     rew = np.exp(rew)
+    
         return reward
 
-        # # Control cost.
-        # if self.COST == Cost.QUADRATIC:
-        #     if self.TASK == Task.STABILIZATION:
-        #         return float(-1 * self.symbolic.loss(x=self.state,
-        #                                              Xr=self.X_GOAL,
-        #                                              u=self.current_clipped_action,
-        #                                              Ur=self.U_GOAL,
-        #                                              Q=self.Q,
-        #                                              R=self.R)['l'])
-        #     if self.TASK == Task.TRAJ_TRACKING:
-        #         return float(-1 * self.symbolic.loss(x=self.state,
-        #                                              Xr=self.X_GOAL[self.ctrl_step_counter + 1, :],  # +1 because state has already advanced but counter not incremented.
-        #                                              u=self.current_clipped_action,
-        #                                              Ur=self.U_GOAL,
-        #                                              Q=self.Q,
-        #                                              R=self.R)['l'])
 
     def _get_done(self):
-        '''Computes the conditions for termination of an episode.
+        '''Computes the conditions for termination of an episode, do not consider hte max control steps here
 
         Returns:
             done (bool): Whether an episode is over.
         '''
-        # # Done if goal reached for stabilization task with quadratic cost.
-        # if self.TASK == Task.STABILIZATION:
-        #     self.goal_reached = bool(np.linalg.norm(self.state - self.X_GOAL) < self.TASK_INFO['stabilization_goal_tolerance'])
-        #     if self.goal_reached:
-        #         return True
-
-        # # Done if state is out-of-bounds.
-        # if self.done_on_out_of_bound:
-        #     if self.QUAD_TYPE == QuadType.ONE_D:
-        #         mask = np.array([1, 0])
-        #     if self.QUAD_TYPE == QuadType.TWO_D:
-        #         mask = np.array([1, 0, 1, 0, 1, 0])
-        #     if self.QUAD_TYPE == QuadType.THREE_D:
-        #         mask = np.array([1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0])
-        #     # Element-wise or to check out-of-bound conditions.
-        #     self.out_of_bounds = np.logical_or(self.state < self.state_space.low,
-        #                                        self.state > self.state_space.high)
-        #     # Mask out un-included dimensions (i.e. velocities)
-        #     self.out_of_bounds = np.any(self.out_of_bounds * mask)
-        #     # Early terminate if needed.
-        #     if self.out_of_bounds:
-        #         return True
-        # self.out_of_bounds = False
         state = self.state  # (17,)
         rp = state[7:9]  # rad
         rp_limit = rp[np.abs(rp) > self.rp_limit].any()
@@ -708,6 +629,7 @@ class QuadrotorDistb(BaseDistbAviary):
             self.out_of_bounds = True
         
         return done
+
 
     def _get_info(self):
         '''Generates the info dictionary returned by every call to .step().
@@ -763,15 +685,9 @@ class QuadrotorDistb(BaseDistbAviary):
         info['initial_position'] = state[0:3]
         info['initial_rpy'] = state[7:10]
         info['initial_velocity'] = state[10:13]
-        # info['symbolic_model'] = self.symbolic
-        # info['physical_parameters'] = {
-        #     'quadrotor_mass': self.OVERRIDDEN_QUAD_MASS,
-        #     'quadrotor_inertia': self.OVERRIDDEN_QUAD_INERTIA,
-        # }
-        # info['x_reference'] = self.X_GOAL
-        # info['u_reference'] = self.U_GOAL
-        if self.constraints is not None:
-            info['symbolic_constraints'] = self.constraints.get_all_symbolic_models()
+        # if self.constraints is not None:
+        #     info['symbolic_constraints'] = self.constraints.get_all_symbolic_models()
+            
         return info
 
 

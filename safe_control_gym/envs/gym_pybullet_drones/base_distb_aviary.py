@@ -67,6 +67,8 @@ class BaseDistbAviary(BenchmarkEnv):
                  ctrl_freq: int = 100,
                  episode_len_sec: int = 10,
                  init_state=None,
+                 init_xyzs=None,
+                 init_rpys=None,
                  randomized_init: bool = True,
                  distb_type = 'fixed', 
                  distb_level: float=0.0,
@@ -88,6 +90,8 @@ class BaseDistbAviary(BenchmarkEnv):
             ctrl_freq (int, optional): The frequency at which the environment steps.
             episode_len_sec (int, optional): Maximum episode duration in seconds.
             init_state (ndarray/dict, optional): The initial state of the environment
+            init_xyzs (ndarray | None, optional, (NUM_DRONES, 3)): The shaped array containing the initial XYZ position of the drones.
+            init_rpys (ndarray | None, optional, (NUM_DRONES, 3)): The shaped array containing the initial orientations of the drones (in radians).
             randomized_init (bool, optional): Whether to randomize the initial state.
             disturbance_type (str, optional): The type of disturbance to be applied to the drones [None, 'fixed', 'boltzmann', 'random', 'rarl', 'rarl-population'].
             distb_level (float, optional): The level of disturbance to be applied to the drones.
@@ -207,12 +211,24 @@ class BaseDistbAviary(BenchmarkEnv):
                                                     farVal=1000.0)
         # Set default initial poses when loading drone's urdf model.
         # can be overriden later for specific tasks (as sub-classes) in reset()
-        self.INIT_XYZS = np.vstack([np.array([x * 4 * self.L for x in range(self.NUM_DRONES)]),
-                                    np.array([y * 4 * self.L for y in range(self.NUM_DRONES)]),
-                                    np.ones(self.NUM_DRONES) * (self.COLLISION_H / 2 - self.COLLISION_Z_OFFSET)
-                                    ]).transpose().reshape(self.NUM_DRONES, 3)
-        self.INIT_RPYS = np.zeros((self.NUM_DRONES, 3))
-
+        # Hanyang: add a if else statement to set the initial position of the drones
+        if init_xyzs is None:
+            self.INIT_XYZS = np.vstack([np.array([x * 4 * self.L for x in range(self.NUM_DRONES)]),
+                                        np.array([y * 4 * self.L for y in range(self.NUM_DRONES)]),
+                                        np.ones(self.NUM_DRONES) * (self.COLLISION_H / 2 - self.COLLISION_Z_OFFSET+.1)
+                                        ]).transpose().reshape(self.NUM_DRONES, 3)
+        elif np.array(init_xyzs).shape == (self.NUM_DRONES,3):
+            self.INIT_XYZS = init_xyzs
+        else:
+            print("[ERROR] invalid initial_xyzs in BaseDistbAviary.__init__(), try init_xyzs.reshape(NUM_DRONES,3)")
+        if init_rpys is None:
+            self.INIT_RPYS = np.zeros((self.NUM_DRONES, 3))
+        elif np.array(init_rpys).shape == (self.NUM_DRONES,3):
+            self.INIT_RPYS = init_rpys
+        else:
+            print("[ERROR] invalid initial_rpys in BaseDistbAviary.__init__(), try init_rpys.reshape(NUM_DRONES,3)")
+            
+            
     def close(self):
         '''Terminates the environment.'''
         if self.RECORD and self.GUI:
@@ -241,7 +257,9 @@ class BaseDistbAviary(BenchmarkEnv):
         # Hanyang: add self.last_action and self.current_action
         self.last_action = np.zeros((self.NUM_DRONES, 4)) # the last action executed just now
         # Initialize the drones kinematic information.
+        # Hanyang: change the initial position of the drones to [0, 0, 1]
         self.pos = np.zeros((self.NUM_DRONES, 3))
+        self.pos[:, 2] = 1
         self.quat = np.zeros((self.NUM_DRONES, 4))
         self.rpy = np.zeros((self.NUM_DRONES, 3))
         self.vel = np.zeros((self.NUM_DRONES, 3))
@@ -268,8 +286,9 @@ class BaseDistbAviary(BenchmarkEnv):
         p.setAdditionalSearchPath(pybullet_data.getDataPath(),
                                   physicsClientId=self.PYB_CLIENT)
         # Load ground plane, drone and obstacles models.
-        self.PLANE_ID = p.loadURDF('plane.urdf', [0, 0, self.GROUND_PLANE_Z],
-                                   physicsClientId=self.PYB_CLIENT)
+        # self.PLANE_ID = p.loadURDF('plane.urdf', [0, 0, self.GROUND_PLANE_Z], physicsClientId=self.PYB_CLIENT)
+        self.PLANE_ID = p.loadURDF('plane.urdf', physicsClientId=self.PYB_CLIENT)
+        
         self.DRONE_IDS = np.array([
             p.loadURDF(self.URDF_PATH,
                        self.INIT_XYZS[i, :],
@@ -490,32 +509,32 @@ class BaseDistbAviary(BenchmarkEnv):
                                  forceObj=[0, 0, forces[i]],
                                  posObj=[0, 0, 0],
                                  flags=p.LINK_FRAME,
-                                 physicsClientId=self.CLIENT
+                                 physicsClientId=self.PYB_CLIENT
                                  )
         p.applyExternalTorque(self.DRONE_IDS[nth_drone],
                               4,
                               torqueObj=[0, 0, z_torque],
                               flags=p.LINK_FRAME,
-                              physicsClientId=self.CLIENT
+                              physicsClientId=self.PYB_CLIENT
                               )
         # Hanyang: Apply disturbances (torques) 
         p.applyExternalTorque(self.DRONE_IDS[nth_drone],
                               4,
                               torqueObj=[hj_distbs[0], 0, 0],
                               flags=p.LINK_FRAME,
-                              physicsClientId=self.CLIENT
+                              physicsClientId=self.PYB_CLIENT
                               )
         p.applyExternalTorque(self.DRONE_IDS[nth_drone],
                               4,
                               torqueObj=[0, hj_distbs[1], 0],
                               flags=p.LINK_FRAME,
-                              physicsClientId=self.CLIENT
+                              physicsClientId=self.PYB_CLIENT
                               )
         # p.applyExternalTorque(self.DRONE_IDS[nth_drone],
         #                       4,
         #                       torqueObj=[0, 0, disturbances[2]],
         #                       flags=p.LINK_FRAME,
-        #                       physicsClientId=self.CLIENT
+        #                       physicsClientId=self.PYB_CLIENT
         #                       )
 
     def _ground_effect(self, rpm, nth_drone):
