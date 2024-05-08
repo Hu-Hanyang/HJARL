@@ -27,7 +27,7 @@ from safe_control_gym.math_and_models.symbolic_systems import SymbolicModel
 from safe_control_gym.hj_distbs.distur_gener import distur_gener_cartpole
 
 
-class CartPoleHJDistbEnv(BenchmarkEnv):
+class CartPoleDistbEnv(BenchmarkEnv):
     '''Cartpole environment task.
 
     Including symbolic model, constraints, randomization, adversarial disturbances,
@@ -63,7 +63,7 @@ class CartPoleHJDistbEnv(BenchmarkEnv):
         adversary_disturbance_scale: 0.01
     '''
 
-    NAME = 'cartpole_hjdistb'
+    NAME = 'cartpole_distb'
 
     URDF_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets', 'cartpole_template.urdf')
 
@@ -128,8 +128,8 @@ class CartPoleHJDistbEnv(BenchmarkEnv):
                  init_state=None,
                  inertial_prop=None,
                  # Task.
-                 pyb_freq: int = 200,
-                 ctrl_freq: int = 100,
+                 pyb_freq: int = 50,
+                 ctrl_freq: int = 50,
                  # custom args
                  obs_goal_horizon=0,
                  obs_wrap_angle=False,
@@ -140,6 +140,8 @@ class CartPoleHJDistbEnv(BenchmarkEnv):
                  # Hanyang: add distb
                  distb_type='boltzmann',
                  distb_level=0.0,
+                 randomized_init=True,
+                 seed=None,
                  **kwargs
                  ):
         '''Initialize a cartpole environment.
@@ -157,8 +159,11 @@ class CartPoleHJDistbEnv(BenchmarkEnv):
             rew_exponential (bool): If to exponentiate negative quadratic cost to positive, bounded [0,1] reward.
             done_on_out_of_bound (bool): If to termiante when state is out of bound.
             distb_type (str): The type of disturbance to apply, ['fixed', 'boltzmann', 'random'].
-            distb_level (float): The level of disturbance to apply, ranges from [0.0, 2.0] with 0.1 precision.        '''
-            
+            distb_level (float): The level of disturbance to apply, ranges from [0.0, 2.0] with 0.1 precision.  
+            randomized_init (bool, optional): Whether to randomize the initial state.      
+            seed (int, optional): Seed for the random number generator.
+            '''
+        
         self.obs_goal_horizon = obs_goal_horizon
         self.obs_wrap_angle = obs_wrap_angle
         self.rew_state_weight = np.array(rew_state_weight, ndmin=1, dtype=float)
@@ -170,7 +175,10 @@ class CartPoleHJDistbEnv(BenchmarkEnv):
         assert self.distb_type in ['fixed', 'boltzmann', 'random'], f"The distb_type {self.distb_type} is not supported now."
         self.distb_level = distb_level
         
-        super().__init__(init_state=init_state, inertial_prop=inertial_prop, pyb_freq=pyb_freq, ctrl_freq=ctrl_freq, **kwargs)
+        super().__init__(init_state=init_state, inertial_prop=inertial_prop, 
+                         pyb_freq=pyb_freq, ctrl_freq=ctrl_freq, 
+                         randomized_init=randomized_init, seed=seed,
+                         **kwargs)
 
         # Create PyBullet client connection.
         self.PYB_CLIENT = -1
@@ -834,3 +842,47 @@ class CartPoleHJDistbEnv(BenchmarkEnv):
             out = ' '.join(out.split(' ')[:-1] + [str(length)])
             root[3][2][1].attrib['xyz'] = out
         return tree
+
+
+class CartPoleFixedDistb(CartPoleDistbEnv):
+    NAME = 'cartpole_fixed'
+    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
+        # Set disturbance_type to 'fixed' regardless of the input
+        kwargs['distb_type'] = 'fixed'
+        kwargs['distb_level'] = 1.5
+        kwargs['randomized_init'] = True
+        kwargs['seed'] = 42
+        super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
+
+
+class CartPoleBoltzDistb(CartPoleDistbEnv):
+    NAME = 'cartpole_boltz'
+    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
+        # Set disturbance_type to 'fixed' regardless of the input
+        kwargs['distb_type'] = 'boltzmann'
+        kwargs['distb_level'] = 0.0
+        kwargs['randomized_init'] = True
+        kwargs['seed'] = 42
+        super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
+
+
+class CartPoleNullDistb(CartPoleDistbEnv):
+    NAME = 'cartpole_null'
+    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
+        # Set disturbance_type to 'fixed' regardless of the input
+        kwargs['distb_type'] = 'fixed'
+        kwargs['distb_level'] = 0.0
+        kwargs['randomized_init'] = True
+        kwargs['seed'] = 42
+        super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
+
+
+class CartPoleRandomDistb(CartPoleDistbEnv):
+    NAME = 'cartpole_random'
+    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
+        # Set disturbance_type to 'fixed' regardless of the input
+        kwargs['distb_type'] = 'random'
+        kwargs['distb_level'] = 0.0
+        kwargs['randomized_init'] = True
+        kwargs['seed'] = 42
+        super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,

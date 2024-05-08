@@ -87,15 +87,23 @@ CartPole(BenchmarkEnv)
 
 ## Training 
 The training file lies in `safe_control_gym/experiments/train_rl_controller.py`. When run this file, some necessary arguments need to be added: 
-1. `--task` the task environment, now we support `cartpole`, `cartpole_distb` and `quadrotor_distb`(not sure);
+1. `--task` the task environment, now we support two main envs: `cartpole` and `quadrotor_distb`, details can be found in the following table;
 2. `--algo` the training algorithm, now we support `ppo`, `rarl`, and `rap`;
 3. `--use_gpu` the device used in training, should be `True` for using GPU;
 4. `--seed` the training random seed used in training.
 
-For instance, the training command for the env `cartpole_distb` with algo `ppo` is:
+For instance, the training command for the env `cartpole_boltz` with algo `ppo` is:
 `python safe_control_gym/experiments/train_rl_controller.py --task cartpole_distb --algo ppo --use_gpu True --seed 42`. 
 
+Table: Details of the envs
+| Env Name  | Description | 
+| --------- | ----------- |
+| cartpole  | The cartpole env with no disturbance |
+| cartpole_distb | The cartpole env with disturbance |
+| quadrotor_distb | The quadrotor env with disturbance |
+
 ## Test
+### Need to make the ppo.yaml file consistent with the training file before test
 The test file lies in `safe_control_gym/experiments/test_rl_controller.py`. When run this file, some necessary arguments need to be added: 
 1. `--trained_task` the trained env we want to load the model from;
 2. `--algo` the trained algorithm we want to load the model used, now we support `ppo` and `rarl`;
@@ -104,6 +112,10 @@ The test file lies in `safe_control_gym/experiments/test_rl_controller.py`. When
 
 For instance, we want to test the trained algo `rarl` in the env `cartpole` in the test env `cartpole_distb`, the test command is:
 `python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole --algo rarl --task cartpole_distb --seed 42`. 
+
+python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_distb --algo ppo --task cartpole_fixed --seed 42
+
+python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_fixed --seed 42
 
 ## Env Info
 
