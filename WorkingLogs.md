@@ -87,7 +87,7 @@ CartPole(BenchmarkEnv)
 
 ## Training 
 The training file lies in `safe_control_gym/experiments/train_rl_controller.py`. When run this file, some necessary arguments need to be added: 
-1. `--task` the task environment, now we support `cartpole` and `cartpole_distb`;
+1. `--task` the task environment, now we support `cartpole`, `cartpole_distb` and `quadrotor_distb`(not sure);
 2. `--algo` the training algorithm, now we support `ppo`, `rarl`, and `rap`;
 3. `--use_gpu` the device used in training, should be `True` for using GPU;
 4. `--seed` the training random seed used in training.
@@ -99,7 +99,7 @@ For instance, the training command for the env `cartpole_distb` with algo `ppo` 
 The test file lies in `safe_control_gym/experiments/test_rl_controller.py`. When run this file, some necessary arguments need to be added: 
 1. `--trained_task` the trained env we want to load the model from;
 2. `--algo` the trained algorithm we want to load the model used, now we support `ppo` and `rarl`;
-3. `--task` the test environment, now we support `cartpole` and `cartpole_distb`;
+3. `--task` the test environment, now we support `cartpole`, `cartpole_distb` and `quadrotor_distb`(not sure);
 4. `--seed` the training random seed used in training.
 
 For instance, we want to test the trained algo `rarl` in the env `cartpole` in the test env `cartpole_distb`, the test command is:

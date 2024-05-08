@@ -44,8 +44,8 @@ class PPO(BaseController):
         # Task
         # Hanyang: add some attributes from kwargs
         # print(f"The kwargs is {kwargs}. \n")
-        self.render_height = kwargs['render_height']
-        self.render_width = kwargs['render_width']
+        # self.render_height = kwargs['render_height']
+        # self.render_width = kwargs['render_width']
         
         if self.training:
             # Training and testing.

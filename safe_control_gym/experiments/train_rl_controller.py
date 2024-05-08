@@ -62,7 +62,7 @@ def train():
     with open(os.path.join(config.output_dir, 'config.yaml'), 'w', encoding='UTF-8') as file:
         yaml.dump(munch.unmunchify(config), file, default_flow_style=False)
 
-    # # make_plots(config)
+    # make_plots(config)
 
 
 def make_plots(config):
