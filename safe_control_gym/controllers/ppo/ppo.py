@@ -233,9 +233,12 @@ class PPO(BaseController):
         # Hanyang: extend the frames for visualization.
         eval_results = {'frames': []}
         frames = []
+        counter = 0
         while len(ep_returns) < n_episodes:
             action = self.select_action(obs=obs, info=info)
             obs, _, done, info = env.step(action)
+            counter += 1
+            print(f"The current step is {counter}. \n")
             if render:
                 # env.render()
                 frames.append(env.render())
@@ -245,6 +248,7 @@ class PPO(BaseController):
                 assert 'episode' in info
                 ep_returns.append(info['episode']['r'])
                 ep_lengths.append(info['episode']['l'])
+                counter = 0
                 if render:
                     eval_results['frames'].append(frames)
                     frames = []

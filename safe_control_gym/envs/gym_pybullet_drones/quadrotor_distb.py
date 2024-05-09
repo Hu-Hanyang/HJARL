@@ -236,7 +236,6 @@ class QuadrotorDistb(BaseDistbAviary):
 
 
     def reset(self, seed=None):
-        #TODO: Hanyang: the initialization has bugs!!!
         '''(Re-)initializes the environment to start an episode.
 
         Mandatory to call at least once after __init__().
@@ -572,8 +571,8 @@ class QuadrotorDistb(BaseDistbAviary):
         self.state = np.hstack([full_state[0:3], full_state[3:7], full_state[10:13], full_state[13:16], full_state[16:20]]).reshape(17,)
         # Apply observation disturbance.
         full_state = deepcopy(self.state)
-        if 'observation' in self.disturbances:
-            full_state = self.disturbances['observation'].apply(full_state, self)
+        # if 'observation' in self.disturbances:
+        #     full_state = self.disturbances['observation'].apply(full_state, self)
 
         return full_state
 
@@ -610,7 +609,8 @@ class QuadrotorDistb(BaseDistbAviary):
         Returns:
             done (bool): Whether an episode is over.
         '''
-        state = self.state  # (17,)
+        state = self._get_drone_state_vector(0) # (20,)
+        # state = self.state  # (17,)
         rp = state[7:9]  # rad
         rp_limit = rp[np.abs(rp) > self.rp_limit].any()
         
@@ -623,8 +623,8 @@ class QuadrotorDistb(BaseDistbAviary):
         # done = True if position_limit or rp_limit or rpy_dot_limit or z_limit else False
         done = True if rp_limit or rpy_dot_limit or z_limit else False
         
-        if done:
-            self.out_of_bounds = True
+        # if done:
+        #     self.out_of_bounds = True
         
         return done
 
@@ -638,8 +638,8 @@ class QuadrotorDistb(BaseDistbAviary):
         info = {}
         if self.TASK == Task.STABILIZATION and self.COST == Cost.QUADRATIC:
             info['goal_reached'] = self.goal_reached  # Add boolean flag for the goal being reached.
-        # if self.done_on_out_of_bound:
-        info['out_of_bounds'] = self.out_of_bounds
+        # # if self.done_on_out_of_bound:
+        # info['out_of_bounds'] = self.out_of_bounds
         # Add MSE.
         state = deepcopy(self.state)
         if self.TASK == Task.STABILIZATION:

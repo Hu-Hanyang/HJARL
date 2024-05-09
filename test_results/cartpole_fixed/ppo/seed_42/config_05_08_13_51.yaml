@@ -70,5 +70,7 @@ task_config:
   task_info: null
   use_constraint_penalty: false
   verbose: false
-trained_task: cartpole_distb
+test_distb_level: 1.5
+test_distb_type: fixed
+trained_task: cartpole_boltz
 use_gpu: false

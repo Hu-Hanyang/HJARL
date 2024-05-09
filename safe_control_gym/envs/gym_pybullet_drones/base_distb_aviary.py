@@ -149,7 +149,9 @@ class BaseDistbAviary(BenchmarkEnv):
         self.GRAVITY = self.GRAVITY_ACC * self.MASS
         self.HOVER_RPM = np.sqrt(self.GRAVITY / (4 * self.KF))
         self.MAX_RPM = np.sqrt((self.THRUST2WEIGHT_RATIO * self.GRAVITY) / (4 * self.KF))
-        self.MAX_THRUST = (4 * self.KF * self.MAX_RPM**2)
+        # TODO: Hanyang: need to revise some constants
+        # self.MAX_THRUST = (4 * self.KF * self.MAX_RPM**2)
+        self.MAX_THRUST = self.GRAVITY * self.THRUST2WEIGHT_RATIO / 4
         self.MAX_XY_TORQUE = (self.L * self.KF * self.MAX_RPM**2)
         self.MAX_Z_TORQUE = (2 * self.KM * self.MAX_RPM**2)
         self.GND_EFF_H_CLIP = 0.25 * self.PROP_RADIUS * np.sqrt(
@@ -379,16 +381,16 @@ class BaseDistbAviary(BenchmarkEnv):
                     self._ground_effect(clipped_action[i, :], i)
                     self._drag(self.last_clipped_action[i, :], i)
                     self._downwash(i)
-                # Apply disturbance
-                if disturbance_force is not None:
-                    pos = self._get_drone_state_vector(i)[:3]
-                    p.applyExternalForce(
-                        self.DRONE_IDS[i],
-                        linkIndex=4,  # Link attached to the quadrotor's center of mass.
-                        forceObj=disturbance_force,
-                        posObj=pos,
-                        flags=p.WORLD_FRAME,
-                        physicsClientId=self.PYB_CLIENT)
+                # # Apply disturbance
+                # if disturbance_force is not None:
+                #     pos = self._get_drone_state_vector(i)[:3]
+                #     p.applyExternalForce(
+                #         self.DRONE_IDS[i],
+                #         linkIndex=4,  # Link attached to the quadrotor's center of mass.
+                #         forceObj=disturbance_force,
+                #         posObj=pos,
+                #         flags=p.WORLD_FRAME,
+                #         physicsClientId=self.PYB_CLIENT)
             # PyBullet computes the new state, unless Physics.DYN.
             if self.PHYSICS != Physics.DYN:
                 p.stepSimulation(physicsClientId=self.PYB_CLIENT)

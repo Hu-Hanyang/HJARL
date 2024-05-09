@@ -56,6 +56,7 @@ def generate_gifs(frames, output_dir):
         for frame in frames[episode]:
             images.append(frame.astype(np.uint8))
         imageio.mimsave(output_dir+'/'+filename, images, duration=20)
+        print(f"******************Generate {filename} successfully. \n****************")
 
 
 def test():
@@ -84,6 +85,7 @@ def test():
                        output_dir=config.output_dir,
                        **config.task_config
                        )
+    print(f"==============Env is ready.============== \n")
     
     # Create the controller/control_agent.
     ctrl = make(config.algo,
@@ -93,7 +95,7 @@ def test():
                 use_gpu=config.use_gpu,
                 seed=config.seed,
                 **config.algo_config)
-    
+    print(f"==============Controller is ready.============== \n")
     # Hanyang: load the selected model, the default task (env) for the test is the same as that for training.
     if config.trained_task is None:
         # default: the same task as the training task
@@ -103,6 +105,7 @@ def test():
                               f'seed_{config.seed}', f'{total_steps}steps', 'model_latest.pt')
     assert os.path.exists(model_path), f"[ERROR] The path '{model_path}' does not exist, please check the loading path or train one first."
     ctrl.load(model_path)
+    print(f"==============Model is loaded.============== \n")
     ctrl.reset()
 
     # Testing.
@@ -114,6 +117,7 @@ def test():
         ctrl.close()
     
     # Hanyang: generate videos and gifs
+    print("Start to generate videos and gifs.")
     # generate_videos(eval_results['frames'], env_func().RENDER_HEIGHT, env_func().RENDER_WIDTH, config.output_dir)
     generate_gifs(eval_results['frames'], config.output_dir)
 
@@ -121,11 +125,12 @@ def test():
     test_distb_level = env_func().distb_level
     env_func().close()
     with open(os.path.join(config.output_dir, f'config_{time.strftime("%m_%d_%H_%M")}.yaml'), 'w', encoding='UTF-8') as file:
-        config_backup = munch.unmunchify(config)
-        config_backup['trained_task'] = config.trained_task
-        config_backup['test_distb_type'] = test_distb_type
-        config_backup['test_distb_level'] = test_distb_level
-        yaml.dump(munch.unmunchify(config), file, default_flow_style=False)
+        config_assemble = munch.unmunchify(config)
+        config_assemble['trained_task'] = config.trained_task
+        config_assemble['test_distb_type'] = test_distb_type
+        config_assemble['test_distb_level'] = test_distb_level
+        yaml.dump(config_assemble, file, default_flow_style=False)
+
 
     # make_plots(config)
 

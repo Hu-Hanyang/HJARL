@@ -95,6 +95,8 @@ The training file lies in `safe_control_gym/experiments/train_rl_controller.py`.
 For instance, the training command for the env `cartpole_boltz` with algo `ppo` is:
 `python safe_control_gym/experiments/train_rl_controller.py --task cartpole_distb --algo ppo --use_gpu True --seed 42`. 
 
+python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_boltz --algo ppo --use_gpu True --seed 42
+
 Table: Details of the envs
 | Env Name  | Description | 
 | --------- | ----------- |
@@ -113,9 +115,11 @@ The test file lies in `safe_control_gym/experiments/test_rl_controller.py`. When
 For instance, we want to test the trained algo `rarl` in the env `cartpole` in the test env `cartpole_distb`, the test command is:
 `python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole --algo rarl --task cartpole_distb --seed 42`. 
 
-python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_distb --algo ppo --task cartpole_fixed --seed 42
+python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_boltz --algo ppo --task cartpole_fixed --seed 42
 
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_fixed --seed 42
+
+python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_null --seed 42
 
 ## Env Info
 
