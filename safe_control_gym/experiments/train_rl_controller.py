@@ -43,6 +43,8 @@ def train():
                        output_dir=config.output_dir,
                        **config.task_config
                        )
+    print(f"==============The envs are ready.============== \n")
+    
 
     # Create the controller/control_agent.
     ctrl = make(config.algo,
@@ -53,11 +55,13 @@ def train():
                 seed=config.seed,
                 **config.algo_config)
     ctrl.reset()
+    print(f"==============The controller is ready.============== \n")
 
     # Training.
+    print(f"==============Start training.============== \n")
     ctrl.learn()
     ctrl.close()
-    print('Training done.')
+    print(f"==============Training done.============== \n")
 
     # Save the configuration.
     env_distb_type = env_func().distb_type

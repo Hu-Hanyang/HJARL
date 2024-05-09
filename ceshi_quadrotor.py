@@ -31,6 +31,7 @@ print(f"********** The shape of the observation space is {env.observation_space.
 print(f"********** The disturbance type is {env.distb_type}.********** \n")
 # print(f"********** The disturbance level is {env.distb_level}. ********** \n")
 print(f"********** The DISTURBANCE_MODES is {env.DISTURBANCE_MODES}. ********** \n")
+print(f"********** The self.DISTURBANCES is {env.DISTURBANCES}. ********** \n")
 print(f"********** The enable reset distribution is {env.RANDOMIZED_INIT}. ********** \n")
 
 # # Generate gifs to check

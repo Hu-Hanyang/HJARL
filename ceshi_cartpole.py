@@ -16,7 +16,10 @@ disturbances:
 
 env = CartPoleBoltzDistb()
 obs = env.reset()
-print(f"The disturbances is {env.disturbances}")
+print(f"********* The self.disturbances is {env.disturbances}. ********* \n")
+print(f"********* The self.adversary_disturbance is {env.adversary_disturbance}. ********* \n")  
+print(f"********* The task is {env.TASK }. ********* \n")
+print(f"********* The self.constraints is {env.constraints}. ********* \n")
 # print(f"The initial position is {env.state[0:3]}. \n")
 # print(f"The obs is {env.observation_space}")
 # print(f"The action is {env.action_space}")
@@ -25,6 +28,7 @@ print(f"********** The disturbance type is {env.distb_type}.********** \n")
 # print(f"********** The disturbance level is {env.distb_level}. ********** \n")
 print(f"********** The DISTURBANCE_MODES is {env.DISTURBANCE_MODES}. ********** \n")
 print(f"********** The enable reset distribution is {env.RANDOMIZED_INIT}. ********** \n")
+print(f"********** The self.DISTURBANCES is {env.DISTURBANCES}. ********** \n")
 
 
 # env = CartPoleHJDistbEnv()
