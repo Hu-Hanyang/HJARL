@@ -495,7 +495,7 @@ class QuadrotorDistb(BaseDistbAviary):
         act_hi = +1
         obs_lower_bound = np.hstack([obs_lower_bound, np.array([act_lo,act_lo,act_lo,act_lo])])
         obs_upper_bound = np.hstack([obs_upper_bound, np.array([act_hi,act_hi,act_hi,act_hi])])
-# Define the state space for the dynamics.
+        # Define the state space for the dynamics.
         self.state_space = spaces.Box(low=obs_lower_bound, high=obs_upper_bound, dtype=np.float32)
         self.observation_space = spaces.Box(low=obs_lower_bound, high=obs_upper_bound, dtype=np.float32)
 
@@ -566,7 +566,7 @@ class QuadrotorDistb(BaseDistbAviary):
         Returns:
             obs (ndarray): The state of the quadrotor, of size 17 depending on QUAD_TYPE.
         '''
-        #TODO: Hanyang: it seems now it only supports 1 drone due to the observation disturbance
+        # Hanyang: it seems now it only supports 1 drone due to the observation disturbance
         full_state = self._get_drone_state_vector(0)  
         self.state = np.hstack([full_state[0:3], full_state[3:7], full_state[10:13], full_state[13:16], full_state[16:20]]).reshape(17,)
         # Apply observation disturbance.

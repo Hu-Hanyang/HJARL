@@ -115,6 +115,9 @@ def test():
     elif config.algo == 'rarl':
         eval_results = ctrl.run(render=True, n_episodes=3, use_adv=False) # Hanyang: run 3 episodes.
         ctrl.close()
+    elif config.algo == 'rap':
+        eval_results = ctrl.run(render=True, n_episodes=3, use_adv=False) # Hanyang: run 3 episodes.
+        ctrl.close()
     
     # Hanyang: generate videos and gifs
     print("Start to generate videos and gifs.")

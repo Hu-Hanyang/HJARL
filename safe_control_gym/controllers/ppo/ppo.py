@@ -238,7 +238,7 @@ class PPO(BaseController):
             action = self.select_action(obs=obs, info=info)
             obs, _, done, info = env.step(action)
             counter += 1
-            print(f"The current step is {counter}. \n")
+            # print(f"The current step is {counter}. \n")
             if render:
                 # env.render()
                 frames.append(env.render())

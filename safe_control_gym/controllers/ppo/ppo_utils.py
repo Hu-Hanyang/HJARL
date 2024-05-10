@@ -344,7 +344,7 @@ class PPOBuffer(object):
                 drop_last=True
                 ):
         '''Makes sampler to loop through all data.'''
-        total_steps = self.max_length * self.batch_size
+        total_steps = self.max_length * self.batch_size  # total_steps = rollout_steps * rollout_batch_size = 2048*32=65536
         sampler = random_sample(np.arange(total_steps), mini_batch_size, drop_last)
         for indices in sampler:
             batch = self.sample(indices)

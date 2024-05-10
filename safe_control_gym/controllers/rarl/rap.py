@@ -230,6 +230,8 @@ class RAP(BaseController):
         obs, info = env.reset()
         obs = self.obs_normalizer(obs)
         ep_returns, ep_lengths = [], []
+        # Hanyang: extend the frames for visualization.
+        eval_results = {'frames': []}
         frames = []
 
         while len(ep_returns) < n_episodes:
@@ -253,7 +255,7 @@ class RAP(BaseController):
             obs, _, done, info = env.step(action)
             if render:
                 env.render()
-                frames.append(env.render('rgb_array'))
+                frames.append(env.render())
             if verbose:
                 print(f'obs {obs} | act {action}')
 
@@ -261,13 +263,18 @@ class RAP(BaseController):
                 assert 'episode' in info
                 ep_returns.append(info['episode']['r'])
                 ep_lengths.append(info['episode']['l'])
+                if render:
+                    eval_results['frames'].append(frames)
+                    frames = []
                 obs, _ = env.reset()
             obs = self.obs_normalizer(obs)
 
         # collect evaluation results
         ep_lengths = np.asarray(ep_lengths)
         ep_returns = np.asarray(ep_returns)
-        eval_results = {'ep_returns': ep_returns, 'ep_lengths': ep_lengths}
+        eval_results['ep_returns'] = ep_returns
+        eval_results['ep_lengths'] = ep_lengths
+        # eval_results = {'ep_returns': ep_returns, 'ep_lengths': ep_lengths}
         if len(frames) > 0:
             eval_results['frames'] = frames
         # Other episodic stats from evaluation env.

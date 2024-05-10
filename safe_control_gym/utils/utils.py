@@ -373,3 +373,8 @@ def distur_gener_quadrotor(states, distb_level):
 
     return opt_u, opt_d
   
+  
+def transfer(distb_level):
+    index = int(distb_level * 10)
+    allowable_distb_levels = np.arange(0.0, 2.1, 0.1)
+    return allowable_distb_levels[index]

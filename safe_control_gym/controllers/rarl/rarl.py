@@ -229,6 +229,7 @@ class RARL(BaseController):
         # Hanyang: extend the frames for visualization.
         eval_results = {'frames': []}
         frames = []
+        
         while len(ep_returns) < n_episodes:
             action = self.select_action(obs=obs, info=info)
 

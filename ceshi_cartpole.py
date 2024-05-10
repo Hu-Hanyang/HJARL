@@ -2,6 +2,7 @@ import os
 from safe_control_gym.envs.gym_control.cartpole_distb import CartPoleDistbEnv, CartPoleFixedDistb, CartPoleBoltzDistb
 from safe_control_gym.envs.gym_control.cartpole import CartPole
 # from safe_control_gym.envs.gym_control.cartpole_distb import CartPoleHJDistbEnv
+import numpy as np
 
 """
 Original CartPole Disturbances Setting:
@@ -14,7 +15,21 @@ disturbances:
         std: 4.0
 """
 
-env = CartPoleBoltzDistb()
+# def transfer(distb_level):
+#     index = int(distb_level * 10)
+#     allowable_distb_levels = np.arange(0.0, 2.1, 0.1)
+#     return allowable_distb_levels[index]
+
+
+# allowable_distb_levels = np.arange(0.0, 2.1, 0.1)
+# a = transfer(0.3)
+# print(f"********* The a={a} is in the allowable distb levels is {a in allowable_distb_levels}. ********* \n")
+
+# # print(f"********* The allowable_distb_levels is {allowable_distb_levels}. ********* \n")
+# # print(f"********* The 0.3 is in the  is allowable_distb_levels: {0.3 in allowable_distb_levels}. ********* \n")
+# print(np.round(0.3, 2))
+env = CartPoleFixedDistb()
+print(f"********* The self.distb_level is {env.distb_level}. ********* \n")
 obs = env.reset()
 print(f"********* The self.disturbances is {env.disturbances}. ********* \n")
 print(f"********* The self.adversary_disturbance is {env.adversary_disturbance}. ********* \n")  
