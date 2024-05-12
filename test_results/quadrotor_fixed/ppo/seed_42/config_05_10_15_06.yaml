@@ -14,14 +14,14 @@ algo_config:
   gae_lambda: 0.95
   gamma: 0.99
   hidden_dim: 64
-  log_interval: 20
+  log_interval: 10
   max_env_steps: 10000000
   max_grad_norm: 0.5
   mini_batch_size: 64
   norm_obs: false
   norm_reward: false
   num_checkpoints: 10
-  num_workers: 1
+  num_workers: 4
   opt_epochs: 10
   rollout_batch_size: 32
   rollout_steps: 2048
@@ -48,7 +48,7 @@ task_config:
   disturbances: null
   done_on_out_of_bound: false
   done_on_violation: false
-  episode_len_sec: 10
+  episode_len_sec: 5
   gui: false
   inertial_prop: null
   inertial_prop_randomization_info: null

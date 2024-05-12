@@ -308,7 +308,7 @@ class CartPoleDistbEnv(BenchmarkEnv):
                 assert self.distb_level == 0.0, "distb_level should be 0.0 when distb_type is None"
         elif self.distb_type == 'fixed':
             print(f"********* The self.distb_level is {self.distb_level}. ********* \n")
-            assert self.distb_level in np.arange(0.0, 2.1, 0.1), "distb_level should be in np.arange(0.0, 2.1, 0.1)"
+            assert transfer(self.distb_level) in np.arange(0.0, 2.1, 0.1), "distb_level should be in np.arange(0.0, 2.1, 0.1)"
          
     def reset(self, seed=None):
         '''(Re-)initializes the environment to start an episode.
@@ -850,7 +850,7 @@ class CartPoleFixedDistb(CartPoleDistbEnv):
     def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
         # Set disturbance_type to 'fixed' regardless of the input
         kwargs['distb_type'] = 'fixed'
-        kwargs['distb_level'] = transfer(0.3)
+        kwargs['distb_level'] = 0.3 # 
         kwargs['randomized_init'] = True
         kwargs['seed'] = 42
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,

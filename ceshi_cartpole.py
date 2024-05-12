@@ -15,19 +15,20 @@ disturbances:
         std: 4.0
 """
 
-# def transfer(distb_level):
-#     index = int(distb_level * 10)
-#     allowable_distb_levels = np.arange(0.0, 2.1, 0.1)
-#     return allowable_distb_levels[index]
+def transfer(distb_level):
+    index = int(distb_level * 10)
+    allowable_distb_levels = np.arange(0.0, 2.1, 0.1)
+    return allowable_distb_levels[index]
 
 
 # allowable_distb_levels = np.arange(0.0, 2.1, 0.1)
-# a = transfer(0.3)
+# a = 0.3
 # print(f"********* The a={a} is in the allowable distb levels is {a in allowable_distb_levels}. ********* \n")
 
 # # print(f"********* The allowable_distb_levels is {allowable_distb_levels}. ********* \n")
 # # print(f"********* The 0.3 is in the  is allowable_distb_levels: {0.3 in allowable_distb_levels}. ********* \n")
 # print(np.round(0.3, 2))
+
 env = CartPoleFixedDistb()
 print(f"********* The self.distb_level is {env.distb_level}. ********* \n")
 obs = env.reset()

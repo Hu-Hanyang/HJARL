@@ -19,7 +19,7 @@ import pybullet as p
 import pybullet_data
 
 from safe_control_gym.envs.benchmark_env import BenchmarkEnv
-from safe_control_gym.utils.utils import Boltzmann, quat2euler, distur_gener_quadrotor
+from safe_control_gym.utils.utils import Boltzmann, quat2euler, distur_gener_quadrotor, transfer
 
 egl = pkgutil.get_loader('eglRenderer')
 
@@ -279,7 +279,7 @@ class BaseDistbAviary(BenchmarkEnv):
         if self.distb_type == None:
                 assert self.distb_level == 0.0, "distb_level should be 0.0 when distb_type is None"
         elif self.distb_type == 'fixed':
-            assert self.distb_level in np.arange(0.0, 2.1, 0.1), "distb_level should be in np.arange(0.0, 2.1, 0.1)"
+            assert transfer(self.distb_level) in np.arange(0.0, 2.1, 0.1), "distb_level should be in np.arange(0.0, 2.1, 0.1)"
         
         # Set PyBullet's parameters.
         p.resetSimulation(physicsClientId=self.PYB_CLIENT)

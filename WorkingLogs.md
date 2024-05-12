@@ -123,7 +123,7 @@ python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrot
 
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_null --seed 42
 
-python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole --algo rap --task cartpole_fixed --seed 42  # under construction
+python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole --algo rap --task cartpole_fixed --seed 42 
 
 ## Env Info
 
