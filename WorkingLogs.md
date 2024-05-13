@@ -99,6 +99,10 @@ python safe_control_gym/experiments/train_rl_controller.py --task cartpole_fixed
 
 python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_boltz --algo ppo --use_gpu True --seed 42
 
+python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_boltz --algo ppo --use_gpu True --seed 40026
+
+python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_null --algo rarl --use_gpu True --seed 42
+
 Table: Details of the envs
 | Env Name  | Description | 
 | --------- | ----------- |

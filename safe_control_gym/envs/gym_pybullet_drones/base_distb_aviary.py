@@ -73,6 +73,7 @@ class BaseDistbAviary(BenchmarkEnv):
                  distb_type = 'fixed', 
                  distb_level: float=0.0,
                  seed=None,
+                 adversary_disturbance=None,
                  **kwargs):
         '''Initialization of a generic aviary environment.
 
@@ -96,6 +97,7 @@ class BaseDistbAviary(BenchmarkEnv):
             disturbance_type (str, optional): The type of disturbance to be applied to the drones [None, 'fixed', 'boltzmann', 'random', 'rarl', 'rarl-population'].
             distb_level (float, optional): The level of disturbance to be applied to the drones.
             seed (int, optional): Seed for the random number generator.
+            adversary_disturbance (str, optional): If to use adversary/external disturbance.
         '''
         # Constants.
         self.GRAVITY_ACC = 9.8
@@ -168,10 +170,9 @@ class BaseDistbAviary(BenchmarkEnv):
         self.init_rp_vel_lim = 200 * self.DEG2RAD
         self.init_y_vel_lim = 20 * self.DEG2RAD
         # BenchmarkEnv constructor.
-        super().__init__(gui=gui, verbose=verbose, pyb_freq=pyb_freq, 
-                         ctrl_freq=ctrl_freq, episode_len_sec=episode_len_sec, 
-                         init_state=init_state, randomized_init=randomized_init, seed=seed,  
-                         **kwargs)
+        super().__init__(gui=gui, verbose=verbose, pyb_freq=pyb_freq, ctrl_freq=ctrl_freq, 
+                         episode_len_sec=episode_len_sec, init_state=init_state, randomized_init=randomized_init,
+                         seed=seed, adversary_disturbance=adversary_disturbance, **kwargs)
         # Connect to PyBullet.
         self.PYB_CLIENT = -1
         if gui:

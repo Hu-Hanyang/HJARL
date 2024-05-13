@@ -480,7 +480,7 @@ class CartPole(BenchmarkEnv):
         self.current_physical_action = action
 
         # Apply disturbances.
-        if 'action' in self.disturbances:
+        if 'action' in self.disturbances:  # CartPole(): self.disturbances = None now
             action = self.disturbances['action'].apply(action, self)
         if self.adversary_disturbance == 'action' and self.adv_action is not None:
             action = action + self.adv_action

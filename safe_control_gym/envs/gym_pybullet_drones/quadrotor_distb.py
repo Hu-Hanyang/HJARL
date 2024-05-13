@@ -13,6 +13,7 @@ import pybullet as p
 from gymnasium import spaces
 
 from safe_control_gym.envs.benchmark_env import Cost, Task
+from safe_control_gym.utils.utils import Boltzmann, transfer
 from safe_control_gym.envs.constraints import GENERAL_CONSTRAINTS
 from safe_control_gym.envs.gym_pybullet_drones.base_distb_aviary import BaseDistbAviary
 from safe_control_gym.envs.gym_pybullet_drones.quadrotor_utils import QuadType, cmd2pwm, pwm2rpm
@@ -161,6 +162,7 @@ class QuadrotorDistb(BaseDistbAviary):
                  distb_type = 'fixed', 
                  distb_level: float=0.0,
                  seed=None,
+                 adversary_disturbance=None,
                  **kwargs
                  ):
         '''Initialize a quadrotor with hj distb environment.
@@ -185,6 +187,7 @@ class QuadrotorDistb(BaseDistbAviary):
             disturbance_type (str, optional): The type of disturbance to be applied to the drones [None, 'fixed', 'boltzmann', 'random', 'rarl', 'rarl-population'].
             distb_level (float, optional): The level of disturbance to be applied to the drones.
             seed (int, optional): Seed for the random number generator.
+            adversary_disturbance (str, optional): If to use adversary/external disturbance.
         '''
         self.norm_act_scale = norm_act_scale
         self.obs_goal_horizon = obs_goal_horizon
@@ -193,7 +196,7 @@ class QuadrotorDistb(BaseDistbAviary):
                          init_state=init_state, init_xyzs=init_xyzs, init_rpys=init_rpys,
                          inertial_prop=inertial_prop, episode_len_sec=episode_len_sec, 
                          randomized_init=randomized_init,  distb_type=distb_type, 
-                         distb_level=distb_level, seed=seed,
+                         distb_level=distb_level, seed=seed, adversary_disturbance=adversary_disturbance,
                          **kwargs)
 
         # Hanyang: Create X_GOAL and U_GOAL references for the assigned task.
@@ -505,7 +508,10 @@ class QuadrotorDistb(BaseDistbAviary):
         self.DISTURBANCE_MODES['observation']['dim'] = self.obs_dim
         self.DISTURBANCE_MODES['action']['dim'] = self.action_dim
         # self.DISTURBANCE_MODES['dynamics']['dim'] = int(self.QUAD_TYPE)
-        self.DISTURBANCE_MODES['dynamics']['dim'] = 6
+        self.DISTURBANCE_MODES['dynamics']['dim'] = 4  # Hanyang: revise this from 6 to 4
+        # Hanyang: add adversary observation and action space for rarl
+        # self.adversary_observation_space = self.observation_space
+        # self.adversary_action_space = self.action_space
         
         super()._setup_disturbances()
 
@@ -694,7 +700,7 @@ class QuadrotorFixedDistb(QuadrotorDistb):
     def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
         # Set disturbance_type to 'fixed' regardless of the input
         kwargs['distb_type'] = 'fixed'
-        kwargs['distb_level'] = 0.5
+        kwargs['distb_level'] = 0.3
         kwargs['randomized_init'] = True
         kwargs['record'] = False
         kwargs['seed'] = 42
@@ -721,6 +727,7 @@ class QuadrotorNullDistb(QuadrotorDistb):
         kwargs['randomized_init'] = True
         kwargs['record'] = False
         kwargs['seed'] = 42
+        kwargs['adversary_disturbance'] = 'dynamics'
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
 
 class QuadrotorRandomDistb(QuadrotorDistb):
