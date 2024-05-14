@@ -20,3 +20,69 @@
 |    time                 | 1.76e+04 |
 --------------------------------------
 
+2024-05-13 21:01:09,697 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -3.38    |
+|    policy_loss          | -0.00356 |
+|    value_loss           | 24.8     |
+| loss_adv/               |          |
+|    entropy_loss         | -3.85    |
+|    policy_loss          | -0.00159 |
+|    value_loss           | 6.38     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 1e+03    |
+|    ep_return            | -156     |
+|    ep_reward            | -0.156   |
+| time/                   |          |
+|    progress             | 0.262    |
+|    step                 | 2.62e+06 |
+|    time                 | 1.73e+04 |
+--------------------------------------
+
+2024-05-14 01:54:58,539 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -3.33    |
+|    policy_loss          | -0.00204 |
+|    value_loss           | 1.73     |
+| loss_adv/               |          |
+|    entropy_loss         | -4.04    |
+|    policy_loss          | -0.00222 |
+|    value_loss           | 0.799    |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 1e+03    |
+|    ep_return            | -58.5    |
+|    ep_reward            | -0.0585  |
+| time/                   |          |
+|    progress             | 0.393    |
+|    step                 | 3.93e+06 |
+|    time                 | 1.76e+04 |
+--------------------------------------
+
+2024-05-14 06:47:00,865 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -3.6     |
+|    policy_loss          | -0.0009  |
+|    value_loss           | 1.46     |
+| loss_adv/               |          |
+|    entropy_loss         | -4.46    |
+|    policy_loss          | -0.00247 |
+|    value_loss           | 1.76     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 906      |
+|    ep_return            | -62.5    |
+|    ep_reward            | -0.247   |
+| time/                   |          |
+|    progress             | 0.524    |
+|    step                 | 5.24e+06 |
+|    time                 | 1.75e+04 |
+--------------------------------------
+
