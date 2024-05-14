@@ -25,17 +25,17 @@ agent_iterations: 10
 adversary_iterations: 10
 
 # runner args
-max_env_steps: 1000000
+max_env_steps: 10000000
 num_workers: 1
-rollout_batch_size: 4
-rollout_steps: 100
+rollout_batch_size: 32
+rollout_steps: 2048
 deque_size: 10
 eval_batch_size: 10
 
 # misc
 log_interval: 10
-save_interval: 1000
+save_interval: 20000
 num_checkpoints: 10
-eval_interval: 1000
+eval_interval: 20000
 eval_save_best: True
 tensorboard: True
