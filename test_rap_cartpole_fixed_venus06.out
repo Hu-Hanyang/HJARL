@@ -1,0 +1,37 @@
+Start to compile the sh file now!
+]2;conda activate quadrotor]1;]2;cd /localscratch/hha160/safe-control-gym]1;]2;echo 'Start to train now!']1;Start to train now!
+]2;python safe_control_gym/experiments/test_rl_controller.py --trained_task   ra]1;pybullet build time: Nov 28 2023 23:51:11
+/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/gymnasium/spaces/box.py:130: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  gym.logger.warn(f"Box bound precision lowered by casting to {self.dtype}")
+CasADi - 2024-05-13 11:22:05 WARNING("The options 't0', 'tf', 'grid' and 'output_t0' have been deprecated.
+The same functionality is provided by providing additional input arguments to the 'integrator' function, in particular:
+ * Call integrator(..., t0, tf, options) for a single output time, or
+ * Call integrator(..., t0, grid, options) for multiple grid points.
+The legacy 'output_t0' option can be emulated by including or excluding 't0' in 'grid'.
+Backwards compatibility is provided in this release only.") [.../casadi/core/integrator.cpp:515]
+/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/torch/nn/functional.py:1956: UserWarning: nn.functional.tanh is deprecated. Use torch.tanh instead.
+  warnings.warn("nn.functional.tanh is deprecated. Use torch.tanh instead.")
+==============The saving directory is test_results/cartpole_fixed/rap/seed_42.============== 
+
+Using device: cpu
+==============Env is ready.============== 
+
+==============Controller is ready.============== 
+
+==============Model is loaded.============== 
+
+********* The self.distb_level is 0.3. ********* 
+
+********* The self.distb_level is 0.3. ********* 
+
+********* The self.distb_level is 0.3. ********* 
+
+********* The self.distb_level is 0.3. ********* 
+
+Start to generate videos and gifs.
+******************Generate Episode0_86steps_05_13_11_22.gif successfully. 
+****************
+******************Generate Episode1_93steps_05_13_11_22.gif successfully. 
+****************
+******************Generate Episode2_187steps_05_13_11_22.gif successfully. 
+****************

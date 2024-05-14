@@ -1,0 +1,35 @@
+Start to compile the sh file now!
+]2;conda activate quadrotor]1;]2;cd /localscratch/hha160/safe-control-gym]1;]2;echo 'Start to train now!']1;Start to train now!
+]2;python safe_control_gym/experiments/train_rl_controller.py --task  --algo rar]1;pybullet build time: Nov 28 2023 23:51:11
+/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/gymnasium/spaces/box.py:130: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  gym.logger.warn(f"Box bound precision lowered by casting to {self.dtype}")
+CasADi - 2024-05-13 11:19:34 WARNING("The options 't0', 'tf', 'grid' and 'output_t0' have been deprecated.
+The same functionality is provided by providing additional input arguments to the 'integrator' function, in particular:
+ * Call integrator(..., t0, tf, options) for a single output time, or
+ * Call integrator(..., t0, grid, options) for multiple grid points.
+The legacy 'output_t0' option can be emulated by including or excluding 't0' in 'grid'.
+Backwards compatibility is provided in this release only.") [.../casadi/core/integrator.cpp:515]
+/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/torch/nn/functional.py:1956: UserWarning: nn.functional.tanh is deprecated. Use torch.tanh instead.
+  warnings.warn("nn.functional.tanh is deprecated. Use torch.tanh instead.")
+2024-05-13 16:13:28,939 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -3.56    |
+|    policy_loss          | -0.00529 |
+|    value_loss           | 40       |
+| loss_adv/               |          |
+|    entropy_loss         | -3.71    |
+|    policy_loss          | -0.00053 |
+|    value_loss           | 59.3     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 180      |
+|    ep_return            | -185     |
+|    ep_reward            | -1.18    |
+| time/                   |          |
+|    progress             | 0.131    |
+|    step                 | 1.31e+06 |
+|    time                 | 1.76e+04 |
+--------------------------------------
+

@@ -1,0 +1,22 @@
+2024-05-13 16:13:28,939 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -3.56    |
+|    policy_loss          | -0.00529 |
+|    value_loss           | 40       |
+| loss_adv/               |          |
+|    entropy_loss         | -3.71    |
+|    policy_loss          | -0.00053 |
+|    value_loss           | 59.3     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 180      |
+|    ep_return            | -185     |
+|    ep_reward            | -1.18    |
+| time/                   |          |
+|    progress             | 0.131    |
+|    step                 | 1.31e+06 |
+|    time                 | 1.76e+04 |
+--------------------------------------
+
