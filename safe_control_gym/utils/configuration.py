@@ -37,6 +37,7 @@ class ConfigFactory:
         self.add_argument('--use_gpu', action='store_true', help='added to use gpu (if available)')
         self.add_argument('--output_dir', type=str, help='output saving folder')
         self.add_argument('--restore', type=str, help='folder to reload from')
+        self.add_argument('--distb_level', default=1.0, type=float, help='disturbance level', metavar='')
         # Need to explicitly provide from command line (if training for the 1st time).
         self.add_argument('--algo', type=str, help='algorithm/controller')
         self.add_argument('--task', type=str, help='task/environment')
@@ -120,6 +121,8 @@ class ConfigFactoryTest:
         self.add_argument('--output_dir', type=str, help='output saving folder')
         self.add_argument('--restore', type=str, help='folder to reload from')
         self.add_argument('--trained_task', type=str, help='task/environment')
+        self.add_argument('--test_distb_level', default=1.0, type=float, help='disturbance level', metavar='')
+        self.add_argument('--trained_distb_level', default=1.0, type=float, help='disturbance level', metavar='')
 
         # Need to explicitly provide from command line (if training for the 1st time).
         self.add_argument('--algo', type=str, help='algorithm/controller')

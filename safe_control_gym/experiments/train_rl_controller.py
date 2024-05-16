@@ -28,7 +28,10 @@ def train():
 
     # shutil.rmtree(config.output_dir, ignore_errors=True)
     # Hanyang: create new envs
-    output_dir = os.path.join(config.output_dir, config.task, config.algo, f'seed_{config.seed}', f'{total_steps}steps')
+    if config.task == 'cartpole_fixed' or config.task == 'quadrotor_fixed':
+        output_dir = os.path.join(config.output_dir, config.task, config.algo, f'distb_level{config.distb_level}', f'seed_{config.seed}', f'{total_steps}steps')
+    else:
+        output_dir = os.path.join(config.output_dir, config.task, config.algo, f'seed_{config.seed}', f'{total_steps}steps')
     if not os.path.exists(output_dir):
         os.makedirs(output_dir+'/')
     config.output_dir = output_dir

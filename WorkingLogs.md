@@ -103,6 +103,9 @@ python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_bolt
 
 python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_null --algo rarl --use_gpu True --seed 42
 
+python safe_control_gym/experiments/train_rl_controller.py --task cartpole_fixed --algo ppo --distb_level 1.0 --use_gpu True --seed 42
+
+
 Table: Details of the envs
 | Env Name  | Description | 
 | --------- | ----------- |
@@ -128,6 +131,8 @@ python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrot
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_null --seed 42
 
 python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole --algo rap --task cartpole_fixed --seed 42 
+
+python safe_control_gym/experiments/test_rl_controller.py --task cartpole_fixed --algo ppo --test_distb_level 1.5 --trained_distb_level 1.0 --use_gpu True --seed 42
 
 ## Env Info
 

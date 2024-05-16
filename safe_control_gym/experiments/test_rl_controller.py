@@ -70,7 +70,14 @@ def test():
     total_steps = config.algo_config['max_env_steps']
 
     # Hanyang: make output_dir
-    output_dir = os.path.join(config.output_dir, config.task, config.algo, f'seed_{config.seed}')
+    if config.task == 'cartpole_fixed' or config.task == 'quadrotor_fixed':
+        output_dir = os.path.join(config.output_dir, config.task, config.algo, f'distb_level{config.test_distb_level}', f'seed_{config.seed}', f'{total_steps}steps')
+    else:
+        output_dir = os.path.join(config.output_dir, config.task, config.algo, f'seed_{config.seed}', f'{total_steps}steps')
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir+'/')
+        
+    # output_dir = os.path.join(config.output_dir, config.task, config.algo, f'seed_{config.seed}')
     if not os.path.exists(output_dir):
         os.makedirs(output_dir+'/')
     config.output_dir = output_dir
@@ -101,8 +108,17 @@ def test():
         # default: the same task as the training task
         config.trained_task = config.task
     
-    model_path = os.path.join('training_results', config.trained_task, config.algo, 
-                              f'seed_{config.seed}', f'{total_steps}steps', 'model_latest.pt')
+    if config.task == 'cartpole_fixed' or config.task == 'quadrotor_fixed':
+        model_path = os.path.join(os.path.join('training_results', config.trained_task, config.algo, 
+                                               f'distb_level{config.trained_distb_level}', f'seed_{config.seed}', f'{total_steps}steps', 
+                                               'model_latest.pt'))
+    else:
+        model_path = os.path.join(os.path.join('training_results', config.trained_task, config.algo, 
+                                               f'seed_{config.seed}', f'{total_steps}steps', 'model_latest.pt'))
+
+    # model_path = os.path.join('training_results', config.trained_task, config.algo, 
+    #                           f'seed_{config.seed}', f'{total_steps}steps', 'model_latest.pt')
+    
     assert os.path.exists(model_path), f"[ERROR] The path '{model_path}' does not exist, please check the loading path or train one first."
     ctrl.load(model_path)
     print(f"==============Model is loaded.============== \n")
@@ -133,7 +149,6 @@ def test():
         config_assemble['test_distb_type'] = test_distb_type
         config_assemble['test_distb_level'] = test_distb_level
         yaml.dump(config_assemble, file, default_flow_style=False)
-
 
     # make_plots(config)
 
