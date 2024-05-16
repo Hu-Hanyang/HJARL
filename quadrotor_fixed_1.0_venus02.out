@@ -1,0 +1,45 @@
+Start to compile the sh file now!
+]2;conda activate quadrotor]1;]2;cd /localscratch/hha160/safe-control-gym]1;]2;git checkout dev_hhy]1;error: Your local changes to the following files would be overwritten by checkout:
+	quadrotor_null_rap_venus06.out
+	quadrotor_null_rarl_venus06.out
+	training_results/quadrotor_null/rap/seed_42/10000000steps/events.out.tfevents.1715707746.cs-venus-06.633163.0
+	training_results/quadrotor_null/rap/seed_42/10000000steps/std_out.txt
+	training_results/quadrotor_null/rarl/seed_42/10000000steps/events.out.tfevents.1715624375.cs-venus-06.619171.0
+	training_results/quadrotor_null/rarl/seed_42/10000000steps/std_out.txt
+Please commit your changes or stash them before you switch branches.
+Aborting
+]2;echo 'Start to train now!']1;Start to train now!
+]2;python safe_control_gym/experiments/train_rl_controller.py --task  --algo rap]1;pybullet build time: Nov 28 2023 23:51:11
+/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/gymnasium/spaces/box.py:130: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  gym.logger.warn(f"Box bound precision lowered by casting to {self.dtype}")
+CasADi - 2024-05-14 12:29:38 WARNING("The options 't0', 'tf', 'grid' and 'output_t0' have been deprecated.
+The same functionality is provided by providing additional input arguments to the 'integrator' function, in particular:
+ * Call integrator(..., t0, tf, options) for a single output time, or
+ * Call integrator(..., t0, grid, options) for multiple grid points.
+The legacy 'output_t0' option can be emulated by including or excluding 't0' in 'grid'.
+Backwards compatibility is provided in this release only.") [.../casadi/core/integrator.cpp:515]
+The output directory is training_results/quadrotor_fixed/rap/seed_42/10000000steps. 
+
+Using device: cuda
+==============The envs are ready.============== 
+
+Traceback (most recent call last):
+  File "safe_control_gym/experiments/train_rl_controller.py", line 95, in <module>
+    train()
+  File "safe_control_gym/experiments/train_rl_controller.py", line 50, in train
+    ctrl = make(config.algo,
+  File "/localscratch/hha160/safe-control-gym/safe_control_gym/utils/registration.py", line 125, in make
+    return registry.make(idx, *args, **kwargs)
+  File "/localscratch/hha160/safe-control-gym/safe_control_gym/utils/registration.py", line 88, in make
+    obj = spec.make(*args, **kwargs)
+  File "/localscratch/hha160/safe-control-gym/safe_control_gym/utils/registration.py", line 69, in make
+    obj = cls(*args, **kwargs)
+  File "/localscratch/hha160/safe-control-gym/safe_control_gym/controllers/rarl/rap.py", line 70, in __init__
+    self.adv_obs_space = self.env.get_attr('adversary_observation_space')[0]
+  File "/localscratch/hha160/safe-control-gym/safe_control_gym/envs/env_wrappers/vectorized_env/vec_env.py", line 189, in get_attr
+    return self.venv.get_attr(attr_name, indices)
+  File "/localscratch/hha160/safe-control-gym/safe_control_gym/envs/env_wrappers/vectorized_env/dummy_vec_env.py", line 82, in get_attr
+    return [getattr(env_i, attr_name) for env_i in target_envs]
+  File "/localscratch/hha160/safe-control-gym/safe_control_gym/envs/env_wrappers/vectorized_env/dummy_vec_env.py", line 82, in <listcomp>
+    return [getattr(env_i, attr_name) for env_i in target_envs]
+AttributeError: 'QuadrotorFixedDistb' object has no attribute 'adversary_observation_space'
