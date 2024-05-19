@@ -25,7 +25,7 @@ max_grad_norm: 0.5
 
 # Runner args
 max_env_steps: 10000000
-num_workers: 4
+num_workers: 1
 rollout_batch_size: 32
 rollout_steps: 2048
 deque_size: 10
