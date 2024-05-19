@@ -700,7 +700,7 @@ class QuadrotorFixedDistb(QuadrotorDistb):
     def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
         # Set disturbance_type to 'fixed' regardless of the input
         kwargs['distb_type'] = 'fixed'
-        kwargs['distb_level'] = 1.5
+        kwargs['distb_level'] = 0.5
         kwargs['randomized_init'] = True
         kwargs['record'] = False
         kwargs['seed'] = 42
