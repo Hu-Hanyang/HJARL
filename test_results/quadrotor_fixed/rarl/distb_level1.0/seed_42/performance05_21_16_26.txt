@@ -1,0 +1,5 @@
+Test task: quadrotor_fixed_distb_level1.0
+Controller: rarl trained in the quadrotor_null
+Number of episodes: 10
+Performances of returns: -108.75 ±  5.13
+Performances of lengths: 43 ±  31.47

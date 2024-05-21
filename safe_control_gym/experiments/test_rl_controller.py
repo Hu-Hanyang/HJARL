@@ -10,6 +10,7 @@ import cv2
 import numpy as np
 import time
 import imageio
+import psutil
 
 from safe_control_gym.utils.configuration import ConfigFactoryTest
 from safe_control_gym.utils.plotting import plot_from_logs
@@ -59,6 +60,34 @@ def generate_gifs(frames, output_dir):
         print(f"******************Generate {filename} successfully. \n****************")
 
 
+def log_performance(eval_results, config):
+    output_dir = config.output_dir
+    num_episodes = len(eval_results['ep_returns'])
+    mean_returns = np.mean(eval_results['ep_returns'])
+    std_returns = np.std(eval_results['ep_returns'])
+    mean_lengths = np.mean(eval_results['ep_lengths'])
+    std_lengths = np.std(eval_results['ep_lengths'])
+    if config.trained_task == 'cartpole_fixed' or config.trained_task == 'quadrotor_fixed':
+        trained_task = f'{config.trained_task}_distb_level{config.trained_distb_level}'
+    else:   
+        trained_task = config.trained_task
+    
+    if config.task == 'cartpole_fixed' or config.task == 'quadrotor_fixed':
+        test_task = f'{config.task}_distb_level{config.test_distb_level}'
+    else:
+        test_task = config.task
+
+    with open(os.path.join(output_dir, f'performance{time.strftime("%m_%d_%H_%M")}.txt'), 'w') as f:
+        f.write(f'Test task: {test_task}\n')
+        f.write(f'Controller: {config.algo} trained in the {trained_task}\n')
+        f.write(f'Number of episodes: {num_episodes}\n')
+        f.write(f'Performances of returns: {mean_returns: .2f} ± {std_returns: .2f}\n')
+        f.write(f'Performances of lengths: {int(mean_lengths)} ± {std_lengths: .2f}\n')
+
+    print((f"****************** The performances are logged.\n ******************"))
+
+
+
 def test():
     '''Training template.
     '''
@@ -71,15 +100,12 @@ def test():
 
     # Hanyang: make output_dir
     if config.task == 'cartpole_fixed' or config.task == 'quadrotor_fixed':
-        output_dir = os.path.join(config.output_dir, config.task, config.algo, f'distb_level{config.test_distb_level}', f'seed_{config.seed}', f'{total_steps}steps')
+        output_dir = os.path.join(config.output_dir, config.task, config.algo, f'distb_level{config.test_distb_level}', f'seed_{config.seed}')
     else:
-        output_dir = os.path.join(config.output_dir, config.task, config.algo, f'seed_{config.seed}', f'{total_steps}steps')
+        output_dir = os.path.join(config.output_dir, config.task, config.algo, f'seed_{config.seed}')
     if not os.path.exists(output_dir):
         os.makedirs(output_dir+'/')
         
-    # output_dir = os.path.join(config.output_dir, config.task, config.algo, f'seed_{config.seed}')
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir+'/')
     config.output_dir = output_dir
     print(f"==============The saving directory is {config.output_dir}.============== \n")
 
@@ -107,38 +133,34 @@ def test():
     if config.trained_task is None:
         # default: the same task as the training task
         config.trained_task = config.task
-    
-    if config.task == 'cartpole_fixed' or config.task == 'quadrotor_fixed':
+
+    if config.trained_task == 'cartpole_fixed' or config.trained_task == 'quadrotor_fixed':
         model_path = os.path.join(os.path.join('training_results', config.trained_task, config.algo, 
                                                f'distb_level{config.trained_distb_level}', f'seed_{config.seed}', f'{total_steps}steps', 
                                                'model_latest.pt'))
     else:
         model_path = os.path.join(os.path.join('training_results', config.trained_task, config.algo, 
                                                f'seed_{config.seed}', f'{total_steps}steps', 'model_latest.pt'))
-
-    # model_path = os.path.join('training_results', config.trained_task, config.algo, 
-    #                           f'seed_{config.seed}', f'{total_steps}steps', 'model_latest.pt')
     
     assert os.path.exists(model_path), f"[ERROR] The path '{model_path}' does not exist, please check the loading path or train one first."
     ctrl.load(model_path)
     print(f"==============Model is loaded.============== \n")
     ctrl.reset()
 
-    # Testing.
     if config.algo == 'ppo':
-        eval_results = ctrl.run(render=True, n_episodes=3) # Hanyang: run 3 episodes.
-        ctrl.close()
+        eval_results = ctrl.run(render=False, n_episodes=10) # Hanyang: the maximum number of episodes is 3 if generating videos.
+        
     elif config.algo == 'rarl':
-        eval_results = ctrl.run(render=True, n_episodes=3, use_adv=False) # Hanyang: run 3 episodes.
-        ctrl.close()
+        eval_results = ctrl.run(render=False, n_episodes=10, use_adv=False) 
+        
     elif config.algo == 'rap':
-        eval_results = ctrl.run(render=True, n_episodes=3, use_adv=False) # Hanyang: run 3 episodes.
-        ctrl.close()
-    
+        eval_results = ctrl.run(render=False, n_episodes=10, use_adv=False) 
+        
+    ctrl.close()
     # Hanyang: generate videos and gifs
     print("Start to generate videos and gifs.")
-    # generate_videos(eval_results['frames'], env_func().RENDER_HEIGHT, env_func().RENDER_WIDTH, config.output_dir)
     generate_gifs(eval_results['frames'], config.output_dir)
+    log_performance(eval_results, config)
 
     test_distb_type = env_func().distb_type
     test_distb_level = env_func().distb_level
@@ -149,9 +171,6 @@ def test():
         config_assemble['test_distb_type'] = test_distb_type
         config_assemble['test_distb_level'] = test_distb_level
         yaml.dump(config_assemble, file, default_flow_style=False)
-
-    # make_plots(config)
-
 
 
 if __name__ == '__main__':

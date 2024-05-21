@@ -16,28 +16,28 @@ def create_gif(image_list, filename, duration=0.1):
 # env = CartPoleHJDistbEnv()
 # print(env.reset())
 
-# env = QuadrotorFixedDistb()
-env = QuadrotorBoltzDistb()
-# env = QuadrotorNullDistb()
+# # env = QuadrotorFixedDistb()
+# env = QuadrotorBoltzDistb()
+# # env = QuadrotorNullDistb()
 
-env.reset()
-print(f"********* The self.disturbances is {env.disturbances}. ********* \n")
-print(f"********* The self.adversary_disturbance is {env.adversary_disturbance}. ********* \n")  
-print(f"********* The task is {env.TASK }. ********* \n")
-print(f"********* The self.PHYSICS is {env.PHYSICS}. ********* \n")
-print(f"********* The self.constraints is {env.constraints}. ********* \n")
-# print(f"The initial position is {env.state[0:3]}. \n")
-# print(f"The obs is {env.observation_space}")
-# print(f"The action is {env.action_space}")
-print(f"********** The shape of the observation space is {env.observation_space.shape}.********** \n")
-print(f"********** The disturbance type is {env.distb_type}.********** \n")
-# print(f"********** The disturbance level is {env.distb_level}. ********** \n")
-print(f"********** The DISTURBANCE_MODES is {env.DISTURBANCE_MODES}. ********** \n")
-print(f"********** The self.DISTURBANCES is {env.DISTURBANCES}. ********** \n")
-print(f"********** The enable reset distribution is {env.RANDOMIZED_INIT}. ********** \n")
-print(f"********** The self.adversary_observation_space is {env.adversary_observation_space}. ********** \n")
-print(f"********** The self.adversary_action_space is {env.adversary_action_space}. ********** \n")
-print(f"********** The self.observation_space is {env.observation_space}. ********** \n")
+# env.reset()
+# print(f"********* The self.disturbances is {env.disturbances}. ********* \n")
+# print(f"********* The self.adversary_disturbance is {env.adversary_disturbance}. ********* \n")  
+# print(f"********* The task is {env.TASK }. ********* \n")
+# print(f"********* The self.PHYSICS is {env.PHYSICS}. ********* \n")
+# print(f"********* The self.constraints is {env.constraints}. ********* \n")
+# # print(f"The initial position is {env.state[0:3]}. \n")
+# # print(f"The obs is {env.observation_space}")
+# # print(f"The action is {env.action_space}")
+# print(f"********** The shape of the observation space is {env.observation_space.shape}.********** \n")
+# print(f"********** The disturbance type is {env.distb_type}.********** \n")
+# # print(f"********** The disturbance level is {env.distb_level}. ********** \n")
+# print(f"********** The DISTURBANCE_MODES is {env.DISTURBANCE_MODES}. ********** \n")
+# print(f"********** The self.DISTURBANCES is {env.DISTURBANCES}. ********** \n")
+# print(f"********** The enable reset distribution is {env.RANDOMIZED_INIT}. ********** \n")
+# print(f"********** The self.adversary_observation_space is {env.adversary_observation_space}. ********** \n")
+# print(f"********** The self.adversary_action_space is {env.adversary_action_space}. ********** \n")
+# print(f"********** The self.observation_space is {env.observation_space}. ********** \n")
 
 # # Generate gifs to check
 # num_gifs = 1
@@ -100,3 +100,14 @@ print(f"********** The self.observation_space is {env.observation_space}. ******
 # env1.reset()
 # print(f"The shape of the distb env is {env1.observation_space.shape}")
 # print(f"The shape of the distb env is {env1.action_space.shape}")
+
+episodes = 2
+results = []
+
+a = np.asarray([1])
+
+for _ in range(episodes):
+
+    results.append(a[0])
+
+print(results)
