@@ -4,7 +4,7 @@ Based on work conducted at UTIAS' DSL by SiQi Zhou and James Xu.
 '''
 
 from safe_control_gym.controllers.base_controller import BaseController
-from safe_control_gym.controllers.lqr.lqr_utils import compute_lqr_gain, get_cost_weight_matrix
+from safe_control_gym.controllers.hj.hj_utils import distur_gener_cartpole
 from safe_control_gym.envs.benchmark_env import Task
 
 
@@ -15,9 +15,7 @@ class HJ(BaseController):
             self,
             env_func,
             # Model args.
-            q_lqr: list = None,
-            r_lqr: list = None,
-            discrete_dynamics: bool = True,
+            distb_level: float = 0.0,  # Hanyang: the disturbance level of the value function used
             **kwargs):
         '''Creates task and controller.
 
@@ -32,14 +30,7 @@ class HJ(BaseController):
 
         self.env = env_func()
         # Controller params.
-        self.model = self.get_prior(self.env)
-        self.discrete_dynamics = discrete_dynamics
-        self.Q = get_cost_weight_matrix(q_lqr, self.model.nx)
-        self.R = get_cost_weight_matrix(r_lqr, self.model.nu)
-        self.env.set_cost_function_param(self.Q, self.R)
-
-        self.gain = compute_lqr_gain(self.model, self.model.X_EQ, self.model.U_EQ,
-                                     self.Q, self.R, self.discrete_dynamics)
+        self.distb_level = distb_level
 
     def reset(self):
         '''Prepares for evaluation.'''
@@ -61,8 +52,8 @@ class HJ(BaseController):
         '''
 
         step = self.extract_step(info)
+        
+        hj_ctrl_force, _ = distur_gener_cartpole(obs, self.distb_level)
+        assert self.env.TASK == Task.STABILIZATION, "The task should be stabilization."
 
-        if self.env.TASK == Task.STABILIZATION:
-            return -self.gain @ (obs - self.env.X_GOAL) + self.model.U_EQ
-        elif self.env.TASK == Task.TRAJ_TRACKING:
-            return -self.gain @ (obs - self.env.X_GOAL[step]) + self.model.U_EQ
+        return hj_ctrl_force

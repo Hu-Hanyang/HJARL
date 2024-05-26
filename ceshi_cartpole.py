@@ -29,8 +29,8 @@ def transfer(distb_level):
 # # print(f"********* The 0.3 is in the  is allowable_distb_levels: {0.3 in allowable_distb_levels}. ********* \n")
 # print(np.round(0.3, 2))
 
-env = CartPole()
-# env = CartPoleFixedDistb()
+# env = CartPole()
+env = CartPoleFixedDistb()
 
 # print(f"********* The self.distb_level is {env.distb_level}. ********* \n")
 obs = env.reset()
@@ -39,7 +39,7 @@ print(f"********* The self.adversary_disturbance is {env.adversary_disturbance}.
 print(f"********* The task is {env.TASK }. ********* \n")
 print(f"********* The self.constraints is {env.constraints}. ********* \n")
 # print(f"The initial position is {env.state[0:3]}. \n")
-# print(f"The obs is {env.observation_space}")
+print(f"The obs is {env.observation_space}")
 # print(f"The action is {env.action_space}")
 print(f"********** The shape of the observation space is {env.observation_space.shape}.********** \n")
 # print(f"********** The disturbance type is {env.distb_type}.********** \n")

@@ -46,17 +46,11 @@ For instance, we want to test the trained algo `rarl` in the env `cartpole` in t
 
 When test env with 'fixed' disturbances, add another two arguments `--trained_distb_level 1.0` and `--test_distb_level 1.0` to specify the test model and test env. Also remember to revise the distb_level in the corresponding env.
 
-python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_boltz --algo ppo --task cartpole_fixed --seed 42
+python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_random --seed 42
 
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_fixed --seed 42
+python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rap --task quadrotor_fixed --test_distb_level 1.0 --seed 42
 
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_null --seed 42
-
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_fixed --test_distb_level 1.0 --seed 42
-
-python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole --algo rap --task cartpole_fixed --seed 42 
-
-python safe_control_gym/experiments/test_rl_controller.py --task cartpole_fixed --algo ppo --test_distb_level 1.5 --trained_distb_level 1.0 --use_gpu True --seed 42
+python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rap --task quadrotor_random --seed 42
 
 ## Env Info
 

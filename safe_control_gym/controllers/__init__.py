@@ -49,3 +49,8 @@ register(idx='rarl',
 register(idx='rap',
          entry_point='safe_control_gym.controllers.rarl.rap:RAP',
          config_entry_point='safe_control_gym.controllers.rarl:rap.yaml')
+
+# Hanyang
+register(idx='hj',
+         entry_point='safe_control_gym.controllers.hj.hj:HJ',
+         config_entry_point='safe_control_gym.controllers.hj:hj.yaml')
