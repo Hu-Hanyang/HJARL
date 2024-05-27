@@ -161,7 +161,7 @@ class BaseDistbAviary(BenchmarkEnv):
         # Hanyang: initialize the disturbance parameters and the initial state randomization parameters here.
         self.distb_type = distb_type
         self.distb_level = distb_level
-        assert self.distb_type in ['fixed', 'boltzmann', 'random', None], f"[ERROR] The disturbance type '{self.distb_type}' is not supported now. \n"
+        assert self.distb_type in ['fixed', 'boltzmann', 'random_hj', 'random', None], f"[ERROR] The disturbance type '{self.distb_type}' is not supported now. \n"
         self.init_xy_lim = 0.25
         self.init_z_lim = 0.1
         self.init_rp_lim = np.pi/6
@@ -274,7 +274,7 @@ class BaseDistbAviary(BenchmarkEnv):
         # Hanyang: set the disturbances parameters
         if self.distb_type == 'boltzmann':
             self.distb_level = Boltzmann(low=0.0, high=2.1, accuracy=0.1)
-        elif self.distb_type == 'random':
+        elif self.distb_type == 'random_hj':
             self.distb_level = np.round(np.random.uniform(0.0, 2.1), 1)
         # Check the validity of the disturbance level
         if self.distb_type == None:
@@ -356,11 +356,17 @@ class BaseDistbAviary(BenchmarkEnv):
                 self._update_and_store_kinematic_information()
             # Step the simulation using the desired physics update.
             for i in range(self.NUM_DRONES):
-                # Hanayng: calculate the HJ disturbances
-                current_angles = quat2euler(self._get_drone_state_vector(i)[3:7])  # convert quaternion to eulers
-                current_angle_rates = self._get_drone_state_vector(i)[13:16]
-                current_state = np.concatenate((current_angles, current_angle_rates), axis=0)
-                _, hj_distbs = distur_gener_quadrotor(current_state, self.distb_level)
+                # Hanayng: calculate the HJ disturbances or randomized disturbances
+                if self.distb_type == 'random':
+                    low = np.array([-5.3e-3, -5.3e-3, -1.43e-4])
+                    high = np.array([5.3e-3, 5.3e-3, 1.43e-4])
+                    # Generate a random sample
+                    hj_distbs = np.random.uniform(low, high)
+                else: # HJ based fixed, random_hj or boltzmann disturbances
+                    current_angles = quat2euler(self._get_drone_state_vector(i)[3:7])  # convert quaternion to eulers
+                    current_angle_rates = self._get_drone_state_vector(i)[13:16]
+                    current_state = np.concatenate((current_angles, current_angle_rates), axis=0)
+                    _, hj_distbs = distur_gener_quadrotor(current_state, self.distb_level)
                 
                 if self.PHYSICS == Physics.PYB:
                     # self._physics(clipped_action[i, :], i)

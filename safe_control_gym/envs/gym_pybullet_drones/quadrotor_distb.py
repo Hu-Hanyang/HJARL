@@ -700,11 +700,11 @@ class QuadrotorFixedDistb(QuadrotorDistb):
     def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
         # Set disturbance_type to 'fixed' regardless of the input
         kwargs['distb_type'] = 'fixed'
-        kwargs['distb_level'] = 1.5
+        kwargs['distb_level'] = 1.0
         kwargs['randomized_init'] = True
         kwargs['record'] = False
         kwargs['seed'] = 42
-        # kwargs['adversary_disturbance'] = 'dynamics'  # TODO: for rarl test, but not sure whether it has influences on the performances or not
+        kwargs['adversary_disturbance'] = 'dynamics'  # TODO: for rarl test, but not sure whether it has influences on the performances or not
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
 
 
@@ -719,6 +719,7 @@ class QuadrotorBoltzDistb(QuadrotorDistb):
         kwargs['seed'] = 42
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
 
+
 class QuadrotorNullDistb(QuadrotorDistb):
     NAME = 'quadrotor_null'
     def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
@@ -730,6 +731,20 @@ class QuadrotorNullDistb(QuadrotorDistb):
         kwargs['seed'] = 42
         kwargs['adversary_disturbance'] = 'dynamics'
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
+        
+        
+class QuadrotorRandomHJDistb(QuadrotorDistb):
+    NAME = 'quadrotor_randomhj'
+    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
+        # Set disturbance_type to 'fixed' regardless of the input
+        kwargs['distb_type'] = 'random_hj'
+        kwargs['distb_level'] = 0.0
+        kwargs['randomized_init'] = True
+        kwargs['record'] = False
+        kwargs['seed'] = 42
+        kwargs['adversary_disturbance'] = 'dynamics'  # TODO: for rarl test, but not sure whether it has influences on the performances or not
+        super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
+
 
 class QuadrotorRandomDistb(QuadrotorDistb):
     NAME = 'quadrotor_random'
@@ -740,4 +755,5 @@ class QuadrotorRandomDistb(QuadrotorDistb):
         kwargs['randomized_init'] = True
         kwargs['record'] = False
         kwargs['seed'] = 42
+        kwargs['adversary_disturbance'] = 'dynamics'  # TODO: for rarl test, but not sure whether it has influences on the performances or not
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,

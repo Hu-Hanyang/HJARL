@@ -1,0 +1,5 @@
+Test task: quadrotor_fixed_distb_level1.0
+Controller: rap trained in the quadrotor_null
+Number of episodes: 3
+Performances of returns: -112.96 ±  9.36
+Performances of lengths: 59 ±  30.01

@@ -172,7 +172,7 @@ class CartPoleDistbEnv(BenchmarkEnv):
         self.done_on_out_of_bound = done_on_out_of_bound
         # Hanyang: set part of the save path
         self.distb_type = distb_type
-        assert self.distb_type in ['fixed', 'boltzmann', 'random'], f"The distb_type {self.distb_type} is not supported now."
+        assert self.distb_type in ['fixed', 'boltzmann', 'random_hj', 'random'], f"The distb_type {self.distb_type} is not supported now."
         self.distb_level = distb_level
         
         super().__init__(init_state=init_state, inertial_prop=inertial_prop, 
@@ -301,7 +301,7 @@ class CartPoleDistbEnv(BenchmarkEnv):
         # Hanyang: set the disturance level self.distb_level
         if self.distb_type == 'boltzmann':
             self.distb_level = Boltzmann(low=0.0, high=2.1, accuracy=0.1)
-        elif self.distb_type == 'random':
+        elif self.distb_type == 'random_hj':
             self.distb_level = np.round(np.random.uniform(0.0, 2.1), 1)
         
         if self.distb_type == None:
@@ -632,9 +632,15 @@ class CartPoleDistbEnv(BenchmarkEnv):
                 controlMode=p.TORQUE_CONTROL,
                 force=force,
                 physicsClientId=self.PYB_CLIENT)
-            #TODO: Hanyang: add HJ disturbances, need to check should I add the distb_force directly to the force?
-            current_states = deepcopy(self.state)
-            _, hj_distb_force = distur_gener_cartpole(current_states, self.distb_level)
+            # Hanayng: calculate the HJ disturbances or randomized disturbances
+            if self.distb_type == 'random':
+                low = np.array([-2.0])
+                high = np.array([+2.0])
+                hj_distb_force = np.random.uniform(low, high)
+            else:  # HJ based disturbances
+                current_states = deepcopy(self.state)
+                _, hj_distb_force = distur_gener_cartpole(current_states, self.distb_level)
+                
             p.setJointMotorControl2(
                 self.CARTPOLE_ID,
                 jointIndex=0,  # Slider-to-cart joint.
@@ -878,6 +884,17 @@ class CartPoleNullDistb(CartPoleDistbEnv):
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
 
 
+class CartPoleRandomHJDistb(CartPoleDistbEnv):
+    NAME = 'cartpole_randomhj'
+    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
+        # Set disturbance_type to 'fixed' regardless of the input
+        kwargs['distb_type'] = 'random_hj'
+        kwargs['distb_level'] = 0.0
+        kwargs['randomized_init'] = True
+        kwargs['seed'] = 42
+        super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
+        
+        
 class CartPoleRandomDistb(CartPoleDistbEnv):
     NAME = 'cartpole_random'
     def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,

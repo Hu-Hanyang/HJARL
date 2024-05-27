@@ -1,5 +1,5 @@
 from safe_control_gym.envs.gym_pybullet_drones.quadrotor import Quadrotor
-from safe_control_gym.envs.gym_pybullet_drones.quadrotor_distb import QuadrotorDistb, QuadrotorFixedDistb, QuadrotorBoltzDistb, QuadrotorNullDistb
+from safe_control_gym.envs.gym_pybullet_drones.quadrotor_distb import QuadrotorDistb, QuadrotorFixedDistb, QuadrotorBoltzDistb, QuadrotorNullDistb, QuadrotorRandomDistb
 import numpy as np
 import imageio
 
@@ -18,9 +18,10 @@ def create_gif(image_list, filename, duration=0.1):
 
 # # env = QuadrotorFixedDistb()
 # env = QuadrotorBoltzDistb()
-# # env = QuadrotorNullDistb()
+env = QuadrotorNullDistb()
+env = QuadrotorRandomDistb()
 
-# env.reset()
+env.reset()
 # print(f"********* The self.disturbances is {env.disturbances}. ********* \n")
 # print(f"********* The self.adversary_disturbance is {env.adversary_disturbance}. ********* \n")  
 # print(f"********* The task is {env.TASK }. ********* \n")
@@ -28,10 +29,10 @@ def create_gif(image_list, filename, duration=0.1):
 # print(f"********* The self.constraints is {env.constraints}. ********* \n")
 # # print(f"The initial position is {env.state[0:3]}. \n")
 # # print(f"The obs is {env.observation_space}")
-# # print(f"The action is {env.action_space}")
+print(f"The action is {env.action_space}")
 # print(f"********** The shape of the observation space is {env.observation_space.shape}.********** \n")
-# print(f"********** The disturbance type is {env.distb_type}.********** \n")
-# # print(f"********** The disturbance level is {env.distb_level}. ********** \n")
+print(f"********** The disturbance type is {env.distb_type}.********** \n")
+# print(f"********** The disturbance level is {env.distb_level}. ********** \n")
 # print(f"********** The DISTURBANCE_MODES is {env.DISTURBANCE_MODES}. ********** \n")
 # print(f"********** The self.DISTURBANCES is {env.DISTURBANCES}. ********** \n")
 # print(f"********** The enable reset distribution is {env.RANDOMIZED_INIT}. ********** \n")
@@ -101,13 +102,22 @@ def create_gif(image_list, filename, duration=0.1):
 # print(f"The shape of the distb env is {env1.observation_space.shape}")
 # print(f"The shape of the distb env is {env1.action_space.shape}")
 
-episodes = 2
-results = []
+# episodes = 2
+# results = []
 
-a = np.asarray([1])
+# a = np.asarray([1])
 
-for _ in range(episodes):
+# for _ in range(episodes):
 
-    results.append(a[0])
+#     results.append(a[0])
 
-print(results)
+# print(results)
+
+
+# low = np.array([-5.3e-3, -5.3e-3, -1.43e-4])
+# high = np.array([5.3e-3, 5.3e-3, 1.43e-4])
+
+# # Generate a random sample
+# sample = np.random.uniform(low, high)
+# print(f"The sample is {sample}")
+# print(f"The shape of the sample is {sample.shape}")

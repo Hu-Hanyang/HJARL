@@ -1,0 +1,5 @@
+Test task: cartpole_fixed_distb_level1.5
+Controller: rarl trained in the cartpole
+Number of episodes: 10
+Performances of returns:  157.81 ±  163.92
+Performances of lengths: 220 ±  230.50
