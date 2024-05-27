@@ -1,5 +1,17 @@
 # Working Logs
 
+## Environment and Algorithm Info
+Table 1: Details of the envs
+| Env Name  | Description | Characteristic | 
+| --------- | ----------- |  ----------- |
+| cartpole  | The original cartpole env with no disturbance | No distb | 
+| cartpole_boltz | The cartpole env with Boltzman distributed disturbance | \ |
+| cartpole_fixed | The cartpole env with constant HJ disturbance | Need manually setting | 
+| quadrotor_null| The quadrotor env with no disturbance |
+| quadrotor_boltz | The quadrotor env with Boltzman distributed disturbance |
+| quadrotor_fixed | The quadrotor env with constant HJ disturbance |
+
+
 ## Training 
 The training file lies in `safe_control_gym/experiments/train_rl_controller.py`. When run this file, some necessary arguments need to be added: 
 1. `--task` the task environment, now we support two main envs: `cartpole` and `quadrotor_distb`, details can be found in the following table;
@@ -40,6 +52,8 @@ The test file lies in `safe_control_gym/experiments/test_rl_controller.py`. When
 2. `--algo` the trained algorithm we want to load the model used, now we support `ppo` and `rarl`;
 3. `--task` the test environment, now we support `cartpole`, `cartpole_distb` and `quadrotor_distb`(not sure);
 4. `--seed` the training random seed used in training.
+
+**Make sure to change the corresponding yaml file to the test env before running the test file.**
 
 For instance, we want to test the trained algo `rarl` in the env `cartpole` in the test env `cartpole_distb`, the test command is:
 `python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole --algo rarl --task cartpole_distb --seed 42`. 

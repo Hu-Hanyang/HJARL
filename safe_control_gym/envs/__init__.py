@@ -27,6 +27,10 @@ register(idx='cartpole_null',
          entry_point='safe_control_gym.envs.gym_control.cartpole_distb:CartPoleNullDistb',
          config_entry_point='safe_control_gym.envs.gym_control:cartpole_distb.yaml')
 
+register(idx='cartpole_randomhj',
+         entry_point='safe_control_gym.envs.gym_control.cartpole_distb:CartPoleRandomHJDistb',
+         config_entry_point='safe_control_gym.envs.gym_control:cartpole_distb.yaml')
+
 register(idx='cartpole_random',
          entry_point='safe_control_gym.envs.gym_control.cartpole_distb:CartPoleRandomDistb',
          config_entry_point='safe_control_gym.envs.gym_control:cartpole_distb.yaml')
