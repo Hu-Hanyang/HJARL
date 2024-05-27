@@ -129,6 +129,7 @@ def test():
                 seed=config.seed,
                 **config.algo_config)
     print(f"==============Controller is ready.============== \n")
+    
     # Hanyang: load the selected model, the default task (env) for the test is the same as that for training.
     if config.trained_task is None:
         # default: the same task as the training task
@@ -148,16 +149,16 @@ def test():
     ctrl.reset()
 
     if config.algo == 'ppo':
-        # eval_results = ctrl.run(render=False, n_episodes=10) # Hanyang: the maximum number of episodes is 3 if generating videos.
-        eval_results = ctrl.run(render=True, n_episodes=3) # Hanyang: the maximum number of episodes is 3 if generating videos.
+        eval_results = ctrl.run(render=False, n_episodes=10) # Hanyang: the maximum number of episodes is 3 if generating videos.
+        # eval_results = ctrl.run(render=True, n_episodes=3) # Hanyang: the maximum number of episodes is 3 if generating videos.
         
     elif config.algo == 'rarl':
-        # eval_results = ctrl.run(render=False, n_episodes=10, use_adv=False) 
-        eval_results = ctrl.run(render=True, n_episodes=3, use_adv=False) 
+        eval_results = ctrl.run(render=False, n_episodes=10, use_adv=False) 
+        # eval_results = ctrl.run(render=True, n_episodes=3, use_adv=False) 
         
     elif config.algo == 'rap':
-        # eval_results = ctrl.run(render=False, n_episodes=10, use_adv=False) 
-        eval_results = ctrl.run(render=True, n_episodes=3, use_adv=False) 
+        eval_results = ctrl.run(render=False, n_episodes=10, use_adv=False) 
+        # eval_results = ctrl.run(render=True, n_episodes=3, use_adv=False) 
         
     ctrl.close()
     # Hanyang: generate videos and gifs

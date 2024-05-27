@@ -52,6 +52,12 @@ python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrot
 
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rap --task quadrotor_random --seed 42
 
+python safe_control_gym/experiments/test_hj_controller.py --algo hj --task cartpole_fixed --test_distb_level 1.5 --seed 42 --render
+
+python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole --algo rarl --task cartpole_fixed --test_distb_level 1.5 --seed 42
+
+python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole --algo rap --task cartpole_fixed --test_distb_level 1.5 --seed 42
+
 ## Env Info
 
 

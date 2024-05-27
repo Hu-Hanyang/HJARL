@@ -123,6 +123,7 @@ class ConfigFactoryTest:
         self.add_argument('--trained_task', type=str, help='task/environment')
         self.add_argument('--test_distb_level', default=1.0, type=float, help='disturbance level', metavar='')
         self.add_argument('--trained_distb_level', default=1.0, type=float, help='disturbance level', metavar='')
+        self.add_argument('--render', action='store_true', help='make the video or gif')
 
         # Need to explicitly provide from command line (if training for the 1st time).
         self.add_argument('--algo', type=str, help='algorithm/controller')
@@ -158,6 +159,8 @@ class ConfigFactoryTest:
             warnings.warn('No agent/task config given.')
         if args.use_gpu:
             config_dict['use_gpu'] = args.use_gpu
+        if args.render:
+            config_dict['render'] = args.render
         # Experiment-specific overrides, e.g. training hyperparameters.
         if args.overrides:
             for f in args.overrides:
