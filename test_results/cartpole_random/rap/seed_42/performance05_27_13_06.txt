@@ -1,0 +1,5 @@
+Test task: cartpole_random
+Controller: rap trained in the cartpole
+Number of episodes: 10
+Performances of returns:  103.42 ±  99.12
+Performances of lengths: 202 ±  195.66
