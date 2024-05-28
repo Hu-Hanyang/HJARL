@@ -632,6 +632,7 @@ class CartPoleDistbEnv(BenchmarkEnv):
                 controlMode=p.TORQUE_CONTROL,
                 force=force,
                 physicsClientId=self.PYB_CLIENT)
+            
             # Hanayng: calculate the HJ disturbances or randomized disturbances
             if self.distb_type == 'random':
                 low = np.array([-2.0])

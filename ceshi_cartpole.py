@@ -31,7 +31,8 @@ def transfer(distb_level):
 
 # env = CartPole()
 # env = CartPoleFixedDistb()
-env = CartPoleRandomDistb()
+# env = CartPoleRandomDistb()
+env = CartPoleBoltzDistb()
 obs = env.reset()
 
 # print(f"********* The self.disturbances is {env.disturbances}. ********* \n")

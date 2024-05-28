@@ -32,11 +32,12 @@ algo_config:
   use_clipped_value: false
   use_gae: false
 device: cpu
-output_dir: test_results/cartpole_fixed/ppo/seed_42
+output_dir: test_results/cartpole_random/ppo/seed_42
+render: false
 restore: null
 seed: 42
 tag: temp
-task: cartpole_fixed
+task: cartpole_random
 task_config:
   adversary_disturbance: dynamics
   adversary_disturbance_offset: 0.0
@@ -70,7 +71,8 @@ task_config:
   task_info: null
   use_constraint_penalty: false
   verbose: false
-test_distb_level: 1.5
-test_distb_type: fixed
+test_distb_level: 0.0
+test_distb_type: random
+trained_distb_level: 1.0
 trained_task: cartpole_boltz
 use_gpu: false
