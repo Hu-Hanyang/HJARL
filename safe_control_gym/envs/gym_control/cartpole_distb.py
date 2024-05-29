@@ -542,10 +542,11 @@ class CartPoleDistbEnv(BenchmarkEnv):
         self.current_physical_action = action
 
         # Apply disturbances.
-        if 'action' in self.disturbances:
-            action = self.disturbances['action'].apply(action, self)
-        if self.adversary_disturbance == 'action' and self.adv_action is not None:
-            action = action + self.adv_action
+        # Hanyang: comment out the possible disturbances
+        # if 'action' in self.disturbances:
+        #     action = self.disturbances['action'].apply(action, self)
+        # if self.adversary_disturbance == 'action' and self.adv_action is not None:
+        #     action = action + self.adv_action
         self.current_noisy_physical_action = action
 
         # Save the actual input.
@@ -604,6 +605,8 @@ class CartPoleDistbEnv(BenchmarkEnv):
             self.adv_action = None
         for _ in range(self.PYB_STEPS_PER_CTRL):
             # apply disturbance (by tabbing pole on x-z plane).
+            # Hanyang: set tan_force to None to avoid the disturbance
+            tab_force = None
             if tab_force is not None:
                 # Convert 2D force to 3D on for PyBullet.
                 tab_force_3d = [float(tab_force[0]), 0.0, float(tab_force[1])]

@@ -24,7 +24,7 @@ critic_lr: 0.001
 max_grad_norm: 0.5
 
 # Runner args
-max_env_steps: 1000000
+max_env_steps: 10000000
 num_workers: 1
 rollout_batch_size: 4
 rollout_steps: 1000

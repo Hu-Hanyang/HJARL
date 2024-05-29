@@ -67,14 +67,21 @@ def train():
     print(f"==============Training done.============== \n")
 
     # Save the configuration.
-    env_distb_type = env_func().distb_type
-    env_distb_level = env_func().distb_level
-    env_func().close()
-    with open(os.path.join(config.output_dir, 'config.yaml'), 'w', encoding='UTF-8') as file:
-        config_assemble = munch.unmunchify(config)
-        config_assemble['env_distb_type'] = env_distb_type
-        config_assemble['env_distb_level'] = env_distb_level
-        yaml.dump(config_assemble, file, default_flow_style=False)
+    if config.task == 'cartpole':
+        env_func().close()
+        with open(os.path.join(config.output_dir, 'config.yaml'), 'w', encoding='UTF-8') as file:
+            config_assemble = munch.unmunchify(config)
+            yaml.dump(config_assemble, file, default_flow_style=False)
+    else:
+        env_distb_type = env_func().distb_type
+        env_distb_level = env_func().distb_level
+        env_func().close()
+        with open(os.path.join(config.output_dir, 'config.yaml'), 'w', encoding='UTF-8') as file:
+            config_assemble = munch.unmunchify(config)
+            config_assemble['env_distb_type'] = env_distb_type
+            config_assemble['env_distb_level'] = env_distb_level
+            yaml.dump(config_assemble, file, default_flow_style=False)
+       
 
     # make_plots(config)
 

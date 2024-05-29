@@ -5,6 +5,8 @@ pyb_freq: 50
 gui: False
 normalized_rl_action_space: False
 episode_len_sec: 10
+render_height: 500
+render_width: 800
 # State initialization
 init_state: null
 randomized_init: True

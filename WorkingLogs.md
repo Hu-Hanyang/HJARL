@@ -45,6 +45,11 @@ Some necessary arguments need to be added:
 | `cartpole`| `rarl` | `rarl_cartpole.yaml` | `python safe_control_gym/experiments/train_rl_controller.py --task cartpole --algo rarl --use_gpu True --seed 42` | Baseline1 |
 | `cartpole`| `rap` | `rap_cartpole.yaml` | `python safe_control_gym/experiments/train_rl_controller.py --task cartpole --algo rap --use_gpu True --seed 42` | Baseline2 |
 
+
+python safe_control_gym/experiments/train_rl_controller.py --task cartpole --algo ppo --use_gpu True --seed 42
+python safe_control_gym/experiments/train_rl_controller.py --task cartpole_null --algo ppo --use_gpu True --seed 42
+python safe_control_gym/experiments/train_rl_controller.py --task cartpole_null --algo rarl --use_gpu True --seed 42
+
 ### Quadrotor and its derivatives
 | env | algo  | algo_env.yaml | commands | else
 | --------- | ----------- |  ----------- | ----------- | ----------- |
@@ -96,6 +101,7 @@ python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpol
 
 python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_boltz --algo ppo --task cartpole_random --seed 42
 
+python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo ppo --task cartpole_null --seed 42
 
 
 ## Env Info
