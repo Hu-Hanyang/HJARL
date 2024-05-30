@@ -277,7 +277,8 @@ def distur_gener_cartpole(states, distb_level):
     # umax = np.array([10])
     umax = np.array([10.0])
     assert distb_level <= 2.0  # Hanyang: check the output content
-    V = np.load(f'safe_control_gym/hj_distbs/FasTrack_data/cartpole/cartpole_{distb_level}.npy')
+    # Hanyang: change the path of the npy file
+    V = np.load(f'safe_control_gym/hj_distbs/FasTrack_data/cartpole_test/cartpole_{distb_level}.npy')
     
     dmax = distb_level * umax
     
