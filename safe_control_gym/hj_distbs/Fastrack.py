@@ -234,7 +234,7 @@ class CartPoleSolution(object):
         # warning: grid bound for each dimension should be close, not be too different. 
         self.grid_size = 45
         self.grid = Grid(np.array([-4.8, -5, -math.pi, -10]), np.array([4.8, 5, math.pi, 10]), 4, np.array([self.grid_size, self.grid_size, self.grid_size, self.grid_size]), [2])
-        self.dyn = CartPole4D(x=[0, 0, 0, 0], uMax=10, dMax=2, uMode="min", dMode="max", distb_level=distb_level)  
+        self.dyn = CartPole4D(x=[0, 0, 0, 0], uMax=10, dMax=10, uMode="min", dMode="max", distb_level=distb_level)  
         self.lookback_length = 4.5  # Look-back length and time step of computation
         self.t_step = 0.025
         self.distb_level = self.dyn.distb_level
@@ -260,12 +260,12 @@ class CartPoleSolution(object):
         self.targ = self.FasTrackTarget(self.grid, [], np.zeros(4)) # l(x) = V(0, x)
         small_number = 1e-5
         tau = np.arange(start=0, stop=self.lookback_length + small_number, step=self.t_step)
-        #TODO: Hanyang: it should be compMethods = { "TargetSetMode": "maxVWithVInit"}
         compMethods = { "TargetSetMode": "maxVWithV0"}  # In this example, we compute based on FasTrack 
         slice = int((self.grid_size-1)/2)  
         self.po = PlotOptions(do_plot=False, plot_type="3d_plot", plotDims=[0,1,2], slicesCut=[int((self.grid_size-1)/2),int((self.grid_size-1)/2),int((self.grid_size-1)/2)])
         self.result = HJSolver(self.dyn, self.grid, self.targ, tau, compMethods, self.po, saveAllTimeSteps=False)
-        np.save("./FasTrack_data/cartpole/cartpole_{}.npy".format(self.distb_level), self.result)
+        # Hanayng: try larger dmax=10
+        np.save("./FasTrack_data/cartpole_test/cartpole_{}.npy".format(self.distb_level), self.result)
         print("saving the result ..., done!")
 
         return self.result, self.grid, slice
@@ -589,12 +589,14 @@ if __name__ == "__main__":
             [V, grid, slicecut] = uavsol.get_fastrack()
 
     elif args.dynamics == "cartpole":
-        cartpolesol = CartPoleSolution(distb_level=2.0)
+        # python Fastrack.py --dynamics cartpole
+        cartpolesol = CartPoleSolution(distb_level=2.0)  # Hanyang: need to change the distb_level here
         distb_level = cartpolesol.distb_level
         if args.load_data: 
             print("Loading the value function.")
             slicecut = 7  #for 15*15
-            V = np.load(f'safe_control_gym/hj_distbs/FasTrack_data/cartpole/cartpole_{distb_level}.npy')
+            # V = np.load(f'safe_control_gym/hj_distbs/FasTrack_data/cartpole/cartpole_{distb_level}.npy')
+            V = np.load(f'safe_control_gym/hj_distbs/FasTrack_data/cartpole_test/cartpole_{distb_level}.npy')
             grid = Grid(np.array([-4.8, -5, -math.pi, -10]), np.array([4.8, 5, math.pi, 10]), 4, np.array([45, 45, 45, 45]), [2])
             
         else: 

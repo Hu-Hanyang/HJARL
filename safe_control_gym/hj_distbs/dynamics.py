@@ -281,7 +281,7 @@ class UAV6D:
 
 
 class CartPole4D:
-    def __init__(self, x=[0, 0, 0, 0], uMax=10, dMax=2, uMode="min", dMode="max", distb_level=0.0):
+    def __init__(self, x=[0, 0, 0, 0], uMax=10, dMax=10, uMode="min", dMode="max", distb_level=0.0):
         self.x = x
         self.uMax = uMax
         self.uMode = uMode
