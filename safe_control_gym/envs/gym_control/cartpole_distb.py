@@ -644,13 +644,25 @@ class CartPoleDistbEnv(BenchmarkEnv):
             else:  # HJ based disturbances
                 current_states = deepcopy(self.state)
                 _, hj_distb_force = distur_gener_cartpole(current_states, self.distb_level)
-                
-            p.setJointMotorControl2(
+            #TODO: Hanyang: I doubt it's here problem
+            hj_distb_force3d = [float(hj_distb_force), 0.0, 0.0]
+            p.applyExternalForce(
                 self.CARTPOLE_ID,
-                jointIndex=0,  # Slider-to-cart joint.
-                controlMode=p.TORQUE_CONTROL,
-                force=hj_distb_force,
+                linkIndex=1,  # Pole link.
+                forceObj=hj_distb_force3d,
+                posObj=p.getLinkState(
+                    self.CARTPOLE_ID,
+                    linkIndex=1,  # Pole link.
+                    physicsClientId=self.PYB_CLIENT)[0],  # exert force on pole center
+                flags=p.WORLD_FRAME,
                 physicsClientId=self.PYB_CLIENT)
+            
+            # p.setJointMotorControl2(
+            #     self.CARTPOLE_ID,
+            #     jointIndex=0,  # Slider-to-cart joint.
+            #     controlMode=p.TORQUE_CONTROL,
+            #     force=hj_distb_force,
+            #     physicsClientId=self.PYB_CLIENT)
             # Step simulation and counter.
             p.stepSimulation(physicsClientId=self.PYB_CLIENT)
 
@@ -860,7 +872,7 @@ class CartPoleFixedDistb(CartPoleDistbEnv):
     def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
         # Set disturbance_type to 'fixed' regardless of the input
         kwargs['distb_type'] = 'fixed'
-        kwargs['distb_level'] = 1.5 # 
+        kwargs['distb_level'] = 1.0 # 
         kwargs['randomized_init'] = True
         kwargs['seed'] = 42
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,

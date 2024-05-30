@@ -1,6 +1,6 @@
-2024-05-29 17:17:15,741 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:17:16,566 : Eval | ep_lengths 43.50 +/- 30.20 | ep_return 23.416 +/- 18.499
-2024-05-29 17:17:16,574 : 
+2024-05-27 21:27:38,226 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:27:38,867 : Eval | ep_lengths 43.50 +/- 30.20 | ep_return 23.416 +/- 18.499
+2024-05-27 21:27:38,874 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.92    |
@@ -25,12 +25,12 @@
 | time/                   |          |
 |    progress             | 0.008    |
 |    step                 | 8e+03    |
-|    time                 | 16.7     |
+|    time                 | 14.1     |
 --------------------------------------
 
-2024-05-29 17:17:32,658 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:17:33,236 : Eval | ep_lengths 30.80 +/- 29.90 | ep_return 16.374 +/- 15.569
-2024-05-29 17:17:33,239 : 
+2024-05-27 21:27:51,985 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:27:52,452 : Eval | ep_lengths 30.80 +/- 29.90 | ep_return 16.374 +/- 15.569
+2024-05-27 21:27:52,454 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.92     |
@@ -55,12 +55,12 @@
 | time/                   |           |
 |    progress             | 0.016     |
 |    step                 | 1.6e+04   |
-|    time                 | 16.1      |
+|    time                 | 13.1      |
 ---------------------------------------
 
-2024-05-29 17:17:49,349 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:17:49,668 : Eval | ep_lengths 16.30 +/- 27.06 | ep_return 10.507 +/- 15.635
-2024-05-29 17:17:49,670 : 
+2024-05-27 21:28:05,352 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:28:05,603 : Eval | ep_lengths 16.30 +/- 27.06 | ep_return 10.507 +/- 15.635
+2024-05-27 21:28:05,605 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.92     |
@@ -85,12 +85,12 @@
 | time/                   |           |
 |    progress             | 0.024     |
 |    step                 | 2.4e+04   |
-|    time                 | 16.1      |
+|    time                 | 12.9      |
 ---------------------------------------
 
-2024-05-29 17:18:05,730 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:18:06,506 : Eval | ep_lengths 41.50 +/- 26.50 | ep_return 21.254 +/- 13.461
-2024-05-29 17:18:06,508 : 
+2024-05-27 21:28:21,254 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:28:21,971 : Eval | ep_lengths 41.50 +/- 26.50 | ep_return 21.254 +/- 13.461
+2024-05-27 21:28:21,973 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.92     |
@@ -115,12 +115,12 @@
 | time/                   |           |
 |    progress             | 0.032     |
 |    step                 | 3.2e+04   |
-|    time                 | 16.1      |
+|    time                 | 15.6      |
 ---------------------------------------
 
-2024-05-29 17:18:22,588 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:18:23,296 : Eval | ep_lengths 37.60 +/- 28.61 | ep_return 20.217 +/- 14.741
-2024-05-29 17:18:23,298 : 
+2024-05-27 21:28:38,554 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:28:39,271 : Eval | ep_lengths 37.60 +/- 28.61 | ep_return 20.217 +/- 14.741
+2024-05-27 21:28:39,272 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.919    |
@@ -145,12 +145,12 @@
 | time/                   |           |
 |    progress             | 0.04      |
 |    step                 | 4e+04     |
-|    time                 | 16.1      |
+|    time                 | 16.6      |
 ---------------------------------------
 
-2024-05-29 17:18:39,424 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:18:40,235 : Eval | ep_lengths 43.20 +/- 28.11 | ep_return 22.502 +/- 14.902
-2024-05-29 17:18:40,238 : 
+2024-05-27 21:28:54,669 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:28:55,423 : Eval | ep_lengths 43.20 +/- 28.11 | ep_return 22.502 +/- 14.902
+2024-05-27 21:28:55,424 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.921   |
@@ -175,12 +175,12 @@
 | time/                   |          |
 |    progress             | 0.048    |
 |    step                 | 4.8e+04  |
-|    time                 | 16.1     |
+|    time                 | 15.4     |
 --------------------------------------
 
-2024-05-29 17:18:56,648 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:18:57,583 : Eval | ep_lengths 49.50 +/- 24.90 | ep_return 25.625 +/- 13.424
-2024-05-29 17:18:57,589 : 
+2024-05-27 21:29:10,573 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:29:11,454 : Eval | ep_lengths 49.50 +/- 24.90 | ep_return 25.625 +/- 13.424
+2024-05-27 21:29:11,459 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.92    |
@@ -205,12 +205,12 @@
 | time/                   |          |
 |    progress             | 0.056    |
 |    step                 | 5.6e+04  |
-|    time                 | 16.4     |
+|    time                 | 15.1     |
 --------------------------------------
 
-2024-05-29 17:19:13,856 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:19:14,467 : Eval | ep_lengths 32.40 +/- 31.63 | ep_return 17.585 +/- 17.121
-2024-05-29 17:19:14,469 : 
+2024-05-27 21:29:26,558 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:29:27,159 : Eval | ep_lengths 32.40 +/- 31.63 | ep_return 17.585 +/- 17.121
+2024-05-27 21:29:27,161 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.918   |
@@ -235,12 +235,12 @@
 | time/                   |          |
 |    progress             | 0.064    |
 |    step                 | 6.4e+04  |
-|    time                 | 16.3     |
+|    time                 | 15.1     |
 --------------------------------------
 
-2024-05-29 17:19:30,475 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:19:31,113 : Eval | ep_lengths 34.20 +/- 33.21 | ep_return 18.885 +/- 18.188
-2024-05-29 17:19:31,115 : 
+2024-05-27 21:29:42,707 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:29:43,356 : Eval | ep_lengths 34.20 +/- 33.21 | ep_return 18.885 +/- 18.188
+2024-05-27 21:29:43,357 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.917    |
@@ -265,12 +265,12 @@
 | time/                   |           |
 |    progress             | 0.072     |
 |    step                 | 7.2e+04   |
-|    time                 | 16        |
+|    time                 | 15.5      |
 ---------------------------------------
 
-2024-05-29 17:19:47,060 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:19:47,989 : Eval | ep_lengths 50.00 +/- 32.38 | ep_return 27.630 +/- 18.269
-2024-05-29 17:19:47,995 : 
+2024-05-27 21:29:58,589 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:29:59,645 : Eval | ep_lengths 50.00 +/- 32.38 | ep_return 27.630 +/- 18.269
+2024-05-27 21:29:59,651 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.917   |
@@ -295,12 +295,12 @@
 | time/                   |          |
 |    progress             | 0.08     |
 |    step                 | 8e+04    |
-|    time                 | 15.9     |
+|    time                 | 15.2     |
 --------------------------------------
 
-2024-05-29 17:20:03,876 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:20:04,949 : Eval | ep_lengths 57.90 +/- 32.03 | ep_return 31.354 +/- 19.684
-2024-05-29 17:20:04,955 : 
+2024-05-27 21:30:14,883 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:30:16,000 : Eval | ep_lengths 57.90 +/- 32.03 | ep_return 31.354 +/- 19.684
+2024-05-27 21:30:16,005 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.916   |
@@ -325,12 +325,12 @@
 | time/                   |          |
 |    progress             | 0.088    |
 |    step                 | 8.8e+04  |
-|    time                 | 15.9     |
+|    time                 | 15.2     |
 --------------------------------------
 
-2024-05-29 17:20:20,833 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:20:21,826 : Eval | ep_lengths 53.20 +/- 44.53 | ep_return 31.836 +/- 27.266
-2024-05-29 17:20:21,832 : 
+2024-05-27 21:30:32,034 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:30:32,947 : Eval | ep_lengths 53.20 +/- 44.53 | ep_return 31.836 +/- 27.266
+2024-05-27 21:30:32,952 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.916   |
@@ -355,12 +355,12 @@
 | time/                   |          |
 |    progress             | 0.096    |
 |    step                 | 9.6e+04  |
-|    time                 | 15.9     |
+|    time                 | 16       |
 --------------------------------------
 
-2024-05-29 17:20:37,675 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:20:38,586 : Eval | ep_lengths 48.90 +/- 41.13 | ep_return 26.486 +/- 22.736
-2024-05-29 17:20:38,587 : 
+2024-05-27 21:30:49,001 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:30:50,014 : Eval | ep_lengths 48.90 +/- 41.13 | ep_return 26.486 +/- 22.736
+2024-05-27 21:30:50,016 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.917   |
@@ -385,12 +385,12 @@
 | time/                   |          |
 |    progress             | 0.104    |
 |    step                 | 1.04e+05 |
-|    time                 | 15.8     |
+|    time                 | 16       |
 --------------------------------------
 
-2024-05-29 17:20:54,482 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:20:55,531 : Eval | ep_lengths 56.70 +/- 43.18 | ep_return 31.442 +/- 28.013
-2024-05-29 17:20:55,533 : 
+2024-05-27 21:31:06,706 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:31:07,906 : Eval | ep_lengths 56.70 +/- 43.18 | ep_return 31.442 +/- 28.013
+2024-05-27 21:31:07,907 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.918   |
@@ -415,12 +415,12 @@
 | time/                   |          |
 |    progress             | 0.112    |
 |    step                 | 1.12e+05 |
-|    time                 | 15.9     |
+|    time                 | 16.7     |
 --------------------------------------
 
-2024-05-29 17:21:11,412 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:21:12,950 : Eval | ep_lengths 82.80 +/- 15.95 | ep_return 44.155 +/- 10.430
-2024-05-29 17:21:12,955 : 
+2024-05-27 21:31:23,865 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:31:26,020 : Eval | ep_lengths 82.80 +/- 15.95 | ep_return 44.155 +/- 10.430
+2024-05-27 21:31:26,026 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.918   |
@@ -445,12 +445,12 @@
 | time/                   |          |
 |    progress             | 0.12     |
 |    step                 | 1.2e+05  |
-|    time                 | 15.9     |
+|    time                 | 16       |
 --------------------------------------
 
-2024-05-29 17:21:28,795 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:21:29,896 : Eval | ep_lengths 59.50 +/- 41.42 | ep_return 33.179 +/- 23.749
-2024-05-29 17:21:29,898 : 
+2024-05-27 21:31:41,345 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:31:42,419 : Eval | ep_lengths 59.50 +/- 41.42 | ep_return 33.179 +/- 23.749
+2024-05-27 21:31:42,421 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.919   |
@@ -475,12 +475,12 @@
 | time/                   |          |
 |    progress             | 0.128    |
 |    step                 | 1.28e+05 |
-|    time                 | 15.8     |
+|    time                 | 15.3     |
 --------------------------------------
 
-2024-05-29 17:21:45,728 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:21:47,258 : Eval | ep_lengths 82.70 +/- 55.09 | ep_return 45.554 +/- 32.064
-2024-05-29 17:21:47,264 : 
+2024-05-27 21:31:57,412 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:31:58,837 : Eval | ep_lengths 82.70 +/- 55.09 | ep_return 45.554 +/- 32.064
+2024-05-27 21:31:58,842 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.916   |
@@ -505,12 +505,12 @@
 | time/                   |          |
 |    progress             | 0.136    |
 |    step                 | 1.36e+05 |
-|    time                 | 15.8     |
+|    time                 | 15       |
 --------------------------------------
 
-2024-05-29 17:22:03,044 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:22:04,144 : Eval | ep_lengths 59.20 +/- 62.69 | ep_return 35.286 +/- 39.336
-2024-05-29 17:22:04,146 : 
+2024-05-27 21:32:13,832 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:32:14,977 : Eval | ep_lengths 59.20 +/- 62.69 | ep_return 35.286 +/- 39.336
+2024-05-27 21:32:14,978 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.914   |
@@ -535,12 +535,12 @@
 | time/                   |          |
 |    progress             | 0.144    |
 |    step                 | 1.44e+05 |
-|    time                 | 15.8     |
+|    time                 | 15       |
 --------------------------------------
 
-2024-05-29 17:22:19,972 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:22:21,722 : Eval | ep_lengths 94.80 +/- 35.88 | ep_return 52.655 +/- 21.291
-2024-05-29 17:22:21,728 : 
+2024-05-27 21:32:29,859 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:32:31,498 : Eval | ep_lengths 94.80 +/- 35.88 | ep_return 52.655 +/- 21.291
+2024-05-27 21:32:31,504 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.914   |
@@ -565,12 +565,12 @@
 | time/                   |          |
 |    progress             | 0.152    |
 |    step                 | 1.52e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.9     |
 --------------------------------------
 
-2024-05-29 17:22:37,492 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:22:38,615 : Eval | ep_lengths 60.30 +/- 48.76 | ep_return 32.878 +/- 26.987
-2024-05-29 17:22:38,617 : 
+2024-05-27 21:32:46,324 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:32:47,446 : Eval | ep_lengths 60.30 +/- 48.76 | ep_return 32.878 +/- 26.987
+2024-05-27 21:32:47,448 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.915   |
@@ -595,12 +595,12 @@
 | time/                   |          |
 |    progress             | 0.16     |
 |    step                 | 1.6e+05  |
-|    time                 | 15.8     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:22:54,416 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:22:55,931 : Eval | ep_lengths 82.10 +/- 57.17 | ep_return 45.679 +/- 34.375
-2024-05-29 17:22:55,932 : 
+2024-05-27 21:33:02,390 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:33:03,808 : Eval | ep_lengths 82.10 +/- 57.17 | ep_return 45.679 +/- 34.375
+2024-05-27 21:33:03,810 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.916   |
@@ -625,12 +625,12 @@
 | time/                   |          |
 |    progress             | 0.168    |
 |    step                 | 1.68e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.9     |
 --------------------------------------
 
-2024-05-29 17:23:11,703 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:23:12,567 : Eval | ep_lengths 45.90 +/- 56.91 | ep_return 23.823 +/- 30.951
-2024-05-29 17:23:12,569 : 
+2024-05-27 21:33:18,651 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:33:19,443 : Eval | ep_lengths 45.90 +/- 56.91 | ep_return 23.823 +/- 30.951
+2024-05-27 21:33:19,445 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.917   |
@@ -655,12 +655,12 @@
 | time/                   |          |
 |    progress             | 0.176    |
 |    step                 | 1.76e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:23:28,515 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:23:29,969 : Eval | ep_lengths 78.10 +/- 96.37 | ep_return 46.777 +/- 69.379
-2024-05-29 17:23:29,971 : 
+2024-05-27 21:33:34,217 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:33:35,668 : Eval | ep_lengths 78.10 +/- 96.37 | ep_return 46.777 +/- 69.379
+2024-05-27 21:33:35,670 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.916   |
@@ -685,12 +685,12 @@
 | time/                   |          |
 |    progress             | 0.184    |
 |    step                 | 1.84e+05 |
-|    time                 | 15.9     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:23:45,876 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:23:47,200 : Eval | ep_lengths 71.10 +/- 81.91 | ep_return 40.683 +/- 54.190
-2024-05-29 17:23:47,202 : 
+2024-05-27 21:33:50,432 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:33:51,646 : Eval | ep_lengths 71.10 +/- 81.91 | ep_return 40.683 +/- 54.190
+2024-05-27 21:33:51,647 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.916    |
@@ -715,12 +715,12 @@
 | time/                   |           |
 |    progress             | 0.192     |
 |    step                 | 1.92e+05  |
-|    time                 | 15.9      |
+|    time                 | 14.8      |
 ---------------------------------------
 
-2024-05-29 17:24:02,989 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:24:04,412 : Eval | ep_lengths 75.90 +/- 62.48 | ep_return 39.157 +/- 34.008
-2024-05-29 17:24:04,414 : 
+2024-05-27 21:34:06,363 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:34:07,817 : Eval | ep_lengths 75.90 +/- 62.48 | ep_return 39.157 +/- 34.008
+2024-05-27 21:34:07,819 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.916   |
@@ -745,12 +745,12 @@
 | time/                   |          |
 |    progress             | 0.2      |
 |    step                 | 2e+05    |
-|    time                 | 15.8     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:24:20,318 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:24:22,576 : Eval | ep_lengths 121.90 +/- 49.71 | ep_return 63.776 +/- 32.144
-2024-05-29 17:24:22,582 : 
+2024-05-27 21:34:22,641 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:34:24,752 : Eval | ep_lengths 121.90 +/- 49.71 | ep_return 63.776 +/- 32.144
+2024-05-27 21:34:24,758 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.917   |
@@ -775,12 +775,12 @@
 | time/                   |          |
 |    progress             | 0.208    |
 |    step                 | 2.08e+05 |
-|    time                 | 15.9     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:24:38,360 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:24:41,144 : Eval | ep_lengths 149.90 +/- 145.20 | ep_return 98.271 +/- 97.844
-2024-05-29 17:24:41,149 : 
+2024-05-27 21:34:39,521 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:34:42,250 : Eval | ep_lengths 149.90 +/- 145.20 | ep_return 98.271 +/- 97.844
+2024-05-27 21:34:42,256 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.919   |
@@ -805,12 +805,12 @@
 | time/                   |          |
 |    progress             | 0.216    |
 |    step                 | 2.16e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:24:56,904 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:24:58,429 : Eval | ep_lengths 82.00 +/- 124.14 | ep_return 47.087 +/- 72.520
-2024-05-29 17:24:58,431 : 
+2024-05-27 21:34:56,837 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:34:58,290 : Eval | ep_lengths 82.00 +/- 124.14 | ep_return 47.087 +/- 72.520
+2024-05-27 21:34:58,292 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.92    |
@@ -835,12 +835,12 @@
 | time/                   |          |
 |    progress             | 0.224    |
 |    step                 | 2.24e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.6     |
 --------------------------------------
 
-2024-05-29 17:25:14,188 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:25:17,584 : Eval | ep_lengths 184.10 +/- 120.06 | ep_return 93.597 +/- 64.200
-2024-05-29 17:25:17,586 : 
+2024-05-27 21:35:12,941 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:35:16,039 : Eval | ep_lengths 184.10 +/- 120.06 | ep_return 93.597 +/- 64.200
+2024-05-27 21:35:16,041 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.92    |
@@ -865,12 +865,12 @@
 | time/                   |          |
 |    progress             | 0.232    |
 |    step                 | 2.32e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.6     |
 --------------------------------------
 
-2024-05-29 17:25:33,331 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:25:35,879 : Eval | ep_lengths 137.80 +/- 137.20 | ep_return 81.814 +/- 82.886
-2024-05-29 17:25:35,880 : 
+2024-05-27 21:35:30,682 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:35:33,186 : Eval | ep_lengths 137.80 +/- 137.20 | ep_return 81.814 +/- 82.886
+2024-05-27 21:35:33,187 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.923   |
@@ -895,12 +895,12 @@
 | time/                   |          |
 |    progress             | 0.24     |
 |    step                 | 2.4e+05  |
-|    time                 | 15.7     |
+|    time                 | 14.6     |
 --------------------------------------
 
-2024-05-29 17:25:51,617 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:25:54,067 : Eval | ep_lengths 132.30 +/- 131.63 | ep_return 74.490 +/- 73.702
-2024-05-29 17:25:54,069 : 
+2024-05-27 21:35:47,798 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:35:50,085 : Eval | ep_lengths 132.30 +/- 131.63 | ep_return 74.490 +/- 73.702
+2024-05-27 21:35:50,087 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.922   |
@@ -925,12 +925,12 @@
 | time/                   |          |
 |    progress             | 0.248    |
 |    step                 | 2.48e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.6     |
 --------------------------------------
 
-2024-05-29 17:26:09,892 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:26:13,296 : Eval | ep_lengths 184.00 +/- 121.19 | ep_return 95.192 +/- 65.369
-2024-05-29 17:26:13,298 : 
+2024-05-27 21:36:04,806 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:36:08,059 : Eval | ep_lengths 184.00 +/- 121.19 | ep_return 95.192 +/- 65.369
+2024-05-27 21:36:08,061 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.922    |
@@ -955,12 +955,12 @@
 | time/                   |           |
 |    progress             | 0.256     |
 |    step                 | 2.56e+05  |
-|    time                 | 15.8      |
+|    time                 | 14.7      |
 ---------------------------------------
 
-2024-05-29 17:26:29,039 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:26:33,331 : Eval | ep_lengths 233.10 +/- 79.98 | ep_return 121.932 +/- 45.023
-2024-05-29 17:26:33,337 : 
+2024-05-27 21:36:22,751 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:36:27,130 : Eval | ep_lengths 233.10 +/- 79.98 | ep_return 121.932 +/- 45.023
+2024-05-27 21:36:27,136 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.922   |
@@ -985,12 +985,12 @@
 | time/                   |          |
 |    progress             | 0.264    |
 |    step                 | 2.64e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:26:49,155 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:26:51,198 : Eval | ep_lengths 110.40 +/- 109.74 | ep_return 46.270 +/- 46.575
-2024-05-29 17:26:51,200 : 
+2024-05-27 21:36:41,941 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:36:43,846 : Eval | ep_lengths 110.40 +/- 109.74 | ep_return 46.270 +/- 46.575
+2024-05-27 21:36:43,848 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.922   |
@@ -1015,12 +1015,12 @@
 | time/                   |          |
 |    progress             | 0.272    |
 |    step                 | 2.72e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:27:06,971 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:27:09,141 : Eval | ep_lengths 117.00 +/- 142.11 | ep_return 65.728 +/- 79.604
-2024-05-29 17:27:09,143 : 
+2024-05-27 21:36:58,777 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:37:01,032 : Eval | ep_lengths 117.00 +/- 142.11 | ep_return 65.728 +/- 79.604
+2024-05-27 21:37:01,034 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.924   |
@@ -1045,12 +1045,12 @@
 | time/                   |          |
 |    progress             | 0.28     |
 |    step                 | 2.8e+05  |
-|    time                 | 15.8     |
+|    time                 | 14.9     |
 --------------------------------------
 
-2024-05-29 17:27:24,925 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:27:28,971 : Eval | ep_lengths 219.10 +/- 178.84 | ep_return 98.207 +/- 82.244
-2024-05-29 17:27:28,973 : 
+2024-05-27 21:37:15,885 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:37:19,789 : Eval | ep_lengths 219.10 +/- 178.84 | ep_return 98.207 +/- 82.244
+2024-05-27 21:37:19,791 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.922   |
@@ -1075,12 +1075,12 @@
 | time/                   |          |
 |    progress             | 0.288    |
 |    step                 | 2.88e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:27:44,700 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:27:48,949 : Eval | ep_lengths 230.10 +/- 187.62 | ep_return 120.264 +/- 99.311
-2024-05-29 17:27:48,951 : 
+2024-05-27 21:37:34,643 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:37:38,929 : Eval | ep_lengths 230.10 +/- 187.62 | ep_return 120.264 +/- 99.311
+2024-05-27 21:37:38,930 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.922   |
@@ -1105,12 +1105,12 @@
 | time/                   |          |
 |    progress             | 0.296    |
 |    step                 | 2.96e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:28:04,653 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:28:07,105 : Eval | ep_lengths 132.50 +/- 194.04 | ep_return 69.984 +/- 97.307
-2024-05-29 17:28:07,107 : 
+2024-05-27 21:37:53,751 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:37:56,125 : Eval | ep_lengths 132.50 +/- 194.04 | ep_return 69.984 +/- 97.307
+2024-05-27 21:37:56,126 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.921    |
@@ -1135,12 +1135,12 @@
 | time/                   |           |
 |    progress             | 0.304     |
 |    step                 | 3.04e+05  |
-|    time                 | 15.7      |
+|    time                 | 14.8      |
 ---------------------------------------
 
-2024-05-29 17:28:22,855 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:28:26,562 : Eval | ep_lengths 200.80 +/- 244.30 | ep_return 138.080 +/- 173.171
-2024-05-29 17:28:26,568 : 
+2024-05-27 21:38:10,941 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:38:14,682 : Eval | ep_lengths 200.80 +/- 244.30 | ep_return 138.080 +/- 173.171
+2024-05-27 21:38:14,687 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.921   |
@@ -1165,12 +1165,12 @@
 | time/                   |          |
 |    progress             | 0.312    |
 |    step                 | 3.12e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:28:42,309 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:28:46,930 : Eval | ep_lengths 251.20 +/- 248.80 | ep_return 168.199 +/- 170.127
-2024-05-29 17:28:46,936 : 
+2024-05-27 21:38:29,371 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:38:33,723 : Eval | ep_lengths 251.20 +/- 248.80 | ep_return 168.199 +/- 170.127
+2024-05-27 21:38:33,729 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.923   |
@@ -1195,12 +1195,12 @@
 | time/                   |          |
 |    progress             | 0.32     |
 |    step                 | 3.2e+05  |
-|    time                 | 15.7     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:29:02,709 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:29:05,468 : Eval | ep_lengths 148.80 +/- 212.88 | ep_return 91.031 +/- 125.547
-2024-05-29 17:29:05,470 : 
+2024-05-27 21:38:48,476 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:38:51,279 : Eval | ep_lengths 148.80 +/- 212.88 | ep_return 91.031 +/- 125.547
+2024-05-27 21:38:51,280 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.924   |
@@ -1225,12 +1225,12 @@
 | time/                   |          |
 |    progress             | 0.328    |
 |    step                 | 3.28e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:29:21,275 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:29:25,005 : Eval | ep_lengths 201.90 +/- 243.42 | ep_return 160.909 +/- 194.561
-2024-05-29 17:29:25,007 : 
+2024-05-27 21:39:06,104 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:39:09,939 : Eval | ep_lengths 201.90 +/- 243.42 | ep_return 160.909 +/- 194.561
+2024-05-27 21:39:09,941 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.924   |
@@ -1255,12 +1255,12 @@
 | time/                   |          |
 |    progress             | 0.336    |
 |    step                 | 3.36e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:29:40,760 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:29:46,287 : Eval | ep_lengths 300.40 +/- 244.46 | ep_return 186.232 +/- 158.372
-2024-05-29 17:29:46,293 : 
+2024-05-27 21:39:24,771 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:39:30,206 : Eval | ep_lengths 300.40 +/- 244.46 | ep_return 186.232 +/- 158.372
+2024-05-27 21:39:30,212 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.929   |
@@ -1285,12 +1285,12 @@
 | time/                   |          |
 |    progress             | 0.344    |
 |    step                 | 3.44e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:30:02,010 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:30:06,728 : Eval | ep_lengths 255.50 +/- 244.83 | ep_return 177.994 +/- 172.774
-2024-05-29 17:30:06,730 : 
+2024-05-27 21:39:44,997 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:39:49,541 : Eval | ep_lengths 255.50 +/- 244.83 | ep_return 177.994 +/- 172.774
+2024-05-27 21:39:49,542 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.93    |
@@ -1315,12 +1315,12 @@
 | time/                   |          |
 |    progress             | 0.352    |
 |    step                 | 3.52e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:30:22,520 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:30:25,336 : Eval | ep_lengths 152.10 +/- 227.77 | ep_return 122.888 +/- 183.870
-2024-05-29 17:30:25,338 : 
+2024-05-27 21:40:04,033 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:40:06,722 : Eval | ep_lengths 152.10 +/- 227.77 | ep_return 122.888 +/- 183.870
+2024-05-27 21:40:06,723 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.928   |
@@ -1345,12 +1345,12 @@
 | time/                   |          |
 |    progress             | 0.36     |
 |    step                 | 3.6e+05  |
-|    time                 | 15.8     |
+|    time                 | 14.5     |
 --------------------------------------
 
-2024-05-29 17:30:41,145 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:30:46,717 : Eval | ep_lengths 300.60 +/- 244.21 | ep_return 174.445 +/- 145.123
-2024-05-29 17:30:46,719 : 
+2024-05-27 21:40:21,347 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:40:26,655 : Eval | ep_lengths 300.60 +/- 244.21 | ep_return 174.445 +/- 145.123
+2024-05-27 21:40:26,657 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.927   |
@@ -1375,12 +1375,12 @@
 | time/                   |          |
 |    progress             | 0.368    |
 |    step                 | 3.68e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.6     |
 --------------------------------------
 
-2024-05-29 17:31:02,571 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:31:04,823 : Eval | ep_lengths 120.90 +/- 193.41 | ep_return 101.761 +/- 156.588
-2024-05-29 17:31:04,825 : 
+2024-05-27 21:40:41,237 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:40:43,423 : Eval | ep_lengths 120.90 +/- 193.41 | ep_return 101.761 +/- 156.588
+2024-05-27 21:40:43,425 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.926   |
@@ -1405,12 +1405,12 @@
 | time/                   |          |
 |    progress             | 0.376    |
 |    step                 | 3.76e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.6     |
 --------------------------------------
 
-2024-05-29 17:31:20,633 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:31:23,377 : Eval | ep_lengths 150.70 +/- 228.67 | ep_return 90.615 +/- 139.496
-2024-05-29 17:31:23,378 : 
+2024-05-27 21:40:58,082 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:41:00,924 : Eval | ep_lengths 150.70 +/- 228.67 | ep_return 90.615 +/- 139.496
+2024-05-27 21:41:00,925 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.927   |
@@ -1435,12 +1435,12 @@
 | time/                   |          |
 |    progress             | 0.384    |
 |    step                 | 3.84e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:31:38,920 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:31:44,785 : Eval | ep_lengths 320.80 +/- 224.96 | ep_return 285.839 +/- 198.319
-2024-05-29 17:31:44,790 : 
+2024-05-27 21:41:15,460 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:41:21,102 : Eval | ep_lengths 320.80 +/- 224.96 | ep_return 285.839 +/- 198.319
+2024-05-27 21:41:21,107 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.93    |
@@ -1465,12 +1465,12 @@
 | time/                   |          |
 |    progress             | 0.392    |
 |    step                 | 3.92e+05 |
-|    time                 | 15.5     |
+|    time                 | 14.5     |
 --------------------------------------
 
-2024-05-29 17:32:00,382 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:32:01,868 : Eval | ep_lengths 80.10 +/- 150.76 | ep_return 73.833 +/- 135.755
-2024-05-29 17:32:01,869 : 
+2024-05-27 21:41:35,640 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:41:37,189 : Eval | ep_lengths 80.10 +/- 150.76 | ep_return 73.833 +/- 135.755
+2024-05-27 21:41:37,190 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.93     |
@@ -1495,12 +1495,12 @@
 | time/                   |           |
 |    progress             | 0.4       |
 |    step                 | 4e+05     |
-|    time                 | 15.6      |
+|    time                 | 14.5      |
 ---------------------------------------
 
-2024-05-29 17:32:17,461 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:32:22,043 : Eval | ep_lengths 251.40 +/- 248.60 | ep_return 235.129 +/- 232.396
-2024-05-29 17:32:22,045 : 
+2024-05-27 21:41:51,809 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:41:56,386 : Eval | ep_lengths 251.40 +/- 248.60 | ep_return 235.129 +/- 232.396
+2024-05-27 21:41:56,388 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.929   |
@@ -1525,12 +1525,12 @@
 | time/                   |          |
 |    progress             | 0.408    |
 |    step                 | 4.08e+05 |
-|    time                 | 15.6     |
+|    time                 | 14.6     |
 --------------------------------------
 
-2024-05-29 17:32:37,613 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:32:39,983 : Eval | ep_lengths 130.00 +/- 193.34 | ep_return 120.051 +/- 176.118
-2024-05-29 17:32:39,984 : 
+2024-05-27 21:42:11,106 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:42:13,297 : Eval | ep_lengths 130.00 +/- 193.34 | ep_return 120.051 +/- 176.118
+2024-05-27 21:42:13,298 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.931    |
@@ -1555,12 +1555,12 @@
 | time/                   |           |
 |    progress             | 0.416     |
 |    step                 | 4.16e+05  |
-|    time                 | 15.6      |
+|    time                 | 14.7      |
 ---------------------------------------
 
-2024-05-29 17:32:55,491 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:33:01,901 : Eval | ep_lengths 353.10 +/- 224.51 | ep_return 244.622 +/- 154.410
-2024-05-29 17:33:01,903 : 
+2024-05-27 21:42:27,757 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:42:33,973 : Eval | ep_lengths 353.10 +/- 224.51 | ep_return 244.622 +/- 154.410
+2024-05-27 21:42:33,974 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.931    |
@@ -1585,12 +1585,12 @@
 | time/                   |           |
 |    progress             | 0.424     |
 |    step                 | 4.24e+05  |
-|    time                 | 15.5      |
+|    time                 | 14.5      |
 ---------------------------------------
 
-2024-05-29 17:33:17,426 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:33:19,284 : Eval | ep_lengths 101.70 +/- 199.16 | ep_return 77.189 +/- 150.159
-2024-05-29 17:33:19,285 : 
+2024-05-27 21:42:48,557 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:42:50,299 : Eval | ep_lengths 101.70 +/- 199.16 | ep_return 77.189 +/- 150.159
+2024-05-27 21:42:50,300 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.932    |
@@ -1615,12 +1615,12 @@
 | time/                   |           |
 |    progress             | 0.432     |
 |    step                 | 4.32e+05  |
-|    time                 | 15.5      |
+|    time                 | 14.6      |
 ---------------------------------------
 
-2024-05-29 17:33:34,838 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:33:40,297 : Eval | ep_lengths 300.50 +/- 244.34 | ep_return 281.067 +/- 228.613
-2024-05-29 17:33:40,298 : 
+2024-05-27 21:43:04,949 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:43:10,555 : Eval | ep_lengths 300.50 +/- 244.34 | ep_return 281.067 +/- 228.613
+2024-05-27 21:43:10,557 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.934   |
@@ -1645,12 +1645,12 @@
 | time/                   |          |
 |    progress             | 0.44     |
 |    step                 | 4.4e+05  |
-|    time                 | 15.5     |
+|    time                 | 14.6     |
 --------------------------------------
 
-2024-05-29 17:33:55,875 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:33:57,641 : Eval | ep_lengths 96.60 +/- 149.91 | ep_return 92.790 +/- 143.556
-2024-05-29 17:33:57,643 : 
+2024-05-27 21:43:25,187 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:43:27,038 : Eval | ep_lengths 96.60 +/- 149.91 | ep_return 92.790 +/- 143.556
+2024-05-27 21:43:27,039 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.936   |
@@ -1675,12 +1675,12 @@
 | time/                   |          |
 |    progress             | 0.448    |
 |    step                 | 4.48e+05 |
-|    time                 | 15.6     |
+|    time                 | 14.6     |
 --------------------------------------
 
-2024-05-29 17:34:13,124 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:34:18,568 : Eval | ep_lengths 300.40 +/- 244.46 | ep_return 270.494 +/- 220.515
-2024-05-29 17:34:18,569 : 
+2024-05-27 21:43:41,701 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:43:46,991 : Eval | ep_lengths 300.40 +/- 244.46 | ep_return 270.494 +/- 220.515
+2024-05-27 21:43:46,992 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.938   |
@@ -1705,12 +1705,12 @@
 | time/                   |          |
 |    progress             | 0.456    |
 |    step                 | 4.56e+05 |
-|    time                 | 15.5     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:34:33,953 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:34:38,010 : Eval | ep_lengths 224.60 +/- 235.19 | ep_return 193.060 +/- 201.456
-2024-05-29 17:34:38,011 : 
+2024-05-27 21:44:01,697 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:44:05,614 : Eval | ep_lengths 224.60 +/- 235.19 | ep_return 193.060 +/- 201.456
+2024-05-27 21:44:05,615 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.94     |
@@ -1735,12 +1735,12 @@
 | time/                   |           |
 |    progress             | 0.464     |
 |    step                 | 4.64e+05  |
-|    time                 | 15.4      |
+|    time                 | 14.7      |
 ---------------------------------------
 
-2024-05-29 17:34:53,404 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:34:56,054 : Eval | ep_lengths 146.40 +/- 188.25 | ep_return 139.036 +/- 177.567
-2024-05-29 17:34:56,055 : 
+2024-05-27 21:44:20,309 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:44:22,804 : Eval | ep_lengths 146.40 +/- 188.25 | ep_return 139.036 +/- 177.567
+2024-05-27 21:44:22,806 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.94    |
@@ -1765,12 +1765,12 @@
 | time/                   |          |
 |    progress             | 0.472    |
 |    step                 | 4.72e+05 |
-|    time                 | 15.4     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:35:11,444 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:35:14,695 : Eval | ep_lengths 179.70 +/- 219.96 | ep_return 163.860 +/- 198.471
-2024-05-29 17:35:14,697 : 
+2024-05-27 21:44:37,562 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:44:40,849 : Eval | ep_lengths 179.70 +/- 219.96 | ep_return 163.860 +/- 198.471
+2024-05-27 21:44:40,851 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.945   |
@@ -1795,12 +1795,12 @@
 | time/                   |          |
 |    progress             | 0.48     |
 |    step                 | 4.8e+05  |
-|    time                 | 15.4     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:35:30,069 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:35:34,495 : Eval | ep_lengths 245.30 +/- 223.40 | ep_return 230.864 +/- 208.849
-2024-05-29 17:35:34,496 : 
+2024-05-27 21:44:55,580 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:44:59,892 : Eval | ep_lengths 245.30 +/- 223.40 | ep_return 230.864 +/- 208.849
+2024-05-27 21:44:59,894 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.946   |
@@ -1825,12 +1825,12 @@
 | time/                   |          |
 |    progress             | 0.488    |
 |    step                 | 4.88e+05 |
-|    time                 | 15.4     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:35:49,851 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:35:55,287 : Eval | ep_lengths 300.50 +/- 244.34 | ep_return 254.935 +/- 207.660
-2024-05-29 17:35:55,288 : 
+2024-05-27 21:45:14,586 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:45:19,840 : Eval | ep_lengths 300.50 +/- 244.34 | ep_return 254.935 +/- 207.660
+2024-05-27 21:45:19,841 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.942   |
@@ -1855,12 +1855,12 @@
 | time/                   |          |
 |    progress             | 0.496    |
 |    step                 | 4.96e+05 |
-|    time                 | 15.3     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:36:10,616 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:36:14,257 : Eval | ep_lengths 202.10 +/- 243.27 | ep_return 176.658 +/- 212.352
-2024-05-29 17:36:14,258 : 
+2024-05-27 21:45:34,554 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:45:38,260 : Eval | ep_lengths 202.10 +/- 243.27 | ep_return 176.658 +/- 212.352
+2024-05-27 21:45:38,261 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.938    |
@@ -1885,12 +1885,12 @@
 | time/                   |           |
 |    progress             | 0.504     |
 |    step                 | 5.04e+05  |
-|    time                 | 15.3      |
+|    time                 | 14.7      |
 ---------------------------------------
 
-2024-05-29 17:36:29,594 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:36:33,366 : Eval | ep_lengths 208.20 +/- 224.05 | ep_return 195.624 +/- 210.190
-2024-05-29 17:36:33,368 : 
+2024-05-27 21:45:52,973 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:45:56,830 : Eval | ep_lengths 208.20 +/- 224.05 | ep_return 195.624 +/- 210.190
+2024-05-27 21:45:56,832 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.938    |
@@ -1915,12 +1915,12 @@
 | time/                   |           |
 |    progress             | 0.512     |
 |    step                 | 5.12e+05  |
-|    time                 | 15.3      |
+|    time                 | 14.7      |
 ---------------------------------------
 
-2024-05-29 17:36:48,740 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:36:50,078 : Eval | ep_lengths 73.40 +/- 156.80 | ep_return 70.420 +/- 149.242
-2024-05-29 17:36:50,079 : 
+2024-05-27 21:46:11,596 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:46:12,864 : Eval | ep_lengths 73.40 +/- 156.80 | ep_return 70.420 +/- 149.242
+2024-05-27 21:46:12,865 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.94    |
@@ -1945,12 +1945,12 @@
 | time/                   |          |
 |    progress             | 0.52     |
 |    step                 | 5.2e+05  |
-|    time                 | 15.4     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:37:05,458 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:37:10,003 : Eval | ep_lengths 252.70 +/- 247.33 | ep_return 233.188 +/- 228.011
-2024-05-29 17:37:10,004 : 
+2024-05-27 21:46:27,594 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:46:32,285 : Eval | ep_lengths 252.70 +/- 247.33 | ep_return 233.188 +/- 228.011
+2024-05-27 21:46:32,286 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.938    |
@@ -1975,12 +1975,12 @@
 | time/                   |           |
 |    progress             | 0.528     |
 |    step                 | 5.28e+05  |
-|    time                 | 15.4      |
+|    time                 | 14.7      |
 ---------------------------------------
 
-2024-05-29 17:37:25,392 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:37:29,923 : Eval | ep_lengths 251.10 +/- 194.91 | ep_return 238.871 +/- 182.169
-2024-05-29 17:37:29,924 : 
+2024-05-27 21:46:47,060 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:46:51,611 : Eval | ep_lengths 251.10 +/- 194.91 | ep_return 238.871 +/- 182.169
+2024-05-27 21:46:51,612 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.939   |
@@ -2005,12 +2005,12 @@
 | time/                   |          |
 |    progress             | 0.536    |
 |    step                 | 5.36e+05 |
-|    time                 | 15.4     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:37:45,309 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:37:48,881 : Eval | ep_lengths 197.90 +/- 205.56 | ep_return 190.457 +/- 197.896
-2024-05-29 17:37:48,883 : 
+2024-05-27 21:47:06,452 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:47:10,053 : Eval | ep_lengths 197.90 +/- 205.56 | ep_return 190.457 +/- 197.896
+2024-05-27 21:47:10,054 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.938   |
@@ -2035,12 +2035,12 @@
 | time/                   |          |
 |    progress             | 0.544    |
 |    step                 | 5.44e+05 |
-|    time                 | 15.4     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:38:04,245 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:38:08,005 : Eval | ep_lengths 205.10 +/- 241.14 | ep_return 173.512 +/- 202.891
-2024-05-29 17:38:08,007 : 
+2024-05-27 21:47:24,843 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:47:28,431 : Eval | ep_lengths 205.10 +/- 241.14 | ep_return 173.512 +/- 202.891
+2024-05-27 21:47:28,432 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.935   |
@@ -2065,12 +2065,12 @@
 | time/                   |          |
 |    progress             | 0.552    |
 |    step                 | 5.52e+05 |
-|    time                 | 15.4     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:38:23,848 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:38:30,313 : Eval | ep_lengths 350.30 +/- 228.67 | ep_return 225.004 +/- 147.077
-2024-05-29 17:38:30,315 : 
+2024-05-27 21:47:43,195 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:47:49,430 : Eval | ep_lengths 350.30 +/- 228.67 | ep_return 225.004 +/- 147.077
+2024-05-27 21:47:49,432 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.935   |
@@ -2095,12 +2095,12 @@
 | time/                   |          |
 |    progress             | 0.56     |
 |    step                 | 5.6e+05  |
-|    time                 | 15.8     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:38:46,140 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:38:49,878 : Eval | ep_lengths 201.40 +/- 243.81 | ep_return 180.321 +/- 218.113
-2024-05-29 17:38:49,880 : 
+2024-05-27 21:48:04,198 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:48:07,808 : Eval | ep_lengths 201.40 +/- 243.81 | ep_return 180.321 +/- 218.113
+2024-05-27 21:48:07,809 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.935   |
@@ -2125,12 +2125,12 @@
 | time/                   |          |
 |    progress             | 0.568    |
 |    step                 | 5.68e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:39:05,700 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:39:09,117 : Eval | ep_lengths 184.50 +/- 144.89 | ep_return 176.313 +/- 135.300
-2024-05-29 17:39:09,119 : 
+2024-05-27 21:48:22,443 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:48:25,743 : Eval | ep_lengths 184.50 +/- 144.89 | ep_return 176.313 +/- 135.300
+2024-05-27 21:48:25,744 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.931   |
@@ -2155,12 +2155,12 @@
 | time/                   |          |
 |    progress             | 0.576    |
 |    step                 | 5.76e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.6     |
 --------------------------------------
 
-2024-05-29 17:39:25,016 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:39:31,880 : Eval | ep_lengths 372.50 +/- 200.67 | ep_return 352.434 +/- 189.070
-2024-05-29 17:39:31,886 : 
+2024-05-27 21:48:40,382 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:48:47,175 : Eval | ep_lengths 372.50 +/- 200.67 | ep_return 352.434 +/- 189.070
+2024-05-27 21:48:47,181 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.931   |
@@ -2185,12 +2185,12 @@
 | time/                   |          |
 |    progress             | 0.584    |
 |    step                 | 5.84e+05 |
-|    time                 | 15.9     |
+|    time                 | 14.6     |
 --------------------------------------
 
-2024-05-29 17:39:47,751 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:39:55,130 : Eval | ep_lengths 400.20 +/- 199.60 | ep_return 323.217 +/- 161.406
-2024-05-29 17:39:55,131 : 
+2024-05-27 21:49:01,873 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:49:09,031 : Eval | ep_lengths 400.20 +/- 199.60 | ep_return 323.217 +/- 161.406
+2024-05-27 21:49:09,032 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.934   |
@@ -2215,12 +2215,12 @@
 | time/                   |          |
 |    progress             | 0.592    |
 |    step                 | 5.92e+05 |
-|    time                 | 15.9     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:40:10,959 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:40:16,531 : Eval | ep_lengths 301.50 +/- 243.13 | ep_return 250.586 +/- 201.714
-2024-05-29 17:40:16,532 : 
+2024-05-27 21:49:23,789 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:49:29,344 : Eval | ep_lengths 301.50 +/- 243.13 | ep_return 250.586 +/- 201.714
+2024-05-27 21:49:29,345 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.936    |
@@ -2245,12 +2245,12 @@
 | time/                   |           |
 |    progress             | 0.6       |
 |    step                 | 6e+05     |
-|    time                 | 15.8      |
+|    time                 | 14.8      |
 ---------------------------------------
 
-2024-05-29 17:40:32,369 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:40:37,076 : Eval | ep_lengths 254.90 +/- 245.35 | ep_return 230.289 +/- 221.013
-2024-05-29 17:40:37,078 : 
+2024-05-27 21:49:43,905 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:49:48,404 : Eval | ep_lengths 254.90 +/- 245.35 | ep_return 230.289 +/- 221.013
+2024-05-27 21:49:48,405 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.935    |
@@ -2275,12 +2275,12 @@
 | time/                   |           |
 |    progress             | 0.608     |
 |    step                 | 6.08e+05  |
-|    time                 | 15.8      |
+|    time                 | 14.6      |
 ---------------------------------------
 
-2024-05-29 17:40:52,994 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:40:56,169 : Eval | ep_lengths 171.50 +/- 220.12 | ep_return 162.333 +/- 206.739
-2024-05-29 17:40:56,170 : 
+2024-05-27 21:50:03,126 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:50:06,099 : Eval | ep_lengths 171.50 +/- 220.12 | ep_return 162.333 +/- 206.739
+2024-05-27 21:50:06,100 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.936   |
@@ -2305,12 +2305,12 @@
 | time/                   |          |
 |    progress             | 0.616    |
 |    step                 | 6.16e+05 |
-|    time                 | 15.9     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:41:11,964 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:41:13,478 : Eval | ep_lengths 81.20 +/- 75.02 | ep_return 79.111 +/- 73.143
-2024-05-29 17:41:13,480 : 
+2024-05-27 21:50:20,960 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:50:22,441 : Eval | ep_lengths 81.20 +/- 75.02 | ep_return 79.111 +/- 73.143
+2024-05-27 21:50:22,443 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.938   |
@@ -2335,12 +2335,12 @@
 | time/                   |          |
 |    progress             | 0.624    |
 |    step                 | 6.24e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.9     |
 --------------------------------------
 
-2024-05-29 17:41:29,277 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:41:34,608 : Eval | ep_lengths 289.70 +/- 220.14 | ep_return 271.804 +/- 203.928
-2024-05-29 17:41:34,610 : 
+2024-05-27 21:50:37,320 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:50:42,619 : Eval | ep_lengths 289.70 +/- 220.14 | ep_return 271.804 +/- 203.928
+2024-05-27 21:50:42,621 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.936   |
@@ -2365,12 +2365,12 @@
 | time/                   |          |
 |    progress             | 0.632    |
 |    step                 | 6.32e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.9     |
 --------------------------------------
 
-2024-05-29 17:41:50,316 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:41:57,664 : Eval | ep_lengths 400.30 +/- 199.40 | ep_return 359.772 +/- 179.553
-2024-05-29 17:41:57,670 : 
+2024-05-27 21:50:57,345 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:51:04,518 : Eval | ep_lengths 400.30 +/- 199.40 | ep_return 359.772 +/- 179.553
+2024-05-27 21:51:04,524 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.936   |
@@ -2395,12 +2395,12 @@
 | time/                   |          |
 |    progress             | 0.64     |
 |    step                 | 6.4e+05  |
-|    time                 | 15.7     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:42:13,448 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:42:16,244 : Eval | ep_lengths 149.20 +/- 174.19 | ep_return 141.428 +/- 163.804
-2024-05-29 17:42:16,246 : 
+2024-05-27 21:51:19,264 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:51:22,066 : Eval | ep_lengths 149.20 +/- 174.19 | ep_return 141.428 +/- 163.804
+2024-05-27 21:51:22,067 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.938   |
@@ -2425,12 +2425,12 @@
 | time/                   |          |
 |    progress             | 0.648    |
 |    step                 | 6.48e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:42:32,074 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:42:40,339 : Eval | ep_lengths 450.10 +/- 149.70 | ep_return 424.017 +/- 141.571
-2024-05-29 17:42:40,345 : 
+2024-05-27 21:51:36,751 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:51:44,931 : Eval | ep_lengths 450.10 +/- 149.70 | ep_return 424.017 +/- 141.571
+2024-05-27 21:51:44,936 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.934   |
@@ -2455,12 +2455,12 @@
 | time/                   |          |
 |    progress             | 0.656    |
 |    step                 | 6.56e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:42:56,012 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:42:59,752 : Eval | ep_lengths 205.00 +/- 241.18 | ep_return 181.168 +/- 212.170
-2024-05-29 17:42:59,754 : 
+2024-05-27 21:51:59,691 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:52:03,646 : Eval | ep_lengths 205.00 +/- 241.18 | ep_return 181.168 +/- 212.170
+2024-05-27 21:52:03,647 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.933   |
@@ -2485,12 +2485,12 @@
 | time/                   |          |
 |    progress             | 0.664    |
 |    step                 | 6.64e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:43:15,438 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:43:20,012 : Eval | ep_lengths 250.50 +/- 249.50 | ep_return 216.456 +/- 215.609
-2024-05-29 17:43:20,014 : 
+2024-05-27 21:52:18,357 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:52:22,737 : Eval | ep_lengths 250.50 +/- 249.50 | ep_return 216.456 +/- 215.609
+2024-05-27 21:52:22,738 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.931   |
@@ -2515,12 +2515,12 @@
 | time/                   |          |
 |    progress             | 0.672    |
 |    step                 | 6.72e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:43:35,733 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:43:43,108 : Eval | ep_lengths 400.20 +/- 199.60 | ep_return 346.144 +/- 172.944
-2024-05-29 17:43:43,109 : 
+2024-05-27 21:52:37,248 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:52:44,624 : Eval | ep_lengths 400.20 +/- 199.60 | ep_return 346.144 +/- 172.944
+2024-05-27 21:52:44,625 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.931   |
@@ -2545,12 +2545,12 @@
 | time/                   |          |
 |    progress             | 0.68     |
 |    step                 | 6.8e+05  |
-|    time                 | 15.7     |
+|    time                 | 14.5     |
 --------------------------------------
 
-2024-05-29 17:43:58,840 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:44:07,128 : Eval | ep_lengths 450.10 +/- 149.70 | ep_return 353.826 +/- 117.900
-2024-05-29 17:44:07,130 : 
+2024-05-27 21:52:59,244 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:53:07,491 : Eval | ep_lengths 450.10 +/- 149.70 | ep_return 353.826 +/- 117.900
+2024-05-27 21:53:07,492 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.931   |
@@ -2575,12 +2575,12 @@
 | time/                   |          |
 |    progress             | 0.688    |
 |    step                 | 6.88e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.6     |
 --------------------------------------
 
-2024-05-29 17:44:22,882 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:44:28,451 : Eval | ep_lengths 303.70 +/- 240.59 | ep_return 274.731 +/- 217.211
-2024-05-29 17:44:28,452 : 
+2024-05-27 21:53:22,157 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:53:27,525 : Eval | ep_lengths 303.70 +/- 240.59 | ep_return 274.731 +/- 217.211
+2024-05-27 21:53:27,526 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.932   |
@@ -2605,12 +2605,12 @@
 | time/                   |          |
 |    progress             | 0.696    |
 |    step                 | 6.96e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:44:44,187 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:44:48,810 : Eval | ep_lengths 250.50 +/- 249.50 | ep_return 239.411 +/- 238.431
-2024-05-29 17:44:48,812 : 
+2024-05-27 21:53:42,278 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:53:46,711 : Eval | ep_lengths 250.50 +/- 249.50 | ep_return 239.411 +/- 238.431
+2024-05-27 21:53:46,712 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.931    |
@@ -2635,12 +2635,12 @@
 | time/                   |           |
 |    progress             | 0.704     |
 |    step                 | 7.04e+05  |
-|    time                 | 15.7      |
+|    time                 | 14.7      |
 ---------------------------------------
 
-2024-05-29 17:45:04,568 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:45:12,321 : Eval | ep_lengths 421.10 +/- 162.16 | ep_return 392.592 +/- 150.480
-2024-05-29 17:45:12,323 : 
+2024-05-27 21:54:01,404 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:54:08,988 : Eval | ep_lengths 421.10 +/- 162.16 | ep_return 392.592 +/- 150.480
+2024-05-27 21:54:08,990 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.931   |
@@ -2665,12 +2665,12 @@
 | time/                   |          |
 |    progress             | 0.712    |
 |    step                 | 7.12e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:45:28,068 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:45:32,761 : Eval | ep_lengths 254.40 +/- 245.71 | ep_return 226.804 +/- 218.271
-2024-05-29 17:45:32,763 : 
+2024-05-27 21:54:23,793 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:54:28,708 : Eval | ep_lengths 254.40 +/- 245.71 | ep_return 226.804 +/- 218.271
+2024-05-27 21:54:28,709 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.934    |
@@ -2695,12 +2695,12 @@
 | time/                   |           |
 |    progress             | 0.72      |
 |    step                 | 7.2e+05   |
-|    time                 | 15.7      |
+|    time                 | 14.8      |
 ---------------------------------------
 
-2024-05-29 17:45:48,504 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:45:56,843 : Eval | ep_lengths 453.00 +/- 141.00 | ep_return 405.767 +/- 125.617
-2024-05-29 17:45:56,845 : 
+2024-05-27 21:54:43,649 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:54:51,860 : Eval | ep_lengths 453.00 +/- 141.00 | ep_return 405.767 +/- 125.617
+2024-05-27 21:54:51,861 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.933   |
@@ -2725,12 +2725,12 @@
 | time/                   |          |
 |    progress             | 0.728    |
 |    step                 | 7.28e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.9     |
 --------------------------------------
 
-2024-05-29 17:46:12,628 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:46:14,591 : Eval | ep_lengths 105.40 +/- 197.43 | ep_return 99.350 +/- 185.434
-2024-05-29 17:46:14,593 : 
+2024-05-27 21:55:06,684 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:55:08,625 : Eval | ep_lengths 105.40 +/- 197.43 | ep_return 99.350 +/- 185.434
+2024-05-27 21:55:08,627 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.932   |
@@ -2755,12 +2755,12 @@
 | time/                   |          |
 |    progress             | 0.736    |
 |    step                 | 7.36e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:46:30,409 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:46:36,852 : Eval | ep_lengths 350.30 +/- 228.67 | ep_return 306.278 +/- 199.907
-2024-05-29 17:46:36,854 : 
+2024-05-27 21:55:23,359 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:55:29,646 : Eval | ep_lengths 350.30 +/- 228.67 | ep_return 306.278 +/- 199.907
+2024-05-27 21:55:29,648 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.935   |
@@ -2785,12 +2785,12 @@
 | time/                   |          |
 |    progress             | 0.744    |
 |    step                 | 7.44e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:46:52,615 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:47:01,815 : Eval | ep_lengths 500.00 +/- 0.00 | ep_return 438.537 +/- 6.158
-2024-05-29 17:47:01,820 : 
+2024-05-27 21:55:44,324 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:55:53,418 : Eval | ep_lengths 500.00 +/- 0.00 | ep_return 438.537 +/- 6.158
+2024-05-27 21:55:53,424 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.935    |
@@ -2815,12 +2815,12 @@
 | time/                   |           |
 |    progress             | 0.752     |
 |    step                 | 7.52e+05  |
-|    time                 | 15.8      |
+|    time                 | 14.7      |
 ---------------------------------------
 
-2024-05-29 17:47:17,583 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:47:25,830 : Eval | ep_lengths 450.10 +/- 149.70 | ep_return 361.732 +/- 120.495
-2024-05-29 17:47:25,831 : 
+2024-05-27 21:56:08,216 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:56:16,527 : Eval | ep_lengths 450.10 +/- 149.70 | ep_return 361.732 +/- 120.495
+2024-05-27 21:56:16,528 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.933   |
@@ -2845,12 +2845,12 @@
 | time/                   |          |
 |    progress             | 0.76     |
 |    step                 | 7.6e+05  |
-|    time                 | 15.8     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:47:41,583 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:47:47,134 : Eval | ep_lengths 301.30 +/- 243.37 | ep_return 281.558 +/- 227.270
-2024-05-29 17:47:47,137 : 
+2024-05-27 21:56:31,319 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:56:36,675 : Eval | ep_lengths 301.30 +/- 243.37 | ep_return 281.558 +/- 227.270
+2024-05-27 21:56:36,676 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.932   |
@@ -2875,12 +2875,12 @@
 | time/                   |          |
 |    progress             | 0.768    |
 |    step                 | 7.68e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:48:02,973 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:48:09,568 : Eval | ep_lengths 355.60 +/- 220.65 | ep_return 335.517 +/- 207.641
-2024-05-29 17:48:09,570 : 
+2024-05-27 21:56:51,478 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:56:57,866 : Eval | ep_lengths 355.60 +/- 220.65 | ep_return 335.517 +/- 207.641
+2024-05-27 21:56:57,867 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.931   |
@@ -2905,12 +2905,12 @@
 | time/                   |          |
 |    progress             | 0.776    |
 |    step                 | 7.76e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:48:25,511 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:48:32,945 : Eval | ep_lengths 401.30 +/- 197.42 | ep_return 376.549 +/- 185.285
-2024-05-29 17:48:32,947 : 
+2024-05-27 21:57:12,719 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:57:19,911 : Eval | ep_lengths 401.30 +/- 197.42 | ep_return 376.549 +/- 185.285
+2024-05-27 21:57:19,913 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.929    |
@@ -2935,12 +2935,12 @@
 | time/                   |           |
 |    progress             | 0.784     |
 |    step                 | 7.84e+05  |
-|    time                 | 15.9      |
+|    time                 | 14.8      |
 ---------------------------------------
 
-2024-05-29 17:48:48,830 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:48:58,120 : Eval | ep_lengths 500.00 +/- 0.00 | ep_return 457.360 +/- 9.497
-2024-05-29 17:48:58,126 : 
+2024-05-27 21:57:34,791 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:57:44,114 : Eval | ep_lengths 500.00 +/- 0.00 | ep_return 457.360 +/- 9.497
+2024-05-27 21:57:44,120 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.93    |
@@ -2965,12 +2965,12 @@
 | time/                   |          |
 |    progress             | 0.792    |
 |    step                 | 7.92e+05 |
-|    time                 | 15.9     |
+|    time                 | 14.9     |
 --------------------------------------
 
-2024-05-29 17:49:14,007 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:49:17,734 : Eval | ep_lengths 200.60 +/- 244.46 | ep_return 186.444 +/- 227.137
-2024-05-29 17:49:17,736 : 
+2024-05-27 21:57:58,949 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:58:02,374 : Eval | ep_lengths 200.60 +/- 244.46 | ep_return 186.444 +/- 227.137
+2024-05-27 21:58:02,375 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.931    |
@@ -2995,12 +2995,12 @@
 | time/                   |           |
 |    progress             | 0.8       |
 |    step                 | 8e+05     |
-|    time                 | 15.9      |
+|    time                 | 14.8      |
 ---------------------------------------
 
-2024-05-29 17:49:33,607 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:49:41,079 : Eval | ep_lengths 400.20 +/- 199.60 | ep_return 360.705 +/- 179.986
-2024-05-29 17:49:41,081 : 
+2024-05-27 21:58:17,155 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:58:24,389 : Eval | ep_lengths 400.20 +/- 199.60 | ep_return 360.705 +/- 179.986
+2024-05-27 21:58:24,391 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.929    |
@@ -3025,12 +3025,12 @@
 | time/                   |           |
 |    progress             | 0.808     |
 |    step                 | 8.08e+05  |
-|    time                 | 15.9      |
+|    time                 | 14.8      |
 ---------------------------------------
 
-2024-05-29 17:49:56,949 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:50:01,538 : Eval | ep_lengths 250.50 +/- 249.50 | ep_return 233.521 +/- 232.534
-2024-05-29 17:50:01,540 : 
+2024-05-27 21:58:39,228 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:58:44,048 : Eval | ep_lengths 250.50 +/- 249.50 | ep_return 233.521 +/- 232.534
+2024-05-27 21:58:44,049 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.926   |
@@ -3055,12 +3055,12 @@
 | time/                   |          |
 |    progress             | 0.816    |
 |    step                 | 8.16e+05 |
-|    time                 | 15.9     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:50:17,247 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:50:24,581 : Eval | ep_lengths 400.20 +/- 199.60 | ep_return 359.306 +/- 179.186
-2024-05-29 17:50:24,583 : 
+2024-05-27 21:58:58,833 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:59:06,088 : Eval | ep_lengths 400.20 +/- 199.60 | ep_return 359.306 +/- 179.186
+2024-05-27 21:59:06,090 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.922   |
@@ -3085,12 +3085,12 @@
 | time/                   |          |
 |    progress             | 0.824    |
 |    step                 | 8.24e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:50:40,281 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:50:48,515 : Eval | ep_lengths 450.10 +/- 149.70 | ep_return 414.461 +/- 137.864
-2024-05-29 17:50:48,517 : 
+2024-05-27 21:59:20,861 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:59:29,105 : Eval | ep_lengths 450.10 +/- 149.70 | ep_return 414.461 +/- 137.864
+2024-05-27 21:59:29,107 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.921   |
@@ -3115,12 +3115,12 @@
 | time/                   |          |
 |    progress             | 0.832    |
 |    step                 | 8.32e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:51:04,223 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:51:10,670 : Eval | ep_lengths 350.30 +/- 228.67 | ep_return 324.665 +/- 212.006
-2024-05-29 17:51:10,672 : 
+2024-05-27 21:59:43,893 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 21:59:50,184 : Eval | ep_lengths 350.30 +/- 228.67 | ep_return 324.665 +/- 212.006
+2024-05-27 21:59:50,186 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.918    |
@@ -3145,12 +3145,12 @@
 | time/                   |           |
 |    progress             | 0.84      |
 |    step                 | 8.4e+05   |
-|    time                 | 15.7      |
+|    time                 | 14.8      |
 ---------------------------------------
 
-2024-05-29 17:51:26,396 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:51:32,815 : Eval | ep_lengths 350.60 +/- 228.21 | ep_return 326.923 +/- 212.808
-2024-05-29 17:51:32,817 : 
+2024-05-27 22:00:05,151 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:00:11,499 : Eval | ep_lengths 350.60 +/- 228.21 | ep_return 326.923 +/- 212.808
+2024-05-27 22:00:11,501 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.917   |
@@ -3175,12 +3175,12 @@
 | time/                   |          |
 |    progress             | 0.848    |
 |    step                 | 8.48e+05 |
-|    time                 | 15.7     |
+|    time                 | 15       |
 --------------------------------------
 
-2024-05-29 17:51:48,528 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:51:56,783 : Eval | ep_lengths 450.10 +/- 149.70 | ep_return 433.921 +/- 144.327
-2024-05-29 17:51:56,784 : 
+2024-05-27 22:00:26,076 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:00:34,049 : Eval | ep_lengths 450.10 +/- 149.70 | ep_return 433.921 +/- 144.327
+2024-05-27 22:00:34,051 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.916    |
@@ -3205,12 +3205,12 @@
 | time/                   |           |
 |    progress             | 0.856     |
 |    step                 | 8.56e+05  |
-|    time                 | 15.7      |
+|    time                 | 14.6      |
 ---------------------------------------
 
-2024-05-29 17:52:12,541 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:52:13,995 : Eval | ep_lengths 78.40 +/- 144.56 | ep_return 77.532 +/- 143.467
-2024-05-29 17:52:13,997 : 
+2024-05-27 22:00:48,699 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:00:50,065 : Eval | ep_lengths 78.40 +/- 144.56 | ep_return 77.532 +/- 143.467
+2024-05-27 22:00:50,066 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.916   |
@@ -3235,12 +3235,12 @@
 | time/                   |          |
 |    progress             | 0.864    |
 |    step                 | 8.64e+05 |
-|    time                 | 15.8     |
+|    time                 | 14.6     |
 --------------------------------------
 
-2024-05-29 17:52:29,725 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:52:32,358 : Eval | ep_lengths 143.80 +/- 145.25 | ep_return 138.549 +/- 141.738
-2024-05-29 17:52:32,360 : 
+2024-05-27 22:01:04,918 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:01:07,646 : Eval | ep_lengths 143.80 +/- 145.25 | ep_return 138.549 +/- 141.738
+2024-05-27 22:01:07,648 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.914   |
@@ -3265,12 +3265,12 @@
 | time/                   |          |
 |    progress             | 0.872    |
 |    step                 | 8.72e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:52:47,950 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:52:53,428 : Eval | ep_lengths 300.40 +/- 244.46 | ep_return 275.700 +/- 224.307
-2024-05-29 17:52:53,429 : 
+2024-05-27 22:01:22,271 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:01:27,552 : Eval | ep_lengths 300.40 +/- 244.46 | ep_return 275.700 +/- 224.307
+2024-05-27 22:01:27,553 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.916   |
@@ -3295,12 +3295,12 @@
 | time/                   |          |
 |    progress             | 0.88     |
 |    step                 | 8.8e+05  |
-|    time                 | 15.6     |
+|    time                 | 14.6     |
 --------------------------------------
 
-2024-05-29 17:53:09,000 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:53:11,797 : Eval | ep_lengths 152.60 +/- 227.46 | ep_return 145.183 +/- 216.178
-2024-05-29 17:53:11,799 : 
+2024-05-27 22:01:42,299 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:01:45,033 : Eval | ep_lengths 152.60 +/- 227.46 | ep_return 145.183 +/- 216.178
+2024-05-27 22:01:45,035 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.918   |
@@ -3325,12 +3325,12 @@
 | time/                   |          |
 |    progress             | 0.888    |
 |    step                 | 8.88e+05 |
-|    time                 | 15.6     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:53:27,429 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:53:32,062 : Eval | ep_lengths 252.40 +/- 247.63 | ep_return 239.212 +/- 234.480
-2024-05-29 17:53:32,064 : 
+2024-05-27 22:01:59,748 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:02:04,227 : Eval | ep_lengths 252.40 +/- 247.63 | ep_return 239.212 +/- 234.480
+2024-05-27 22:02:04,228 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.919    |
@@ -3355,12 +3355,12 @@
 | time/                   |           |
 |    progress             | 0.896     |
 |    step                 | 8.96e+05  |
-|    time                 | 15.6      |
+|    time                 | 14.7      |
 ---------------------------------------
 
-2024-05-29 17:53:47,698 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:53:54,988 : Eval | ep_lengths 400.20 +/- 199.60 | ep_return 373.289 +/- 186.213
-2024-05-29 17:53:54,990 : 
+2024-05-27 22:02:18,993 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:02:26,367 : Eval | ep_lengths 400.20 +/- 199.60 | ep_return 373.289 +/- 186.213
+2024-05-27 22:02:26,369 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.92    |
@@ -3385,12 +3385,12 @@
 | time/                   |          |
 |    progress             | 0.904    |
 |    step                 | 9.04e+05 |
-|    time                 | 15.6     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:54:10,570 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:54:16,101 : Eval | ep_lengths 302.70 +/- 241.72 | ep_return 282.986 +/- 225.680
-2024-05-29 17:54:16,103 : 
+2024-05-27 22:02:41,156 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:02:46,673 : Eval | ep_lengths 302.70 +/- 241.72 | ep_return 282.986 +/- 225.680
+2024-05-27 22:02:46,675 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.919   |
@@ -3415,12 +3415,12 @@
 | time/                   |          |
 |    progress             | 0.912    |
 |    step                 | 9.12e+05 |
-|    time                 | 15.6     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:54:31,816 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:54:35,891 : Eval | ep_lengths 221.40 +/- 232.20 | ep_return 210.749 +/- 220.901
-2024-05-29 17:54:35,893 : 
+2024-05-27 22:03:01,381 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:03:05,221 : Eval | ep_lengths 221.40 +/- 232.20 | ep_return 210.749 +/- 220.901
+2024-05-27 22:03:05,222 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.919   |
@@ -3445,12 +3445,12 @@
 | time/                   |          |
 |    progress             | 0.92     |
 |    step                 | 9.2e+05  |
-|    time                 | 15.7     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:54:51,613 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:54:53,458 : Eval | ep_lengths 99.50 +/- 82.22 | ep_return 95.919 +/- 79.059
-2024-05-29 17:54:53,460 : 
+2024-05-27 22:03:20,028 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:03:21,952 : Eval | ep_lengths 99.50 +/- 82.22 | ep_return 95.919 +/- 79.059
+2024-05-27 22:03:21,954 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.919    |
@@ -3475,12 +3475,12 @@
 | time/                   |           |
 |    progress             | 0.928     |
 |    step                 | 9.28e+05  |
-|    time                 | 15.7      |
+|    time                 | 14.8      |
 ---------------------------------------
 
-2024-05-29 17:55:09,207 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:55:12,184 : Eval | ep_lengths 161.40 +/- 182.34 | ep_return 156.639 +/- 178.281
-2024-05-29 17:55:12,186 : 
+2024-05-27 22:03:36,798 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:03:39,816 : Eval | ep_lengths 161.40 +/- 182.34 | ep_return 156.639 +/- 178.281
+2024-05-27 22:03:39,817 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.92    |
@@ -3505,12 +3505,12 @@
 | time/                   |          |
 |    progress             | 0.936    |
 |    step                 | 9.36e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:55:27,882 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:55:35,306 : Eval | ep_lengths 403.40 +/- 193.33 | ep_return 375.605 +/- 179.609
-2024-05-29 17:55:35,308 : 
+2024-05-27 22:03:54,645 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:04:02,091 : Eval | ep_lengths 403.40 +/- 193.33 | ep_return 375.605 +/- 179.609
+2024-05-27 22:04:02,093 : 
 ---------------------------------------
 | loss/                   |           |
 |    entropy_loss         | -0.922    |
@@ -3535,12 +3535,12 @@
 | time/                   |           |
 |    progress             | 0.944     |
 |    step                 | 9.44e+05  |
-|    time                 | 15.7      |
+|    time                 | 14.8      |
 ---------------------------------------
 
-2024-05-29 17:55:50,996 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:56:00,155 : Eval | ep_lengths 500.00 +/- 0.00 | ep_return 446.214 +/- 6.500
-2024-05-29 17:56:00,156 : 
+2024-05-27 22:04:16,881 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:04:26,065 : Eval | ep_lengths 500.00 +/- 0.00 | ep_return 446.214 +/- 6.500
+2024-05-27 22:04:26,067 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.92    |
@@ -3565,12 +3565,12 @@
 | time/                   |          |
 |    progress             | 0.952    |
 |    step                 | 9.52e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:56:15,812 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:56:23,144 : Eval | ep_lengths 400.20 +/- 199.60 | ep_return 360.672 +/- 179.951
-2024-05-29 17:56:23,146 : 
+2024-05-27 22:04:40,808 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:04:48,026 : Eval | ep_lengths 400.20 +/- 199.60 | ep_return 360.672 +/- 179.951
+2024-05-27 22:04:48,028 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.919   |
@@ -3595,12 +3595,12 @@
 | time/                   |          |
 |    progress             | 0.96     |
 |    step                 | 9.6e+05  |
-|    time                 | 15.6     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:56:38,804 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:56:47,082 : Eval | ep_lengths 450.10 +/- 149.70 | ep_return 408.777 +/- 135.991
-2024-05-29 17:56:47,085 : 
+2024-05-27 22:05:02,806 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:05:10,950 : Eval | ep_lengths 450.10 +/- 149.70 | ep_return 408.777 +/- 135.991
+2024-05-27 22:05:10,951 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.922   |
@@ -3625,12 +3625,12 @@
 | time/                   |          |
 |    progress             | 0.968    |
 |    step                 | 9.68e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:57:02,694 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:57:07,280 : Eval | ep_lengths 250.50 +/- 249.50 | ep_return 216.474 +/- 215.495
-2024-05-29 17:57:07,281 : 
+2024-05-27 22:05:25,691 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:05:30,291 : Eval | ep_lengths 250.50 +/- 249.50 | ep_return 216.474 +/- 215.495
+2024-05-27 22:05:30,293 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.922   |
@@ -3655,12 +3655,12 @@
 | time/                   |          |
 |    progress             | 0.976    |
 |    step                 | 9.76e+05 |
-|    time                 | 15.6     |
+|    time                 | 14.7     |
 --------------------------------------
 
-2024-05-29 17:57:22,988 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:57:31,553 : Eval | ep_lengths 450.10 +/- 149.70 | ep_return 403.840 +/- 134.301
-2024-05-29 17:57:31,555 : 
+2024-05-27 22:05:45,114 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:05:53,229 : Eval | ep_lengths 450.10 +/- 149.70 | ep_return 403.840 +/- 134.301
+2024-05-27 22:05:53,231 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.922   |
@@ -3685,12 +3685,12 @@
 | time/                   |          |
 |    progress             | 0.984    |
 |    step                 | 9.84e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.8     |
 --------------------------------------
 
-2024-05-29 17:57:47,272 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:57:56,393 : Eval | ep_lengths 500.00 +/- 0.00 | ep_return 441.821 +/- 3.517
-2024-05-29 17:57:56,395 : 
+2024-05-27 22:06:07,883 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:06:17,032 : Eval | ep_lengths 500.00 +/- 0.00 | ep_return 441.821 +/- 3.517
+2024-05-27 22:06:17,033 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.921   |
@@ -3715,12 +3715,12 @@
 | time/                   |          |
 |    progress             | 0.992    |
 |    step                 | 9.92e+05 |
-|    time                 | 15.7     |
+|    time                 | 14.6     |
 --------------------------------------
 
-2024-05-29 17:58:11,987 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
-2024-05-29 17:58:21,109 : Eval | ep_lengths 500.00 +/- 0.00 | ep_return 454.274 +/- 2.770
-2024-05-29 17:58:21,110 : 
+2024-05-27 22:06:31,786 : Checkpoint | training_results/cartpole_null/rarl/seed_42/1000000steps/model_latest.pt
+2024-05-27 22:06:40,938 : Eval | ep_lengths 500.00 +/- 0.00 | ep_return 454.274 +/- 2.770
+2024-05-27 22:06:40,939 : 
 --------------------------------------
 | loss/                   |          |
 |    entropy_loss         | -0.918   |
@@ -3745,6 +3745,6 @@
 | time/                   |          |
 |    progress             | 1        |
 |    step                 | 1e+06    |
-|    time                 | 15.6     |
+|    time                 | 14.7     |
 --------------------------------------
 
