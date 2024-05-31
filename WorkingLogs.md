@@ -99,7 +99,7 @@ python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpol
 
 python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo rarl --task cartpole_random --seed 42  --render
 
-python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo rarl --task cartpole_null --seed 42  --render
+python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo ppo --task cartpole_null --seed 42  --render
 
 ## Env Info
 
