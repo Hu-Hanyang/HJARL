@@ -50,6 +50,7 @@ python safe_control_gym/experiments/train_rl_controller.py --task cartpole --alg
 python safe_control_gym/experiments/train_rl_controller.py --task cartpole_null --algo ppo --use_gpu True --seed 42
 python safe_control_gym/experiments/train_rl_controller.py --task cartpole_null --algo rarl --use_gpu True --seed 42
 
+
 ### Quadrotor and its derivatives
 | env | algo  | algo_env.yaml | commands | else
 | --------- | ----------- |  ----------- | ----------- | ----------- |
@@ -78,39 +79,27 @@ For rl_based controllers:
 3. Select the `-- task` (test env), if it's a fixed env, then choose the `-- test_distb_level` in the test env, 
 4. Choose other necessary arguments. 
 
-For instance, we want to test the trained algo `rarl` in the env `cartpole` in the test env `cartpole_distb`, the test command is:
-`python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole --algo rarl --task cartpole_distb --seed 42`. 
-
-When test env with 'fixed' disturbances, add another two arguments `--trained_distb_level 1.0` and `--test_distb_level 1.0` to specify the test model and test env. Also remember to revise the distb_level in the corresponding env.
-
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_random --seed 42
-
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rap --task quadrotor_fixed --test_distb_level 1.0 --seed 42
-
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rarl --task quadrotor_random --seed 42
-
-python safe_control_gym/experiments/test_hj_controller.py --algo hj --task cartpole_fixed --test_distb_level 1.5 --seed 42 --render
-
-python safe_control_gym/experiments/test_hj_controller.py --algo hj --task cartpole_random --seed 42
-
-python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_boltz --algo ppo --task cartpole_random --seed 42
-
-python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole --algo rap --task cartpole_random --seed 42
-
-python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_boltz --algo ppo --task cartpole_fixed --test_distb_level 1.5 --seed 42
-
-python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_boltz --algo ppo --task cartpole_random --seed 42
-
-python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo rarl --task cartpole_random --seed 42
-
+#### Test: cartpole_fixed with the same --test_distb_level 1.5
 python safe_control_gym/experiments/test_hj_controller.py --algo hj --task cartpole_fixed --test_distb_level 1.5 --seed 42
-python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo rarl --task cartpole_fixed --test_distb_level 1.5 --seed 42
 python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_boltz --algo ppo --task cartpole_fixed --test_distb_level 1.5 --seed 42
+python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo rarl --task cartpole_fixed --test_distb_level 1.5 --seed 42
+python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo rap --task cartpole_fixed --test_distb_level 1.5 --seed 42
 
+#### Test: cartpole_fixed with the same --test_distb_level 1.0
 python safe_control_gym/experiments/test_hj_controller.py --algo hj --task cartpole_fixed --test_distb_level 1.0 --seed 42
-python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo rarl --task cartpole_fixed --test_distb_level 1.0 --seed 42
 python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_boltz --algo ppo --task cartpole_fixed --test_distb_level 1.0 --seed 42
+python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo rarl --task cartpole_fixed --test_distb_level 1.0 --seed 42
+python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo rap --task cartpole_fixed --test_distb_level 1.0 --seed 42
 
+#### Test: cartpole_random
+python safe_control_gym/experiments/test_hj_controller.py --algo hj --task cartpole_random --seed 42
+python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_boltz --algo ppo --task cartpole_random --seed 42
+python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo rarl --task cartpole_random --seed 42  --render
+python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo rap --task cartpole_random --seed 42
+
+python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo rarl --task cartpole_random --seed 42  --render
+
+python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo rarl --task cartpole_null --seed 42  --render
 
 ## Env Info
 

@@ -126,7 +126,7 @@ def test():
                 checkpoint_path=os.path.join(config.output_dir, 'model_latest.pt'),
                 output_dir=config.output_dir,
                 use_gpu=config.use_gpu,
-                seed=config.seed,
+                seed=config.seed,  #TODO: seed is not used in the controller.
                 **config.algo_config)
     print(f"==============Controller is ready.============== \n")
     
@@ -151,15 +151,15 @@ def test():
     if config.render:
         if config.algo == 'ppo':
             # eval_results = ctrl.run(render=False, n_episodes=10) # Hanyang: the maximum number of episodes is 3 if generating videos.
-            eval_results = ctrl.run(render=True, n_episodes=3) # Hanyang: the maximum number of episodes is 3 if generating videos.
+            eval_results = ctrl.run(render=True, n_episodes=2) # Hanyang: the maximum number of episodes is 3 if generating videos.
             
         elif config.algo == 'rarl':
             # eval_results = ctrl.run(render=False, n_episodes=10, use_adv=False) 
-            eval_results = ctrl.run(render=True, n_episodes=3, use_adv=False) 
+            eval_results = ctrl.run(render=True, n_episodes=4, use_adv=False) 
             
         elif config.algo == 'rap':
             # eval_results = ctrl.run(render=False, n_episodes=10, use_adv=False) 
-            eval_results = ctrl.run(render=True, n_episodes=3, use_adv=False) 
+            eval_results = ctrl.run(render=True, n_episodes=2, use_adv=False) 
     else:
         if config.algo == 'ppo':
             eval_results = ctrl.run(render=False, n_episodes=10) # Hanyang: the maximum number of episodes is 3 if generating videos.

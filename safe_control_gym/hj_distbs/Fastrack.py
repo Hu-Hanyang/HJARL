@@ -234,7 +234,7 @@ class CartPoleSolution(object):
         # warning: grid bound for each dimension should be close, not be too different. 
         self.grid_size = 45
         self.grid = Grid(np.array([-4.8, -5, -math.pi, -10]), np.array([4.8, 5, math.pi, 10]), 4, np.array([self.grid_size, self.grid_size, self.grid_size, self.grid_size]), [2])
-        self.dyn = CartPole4D(x=[0, 0, 0, 0], uMax=10, dMax=10, uMode="min", dMode="max", distb_level=distb_level)  
+        self.dyn = CartPole4D(x=[0, 0, 0, 0], uMax=10, dMax=5, uMode="min", dMode="max", distb_level=distb_level)  
         self.lookback_length = 4.5  # Look-back length and time step of computation
         self.t_step = 0.025
         self.distb_level = self.dyn.distb_level
@@ -265,7 +265,7 @@ class CartPoleSolution(object):
         self.po = PlotOptions(do_plot=False, plot_type="3d_plot", plotDims=[0,1,2], slicesCut=[int((self.grid_size-1)/2),int((self.grid_size-1)/2),int((self.grid_size-1)/2)])
         self.result = HJSolver(self.dyn, self.grid, self.targ, tau, compMethods, self.po, saveAllTimeSteps=False)
         # Hanayng: try larger dmax=10
-        np.save("./FasTrack_data/cartpole_test/cartpole_{}.npy".format(self.distb_level), self.result)
+        np.save("./FasTrack_data/cartpole_test5/cartpole_{}.npy".format(self.distb_level), self.result)
         print("saving the result ..., done!")
 
         return self.result, self.grid, slice
