@@ -1,0 +1,633 @@
+Start to compile the sh file now!
+]2;conda activate quadrotor]1;]2;cd /localscratch/hha160/safe-control-gym]1;]2;git checkout quadrotor_trains]1;Already on 'quadrotor_trains'
+Your branch is up to date with 'origin/quadrotor_trains'.
+]2;echo 'Start to train now!']1;Start to train now!
+]2;python safe_control_gym/experiments/train_rl_controller.py --task  --algo ppo]1;The output directory is training_results/quadrotor_boltz/ppo/seed_1234/10000000steps. 
+
+Using device: cuda
+==============The envs are ready.============== 
+
+pybullet build time: Nov 28 2023 23:51:11
+pybullet build time: Nov 28 2023 23:51:11
+pybullet build time: Nov 28 2023 23:51:11
+pybullet build time: Nov 28 2023 23:51:11
+pybullet build time: Nov 28 2023 23:51:11
+/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/gymnasium/spaces/box.py:130: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  gym.logger.warn(f"Box bound precision lowered by casting to {self.dtype}")
+CasADi - 2024-05-29 12:05:07 WARNING("The options 't0', 'tf', 'grid' and 'output_t0' have been deprecated.
+The same functionality is provided by providing additional input arguments to the 'integrator' function, in particular:
+ * Call integrator(..., t0, tf, options) for a single output time, or
+ * Call integrator(..., t0, grid, options) for multiple grid points.
+The legacy 'output_t0' option can be emulated by including or excluding 't0' in 'grid'.
+Backwards compatibility is provided in this release only.") [.../casadi/core/integrator.cpp:515]
+/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/torch/nn/functional.py:1956: UserWarning: nn.functional.tanh is deprecated. Use torch.tanh instead.
+  warnings.warn("nn.functional.tanh is deprecated. Use torch.tanh instead.")
+2024-05-29 12:48:57,469 : 
+---------------------------------------
+| loss/                   |           |
+|    approx_kl            | 0.00744   |
+|    entropy_loss         | -3.77     |
+|    policy_loss          | -0.000713 |
+|    value_loss           | 27        |
+| stat/                   |           |
+|    constraint_violation | 0         |
+|    ep_constraint_vio... | 0         |
+|    ep_length            | 39.8      |
+|    ep_return            | -112      |
+|    ep_reward            | -6.62     |
+| time/                   |           |
+|    progress             | 0.0328    |
+|    step                 | 3.28e+05  |
+|    step_time            | 529       |
+---------------------------------------
+
+2024-05-29 13:32:57,391 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.00735  |
+|    entropy_loss         | -3.78    |
+|    policy_loss          | -0.00189 |
+|    value_loss           | 14.5     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 22.9     |
+|    ep_return            | -107     |
+|    ep_reward            | -15.2    |
+| time/                   |          |
+|    progress             | 0.0655   |
+|    step                 | 6.55e+05 |
+|    step_time            | 528      |
+--------------------------------------
+
+2024-05-29 14:16:46,315 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.00745  |
+|    entropy_loss         | -3.8     |
+|    policy_loss          | -0.00194 |
+|    value_loss           | 15.3     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 50.7     |
+|    ep_return            | -127     |
+|    ep_reward            | -6.39    |
+| time/                   |          |
+|    progress             | 0.0983   |
+|    step                 | 9.83e+05 |
+|    step_time            | 520      |
+--------------------------------------
+
+2024-05-29 15:00:41,375 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0096   |
+|    entropy_loss         | -3.82    |
+|    policy_loss          | -0.00373 |
+|    value_loss           | 18.7     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 78.9     |
+|    ep_return            | -135     |
+|    ep_reward            | -7.34    |
+| time/                   |          |
+|    progress             | 0.131    |
+|    step                 | 1.31e+06 |
+|    step_time            | 525      |
+--------------------------------------
+
+2024-05-29 15:43:48,678 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.00983  |
+|    entropy_loss         | -3.77    |
+|    policy_loss          | -0.00292 |
+|    value_loss           | 41.2     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 71.7     |
+|    ep_return            | -123     |
+|    ep_reward            | -6.28    |
+| time/                   |          |
+|    progress             | 0.164    |
+|    step                 | 1.64e+06 |
+|    step_time            | 516      |
+--------------------------------------
+
+2024-05-29 16:26:12,873 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.00909  |
+|    entropy_loss         | -3.7     |
+|    policy_loss          | -0.00322 |
+|    value_loss           | 38       |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 308      |
+|    ep_return            | -153     |
+|    ep_reward            | -12.5    |
+| time/                   |          |
+|    progress             | 0.197    |
+|    step                 | 1.97e+06 |
+|    step_time            | 504      |
+--------------------------------------
+
+2024-05-29 17:08:17,556 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.00916  |
+|    entropy_loss         | -3.68    |
+|    policy_loss          | -0.0033  |
+|    value_loss           | 16.5     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 510      |
+|    ep_return            | -146     |
+|    ep_reward            | -6.21    |
+| time/                   |          |
+|    progress             | 0.229    |
+|    step                 | 2.29e+06 |
+|    step_time            | 507      |
+--------------------------------------
+
+2024-05-29 17:50:52,454 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0102   |
+|    entropy_loss         | -3.67    |
+|    policy_loss          | -0.00176 |
+|    value_loss           | 12.7     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 602      |
+|    ep_return            | -142     |
+|    ep_reward            | -10.8    |
+| time/                   |          |
+|    progress             | 0.262    |
+|    step                 | 2.62e+06 |
+|    step_time            | 507      |
+--------------------------------------
+
+2024-05-29 18:34:02,785 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0101   |
+|    entropy_loss         | -3.73    |
+|    policy_loss          | -0.00271 |
+|    value_loss           | 10       |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 802      |
+|    ep_return            | -120     |
+|    ep_reward            | -2.68    |
+| time/                   |          |
+|    progress             | 0.295    |
+|    step                 | 2.95e+06 |
+|    step_time            | 519      |
+--------------------------------------
+
+2024-05-29 19:17:40,723 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0118   |
+|    entropy_loss         | -3.79    |
+|    policy_loss          | -0.00295 |
+|    value_loss           | 16.3     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 602      |
+|    ep_return            | -115     |
+|    ep_reward            | -10.2    |
+| time/                   |          |
+|    progress             | 0.328    |
+|    step                 | 3.28e+06 |
+|    step_time            | 512      |
+--------------------------------------
+
+2024-05-29 20:01:19,247 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.00984  |
+|    entropy_loss         | -3.83    |
+|    policy_loss          | -0.00337 |
+|    value_loss           | 4.13     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 801      |
+|    ep_return            | -99.6    |
+|    ep_reward            | -3.55    |
+| time/                   |          |
+|    progress             | 0.36     |
+|    step                 | 3.6e+06  |
+|    step_time            | 525      |
+--------------------------------------
+
+2024-05-29 20:46:00,443 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0111   |
+|    entropy_loss         | -3.95    |
+|    policy_loss          | -0.00319 |
+|    value_loss           | 8.8      |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 323      |
+|    ep_return            | -96.5    |
+|    ep_reward            | -6.5     |
+| time/                   |          |
+|    progress             | 0.393    |
+|    step                 | 3.93e+06 |
+|    step_time            | 520      |
+--------------------------------------
+
+2024-05-29 21:28:40,087 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0115   |
+|    entropy_loss         | -4.07    |
+|    policy_loss          | -0.00319 |
+|    value_loss           | 7.68     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 404      |
+|    ep_return            | -101     |
+|    ep_reward            | -11.2    |
+| time/                   |          |
+|    progress             | 0.426    |
+|    step                 | 4.26e+06 |
+|    step_time            | 512      |
+--------------------------------------
+
+2024-05-29 22:11:49,160 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0112   |
+|    entropy_loss         | -4.2     |
+|    policy_loss          | -0.0036  |
+|    value_loss           | 6.31     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 710      |
+|    ep_return            | -89.1    |
+|    ep_reward            | -2.21    |
+| time/                   |          |
+|    progress             | 0.459    |
+|    step                 | 4.59e+06 |
+|    step_time            | 512      |
+--------------------------------------
+
+2024-05-29 22:54:43,379 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0132   |
+|    entropy_loss         | -4.35    |
+|    policy_loss          | -0.00377 |
+|    value_loss           | 7.19     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 410      |
+|    ep_return            | -91.7    |
+|    ep_reward            | -11      |
+| time/                   |          |
+|    progress             | 0.492    |
+|    step                 | 4.92e+06 |
+|    step_time            | 513      |
+--------------------------------------
+
+2024-05-29 23:37:08,436 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0119   |
+|    entropy_loss         | -4.48    |
+|    policy_loss          | -0.00345 |
+|    value_loss           | 6.58     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 539      |
+|    ep_return            | -106     |
+|    ep_reward            | -5.1     |
+| time/                   |          |
+|    progress             | 0.524    |
+|    step                 | 5.24e+06 |
+|    step_time            | 513      |
+--------------------------------------
+
+2024-05-30 00:20:15,200 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0158   |
+|    entropy_loss         | -4.64    |
+|    policy_loss          | -0.00329 |
+|    value_loss           | 10.8     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 451      |
+|    ep_return            | -94.8    |
+|    ep_reward            | -12.6    |
+| time/                   |          |
+|    progress             | 0.557    |
+|    step                 | 5.57e+06 |
+|    step_time            | 506      |
+--------------------------------------
+
+2024-05-30 01:04:36,221 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0133   |
+|    entropy_loss         | -4.77    |
+|    policy_loss          | -0.00354 |
+|    value_loss           | 8.27     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 246      |
+|    ep_return            | -109     |
+|    ep_reward            | -8.6     |
+| time/                   |          |
+|    progress             | 0.59     |
+|    step                 | 5.9e+06  |
+|    step_time            | 541      |
+--------------------------------------
+
+2024-05-30 01:47:45,446 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0146   |
+|    entropy_loss         | -4.89    |
+|    policy_loss          | -0.00371 |
+|    value_loss           | 6.38     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 604      |
+|    ep_return            | -81.1    |
+|    ep_reward            | -6       |
+| time/                   |          |
+|    progress             | 0.623    |
+|    step                 | 6.23e+06 |
+|    step_time            | 516      |
+--------------------------------------
+
+2024-05-30 02:30:51,180 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0146   |
+|    entropy_loss         | -5.02    |
+|    policy_loss          | -0.00385 |
+|    value_loss           | 8.85     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 512      |
+|    ep_return            | -87.5    |
+|    ep_reward            | -6.53    |
+| time/                   |          |
+|    progress             | 0.655    |
+|    step                 | 6.55e+06 |
+|    step_time            | 513      |
+--------------------------------------
+
+2024-05-30 03:14:03,439 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0137   |
+|    entropy_loss         | -5.13    |
+|    policy_loss          | -0.00501 |
+|    value_loss           | 9.48     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 505      |
+|    ep_return            | -90.1    |
+|    ep_reward            | -8.75    |
+| time/                   |          |
+|    progress             | 0.688    |
+|    step                 | 6.88e+06 |
+|    step_time            | 522      |
+--------------------------------------
+
+2024-05-30 03:57:02,362 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0162   |
+|    entropy_loss         | -5.26    |
+|    policy_loss          | -0.00262 |
+|    value_loss           | 12.5     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 604      |
+|    ep_return            | -79      |
+|    ep_reward            | -5.3     |
+| time/                   |          |
+|    progress             | 0.721    |
+|    step                 | 7.21e+06 |
+|    step_time            | 515      |
+--------------------------------------
+
+2024-05-30 04:39:43,212 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0148   |
+|    entropy_loss         | -5.42    |
+|    policy_loss          | -0.00394 |
+|    value_loss           | 12.6     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 609      |
+|    ep_return            | -74.9    |
+|    ep_reward            | -5.29    |
+| time/                   |          |
+|    progress             | 0.754    |
+|    step                 | 7.54e+06 |
+|    step_time            | 509      |
+--------------------------------------
+
+2024-05-30 05:23:38,264 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0139   |
+|    entropy_loss         | -5.53    |
+|    policy_loss          | -0.00396 |
+|    value_loss           | 12.1     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 483      |
+|    ep_return            | -105     |
+|    ep_reward            | -8.4     |
+| time/                   |          |
+|    progress             | 0.786    |
+|    step                 | 7.86e+06 |
+|    step_time            | 516      |
+--------------------------------------
+
+2024-05-30 06:06:13,421 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.013    |
+|    entropy_loss         | -5.67    |
+|    policy_loss          | -0.00473 |
+|    value_loss           | 4.23     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 761      |
+|    ep_return            | -98.1    |
+|    ep_reward            | -3.26    |
+| time/                   |          |
+|    progress             | 0.819    |
+|    step                 | 8.19e+06 |
+|    step_time            | 504      |
+--------------------------------------
+
+2024-05-30 06:48:22,152 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0138   |
+|    entropy_loss         | -5.76    |
+|    policy_loss          | -0.00532 |
+|    value_loss           | 8.32     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 607      |
+|    ep_return            | -77.8    |
+|    ep_reward            | -2.91    |
+| time/                   |          |
+|    progress             | 0.852    |
+|    step                 | 8.52e+06 |
+|    step_time            | 507      |
+--------------------------------------
+
+2024-05-30 07:30:30,096 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.015    |
+|    entropy_loss         | -5.89    |
+|    policy_loss          | -0.0042  |
+|    value_loss           | 5.84     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 900      |
+|    ep_return            | -55.2    |
+|    ep_reward            | -2.09    |
+| time/                   |          |
+|    progress             | 0.885    |
+|    step                 | 8.85e+06 |
+|    step_time            | 522      |
+--------------------------------------
+
+2024-05-30 08:12:16,193 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0163   |
+|    entropy_loss         | -6.03    |
+|    policy_loss          | -0.0048  |
+|    value_loss           | 8.97     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 410      |
+|    ep_return            | -107     |
+|    ep_reward            | -6.68    |
+| time/                   |          |
+|    progress             | 0.918    |
+|    step                 | 9.18e+06 |
+|    step_time            | 501      |
+--------------------------------------
+
+2024-05-30 08:55:03,312 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0126   |
+|    entropy_loss         | -6.16    |
+|    policy_loss          | -0.00496 |
+|    value_loss           | 4.81     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 607      |
+|    ep_return            | -79.3    |
+|    ep_reward            | -6.59    |
+| time/                   |          |
+|    progress             | 0.95     |
+|    step                 | 9.5e+06  |
+|    step_time            | 520      |
+--------------------------------------
+
+2024-05-30 09:35:54,749 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0148   |
+|    entropy_loss         | -6.3     |
+|    policy_loss          | -0.00505 |
+|    value_loss           | 10.9     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 610      |
+|    ep_return            | -92.7    |
+|    ep_reward            | -4.38    |
+| time/                   |          |
+|    progress             | 0.983    |
+|    step                 | 9.83e+06 |
+|    step_time            | 478      |
+--------------------------------------
+
+2024-05-30 09:59:52,798 : Checkpoint | training_results/quadrotor_boltz/ppo/seed_1234/10000000steps/model_latest.pt
+/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/gymnasium/spaces/box.py:130: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  gym.logger.warn(f"Box bound precision lowered by casting to {self.dtype}")
+CasADi - 2024-05-29 12:05:07 WARNING("The options 't0', 'tf', 'grid' and 'output_t0' have been deprecated.
+The same functionality is provided by providing additional input arguments to the 'integrator' function, in particular:
+ * Call integrator(..., t0, tf, options) for a single output time, or
+ * Call integrator(..., t0, grid, options) for multiple grid points.
+The legacy 'output_t0' option can be emulated by including or excluding 't0' in 'grid'.
+Backwards compatibility is provided in this release only.") [.../casadi/core/integrator.cpp:515]
+/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/gymnasium/spaces/box.py:130: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  gym.logger.warn(f"Box bound precision lowered by casting to {self.dtype}")
+CasADi - 2024-05-29 12:05:06 WARNING("The options 't0', 'tf', 'grid' and 'output_t0' have been deprecated.
+The same functionality is provided by providing additional input arguments to the 'integrator' function, in particular:
+ * Call integrator(..., t0, tf, options) for a single output time, or
+ * Call integrator(..., t0, grid, options) for multiple grid points.
+The legacy 'output_t0' option can be emulated by including or excluding 't0' in 'grid'.
+Backwards compatibility is provided in this release only.") [.../casadi/core/integrator.cpp:515]
+/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/gymnasium/spaces/box.py:130: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  gym.logger.warn(f"Box bound precision lowered by casting to {self.dtype}")
+CasADi - 2024-05-29 12:05:06 WARNING("The options 't0', 'tf', 'grid' and 'output_t0' have been deprecated.
+The same functionality is provided by providing additional input arguments to the 'integrator' function, in particular:
+ * Call integrator(..., t0, tf, options) for a single output time, or
+ * Call integrator(..., t0, grid, options) for multiple grid points.
+The legacy 'output_t0' option can be emulated by including or excluding 't0' in 'grid'.
+Backwards compatibility is provided in this release only.") [.../casadi/core/integrator.cpp:515]
+/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/gymnasium/spaces/box.py:130: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  gym.logger.warn(f"Box bound precision lowered by casting to {self.dtype}")
+CasADi - 2024-05-29 12:05:06 WARNING("The options 't0', 'tf', 'grid' and 'output_t0' have been deprecated.
+The same functionality is provided by providing additional input arguments to the 'integrator' function, in particular:
+ * Call integrator(..., t0, tf, options) for a single output time, or
+ * Call integrator(..., t0, grid, options) for multiple grid points.
+The legacy 'output_t0' option can be emulated by including or excluding 't0' in 'grid'.
+Backwards compatibility is provided in this release only.") [.../casadi/core/integrator.cpp:515]
+==============The controller is ready.============== 
+
+==============Start training.============== 
+
+==============Training done.============== 
+
