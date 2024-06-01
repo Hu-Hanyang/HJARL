@@ -54,3 +54,7 @@ register(idx='rap',
 register(idx='hj',
          entry_point='safe_control_gym.controllers.hj.hj:HJ',
          config_entry_point='safe_control_gym.controllers.hj:hj.yaml')
+
+register(idx='ppo-v0',
+         entry_point='safe_control_gym.controllers.ppo_v0.ppo:ppo',
+         config_entry_point='safe_control_gym.controllers.ppo_v0:ppo.yaml')
