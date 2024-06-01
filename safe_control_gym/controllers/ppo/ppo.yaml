@@ -31,9 +31,9 @@ deque_size: 10
 eval_batch_size: 10
 
 # Misc
-log_interval: 0
+log_interval: 10
 save_interval: 0
 num_checkpoints: 0
 eval_interval: 0
 eval_save_best: False
-tensorboard: False
+tensorboard: True
