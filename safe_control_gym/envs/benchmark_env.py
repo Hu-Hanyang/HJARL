@@ -513,7 +513,7 @@ class BenchmarkEnv(gym.Env, ABC):
         else:
             info['constraint_violation'] = 0
 
-        # TODO: Hanyang: comment out the following code
+        # Hanyang: not sure about the influence of this reward addment
         # Apply penalized reward when close to constraint violation
         if self.COST == Cost.RL_REWARD:
             if self.constraints is not None and self.use_constraint_penalty and self.constraints.is_violated(self, c_value=c_value):

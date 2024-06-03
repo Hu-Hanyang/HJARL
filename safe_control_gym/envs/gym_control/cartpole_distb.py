@@ -646,14 +646,15 @@ class CartPoleDistbEnv(BenchmarkEnv):
                 _, hj_distb_force = distur_gener_cartpole(current_states, self.distb_level)
             #TODO: Hanyang: need to check the distb force application method here
             hj_distb_force3d = [float(hj_distb_force), 0.0, 0.0]
+            # Apply disturbance (by applying force on cart center).
             p.applyExternalForce(
                 self.CARTPOLE_ID,
-                linkIndex=1,  # Pole link.
+                linkIndex=0,  # Cart link.
                 forceObj=hj_distb_force3d,
                 posObj=p.getLinkState(
                     self.CARTPOLE_ID,
-                    linkIndex=1,  # Pole link.
-                    physicsClientId=self.PYB_CLIENT)[0],  # exert force on pole center
+                    linkIndex=0,  # Cart link.
+                    physicsClientId=self.PYB_CLIENT)[0],  # exert force on cart center
                 flags=p.WORLD_FRAME,
                 physicsClientId=self.PYB_CLIENT)
             

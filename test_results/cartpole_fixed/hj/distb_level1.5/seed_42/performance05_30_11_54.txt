@@ -1,5 +1,0 @@
-Test task: cartpole_fixed_distb_level1.5
-Controller: hj trained in the None
-Number of episodes: 10
-Performances of returns:  1.46 ±  1.04
-Performances of lengths: 21 ±  1.62

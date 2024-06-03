@@ -1,5 +1,0 @@
-Test task: cartpole_fixed_distb_level1.5
-Controller: ppo trained in the cartpole_boltz
-Number of episodes: 10
-Performances of returns:  33.37 ±  19.36
-Performances of lengths: 245 ±  151.64
