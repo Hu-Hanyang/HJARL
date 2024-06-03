@@ -4,7 +4,7 @@ ctrl_freq: 50
 pyb_freq: 50
 gui: False
 normalized_rl_action_space: False
-episode_len_sec: 10
+episode_len_sec: 5
 render_height: 400
 render_width: 640
 # State initialization

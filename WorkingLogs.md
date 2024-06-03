@@ -50,6 +50,9 @@ python safe_control_gym/experiments/train_rl_controller.py --task cartpole --alg
 python safe_control_gym/experiments/train_rl_controller.py --task cartpole_null --algo ppo --use_gpu True --seed 42
 python safe_control_gym/experiments/train_rl_controller.py --task cartpole_null --algo rarl --use_gpu True --seed 42
 
+python safe_control_gym/experiments/train_rl_controller.py --task cartpole_v0 --algo ppo_v0 --use_gpu True --seed 42
+python safe_control_gym/experiments/train_rl_controller.py --task cartpole --algo ppo --use_gpu True --seed 42
+
 
 ### Quadrotor and its derivatives
 | env | algo  | algo_env.yaml | commands | else

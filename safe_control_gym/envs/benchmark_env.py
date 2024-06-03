@@ -361,7 +361,7 @@ class BenchmarkEnv(gym.Env, ABC):
         self.current_physical_action = None  # current_raw_action unnormalized if it was normalized
         self.current_noisy_physical_action = None  # current_physical_action with noise added
         self.current_clipped_action = None  # current_noisy_physical_action clipped to physical action bounds
-        # Hanyang
+        # Hanyang: add the self.out_of_bounds = False
         self.out_of_bounds = False
         # Reset the disturbances.
         for mode in self.disturbances.keys():
@@ -513,16 +513,16 @@ class BenchmarkEnv(gym.Env, ABC):
         else:
             info['constraint_violation'] = 0
 
-        # Hanyang: comment out the following code
-        # # Apply penalized reward when close to constraint violation
-        # if self.COST == Cost.RL_REWARD:
-        #     if self.constraints is not None and self.use_constraint_penalty and self.constraints.is_violated(self, c_value=c_value):
-        #         if self.rew_exponential:
-        #             rew = np.log(rew)
-        #             rew += self.constraint_penalty
-        #             rew = np.exp(rew)
-        #         else:
-        #             rew += self.constraint_penalty
+        # TODO: Hanyang: comment out the following code
+        # Apply penalized reward when close to constraint violation
+        if self.COST == Cost.RL_REWARD:
+            if self.constraints is not None and self.use_constraint_penalty and self.constraints.is_violated(self, c_value=c_value):
+                if self.rew_exponential:
+                    rew = np.log(rew)
+                    rew += self.constraint_penalty
+                    rew = np.exp(rew)
+                else:
+                    rew += self.constraint_penalty
 
         # Terminate when reaching time limit,
         # but distinguish between done due to true termination or time limit reached
