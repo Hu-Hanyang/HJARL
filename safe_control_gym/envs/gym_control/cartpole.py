@@ -167,8 +167,8 @@ class CartPole(BenchmarkEnv):
         p.setPhysicsEngineParameter(enableFileCaching=0)
 
         # Set GUI and rendering constants.
-        self.RENDER_HEIGHT = int(500)
-        self.RENDER_WIDTH = int(800)
+        self.RENDER_HEIGHT = int(400)
+        self.RENDER_WIDTH = int(640)
 
         # Set the initial state.
         if init_state is None:

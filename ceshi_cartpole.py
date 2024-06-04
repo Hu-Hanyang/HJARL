@@ -40,13 +40,19 @@ def transfer(distb_level):
 # # print(f"********* The 0.3 is in the  is allowable_distb_levels: {0.3 in allowable_distb_levels}. ********* \n")
 # print(np.round(0.3, 2))
 
-env = CartPole()
+# env = CartPole()
 # env = CartPoleFixedDistb()
 # env = CartPoleRandomDistb()
 # env = CartPoleBoltzDistb()
-# env = CartPoleNullDistb()
+env = CartPoleNullDistb()
 obs = env.reset()
 
+obs, rew, done, info = env.step(0.0)
+
+print(f"********* The self.at_reset is {env.at_reset}. ********* \n")
+print(f"********* The env NAME is {env.NAME}. ********* \n")
+
+print(f"********* The obs is {obs.shape}. ********* \n")
 passive_disturb = 'dynamics' in env.disturbances
 print(f"********* The passive_disturb is {passive_disturb}. ********* \n")
 

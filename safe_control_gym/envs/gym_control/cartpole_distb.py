@@ -204,7 +204,7 @@ class CartPoleDistbEnv(BenchmarkEnv):
             self.INIT_THETA = init_state.get('init_theta', 0)
             self.INIT_THETA_DOT = init_state.get('init_theta_dot', 0)
         else:
-            raise ValueError('[ERROR] in CartPole.__init__(), init_state incorrect format.')
+            raise ValueError('[ERROR] in CartPoleDistbEnv.__init__(), init_state incorrect format.')
 
         # Get physical properties from URDF (as default parameters).
         self.GRAVITY_ACC = 9.8
@@ -220,7 +220,7 @@ class CartPoleDistbEnv(BenchmarkEnv):
             self.POLE_MASS = inertial_prop.get('pole_mass', POLE_MASS)
             self.CART_MASS = inertial_prop.get('cart_mass', CART_MASS)
         else:
-            raise ValueError('[ERROR] in CartPole.__init__(), inertial_prop incorrect format.')
+            raise ValueError('[ERROR] in CartPoleDistbEnv.__init__(), inertial_prop incorrect format.')
 
         # Create X_GOAL and U_GOAL references for the assigned task.
         self.U_GOAL = np.zeros(1)
@@ -606,7 +606,7 @@ class CartPoleDistbEnv(BenchmarkEnv):
         for _ in range(self.PYB_STEPS_PER_CTRL):
             # apply disturbance (by tabbing pole on x-z plane).
             # Hanyang: set tan_force to None to avoid the disturbance
-            tab_force = None
+            # tab_force = None
             if tab_force is not None:
                 # Convert 2D force to 3D on for PyBullet.
                 tab_force_3d = [float(tab_force[0]), 0.0, float(tab_force[1])]
@@ -641,6 +641,8 @@ class CartPoleDistbEnv(BenchmarkEnv):
                 low = np.array([-2.0])
                 high = np.array([+2.0])
                 hj_distb_force = np.random.uniform(low, high)
+            elif self.NAME == 'cartpole_null':
+                hj_distb_force = 0.0
             else:  # HJ based disturbances
                 current_states = deepcopy(self.state)
                 _, hj_distb_force = distur_gener_cartpole(current_states, self.distb_level)

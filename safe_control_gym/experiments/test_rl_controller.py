@@ -100,9 +100,11 @@ def test():
 
     # Hanyang: make output_dir
     if config.task == 'cartpole_fixed' or config.task == 'quadrotor_fixed':
-        output_dir = os.path.join(config.output_dir, config.task, config.algo, f'distb_level{config.test_distb_level}', f'seed_{config.seed}')
+        output_dir = os.path.join(config.output_dir, config.task, config.algo, 
+                                  f'distb_level{config.test_distb_level}', f'seed_{config.seed}', time.strftime("%m_%d_%H_%M"),)
     else:
-        output_dir = os.path.join(config.output_dir, config.task, config.algo, f'seed_{config.seed}')
+        output_dir = os.path.join(config.output_dir, config.task, config.algo, 
+                                  f'seed_{config.seed}', time.strftime("%m_%d_%H_%M"))
     if not os.path.exists(output_dir):
         os.makedirs(output_dir+'/')
         
@@ -140,8 +142,10 @@ def test():
                                                f'distb_level{config.trained_distb_level}', f'seed_{config.seed}', f'{total_steps}steps', 
                                                'model_latest.pt'))
     else:
+        # model_path = os.path.join(os.path.join('training_results', config.trained_task, config.algo, 
+        #                                        f'seed_{config.seed}', f'{total_steps}steps', 'model_latest.pt'))
         model_path = os.path.join(os.path.join('training_results', config.trained_task, config.algo, 
-                                               f'seed_{config.seed}', f'{total_steps}steps', 'model_latest.pt'))
+                                               f'seed_{config.seed}', f'{total_steps}steps', 'model_best.pt'))
     
     assert os.path.exists(model_path), f"[ERROR] The path '{model_path}' does not exist, please check the loading path or train one first."
     ctrl.load(model_path)

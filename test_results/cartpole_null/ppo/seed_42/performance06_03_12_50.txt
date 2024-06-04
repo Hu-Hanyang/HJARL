@@ -1,0 +1,5 @@
+Test task: cartpole_null
+Controller: ppo trained in the cartpole_null
+Number of episodes: 5
+Performances of returns:  99.32 ±  118.80
+Performances of lengths: 101 ±  121.34
