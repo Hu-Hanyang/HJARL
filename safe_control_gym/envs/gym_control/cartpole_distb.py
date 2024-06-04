@@ -628,13 +628,6 @@ class CartPoleDistbEnv(BenchmarkEnv):
                         self.line = p.addUserDebugLine(center.tolist(), (center - ff).tolist(), lineColorRGB=[0, 0, 0], lineWidth=1)
                     else:
                         p.addUserDebugLine(center.tolist(), (center - ff).tolist(), lineColorRGB=[0, 0, 0], lineWidth=1, replaceItemUniqueId=self.line)
-            # Apply control.
-            p.setJointMotorControl2(
-                self.CARTPOLE_ID,
-                jointIndex=0,  # Slider-to-cart joint.
-                controlMode=p.TORQUE_CONTROL,
-                force=force,
-                physicsClientId=self.PYB_CLIENT)
             
             # Hanayng: calculate the HJ disturbances or randomized disturbances
             if self.distb_type == 'random':
@@ -647,18 +640,18 @@ class CartPoleDistbEnv(BenchmarkEnv):
                 current_states = deepcopy(self.state)
                 _, hj_distb_force = distur_gener_cartpole(current_states, self.distb_level)
             #TODO: Hanyang: need to check the distb force application method here
-            hj_distb_force3d = [float(hj_distb_force), 0.0, 0.0]
-            # Apply disturbance (by applying force on cart center).
-            p.applyExternalForce(
-                self.CARTPOLE_ID,
-                linkIndex=0,  # Cart link.
-                forceObj=hj_distb_force3d,
-                posObj=p.getLinkState(
-                    self.CARTPOLE_ID,
-                    linkIndex=0,  # Cart link.
-                    physicsClientId=self.PYB_CLIENT)[0],  # exert force on cart center
-                flags=p.WORLD_FRAME,
-                physicsClientId=self.PYB_CLIENT)
+            # hj_distb_force3d = [float(hj_distb_force), 0.0, 0.0]
+            # # Apply disturbance (by applying force on cart center).
+            # p.applyExternalForce(
+            #     self.CARTPOLE_ID,
+            #     linkIndex=0,  # Cart link.
+            #     forceObj=hj_distb_force3d,
+            #     posObj=p.getLinkState(
+            #         self.CARTPOLE_ID,
+            #         linkIndex=0,  # Cart link.
+            #         physicsClientId=self.PYB_CLIENT)[0],  # exert force on cart center
+            #     flags=p.WORLD_FRAME,
+            #     physicsClientId=self.PYB_CLIENT)
             
             # p.setJointMotorControl2(
             #     self.CARTPOLE_ID,
@@ -666,6 +659,14 @@ class CartPoleDistbEnv(BenchmarkEnv):
             #     controlMode=p.TORQUE_CONTROL,
             #     force=hj_distb_force,
             #     physicsClientId=self.PYB_CLIENT)
+            #TODO: Hanyang: need to check the distb force application method here
+            # Apply control.
+            p.setJointMotorControl2(
+                self.CARTPOLE_ID,
+                jointIndex=0,  # Slider-to-cart joint.
+                controlMode=p.TORQUE_CONTROL,
+                force=(force+hj_distb_force),
+                physicsClientId=self.PYB_CLIENT)
             
             # Step simulation and counter.
             p.stepSimulation(physicsClientId=self.PYB_CLIENT)
@@ -876,7 +877,7 @@ class CartPoleFixedDistb(CartPoleDistbEnv):
     def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
         # Set disturbance_type to 'fixed' regardless of the input
         kwargs['distb_type'] = 'fixed'
-        kwargs['distb_level'] = 1.5 # 
+        kwargs['distb_level'] = 1.0 # 
         kwargs['randomized_init'] = True
         kwargs['seed'] = 42
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
@@ -889,7 +890,7 @@ class CartPoleBoltzDistb(CartPoleDistbEnv):
         kwargs['distb_type'] = 'boltzmann'
         kwargs['distb_level'] = 0.0
         kwargs['randomized_init'] = True
-        kwargs['seed'] = 42
+        kwargs['seed'] = 2024
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
 
 
@@ -900,7 +901,7 @@ class CartPoleNullDistb(CartPoleDistbEnv):
         kwargs['distb_type'] = 'fixed'
         kwargs['distb_level'] = 0.0
         kwargs['randomized_init'] = True
-        kwargs['seed'] = 42
+        kwargs['seed'] = 2024
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
 
 

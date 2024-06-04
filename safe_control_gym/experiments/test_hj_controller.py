@@ -133,7 +133,7 @@ def run(gui=False, n_episodes=1, n_steps=None, save_data=False):
 
     assert config.algo == 'hj', 'This script is only for HJ controller.'
     if config.render:
-        eval_results = ctrl.run(render=True, n_episodes=3)
+        eval_results = ctrl.run(render=True, n_episodes=5)
     else:   
         eval_results = ctrl.run(render=False, n_episodes=10)
 

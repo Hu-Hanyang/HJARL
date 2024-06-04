@@ -1,5 +1,0 @@
-Test task: cartpole_random
-Controller: hj trained in the None
-Number of episodes: 10
-Performances of returns:  3.32 ±  1.21
-Performances of lengths: 41 ±  7.42

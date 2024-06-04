@@ -1,5 +1,0 @@
-Test task: cartpole_random
-Controller: ppo trained in the cartpole_boltz
-Number of episodes: 10
-Performances of returns:  20.03 ±  16.80
-Performances of lengths: 38 ±  31.25

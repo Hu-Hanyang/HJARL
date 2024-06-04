@@ -20,7 +20,7 @@ class HJ(BaseController):
             self,
             env_func,
             # Model args.
-            distb_level: float = 0.0,  # Hanyang: the disturbance level of the value function used
+            distb_level: float = 1.0,  # Hanyang: the disturbance level of the value function used
             **kwargs):
         '''Creates task and controller.
 

@@ -145,7 +145,7 @@ def test():
         # model_path = os.path.join(os.path.join('training_results', config.trained_task, config.algo, 
         #                                        f'seed_{config.seed}', f'{total_steps}steps', 'model_latest.pt'))
         model_path = os.path.join(os.path.join('training_results', config.trained_task, config.algo, 
-                                               f'seed_{config.seed}', f'{total_steps}steps', 'model_best.pt'))
+                                               f'seed_{config.seed}', f'{total_steps}steps', 'model_latest.pt'))
     
     assert os.path.exists(model_path), f"[ERROR] The path '{model_path}' does not exist, please check the loading path or train one first."
     ctrl.load(model_path)

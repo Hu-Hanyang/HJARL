@@ -1,5 +1,0 @@
-Test task: cartpole_random
-Controller: rarl trained in the cartpole_null
-Number of episodes: 10
-Performances of returns:  1.72 ±  1.42
-Performances of lengths: 25 ±  11.04

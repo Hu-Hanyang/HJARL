@@ -132,6 +132,7 @@ class CartPole(BenchmarkEnv):
                  rew_act_weight=0.0001,
                  rew_exponential=True,
                  done_on_out_of_bound=True,
+                #  seed=42,  # Hanyang: feed the seed
                  **kwargs
                  ):
         '''Initialize a cartpole environment.

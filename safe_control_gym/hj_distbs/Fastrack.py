@@ -576,6 +576,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     if args.dynamics == "quadrotor":
+        # python Fastrack.py --dynamics cartpole
         uavsol = UAVSolution()
         distb_level = uavsol.distb_level
         if args.load_data: 

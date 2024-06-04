@@ -40,37 +40,54 @@ def transfer(distb_level):
 # # print(f"********* The 0.3 is in the  is allowable_distb_levels: {0.3 in allowable_distb_levels}. ********* \n")
 # print(np.round(0.3, 2))
 
-# env = CartPole()
+# env = CartPole(randomized_init=True, seed=42)
 # env = CartPoleFixedDistb()
 # env = CartPoleRandomDistb()
 # env = CartPoleBoltzDistb()
 env = CartPoleNullDistb()
 obs = env.reset()
+print(f"********* The init_obs is {obs}. ********* \n")
+steps = 10
+force = 0.1
 
-obs, rew, done, info = env.step(0.0)
+for _ in range(steps):
+    obs, rew, done, info = env.step(force)
+    # print(f"********* The obs is {obs}. ********* \n")
+    # print(f"********* The rew is {rew}. ********* \n")
+    # print(f"********* The done is {done}. ********* \n")
+    # print(f"********* The info is {info}. ********* \n")
+print(f"********* The obs is {obs}. ********* \n")
+print(f"********* The rew is {rew}. ********* \n")
+    
+    
+# obs, rew, done, info = env.step(0.0)
+# print(f"********* The obs is {obs}. ********* \n")
+# print(f"********* The rew is {rew}. ********* \n")
+# print(f"********* The done is {done}. ********* \n")
+# print(f"********* The info is {info}. ********* \n")
 
-print(f"********* The self.at_reset is {env.at_reset}. ********* \n")
-print(f"********* The env NAME is {env.NAME}. ********* \n")
+# print(f"********* The self.at_reset is {env.at_reset}. ********* \n")
+# print(f"********* The env NAME is {env.NAME}. ********* \n")
 
-print(f"********* The obs is {obs.shape}. ********* \n")
-passive_disturb = 'dynamics' in env.disturbances
-print(f"********* The passive_disturb is {passive_disturb}. ********* \n")
+# print(f"********* The obs is {obs.shape}. ********* \n")
+# passive_disturb = 'dynamics' in env.disturbances
+# print(f"********* The passive_disturb is {passive_disturb}. ********* \n")
 
-adv_disturb = env.adversary_disturbance == 'dynamics'
-print(f"********* The adv_disturb is {adv_disturb}. ********* \n")
+# adv_disturb = env.adversary_disturbance == 'dynamics'
+# print(f"********* The adv_disturb is {adv_disturb}. ********* \n")
 
-print(f"********* The self.disturbances is {env.disturbances}. ********* \n")
-print(f"********* The self.adversary_disturbance is {env.adversary_disturbance}. ********* \n")  
-print(f"********* The task is {env.TASK }. ********* \n")
-print(f"********* The self.constraints is {env.constraints}. ********* \n")
-# print(f"The initial position is {env.state[0:3]}. \n")
-print(f"The obs is {env.observation_space}")
-print(f"The action is {env.action_space}")
-# print(f"********** The shape of the observation space is {env.observation_space.shape}.********** \n")
-print(f"********** The DISTURBANCE_MODES is {env.DISTURBANCE_MODES}. ********** \n")
-print(f"********** The enable reset distribution is {env.RANDOMIZED_INIT}. ********** \n")
-print(f"********** The self.DISTURBANCES is {env.DISTURBANCES}. ********** \n")
-print(f"********** The self.COST is {env.COST}. ********** \n")
+# print(f"********* The self.disturbances is {env.disturbances}. ********* \n")
+# print(f"********* The self.adversary_disturbance is {env.adversary_disturbance}. ********* \n")  
+# print(f"********* The task is {env.TASK }. ********* \n")
+# print(f"********* The self.constraints is {env.constraints}. ********* \n")
+# # print(f"The initial position is {env.state[0:3]}. \n")
+# print(f"The obs is {env.observation_space}")
+# print(f"The action is {env.action_space}")
+# # print(f"********** The shape of the observation space is {env.observation_space.shape}.********** \n")
+# print(f"********** The DISTURBANCE_MODES is {env.DISTURBANCE_MODES}. ********** \n")
+# print(f"********** The enable reset distribution is {env.RANDOMIZED_INIT}. ********** \n")
+# print(f"********** The self.DISTURBANCES is {env.DISTURBANCES}. ********** \n")
+# print(f"********** The self.COST is {env.COST}. ********** \n")
 # print(f"********** The self.out_of_bounds is {env.out_of_bounds}. ********** \n")
 # print(f"********** The disturbance type is {env.distb_type}.********** \n")
 # print(f"********** The disturbance level is {env.distb_level}. ********** \n")
