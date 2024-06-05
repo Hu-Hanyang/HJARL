@@ -230,14 +230,15 @@ class UAVSolution(object):
 
 
 class CartPoleSolution(object):
-    def __init__(self, distb_level=0.0):
+    def __init__(self, dMax=10, dMin=-10, distb_level=0.0):
         # warning: grid bound for each dimension should be close, not be too different. 
-        self.grid_size = 45
+        self.grid_size = 50
         self.grid = Grid(np.array([-4.8, -5, -math.pi, -10]), np.array([4.8, 5, math.pi, 10]), 4, np.array([self.grid_size, self.grid_size, self.grid_size, self.grid_size]), [2])
-        self.dyn = CartPole4D(x=[0, 0, 0, 0], uMax=10, dMax=5, uMode="min", dMode="max", distb_level=distb_level)  
-        self.lookback_length = 4.5  # Look-back length and time step of computation
+        self.dyn = CartPole4D(x=[0, 0, 0, 0], dMax=dMax, dMin=dMin, uMode="min", dMode="max", distb_level=distb_level)  
+        self.lookback_length = 2.0  # Look-back length and time step of computation
         self.t_step = 0.025
         self.distb_level = self.dyn.distb_level
+        self.dMax = dMax
         self.result = None
         self.name = "cartpole"
 
@@ -264,8 +265,7 @@ class CartPoleSolution(object):
         slice = int((self.grid_size-1)/2)  
         self.po = PlotOptions(do_plot=False, plot_type="3d_plot", plotDims=[0,1,2], slicesCut=[int((self.grid_size-1)/2),int((self.grid_size-1)/2),int((self.grid_size-1)/2)])
         self.result = HJSolver(self.dyn, self.grid, self.targ, tau, compMethods, self.po, saveAllTimeSteps=False)
-        # Hanayng: try larger dmax=10
-        np.save("./FasTrack_data/cartpole_test5/cartpole_{}.npy".format(self.distb_level), self.result)
+        np.save(f"safe_control_gym/hj_distbs/FasTrack_data/cartpole_{self.dMax}/cartpole_{self.distb_level}.npy", self.result)
         print("saving the result ..., done!")
 
         return self.result, self.grid, slice
@@ -573,6 +573,9 @@ if __name__ == "__main__":
     parser.add_argument('--dynamics', default="quadrotor", type=str, help='which dynamics to use for data')
     parser.add_argument('--load_data', action='store_true', help="whether to load precollected data")
     parser.add_argument('--evaluate', action='store_true', help= "whether to plot evaluation")
+    parser.add_argument('--dMax', default=10.0, type=float, help= "for cartpole dynamics, the maximum disturbance")
+    parser.add_argument('--distb_level', default=0.0, type=float, help= "for cartpole dynamics, the distb level")
+
     args = parser.parse_args()
     
     if args.dynamics == "quadrotor":
@@ -590,8 +593,13 @@ if __name__ == "__main__":
             [V, grid, slicecut] = uavsol.get_fastrack()
 
     elif args.dynamics == "cartpole":
-        # python Fastrack.py --dynamics cartpole
-        cartpolesol = CartPoleSolution(distb_level=2.0)  # Hanyang: need to change the distb_level here
+        # python safe_control_gym/hj_distbs/Fastrack.py --dynamics cartpole --dMax 4.0 --distb_level 0.0
+        # Hanyang: need to change the dMax when calculate input
+        dMax = args.dMax
+        dMin = -args.dMax
+        distb_level = args.distb_level
+
+        cartpolesol = CartPoleSolution(dMax=dMax, dMin=dMin, distb_level=distb_level)  
         distb_level = cartpolesol.distb_level
         if args.load_data: 
             print("Loading the value function.")

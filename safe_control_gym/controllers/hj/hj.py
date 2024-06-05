@@ -1,12 +1,11 @@
 '''Hamilton-Jacobi control class for Crazyflies.
-#TODO: Not finished yet!!!
 Based on work conducted at UTIAS' DSL by SiQi Zhou and James Xu.
 '''
 
 import numpy as np
 
 from safe_control_gym.controllers.base_controller import BaseController
-from safe_control_gym.controllers.hj.hj_utils import distur_gener_cartpole
+from safe_control_gym.hj_distbs.distur_gener import distur_gener_cartpole
 from safe_control_gym.envs.benchmark_env import Task
 from safe_control_gym.utils.utils import is_wrapped
 from safe_control_gym.envs.env_wrappers.record_episode_statistics import (RecordEpisodeStatistics,

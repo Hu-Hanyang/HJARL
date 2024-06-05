@@ -631,8 +631,8 @@ class CartPoleDistbEnv(BenchmarkEnv):
             
             # Hanayng: calculate the HJ disturbances or randomized disturbances
             if self.distb_type == 'random':
-                low = np.array([-2.0])
-                high = np.array([+2.0])
+                low = np.array([-5.0])
+                high = np.array([+5.0])
                 hj_distb_force = np.random.uniform(low, high)
             elif self.NAME == 'cartpole_null':
                 hj_distb_force = 0.0

@@ -158,7 +158,8 @@ def distur_gener(states, distb_level):
     
 
 
-def distur_gener_cartpole(states, distb_level):
+def distur_gener_cartpole(states, distb_level, dMax=np.array([4.0])):
+    # Hanyang: generate disturbances in the cartpole and its derivative envs
     mc = 1.0
     mp = 0.1
     l = 0.5
@@ -274,21 +275,18 @@ def distur_gener_cartpole(states, distb_level):
             return u,d
 
     
-    # umax = np.array([10])
+    uMax = np.array([10])
     # Hanyang: change the umax according to the FasTrack_data
-    umax = np.array([2.0])
+    # dmax = np.array([2.0])
     assert distb_level <= 2.0  # Hanyang: check the output content
     # Hanyang: change the path of the npy file
-    V = np.load(f'safe_control_gym/hj_distbs/FasTrack_data/cartpole/cartpole_{distb_level}.npy')  # range [-2, +2]
-    # V = np.load(f'safe_control_gym/hj_distbs/FasTrack_data/cartpole2/cartpole_{distb_level}.npy')  # range [-2, +2]
-    # V = np.load(f'safe_control_gym/hj_distbs/FasTrack_data/cartpole5/cartpole_{distb_level}.npy')  # range [-5, +5]
-    # V = np.load(f'safe_control_gym/hj_distbs/FasTrack_data/cartpole10/cartpole_{distb_level}.npy')  # range [-10, +10]
+    V = np.load(f'safe_control_gym/hj_distbs/FasTrack_data/cartpole_{dMax[0]}/cartpole_{distb_level}.npy')
     
-    dmax = distb_level * umax
+    dmax = distb_level * dMax
     
     grid = Grid(np.array([-4.8, -5, -math.pi, -10]), np.array([4.8, 5, math.pi, 10]), 4, np.array([45, 45, 45, 45]), [2])
 
-    [opt_u, opt_d] = compute_opt_traj(grid, V, states, umax, dmax)
+    [opt_u, opt_d] = compute_opt_traj(grid, V, states, uMax, dmax)
 
     return opt_u, opt_d
 

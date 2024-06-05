@@ -716,7 +716,7 @@ class QuadrotorBoltzDistb(QuadrotorDistb):
         kwargs['distb_level'] = 0.0
         kwargs['randomized_init'] = True
         kwargs['record'] = False
-        kwargs['seed'] = 42
+        kwargs['seed'] = 2024
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
 
 

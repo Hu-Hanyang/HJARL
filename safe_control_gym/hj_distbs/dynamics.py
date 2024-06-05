@@ -284,10 +284,11 @@ class CartPole4D:
     def __init__(self, x=[0, 0, 0, 0], uMax=10, uMin=-10, dMax=10, dMin=-10, uMode="min", dMode="max", distb_level=0.0):
         self.x = x
         self.uMax = uMax
+        self.uMin = uMin
         self.uMode = uMode
         self.dMode = dMode
-        self.distb_level = distb_level
         # Hanyang: Disturbance bounds, change the magnitude to calculate different distb level value functions
+        self.distb_level = distb_level
         self.dMin = self.distb_level * dMin
         self.dMax = self.distb_level * dMax
         # Physical parameters

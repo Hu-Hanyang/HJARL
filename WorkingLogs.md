@@ -45,7 +45,6 @@ Some necessary arguments need to be added:
 | `cartpole`| `rarl` | `rarl_cartpole.yaml` | `python safe_control_gym/experiments/train_rl_controller.py --task cartpole --algo rarl --use_gpu True --seed 42` | Baseline1 |
 | `cartpole`| `rap` | `rap_cartpole.yaml` | `python safe_control_gym/experiments/train_rl_controller.py --task cartpole --algo rap --use_gpu True --seed 42` | Baseline2 |
 
-
 python safe_control_gym/experiments/train_rl_controller.py --task cartpole --algo ppo --use_gpu True --seed 42
 python safe_control_gym/experiments/train_rl_controller.py --task cartpole_null --algo ppo --use_gpu True --seed 42
 python safe_control_gym/experiments/train_rl_controller.py --task cartpole_null --algo rarl --use_gpu True --seed 42
@@ -68,7 +67,7 @@ python safe_control_gym/experiments/train_rl_controller.py --task cartpole_boltz
 | `quadrotor_boltz`| `ppo` | `ppo_quadrotor.yaml` | `python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_boltz --algo ppo --use_gpu True --seed 42` | Our proposed method |
 | `quadrotor_fixed`| `ppo` | `ppo_quadrotor.yaml` | `python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_fixed --algo ppo --use_gpu True --seed 42 --distb_level 1.0` | Baseline4, take care of the distb_level |
 | `quadrotor_random`| `ppo` | `ppo_quadrotor.yaml` | `python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_random --algo ppo --use_gpu True --seed 42` | Baseline5 (not trained)|
-
+python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_boltz --algo ppo --use_gpu True --seed 2024
 
 ## Test
 File path:  `safe_control_gym/experiments/test_rl_controller.py` and `safe_control_gym/experiments/test_hj_controller.py`.
@@ -111,4 +110,4 @@ python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpol
 python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole --algo ppo --task cartpole --seed 42  --render
 ## Env Info
 
-
+python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_random --seed 42  --render

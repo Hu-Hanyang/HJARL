@@ -44,20 +44,20 @@ def transfer(distb_level):
 # env = CartPoleFixedDistb()
 # env = CartPoleRandomDistb()
 # env = CartPoleBoltzDistb()
-env = CartPoleNullDistb()
-obs = env.reset()
-print(f"********* The init_obs is {obs}. ********* \n")
-steps = 10
-force = 0.1
+# env = CartPoleNullDistb()
+# obs = env.reset()
+# print(f"********* The init_obs is {obs}. ********* \n")
+# steps = 10
+# force = 0.1
 
-for _ in range(steps):
-    obs, rew, done, info = env.step(force)
-    # print(f"********* The obs is {obs}. ********* \n")
-    # print(f"********* The rew is {rew}. ********* \n")
-    # print(f"********* The done is {done}. ********* \n")
-    # print(f"********* The info is {info}. ********* \n")
-print(f"********* The obs is {obs}. ********* \n")
-print(f"********* The rew is {rew}. ********* \n")
+# for _ in range(steps):
+#     obs, rew, done, info = env.step(force)
+#     # print(f"********* The obs is {obs}. ********* \n")
+#     # print(f"********* The rew is {rew}. ********* \n")
+#     # print(f"********* The done is {done}. ********* \n")
+#     # print(f"********* The info is {info}. ********* \n")
+# print(f"********* The obs is {obs}. ********* \n")
+# print(f"********* The rew is {rew}. ********* \n")
     
     
 # obs, rew, done, info = env.step(0.0)
@@ -157,3 +157,10 @@ print(f"********* The rew is {rew}. ********* \n")
 #             num += 1
 #             break
 # env.close()
+
+
+low = np.array([-5.0])
+high = np.array([+5.0])
+for _ in range(10):
+    hj_distb_force = np.random.uniform(low, high)
+    print(f"The hj_distb_force is {hj_distb_force}. \n")
