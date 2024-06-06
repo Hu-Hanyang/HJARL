@@ -640,18 +640,18 @@ class CartPoleDistbEnv(BenchmarkEnv):
                 current_states = deepcopy(self.state)
                 _, hj_distb_force = distur_gener_cartpole(current_states, self.distb_level)
             #TODO: Hanyang: need to check the distb force application method here
-            # hj_distb_force3d = [float(hj_distb_force), 0.0, 0.0]
-            # # Apply disturbance (by applying force on cart center).
-            # p.applyExternalForce(
-            #     self.CARTPOLE_ID,
-            #     linkIndex=0,  # Cart link.
-            #     forceObj=hj_distb_force3d,
-            #     posObj=p.getLinkState(
-            #         self.CARTPOLE_ID,
-            #         linkIndex=0,  # Cart link.
-            #         physicsClientId=self.PYB_CLIENT)[0],  # exert force on cart center
-            #     flags=p.WORLD_FRAME,
-            #     physicsClientId=self.PYB_CLIENT)
+            hj_distb_force3d = [float(hj_distb_force), 0.0, 0.0]
+            # Apply disturbance (by applying force on cart center).
+            p.applyExternalForce(
+                self.CARTPOLE_ID,
+                linkIndex=0,  # Cart link.
+                forceObj=hj_distb_force3d,
+                posObj=p.getLinkState(
+                    self.CARTPOLE_ID,
+                    linkIndex=0,  # Cart link.
+                    physicsClientId=self.PYB_CLIENT)[0],  # exert force on cart center
+                flags=p.WORLD_FRAME,
+                physicsClientId=self.PYB_CLIENT)
             
             # p.setJointMotorControl2(
             #     self.CARTPOLE_ID,
@@ -665,7 +665,7 @@ class CartPoleDistbEnv(BenchmarkEnv):
                 self.CARTPOLE_ID,
                 jointIndex=0,  # Slider-to-cart joint.
                 controlMode=p.TORQUE_CONTROL,
-                force=(force+hj_distb_force),
+                force=force,  # (force+hj_distb_force)
                 physicsClientId=self.PYB_CLIENT)
             
             # Step simulation and counter.

@@ -158,7 +158,7 @@ def distur_gener(states, distb_level):
     
 
 
-def distur_gener_cartpole(states, distb_level, dMax=np.array([4.0])):
+def distur_gener_cartpole(states, distb_level, dMax=np.array([2.0])):
     # Hanyang: generate disturbances in the cartpole and its derivative envs
     mc = 1.0
     mp = 0.1
