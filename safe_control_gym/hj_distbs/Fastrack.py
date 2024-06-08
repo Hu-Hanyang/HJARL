@@ -593,7 +593,7 @@ if __name__ == "__main__":
             [V, grid, slicecut] = uavsol.get_fastrack()
 
     elif args.dynamics == "cartpole":
-        # python safe_control_gym/hj_distbs/Fastrack.py --dynamics cartpole --dMax 4.0 --distb_level 0.0
+        # python safe_control_gym/hj_distbs/Fastrack.py --dynamics cartpole --dMax 10.0 --distb_level 0.0
         # Hanyang: need to change the dMax when calculate input
         dMax = args.dMax
         dMin = -args.dMax

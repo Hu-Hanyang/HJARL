@@ -86,6 +86,10 @@ For rl_based controllers:
 3. Select the `-- task` (test env), if it's a fixed env, then choose the `-- test_distb_level` in the test env, 
 4. Choose other necessary arguments. 
 
+python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_random  --seed 2024
+python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_random --algo ppo --task quadrotor_random  --seed 42
+python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo ppo --task quadrotor_random  --seed 42
+
 #### Test: cartpole_fixed with the same --test_distb_level 1.5
 python safe_control_gym/experiments/test_hj_controller.py --algo hj --task cartpole_fixed --test_distb_level 1.5 --seed 42
 python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_boltz --algo ppo --task cartpole_fixed --test_distb_level 1.5 --seed 42
@@ -100,13 +104,12 @@ python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpol
 
 #### Test: cartpole_random
 python safe_control_gym/experiments/test_hj_controller.py --algo hj --task cartpole_random --seed 42  --render
-python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_boltz --algo ppo --task cartpole_random --seed 42
+python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_boltz --algo ppo --task cartpole_random --seed 2024
 python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo rarl --task cartpole_random --seed 2024  --render
 python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo rap --task cartpole_random --seed 42
 
-python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo rarl --task cartpole_random --seed 42  --render
-
-python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo ppo --task cartpole_null --seed 2024  --render
+python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo rarl --task cartpole_random --seed 42  
+python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo ppo --task cartpole_null --seed 2024  
 python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole --algo ppo --task cartpole --seed 42  --render
 ## Env Info
 

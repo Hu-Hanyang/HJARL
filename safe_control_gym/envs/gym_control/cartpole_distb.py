@@ -631,8 +631,8 @@ class CartPoleDistbEnv(BenchmarkEnv):
             
             # Hanayng: calculate the HJ disturbances or randomized disturbances
             if self.distb_type == 'random':
-                low = np.array([-5.0])
-                high = np.array([+5.0])
+                low = np.array([-2.0])
+                high = np.array([+2.0])
                 hj_distb_force = np.random.uniform(low, high)
             elif self.NAME == 'cartpole_null':
                 hj_distb_force = 0.0
@@ -640,8 +640,9 @@ class CartPoleDistbEnv(BenchmarkEnv):
                 current_states = deepcopy(self.state)
                 _, hj_distb_force = distur_gener_cartpole(current_states, self.distb_level)
             #TODO: Hanyang: need to check the distb force application method here
-            hj_distb_force3d = [float(hj_distb_force), 0.0, 0.0]
-            # Apply disturbance (by applying force on cart center).
+            hj_distb_force3d = [hj_distb_force, 0.0, 0.0]
+            
+            # Hanyang: apply disturbance on the Cart
             p.applyExternalForce(
                 self.CARTPOLE_ID,
                 linkIndex=0,  # Cart link.
@@ -652,21 +653,38 @@ class CartPoleDistbEnv(BenchmarkEnv):
                     physicsClientId=self.PYB_CLIENT)[0],  # exert force on cart center
                 flags=p.WORLD_FRAME,
                 physicsClientId=self.PYB_CLIENT)
+            # Hanyang: apply disturbance on the Pole
+            p.applyExternalForce(
+                self.CARTPOLE_ID,
+                linkIndex=1,  # Pole link.
+                forceObj=hj_distb_force3d,
+                posObj=p.getLinkState(
+                    self.CARTPOLE_ID,
+                    linkIndex=1,  # Pole link.
+                    physicsClientId=self.PYB_CLIENT)[0],  # exert force on cart center
+                flags=p.WORLD_FRAME,
+                physicsClientId=self.PYB_CLIENT)
             
+            # Hanyang: apply force using applyExternalForce
+            force3d = [force, 0.0, 0.0]
+            p.applyExternalForce(
+                self.CARTPOLE_ID,
+                linkIndex=0,  # Cart link.
+                forceObj=force3d,
+                posObj=p.getLinkState(
+                    self.CARTPOLE_ID,
+                    linkIndex=0,  # Cart link.
+                    physicsClientId=self.PYB_CLIENT)[0],  # exert force on cart center
+                flags=p.WORLD_FRAME,
+                physicsClientId=self.PYB_CLIENT)
+            
+            # # Apply control.
             # p.setJointMotorControl2(
             #     self.CARTPOLE_ID,
             #     jointIndex=0,  # Slider-to-cart joint.
             #     controlMode=p.TORQUE_CONTROL,
-            #     force=hj_distb_force,
+            #     force=force,  # (force+hj_distb_force)
             #     physicsClientId=self.PYB_CLIENT)
-            #TODO: Hanyang: need to check the distb force application method here
-            # Apply control.
-            p.setJointMotorControl2(
-                self.CARTPOLE_ID,
-                jointIndex=0,  # Slider-to-cart joint.
-                controlMode=p.TORQUE_CONTROL,
-                force=force,  # (force+hj_distb_force)
-                physicsClientId=self.PYB_CLIENT)
             
             # Step simulation and counter.
             p.stepSimulation(physicsClientId=self.PYB_CLIENT)
