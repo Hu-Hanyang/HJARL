@@ -653,19 +653,19 @@ class CartPoleDistbEnv(BenchmarkEnv):
                     physicsClientId=self.PYB_CLIENT)[0],  # exert force on cart center
                 flags=p.WORLD_FRAME,
                 physicsClientId=self.PYB_CLIENT)
-            # Hanyang: apply disturbance on the Pole
-            p.applyExternalForce(
-                self.CARTPOLE_ID,
-                linkIndex=1,  # Pole link.
-                forceObj=hj_distb_force3d,
-                posObj=p.getLinkState(
-                    self.CARTPOLE_ID,
-                    linkIndex=1,  # Pole link.
-                    physicsClientId=self.PYB_CLIENT)[0],  # exert force on cart center
-                flags=p.WORLD_FRAME,
-                physicsClientId=self.PYB_CLIENT)
+            # # Hanyang: apply disturbance on the Pole
+            # p.applyExternalForce(
+            #     self.CARTPOLE_ID,
+            #     linkIndex=1,  # Pole link.
+            #     forceObj=hj_distb_force3d,
+            #     posObj=p.getLinkState(
+            #         self.CARTPOLE_ID,
+            #         linkIndex=1,  # Pole link.
+            #         physicsClientId=self.PYB_CLIENT)[0],  # exert force on cart center
+            #     flags=p.WORLD_FRAME,
+            #     physicsClientId=self.PYB_CLIENT)
             
-            # Hanyang: apply force using applyExternalForce
+            # Hanyang: apply control force using applyExternalForce
             force3d = [force, 0.0, 0.0]
             p.applyExternalForce(
                 self.CARTPOLE_ID,
@@ -941,5 +941,5 @@ class CartPoleRandomDistb(CartPoleDistbEnv):
         kwargs['distb_type'] = 'random'
         kwargs['distb_level'] = 0.0
         kwargs['randomized_init'] = True
-        kwargs['seed'] = 42
+        kwargs['seed'] = 2024
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,

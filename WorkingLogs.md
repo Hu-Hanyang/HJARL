@@ -104,6 +104,8 @@ python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpol
 
 #### Test: cartpole_random
 python safe_control_gym/experiments/test_hj_controller.py --algo hj --task cartpole_random --seed 42  --render
+python safe_control_gym/experiments/test_hj_controller.py --algo hj --task cartpole_null --seed 42
+
 python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_boltz --algo ppo --task cartpole_random --seed 2024
 python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo rarl --task cartpole_random --seed 2024  --render
 python safe_control_gym/experiments/test_rl_controller.py --trained_task cartpole_null --algo rap --task cartpole_random --seed 42

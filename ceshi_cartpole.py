@@ -44,9 +44,9 @@ def transfer(distb_level):
 # env = CartPoleFixedDistb()
 # env = CartPoleRandomDistb()
 # env = CartPoleBoltzDistb()
-# env = CartPoleNullDistb()
-# obs = env.reset()
-# print(f"********* The init_obs is {obs}. ********* \n")
+env = CartPoleNullDistb()
+obs = env.reset()
+print(f"********* The init_obs is {obs}. ********* \n")
 # steps = 10
 # force = 0.1
 
@@ -81,14 +81,15 @@ def transfer(distb_level):
 # print(f"********* The task is {env.TASK }. ********* \n")
 # print(f"********* The self.constraints is {env.constraints}. ********* \n")
 # # print(f"The initial position is {env.state[0:3]}. \n")
-# print(f"The obs is {env.observation_space}")
-# print(f"The action is {env.action_space}")
+print(f"The obs is {env.observation_space}")
+print(f"The action is {env.action_space}")
 # # print(f"********** The shape of the observation space is {env.observation_space.shape}.********** \n")
 # print(f"********** The DISTURBANCE_MODES is {env.DISTURBANCE_MODES}. ********** \n")
 # print(f"********** The enable reset distribution is {env.RANDOMIZED_INIT}. ********** \n")
 # print(f"********** The self.DISTURBANCES is {env.DISTURBANCES}. ********** \n")
 # print(f"********** The self.COST is {env.COST}. ********** \n")
-# print(f"********** The self.out_of_bounds is {env.out_of_bounds}. ********** \n")
+print(f"********** The self.out_of_bounds is {env.out_of_bounds}. ********** \n")
+print(f"********** The self.done_on_out_of_bound is {env.done_on_out_of_bound}. ********** \n")
 # print(f"********** The disturbance type is {env.distb_type}.********** \n")
 # print(f"********** The disturbance level is {env.distb_level}. ********** \n")
 
@@ -159,8 +160,8 @@ def transfer(distb_level):
 # env.close()
 
 
-low = np.array([-5.0])
-high = np.array([+5.0])
-for _ in range(10):
-    hj_distb_force = np.random.uniform(low, high)
-    print(f"The hj_distb_force is {hj_distb_force}. \n")
+# low = np.array([-5.0])
+# high = np.array([+5.0])
+# for _ in range(10):
+#     hj_distb_force = np.random.uniform(low, high)
+#     print(f"The hj_distb_force is {hj_distb_force}. \n")

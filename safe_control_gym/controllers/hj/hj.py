@@ -83,6 +83,7 @@ class HJ(BaseController):
                 env.add_tracker('mse', 0, mode='queue')
 
         obs, info = env.reset()
+        print(f"Initial observation is {obs}. \n")
         ep_returns, ep_lengths = [], []
         # Hanyang: extend the frames for visualization.
         eval_results = {'frames': []}

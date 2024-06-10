@@ -158,7 +158,7 @@ def distur_gener(states, distb_level):
     
 
 
-def distur_gener_cartpole(states, distb_level, dMax=np.array([5.0])):
+def distur_gener_cartpole(states, distb_level, dMax=np.array([2.0])):
     # Hanyang: generate disturbances in the cartpole and its derivative envs
     mc = 1.0
     mp = 0.1
@@ -281,7 +281,7 @@ def distur_gener_cartpole(states, distb_level, dMax=np.array([5.0])):
     assert distb_level <= 2.0  # Hanyang: check the output content
     # Hanyang: change the path of the npy file
     V = np.load(f'safe_control_gym/hj_distbs/FasTrack_data/cartpole_{dMax[0]}/cartpole_{distb_level}.npy')
-    
+    print(f"The value function load is FasTrack_data/cartpole_{dMax[0]}/cartpole_{distb_level}.npy")
     dmax = distb_level * dMax
     
     grid = Grid(np.array([-4.8, -5, -math.pi, -10]), np.array([4.8, 5, math.pi, 10]), 4, np.array([45, 45, 45, 45]), [2])

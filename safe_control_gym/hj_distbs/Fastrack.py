@@ -233,7 +233,7 @@ class CartPoleSolution(object):
     def __init__(self, dMax=10, dMin=-10, distb_level=0.0):
         # warning: grid bound for each dimension should be close, not be too different. 
         self.grid_size = 50
-        self.grid = Grid(np.array([-4.8, -5, -math.pi, -10]), np.array([4.8, 5, math.pi, 10]), 4, np.array([self.grid_size, self.grid_size, self.grid_size, self.grid_size]), [2])
+        self.grid = Grid(np.array([-2.4, -10, -math.pi/2, -10]), np.array([2.4, 10, math.pi/2, 10]), 4, np.array([self.grid_size, self.grid_size, self.grid_size, self.grid_size]), [2])
         self.dyn = CartPole4D(x=[0, 0, 0, 0], dMax=dMax, dMin=dMin, uMode="min", dMode="max", distb_level=distb_level)  
         self.lookback_length = 2.0  # Look-back length and time step of computation
         self.t_step = 0.025
@@ -247,12 +247,13 @@ class CartPoleSolution(object):
         """
         Customized definition of FasTrack Target, it is similar to Cylinder, but with no radius
         """
+        radius = 0.3
         data = np.zeros(grid.pts_each_dim)
         for i in range(grid.dims):
             if i not in ignore_dims:
                 # This works because of broadcasting
                 data = data + np.power(grid.vs[i] - center[i], 2)
-        # data = np.sqrt(data) - radius
+        data = np.sqrt(data) - radius
         return data
 
 
@@ -262,6 +263,8 @@ class CartPoleSolution(object):
         small_number = 1e-5
         tau = np.arange(start=0, stop=self.lookback_length + small_number, step=self.t_step)
         compMethods = { "TargetSetMode": "maxVWithV0"}  # In this example, we compute based on FasTrack 
+        # compMethods = { "TargetSetMode": "minVWithV0"}  # BRT
+        # compMethods = { "TargetSetMode": None}  # BRS
         slice = int((self.grid_size-1)/2)  
         self.po = PlotOptions(do_plot=False, plot_type="3d_plot", plotDims=[0,1,2], slicesCut=[int((self.grid_size-1)/2),int((self.grid_size-1)/2),int((self.grid_size-1)/2)])
         self.result = HJSolver(self.dyn, self.grid, self.targ, tau, compMethods, self.po, saveAllTimeSteps=False)
@@ -334,6 +337,7 @@ class CartPoleSolution(object):
 
 
     def next_state(self, dyn_sys, u, d, delta_t):
+        #TODO: Hanyang: Need to check and modify this function!!!
         """
         Simulate apply control to dynamical systems for delta_t time
 
@@ -593,7 +597,7 @@ if __name__ == "__main__":
             [V, grid, slicecut] = uavsol.get_fastrack()
 
     elif args.dynamics == "cartpole":
-        # python safe_control_gym/hj_distbs/Fastrack.py --dynamics cartpole --dMax 10.0 --distb_level 0.0
+        # python safe_control_gym/hj_distbs/Fastrack.py --dynamics cartpole --dMax 2.0 --distb_level 0.0
         # Hanyang: need to change the dMax when calculate input
         dMax = args.dMax
         dMin = -args.dMax
