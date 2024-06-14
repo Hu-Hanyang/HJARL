@@ -247,24 +247,25 @@ class CartPoleSolution(object):
         """
         Customized definition of FasTrack Target, it is similar to Cylinder, but with no radius
         """
-        radius = 0.3
+        radius = 0.5
         data = np.zeros(grid.pts_each_dim)
         for i in range(grid.dims):
             if i not in ignore_dims:
                 # This works because of broadcasting
                 data = data + np.power(grid.vs[i] - center[i], 2)
-        data = np.sqrt(data) - radius
+        # data = np.sqrt(data) - radius
         return data
 
 
     def get_fastrack(self):
         # Hanyang: add new variable distb_level to generate value function
-        self.targ = self.FasTrackTarget(self.grid, [], np.zeros(4)) # l(x) = V(0, x)
+        self.targ = self.FasTrackTarget(self.grid, [0, 1], np.zeros(4)) # l(x) = V(0, x)
         small_number = 1e-5
         tau = np.arange(start=0, stop=self.lookback_length + small_number, step=self.t_step)
         compMethods = { "TargetSetMode": "maxVWithV0"}  # In this example, we compute based on FasTrack 
         # compMethods = { "TargetSetMode": "minVWithV0"}  # BRT
         # compMethods = { "TargetSetMode": None}  # BRS
+        # compMethods = { "TargetSetMode": "maxVWithVInit"}  #
         slice = int((self.grid_size-1)/2)  
         self.po = PlotOptions(do_plot=False, plot_type="3d_plot", plotDims=[0,1,2], slicesCut=[int((self.grid_size-1)/2),int((self.grid_size-1)/2),int((self.grid_size-1)/2)])
         self.result = HJSolver(self.dyn, self.grid, self.targ, tau, compMethods, self.po, saveAllTimeSteps=False)

@@ -147,3 +147,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# safe-control-gym
+safe_control_gym/envs/gym_game/values

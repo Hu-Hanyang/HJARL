@@ -17,11 +17,12 @@ def create_gif(image_list, filename, duration=0.1):
 # print(env.reset())
 
 # # env = QuadrotorFixedDistb()
-# env = QuadrotorBoltzDistb()
-env = QuadrotorNullDistb()
-env = QuadrotorRandomDistb()
+env = QuadrotorBoltzDistb()
+# env = QuadrotorNullDistb()
+# env = QuadrotorRandomDistb()
 
-env.reset()
+obs = env.reset()
+print(f"The shape of the obs is {obs.shape}")
 # print(f"********* The self.disturbances is {env.disturbances}. ********* \n")
 # print(f"********* The self.adversary_disturbance is {env.adversary_disturbance}. ********* \n")  
 # print(f"********* The task is {env.TASK }. ********* \n")

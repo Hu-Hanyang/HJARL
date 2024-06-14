@@ -283,7 +283,7 @@ def distur_gener_cartpole(states, distb_level, dMax=np.array([2.0])):
     V = np.load(f'safe_control_gym/hj_distbs/FasTrack_data/cartpole_{dMax[0]}/cartpole_{distb_level}.npy')
     print(f"The value function load is FasTrack_data/cartpole_{dMax[0]}/cartpole_{distb_level}.npy")
     dmax = distb_level * dMax
-    
+    #TODO: Hanyang check the print out of hj disturbance
     grid = Grid(np.array([-4.8, -5, -math.pi, -10]), np.array([4.8, 5, math.pi, 10]), 4, np.array([45, 45, 45, 45]), [2])
 
     [opt_u, opt_d] = compute_opt_traj(grid, V, states, uMax, dmax)

@@ -31,8 +31,8 @@ grid_cartpole = Grid(np.array([-2.4, -10, -math.pi/2, -10]), np.array([2.4, 10, 
 
 # target_set = np.sqrt(target_set) - 0.5
 print(f"The value function at the origin is {value_cartpole[tuple([25, 25, 25, 25])]}")
-po = PlotOptions(do_plot=True, plot_type="set", plotDims=[0, 1, 2], slicesCut=[25])
-# po = PlotOptions(do_plot=True, plot_type="set", plotDims=[0, 1], slicesCut=[25, 25])
+# po = PlotOptions(do_plot=True, plot_type="set", plotDims=[0, 1, 2], slicesCut=[25])
+po = PlotOptions(do_plot=True, plot_type="set", plotDims=[2, 3], slicesCut=[25, 25])
 
 plot_isosurface(grid_cartpole, value_cartpole, po)
 # plot_isosurface(grid_cartpole, target_set, po)
