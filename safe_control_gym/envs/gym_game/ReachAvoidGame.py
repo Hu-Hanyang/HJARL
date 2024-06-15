@@ -24,13 +24,14 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
                  initial_defender: np.ndarray=None,  # shape (num_defenders, state_dim)
                  ctrl_freq: int = 200,
                  seed = 42,
+                 random_init = True,
                  uMode="min", 
                  dMode="max",
                  output_folder='results',
                  game_length_sec=20,
-                 map={'map': [-1., 1., -1., 1.]},  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
+                 map={'map': [-1.0, 1.0, -1.0, 1.0]},  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
                  des={'goal0': [0.6, 0.8, 0.1, 0.3]},  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
-                 obstacles: dict = None,  
+                 obstacles: dict = {'obs1': [-0.1, 0.1, -1.0, -0.3], 'obs2': [-0.1, 0.1, 0.3, 1.0]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
                  ):
         """Initialization of a generic aviary environment.
 
@@ -51,6 +52,7 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         ctrl_freq : int, optional
             The control frequency of the environment.
         seed : int, optional
+        random_init: bool, optional
         uMode : str, optional
             The mode of the attacker, default is "min".
         dMode : str, optional
@@ -71,7 +73,7 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         super().__init__(num_attackers=num_attackers, num_defenders=num_defenders, 
                          attackers_dynamics=attackers_dynamics, defenders_dynamics=defenders_dynamics, 
                          initial_attacker=initial_attacker, initial_defender=initial_defender, 
-                         ctrl_freq=ctrl_freq, seed=seed, output_folder=output_folder
+                         ctrl_freq=ctrl_freq, seed=seed, random_init=random_init, output_folder=output_folder
                          )
         
         assert map is not None, "Map must be provided in the game."
@@ -84,13 +86,82 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         self.uMode = uMode
         self.dMode = dMode
         # Load necessary values for the attacker control
-        #TODO: Hanyang: not finished
         self.grid1vs0 = Grid(np.array([-1.0, -1.0]), np.array([1.0, 1.0]), 2, np.array([100, 100])) 
-        self.grid1vs1 = Grid(np.array([-1.0, -1.0, -1.0, -1.0]), np.array([1.0, 1.0, 1.0, 1.0]), 4, np.array([45, 45, 45, 45]))
-        self.value1vs1 = np.load('safe_control_gym/envs/gym_game/values/1vs1Attacker.npy')
+        # self.grid1vs1 = Grid(np.array([-1.0, -1.0, -1.0, -1.0]), np.array([1.0, 1.0, 1.0, 1.0]), 4, np.array([45, 45, 45, 45]))
+        # self.value1vs1 = np.load('safe_control_gym/envs/gym_game/values/1vs1Attacker.npy')
         self.value1vs0 = np.load('safe_control_gym/envs/gym_game/values/1vs0Attacker.npy')
 
-    ################################################################################
+    
+    def step(self, action):
+        """Advances the environment by one simulation step.
+
+        Parameters
+        ----------
+        action : ndarray | (dim_action, )
+            The input action for the defender.
+
+        Returns
+        -------
+        ndarray | dict[..]
+            The step's observation, check the specific implementation of `_computeObs()`
+            in each subclass for its format.
+        float | dict[..]
+            The step's reward value(s), check the specific implementation of `_computeReward()`
+            in each subclass for its format.
+        bool | dict[..]
+            Whether the current episode is over, check the specific implementation of `_computeTerminated()`
+            in each subclass for its format.
+        bool | dict[..]
+            Whether the current episode is truncated, check the specific implementation of `_computeTruncated()`
+            in each subclass for its format.
+        bool | dict[..]
+            Whether the current episode is trunacted, always false.
+        dict[..]
+            Additional information as a dictionary, check the specific implementation of `_computeInfo()`
+            in each subclass for its format.
+
+        """
+        
+        #### Step the simulation using the desired physics update ##        
+        attackers_action = self._computeAttackerActions()  # ndarray, shape (num_defenders, dim_action)
+        defenders_action = action.copy().reshape(self.NUM_DEFENDERS, 2)  # ndarray, shape (num_defenders, dim_action)
+        self.attackers.step(attackers_action)
+        self.defenders.step(defenders_action)
+        #### Update and all players' information #####
+        self._updateAndLog()
+        #### Prepare the return values #############################
+        obs = self._computeObs()
+        reward = self._computeReward()
+        terminated = self._computeTerminated()
+        truncated = self._computeTruncated()
+        info = self._computeInfo()
+        
+        #### Advance the step counter ##############################
+        self.step_counter += 1
+        #### Log the actions taken by the attackers and defenders ################
+        self.attackers_actions.append(attackers_action)
+        self.defenders_actions.append(defenders_action)
+        
+        return obs, reward, terminated, truncated, info
+    
+    
+    def _computeAttackerActions(self):
+        """Computes the current actions of the attackers.
+
+        Must be implemented in a subclass.
+
+        """
+        current_attacker_state = self.attackers._get_state().copy()
+        control_attackers = np.zeros((self.NUM_ATTACKERS, 2))
+        for i in range(self.NUM_ATTACKERS):
+            neg2pos, pos2neg = find_sign_change1vs0(self.grid1vs0, self.value1vs0, current_attacker_state[i])
+            if len(neg2pos):
+                control_attackers[i] = self.attacker_control_1vs0(self.grid1vs0, self.value1vs0, current_attacker_state[i], neg2pos)
+            else:
+                control_attackers[i] = (0.0, 0.0)
+                
+        return control_attackers
+    
     
     def _getAttackersStatus(self):
         """Returns the current status of all attackers.
@@ -126,7 +197,7 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
                                 break
 
             return new_status
-    ################################################################################
+        
 
     def _check_area(self, state, area):
         """Check if the state is inside the area.
@@ -147,7 +218,6 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
 
         return False
     
-    ################################################################################
 
     def _computeObs(self):
         """Returns the current observation of the environment.
@@ -162,16 +232,14 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
 
         return obs
     
-    ################################################################################
     
     def _computeReward(self):
-        #TODO: Hanyang: not finished
         """Computes the current reward value.
 
-        One attacker is captured: +100
-        One attacker arrived at the goal: -100
+        Once the attacker is captured: +100
+        Once the attacker arrived at the goal: -100
         The defender hits the obstacle: -100
-        One step and nothing happens: 
+        One step and nothing happens: maybe use the distance between the attacker and the defender as a sign?
         In status, 0 stands for free, -1 stands for captured, 1 stands for arrived
 
         Returns
@@ -182,15 +250,24 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         """
         last_attacker_status = self.attackers_status[-2]
         current_attacker_status = self.attackers_status[-1]
-        reward = -1.0
+        reward = 0.0
+        # check the attacker status
         for num in range(self.NUM_ATTACKERS):
-            reward += (current_attacker_status[num] - last_attacker_status[num]) * -10
-            
+            reward += (current_attacker_status[num] - last_attacker_status[num]) * (-200)
+        # check the defender status
+        current_defender_state = self.defenders._get_state().copy()
+        reward += -200 if self._check_area(current_defender_state[0], self.obstacles) else 0.0
+        # check the relative distance difference or relative distance
+        current_attacker_state = self.attackers._get_state().copy()
+        current_relative_distance = np.linalg.norm(current_attacker_state[0] - current_defender_state[0])
+        last_relative_distance = np.linalg.norm(self.attackers_traj[-2][0] - self.defenders_traj[-2][0])
+        # reward += (current_relative_distance - last_relative_distance) * -1.0 / (2*np.sqrt(2))
+        reward += -current_relative_distance
+        
         return reward
 
     
     def _computeTerminated(self):
-        #TODO: Hanyang: not finished
         """Computes the current done value.
         done = True if all attackers have arrived or been captured.
 
@@ -200,9 +277,15 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
             Whether the current episode is done.
 
         """
-        
+        # defender hits the obstacle or the attacker is captured or the attacker has arrived or the attacker hits the obstacle
+        # check the attacker status
         current_attacker_status = self.attackers_status[-1]
-        done = np.all((current_attacker_status == 1) | (current_attacker_status == -1))
+        attacker_done = np.all((current_attacker_status == 1) | (current_attacker_status == -1))
+        # check the defender status: hit the obstacle, or the attacker is captured
+        current_defender_state = self.defenders._get_state().copy()
+        defender_done = self._check_area(current_defender_state[0], self.obstacles)
+        # final done
+        done = True if attacker_done or defender_done else False
         
         return done
         
@@ -223,7 +306,6 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
 
     
     def _computeInfo(self):
-        #TODO: Hanyang: not finished
         """Computes the current info dict(s).
 
         Unused.
@@ -240,10 +322,8 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         
         return info 
     
-    ################################################################################
 
     def _computeAttackerActions(self):
-        #TODO: Hanyang: not finished
         """Computes the current actions of the attackers.
 
         """
@@ -296,9 +376,8 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
 
         return (opt_a1, opt_a2)
     
-    ################################################################################
     
-    def optCrtl_1vs1(self, spat_deriv):
+    def optCtrl_1vs1(self, spat_deriv):
         """Computes the optimal control (disturbance) for the attacker in a 1 vs. 1 game.
         
         Parameters:
@@ -329,7 +408,6 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
 
         return (opt_u1, opt_u2)
 
-    ################################################################################
 
     def optCtrl_1vs0(self, spat_deriv):
         """Computes the optimal control (disturbance) for the attacker in a 1 vs. 0 game.
@@ -361,49 +439,3 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
                 opt_a2 = self.attackers.speed * deriv2 / ctrl_len
 
         return (opt_a1, opt_a2)
-        """Computes the optimal control (disturbance) for the attacker in a 1 vs. 2 game.
-        
-        Parameters:
-            spat_deriv (tuple): spatial derivative in all dimensions
-        
-        Returns:
-            tuple: a tuple of optimal control of the defender (disturbances)
-        """
-        opt_d1 = self.defenders.uMax
-        opt_d2 = self.defenders.uMax
-        opt_d3 = self.defenders.uMax
-        opt_d4 = self.defenders.uMax
-        deriv3 = spat_deriv[2]
-        deriv4 = spat_deriv[3]
-        deriv5 = spat_deriv[4]
-        deriv6 = spat_deriv[5]
-        distb_len1 = np.sqrt(deriv3*deriv3 + deriv4*deriv4)
-        distb_len2 = np.sqrt(deriv5*deriv5 + deriv6*deriv6)
-        if self.dMode == "max":
-            if distb_len1 == 0:
-                opt_d1 = 0.0
-                opt_d2 = 0.0
-            else:
-                opt_d1 = self.defenders.speed*deriv3 / distb_len1
-                opt_d2 = self.defenders.speed*deriv4 / distb_len1
-            if distb_len2 == 0:
-                opt_d3 = 0.0
-                opt_d4 = 0.0
-            else:
-                opt_d3 = self.defenders.speed*deriv5 / distb_len2
-                opt_d4 = self.defenders.speed*deriv6 / distb_len2
-        else:
-            if distb_len1 == 0:
-                opt_d1 = 0.0
-                opt_d2 = 0.0
-            else:
-                opt_d1 = -self.defenders.speed*deriv3 / distb_len1
-                opt_d2 = -self.defenders.speed*deriv4 / distb_len1
-            if distb_len2 == 0:
-                opt_d3 = 0.0
-                opt_d4 = 0.0
-            else:
-                opt_d3 = -self.defenders.speed*deriv5 / distb_len2
-                opt_d4 = -self.defenders.speed*deriv6 / distb_len2
-
-        return (opt_d1, opt_d2, opt_d3, opt_d4)

@@ -62,3 +62,6 @@ register(idx='quadrotor_random',
 register(idx='quadrotor_randomhj',
          entry_point='safe_control_gym.envs.gym_pybullet_drones.quadrotor_distb:QuadrotorRandomHJDistb',
          config_entry_point='safe_control_gym.envs.gym_pybullet_drones:quadrotor_distb.yaml')
+
+register(idx='reach_avoid',
+         entry_point='safe_control_gym.envs.gym_game.ReachAvoidGame:ReachAvoidGameEnv')

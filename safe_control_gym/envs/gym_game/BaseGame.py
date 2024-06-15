@@ -14,6 +14,7 @@ class Dynamics:
     SIG = {'id': 'sig', 'action_dim': 2, 'state_dim': 2, 'speed': 1.0}           # Base single integrator dynamics
     FSIG = {'id': 'fsig', 'action_dim': 2, 'state_dim': 2, 'speed': 1.5}         # Faster single integrator dynamics with feedback
     
+    
 class BaseGameEnv(gym.Env):
     """Base class for the multi-agent reach-avoid game Gym environments."""
     
@@ -26,6 +27,7 @@ class BaseGameEnv(gym.Env):
                  initial_defender: np.ndarray=None,  # shape (num_defenders, state_dim)
                  ctrl_freq: int = 200,
                  seed: int = None,
+                 random_init: bool = True,
                  output_folder='results',
                  ):
         """Initialization of a generic aviary environment.
@@ -47,6 +49,7 @@ class BaseGameEnv(gym.Env):
         ctrl_freq : int, optional
             The control frequency of the environment.
         seed : int, optional
+        random_init : bool, optional
         output_folder : str, optional
             The folder where to save logs.
 
@@ -67,15 +70,12 @@ class BaseGameEnv(gym.Env):
         #### Input initial states ####################################
         self.init_attackers = initial_attacker
         self.init_defenders = initial_defender
-        #### Create action and observation spaces ##################
-        self.action_space = self._actionSpace()
-        self.observation_space = self._observationSpace()
         #### Housekeeping ##########################################
+        self.random_init = random_init
         self._housekeeping()
         #### Update and all players' information #####
         self._updateAndLog()
     
-    ################################################################################
 
     def _housekeeping(self):
         """Housekeeping function.
@@ -84,8 +84,10 @@ class BaseGameEnv(gym.Env):
         in the `reset()` function.
 
         """
-        if self.init_attackers is None and self.init_defenders is None:
-            self.init_attackers, self.init_defenders = self.initial_players()            
+        if self.random_init:
+            self.init_attackers, self.init_defenders = self.initial_players()
+        else:
+            assert self.init_attackers is not None and self.init_defenders is not None, "Need to provide initial positions for all players."     
         #### Set attackers and defenders ##########################
         self.attackers = make_agents(self.ATTACKER_PHYSICS, self.NUM_ATTACKERS, self.init_attackers, self.CTRL_FREQ)
         self.defenders = make_agents(self.DEFENDER_PHYSICS, self.NUM_DEFENDERS, self.init_defenders, self.CTRL_FREQ)
@@ -96,21 +98,26 @@ class BaseGameEnv(gym.Env):
         self.attackers_status = []  # 0 stands for free, -1 stands for captured, 1 stands for arrived 
         self.attackers_actions = []
         self.defenders_actions = []
+        # self.last_relative_distance = np.zeros((self.NUM_ATTACKERS, self.NUM_DEFENDERS))
 
-    ################################################################################
 
     def _updateAndLog(self):
         """Update and log all players' information after inialization, reset(), or step.
 
         """
         # Update the state
-        self.state = np.vstack([self.attackers._get_state().copy(), self.defenders._get_state().copy()])
+        current_attackers = self.attackers._get_state().copy()
+        current_defenders = self.defenders._get_state().copy()
+        
+        self.state = np.vstack([current_attackers, current_defenders])
         # Log the state and trajectory information
-        self.attackers_traj.append(self.attackers._get_state().copy())
-        self.defenders_traj.append(self.defenders._get_state().copy())
+        self.attackers_traj.append(current_attackers)
+        self.defenders_traj.append(current_defenders)
         self.attackers_status.append(self._getAttackersStatus().copy())
+        # for i in range(self.NUM_ATTACKERS):
+        #     for j in range(self.NUM_DEFENDERS):
+        #         self.last_relative_distance[i, j] = np.linalg.norm(current_attackers[i] - current_defenders[j])
     
-    ################################################################################
     
     def initial_players(self):
         '''Set the initial positions for all players.
@@ -122,7 +129,7 @@ class BaseGameEnv(gym.Env):
         np.random.seed(self.initial_players_seed)
     
         # Map boundaries
-        min_val, max_val = -1.0, 1.0
+        min_val, max_val = -0.99, 0.99
         
         # Obstacles and target areas
         obstacles = [
@@ -170,9 +177,9 @@ class BaseGameEnv(gym.Env):
         
         return np.array([attacker_pos]), np.array([defender_pos])
 
-    ################################################################################
     
-    def reset(self, seed : int = None):
+    def reset(self, seed : int = None,
+              options : dict = None):
         """Resets the environment.
 
         Parameters
@@ -198,65 +205,10 @@ class BaseGameEnv(gym.Env):
         self._updateAndLog()
         #### Prepare the observation #############################
         obs = self._computeObs()
-        
-        return obs
-    
-    ################################################################################
-
-    def step(self,action):
-        #TODO: Hanyang: change the action only for the defender
-        """Advances the environment by one simulation step.
-
-        Parameters
-        ----------
-        action : ndarray | (dim_action, )
-            The input action for the defender.
-
-        Returns
-        -------
-        ndarray | dict[..]
-            The step's observation, check the specific implementation of `_computeObs()`
-            in each subclass for its format.
-        float | dict[..]
-            The step's reward value(s), check the specific implementation of `_computeReward()`
-            in each subclass for its format.
-        bool | dict[..]
-            Whether the current episode is over, check the specific implementation of `_computeTerminated()`
-            in each subclass for its format.
-        bool | dict[..]
-            Whether the current episode is truncated, check the specific implementation of `_computeTruncated()`
-            in each subclass for its format.
-        bool | dict[..]
-            Whether the current episode is trunacted, always false.
-        dict[..]
-            Additional information as a dictionary, check the specific implementation of `_computeInfo()`
-            in each subclass for its format.
-
-        """
-        
-        #### Step the simulation using the desired physics update ##        
-        attackers_action = self._computeAttackerActions()  # ndarray, shape (num_defenders, dim_action)
-        defenders_action = action.copy().reshape(self.NUM_DEFENDERS, 2)  # ndarray, shape (num_defenders, dim_action)
-        self.attackers.step(attackers_action)
-        self.defenders.step(defenders_action)
-        #### Update and all players' information #####
-        self._updateAndLog()
-        #### Prepare the return values #############################
-        obs = self._computeObs()
-        reward = self._computeReward()
-        terminated = self._computeTerminated()
-        truncated = self._computeTruncated()
         info = self._computeInfo()
         
-        #### Advance the step counter ##############################
-        self.step_counter += 1
-        #### Log the actions taken by the attackers and defenders ################
-        self.attackers_actions.append(attackers_action)
-        self.defenders_actions.append(defenders_action)
-        
-        return obs, reward, terminated, truncated, info
+        return obs, info
     
-    ################################################################################
 
     def _getAttackersStatus(self):
         """Returns the current status of all attackers.
@@ -266,37 +218,15 @@ class BaseGameEnv(gym.Env):
         """
         raise NotImplementedError
     
-    ################################################################################
-    
-    def _actionSpace(self):
-        """Returns the action space of the environment.
-
-        Must be implemented in a subclass.
-
-        """
-        raise NotImplementedError
-           
-    ################################################################################
-
-    def _observationSpace(self):
-        """Returns the observation space of the environment.
-
-        Must be implemented in a subclass.
-
-        """
-        raise NotImplementedError
-    
-    ################################################################################
     
     def _computeObs(self):
         """Returns the current observation of the environment.
 
-        Must be implemented in a subclass.
-
         """
-        raise NotImplementedError
+        obs = self.state.flatten()
+        
+        return obs
     
-    ################################################################################
 
     def _computeReward(self):
         """Computes the current reward value(s).
@@ -311,7 +241,6 @@ class BaseGameEnv(gym.Env):
         """
         raise NotImplementedError
 
-    ################################################################################
 
     def _computeTerminated(self):
         """Computes the current terminated value(s).
@@ -321,7 +250,6 @@ class BaseGameEnv(gym.Env):
         """
         raise NotImplementedError
     
-    ################################################################################
 
     def _computeTruncated(self):
         """Computes the current truncated value(s).
@@ -331,20 +259,9 @@ class BaseGameEnv(gym.Env):
         """
         raise NotImplementedError
 
-    ################################################################################
 
     def _computeInfo(self):
         """Computes the current info dict(s).
-
-        Must be implemented in a subclass.
-
-        """
-        raise NotImplementedError
-
-    ################################################################################
-
-    def _computeAttackerActions(self):
-        """Computes the current actions of the attackers.
 
         Must be implemented in a subclass.
 
