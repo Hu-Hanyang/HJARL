@@ -45,7 +45,7 @@ class Args:
     # Algorithm specific arguments
     env_id: str = "reach_avoid"
     """the id of the environment"""
-    total_timesteps: int = 1e6
+    total_timesteps: int = 1e7
     """total timesteps of the experiments"""
     learning_rate: float = 3e-4
     """the learning rate of the optimizer"""
@@ -152,7 +152,7 @@ if __name__ == "__main__":
     args.minibatch_size = int(args.batch_size // args.num_minibatches)
     args.num_iterations = int(args.total_timesteps // args.batch_size)
     # Hanyang: make saving directory
-    run_name = os.path.join('training_results/' + 'game/ppo/' +f'{args.seed}/' + f'{datetime.now().strftime("%Y.%m.%d_%H:%M")}' )
+    run_name = os.path.join('training_results/' + 'game/ppo/' +f'{args.seed}/' + f'{args.total_timesteps}' )
     if not os.path.exists(run_name):
         os.makedirs(run_name+'/')
         
