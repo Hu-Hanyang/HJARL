@@ -7,6 +7,8 @@ from collections import defaultdict
 
 import matplotlib.pyplot as plt
 import numpy as np
+import plotly.graph_objects as go
+from plotly.graph_objects import Layout
 from tensorboard.backend.event_processing.event_accumulator import EventAccumulator
 
 DIV_LINE_WIDTH = 50
@@ -374,3 +376,115 @@ def get_log_dirs(all_logdirs,
         print(logdir)
     print('\n' + '=' * DIV_LINE_WIDTH)
     return logdirs
+
+
+def animation(attackers_traj, defenders_traj, attackers_status):
+    """Animate the game.
+
+    Args:
+        attackers_traj (list): List of attackers' trajectories.
+        defenders_traj (list): List of defenders' trajectories.
+        attackers_status (list): List of attackers' status.
+
+    Returns:
+        None
+    """
+    # Determine the number of steps
+    num_steps = len(attackers_traj)
+    num_attackers = attackers_traj[0].shape[0]
+    num_defenders = defenders_traj[0].shape[0]
+
+    # Create frames for animation
+    frames = []
+    for step in range(num_steps):
+        attackers = attackers_traj[step]
+        defenders = defenders_traj[step]
+        status = attackers_status[step]
+
+        x_list = []
+        y_list = []
+        symbol_list = []
+        color_list = []
+
+        # Go through list defenders
+        for j in range(num_defenders):
+            x_list.append(defenders[j][0])
+            y_list.append(defenders[j][1])
+            symbol_list += ["square"]
+            color_list += ["blue"]
+        
+        # Go through list of attackers
+        for i in range(num_attackers):
+            x_list.append(attackers[i][0])
+            y_list.append(attackers[i][1])
+            if status[i] == -1:  # attacker is captured
+                symbol_list += ["cross-open"]
+            elif status[i] == 1:  # attacker has arrived
+                symbol_list += ["circle"]
+            else:  # attacker is free
+                symbol_list += ["triangle-up"]
+            color_list += ["red"]
+
+        # Generate a frame based on the characteristic of each agent
+        frames.append(go.Frame(data=go.Scatter(x=x_list, y=y_list, mode="markers", name="Agents trajectory",
+                                               marker=dict(symbol=symbol_list, size=5, color=color_list), showlegend=False)))
+
+    
+    # Static object - obstacles, goal region, grid
+    fig = go.Figure(data = go.Scatter(x=[0.6, 0.8], y=[0.1, 0.1], mode='lines', name='Target', line=dict(color='purple')),
+                    layout=Layout(plot_bgcolor='rgba(0,0,0,0)', updatemenus=[dict(type="buttons",
+                                                                            buttons=[dict(label="Play", method="animate",
+                                                                            args=[None, {"frame": {"duration": 30, "redraw": True},
+                                                                            "fromcurrent": True, "transition": {"duration": 0}}])])]), frames=frames) # for the legend
+
+    # plot target
+    fig.add_shape(type='rect', x0=0.6, y0=0.1, x1=0.8, y1=0.3, line=dict(color='purple', width=3.0), name="Target")
+    # plot obstacles
+    fig.add_shape(type='rect', x0=-0.1, y0=0.3, x1=0.1, y1=0.6, line=dict(color='black', width=3.0), name="Obstacle")
+    fig.add_shape(type='rect', x0=-0.1, y0=-1.0, x1=0.1, y1=-0.3, line=dict(color='black', width=3.0))
+    fig.add_trace(go.Scatter(x=[-0.1, 0.1], y=[0.3, 0.3], mode='lines', name='Obstacle', line=dict(color='black')))
+
+    # figure settings
+    # fig.update_layout(showlegend=False)  # to display the legends or not
+    fig.update_layout(autosize=False, width=560, height=500, margin=dict(l=50, r=50, b=100, t=100, pad=0),
+                      title={'text': "<b>Our method, t={}s<b>".format(num_steps/200), 'y':0.85, 'x':0.4, 'xanchor': 'center','yanchor': 'top', 'font_size': 20}, paper_bgcolor="White", xaxis_range=[-1, 1], yaxis_range=[-1, 1], font=dict(size=20)) # LightSteelBlue
+    fig.update_xaxes(showline = True, linecolor = 'black', linewidth = 2.0, griddash = 'dot', zeroline=False, gridcolor = 'Lightgrey', mirror=True, ticks='outside') # showgrid=False
+    fig.update_yaxes(showline = True, linecolor = 'black', linewidth = 2.0, griddash = 'dot', zeroline=False, gridcolor = 'Lightgrey', mirror=True, ticks='outside') # showgrid=False,
+    fig.show()
+    
+    
+
+def current_status_check(current_attackers_status, step=None):
+    """ Check the current status of the attackers.
+
+    Args:
+        current_attackers_status (np.ndarray): the current moment attackers' status, 0 stands for free, -1 stands for captured, 1 stands for arrived
+        step (int): the current step of the game
+    
+    Returns:
+        status (dic): the current status of the attackers
+    """
+    num_attackers = len(current_attackers_status)
+    num_free, num_arrived, num_captured = 0, 0, 0
+    status = {'free': [], 'arrived': [], 'captured': []}
+    
+    for i in range(num_attackers):
+        if current_attackers_status[i] == 0:
+            num_free += 1
+            status['free'].append(i)
+        elif current_attackers_status[i] == 1:
+            num_arrived += 1
+            status['arrived'].append(i)
+        elif current_attackers_status[i] == -1:
+            num_captured += 1
+            status['captured'].append(i)
+        else:
+            raise ValueError("Invalid status for the attackers.")
+    
+    print(f"================= Step {step}: {num_captured}/{num_attackers} attackers are captured \t"
+      f"{num_arrived}/{num_attackers} attackers have arrived \t"
+      f"{num_free}/{num_attackers} attackers are free =================")
+
+    print(f"================= The current status of the attackers: {status} =================")
+
+    return status
