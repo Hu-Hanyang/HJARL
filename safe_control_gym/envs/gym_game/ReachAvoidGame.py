@@ -440,3 +440,15 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
                 opt_a2 = self.attackers.speed * deriv2 / ctrl_len
 
         return (opt_a1, opt_a2)
+
+
+
+class ReachAvoidTestGame(ReachAvoidGameEnv):
+    NAME = 'reach_avoid_test'
+    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
+        # Set disturbance_type to 'fixed' regardless of the input
+        kwargs['random_init'] = False
+        kwargs['initial_attacker'] = np.array([[-0.4, -0.8]])
+        kwargs['initial_defender'] = np.array([[0.0, 0.0]])
+        kwargs['seed'] = 42
+        super().__init__(*args, **kwargs)

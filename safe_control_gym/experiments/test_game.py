@@ -6,11 +6,9 @@ from safe_control_gym.experiments.train_game import Args, layer_init
 import gymnasium as gym
 import torch
 import torch.nn as nn
-import torch.optim as optim
-import tyro
 from torch.distributions.normal import Normal
 from safe_control_gym.utils.plotting import animation, current_status_check
-from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidGameEnv
+from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidTestGame
 
 
 map = {'map': [-1., 1., -1., 1.]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
@@ -75,13 +73,13 @@ def getAttackersStatus(attackers, defenders, last_status):
 
 def make_env(env_id, idx, capture_video, run_name, gamma):
     def thunk():
-        if capture_video and idx == 0:
-            # env = gym.make(env_id, render_mode="rgb_array")
-            env = ReachAvoidGameEnv()
-            # env = gym.wrappers.RecordVideo(env, f"videos/{run_name}")
-        else:
-            # env = gym.make(env_id)
-            env = ReachAvoidGameEnv()
+        # if capture_video and idx == 0:
+        #     # env = gym.make(env_id, render_mode="rgb_array")
+        #     env = ReachAvoidTestGame()
+        #     # env = gym.wrappers.RecordVideo(env, f"videos/{run_name}")
+        # else:
+        #     # env = gym.make(env_id)
+        env = ReachAvoidTestGame()
         # env = gym.wrappers.FlattenObservation(env)  # deal with dm_control's Dict observation space
         # env = gym.wrappers.RecordEpisodeStatistics(env)
         # env = gym.wrappers.ClipAction(env)
@@ -139,9 +137,8 @@ def evaluate(
     gamma: float = 0.99,
 ):
     envs = gym.vector.SyncVectorEnv([make_env(env_id, 0, capture_video, save_path, gamma)])
-    print(f"The state space of the env is {envs.observation_space}. \n")
-    print(f"The action space of the env is {envs.action_space}. \n")
-    # envs = ReachAvoidGameEnv()
+    # print(f"The state space of the env is {envs.observation_space}. \n")
+    # print(f"The action space of the env is {envs.action_space}. \n")
     agent = Model(envs).to(device)
     agent.load_state_dict(torch.load(model_path, map_location=device))
     agent.eval()
@@ -161,7 +158,7 @@ def evaluate(
 
     for _ in range(int(10*200)):
         actions, _, _, _ = agent.get_action_and_value(torch.Tensor(obs).to(device))
-        print(f"Step {_} action is {actions}. \n")
+        # print(f"Step {_} action is {actions}. \n")
         next_obs, reward, terminated, truncated, infos = envs.step(actions.cpu().numpy())
         step += 1
         attackers_traj.append(next_obs[:, :2])
@@ -176,20 +173,7 @@ def evaluate(
     print(f"================ The game is over at the {step} step ({step / 200} seconds. ================ \n")
     current_status_check(attackers_status[-1], step)
     animation(attackers_traj, defenders_traj, attackers_status)
-        # for info in infos["final_info"]:
-        #     if "episode" not in info:
-        #         continue
-        #     print(f"eval_episode={len(episodic_returns)}, episodic_return={info['episode']['r']}")
-        #     episodic_returns += [info["episode"]["r"]]
-
-        # if "final_info" in infos:
-        #     for info in infos["final_info"]:
-        #         if "episode" not in info:
-        #             continue
-        #         print(f"eval_episode={len(episodic_returns)}, episodic_return={info['episode']['r']}")
-                # episodic_returns += [info["episode"]["r"]]
-        # obs = next_obs
-
+        
     return episodic_returns, envs
 
 

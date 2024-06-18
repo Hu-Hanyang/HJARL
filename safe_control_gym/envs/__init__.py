@@ -65,3 +65,6 @@ register(idx='quadrotor_randomhj',
 
 register(idx='reach_avoid',
          entry_point='safe_control_gym.envs.gym_game.ReachAvoidGame:ReachAvoidGameEnv')
+
+register(idx='reach_avoid_test',
+         entry_point='safe_control_gym.envs.gym_game.ReachAvoidGame:ReachAvoidTestGame')
