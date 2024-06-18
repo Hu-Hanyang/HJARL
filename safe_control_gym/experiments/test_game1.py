@@ -2,7 +2,7 @@ import os
 import tyro
 from typing import Callable
 import numpy as np
-from safe_control_gym.experiments.train_game import Args, layer_init
+from safe_control_gym.experiments.train_game import Agent, make_env, Args
 import gymnasium as gym
 import torch
 import torch.nn as nn
@@ -16,6 +16,46 @@ from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidGameEnv
 map = {'map': [-1., 1., -1., 1.]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
 des = {'goal0': [0.6, 0.8, 0.1, 0.3]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
 obstacles = {'obs1': [-0.1, 0.1, -1.0, -0.3], 'obs2': [-0.1, 0.1, 0.3, 1.0]} 
+
+
+
+
+def layer_init(layer, std=np.sqrt(2), bias_const=0.0):
+    torch.nn.init.orthogonal_(layer.weight, std)
+    torch.nn.init.constant_(layer.bias, bias_const)
+    return layer
+
+
+class Agent(nn.Module):
+    def __init__(self, envs):
+        super().__init__()
+        self.critic = nn.Sequential(
+            layer_init(nn.Linear(np.array(envs.observation_space.shape).prod(), 64)),
+            nn.Tanh(),
+            layer_init(nn.Linear(64, 64)),
+            nn.Tanh(),
+            layer_init(nn.Linear(64, 1), std=1.0),
+        )
+        self.actor_mean = nn.Sequential(
+            layer_init(nn.Linear(np.array(envs.observation_space.shape).prod(), 64)),
+            nn.Tanh(),
+            layer_init(nn.Linear(64, 64)),
+            nn.Tanh(),
+            layer_init(nn.Linear(64, np.prod(envs.action_space.shape)), std=0.01),
+        )
+        self.actor_logstd = nn.Parameter(torch.zeros(1, np.prod(envs.action_space.shape)))
+
+    def get_value(self, x):
+        return self.critic(x)
+
+    def get_action_and_value(self, x, action=None):
+        action_mean = self.actor_mean(x)
+        action_logstd = self.actor_logstd.expand_as(action_mean)
+        action_std = torch.exp(action_logstd)
+        probs = Normal(action_mean, action_std)
+        if action is None:
+            action = probs.sample()
+        return action, probs.log_prob(action).sum(1), probs.entropy().sum(1), self.critic(x)
 
 
 def check_area(state, area):
@@ -66,66 +106,12 @@ def getAttackersStatus(attackers, defenders, last_status):
                     # check if the attacker is captured
                     for j in range(num_defenders):
                         if np.linalg.norm(current_attacker_state[num] - current_defender_state[j]) <= 0.1:
-                            print(f"================ The {num} attacker is captured. ================ \n")
                             new_status[num] = -1
                             break
 
             return new_status
 
 
-def make_env(env_id, idx, capture_video, run_name, gamma):
-    def thunk():
-        if capture_video and idx == 0:
-            # env = gym.make(env_id, render_mode="rgb_array")
-            env = ReachAvoidGameEnv()
-            # env = gym.wrappers.RecordVideo(env, f"videos/{run_name}")
-        else:
-            # env = gym.make(env_id)
-            env = ReachAvoidGameEnv()
-        # env = gym.wrappers.FlattenObservation(env)  # deal with dm_control's Dict observation space
-        # env = gym.wrappers.RecordEpisodeStatistics(env)
-        # env = gym.wrappers.ClipAction(env)
-        # env = gym.wrappers.NormalizeObservation(env)
-        # env = gym.wrappers.TransformObservation(env, lambda obs: np.clip(obs, -10, 10))
-        # env = gym.wrappers.NormalizeReward(env, gamma=gamma)
-        # env = gym.wrappers.TransformReward(env, lambda reward: np.clip(reward, -10, 10))
-        return env
-
-    return thunk
-
-
-class Agent(nn.Module):
-    def __init__(self, envs):
-        super().__init__()
-        self.critic = nn.Sequential(
-            layer_init(nn.Linear(np.array(envs.single_observation_space.shape).prod(), 64)),
-            nn.Tanh(),
-            layer_init(nn.Linear(64, 64)),
-            nn.Tanh(),
-            layer_init(nn.Linear(64, 1), std=1.0),
-        )
-        self.actor_mean = nn.Sequential(
-            layer_init(nn.Linear(np.array(envs.single_observation_space.shape).prod(), 64)),
-            nn.Tanh(),
-            layer_init(nn.Linear(64, 64)),
-            nn.Tanh(),
-            layer_init(nn.Linear(64, np.prod(envs.single_action_space.shape)), std=0.01),
-        )
-        self.actor_logstd = nn.Parameter(torch.zeros(1, np.prod(envs.single_action_space.shape)))
-
-    def get_value(self, x):
-        return self.critic(x)
-
-    def get_action_and_value(self, x, action=None):
-        action_mean = self.actor_mean(x)
-        action_logstd = self.actor_logstd.expand_as(action_mean)
-        action_std = torch.exp(action_logstd)
-        probs = Normal(action_mean, action_std)
-        if action is None:
-            # action = probs.sample()
-            action = action_mean.detach()  # Hanyang: test deterministic policy
-        return action, probs.log_prob(action).sum(1), probs.entropy().sum(1), self.critic(x)
-    
 
 def evaluate(
     model_path: str,
@@ -135,47 +121,38 @@ def evaluate(
     save_path: str,
     Model: torch.nn.Module,
     device: torch.device = torch.device("cpu"),
-    capture_video: bool = False,
+    capture_video: bool = True,
     gamma: float = 0.99,
 ):
-    envs = gym.vector.SyncVectorEnv([make_env(env_id, 0, capture_video, save_path, gamma)])
-    print(f"The state space of the env is {envs.observation_space}. \n")
-    print(f"The action space of the env is {envs.action_space}. \n")
-    # envs = ReachAvoidGameEnv()
+    # envs = gym.vector.SyncVectorEnv([make_env(env_id, 0, capture_video, save_path, gamma)])
+    envs = ReachAvoidGameEnv()
     agent = Model(envs).to(device)
     agent.load_state_dict(torch.load(model_path, map_location=device))
     agent.eval()
 
-    # num = 0
-    # while num in range(eval_episodes):
-    step = 0
-    attackers_status = []
-    attackers_status.append(np.zeros(1))
-    attackers_traj, defenders_traj = [], []
+    for num in range(eval_episodes):
+        step = 0
+        attackers_status = []
+        attackers_status.append(np.zeros(1))
+        attackers_traj, defenders_traj = [], []
 
-    obs, _ = envs.reset()
-    print(f"========== The initial state is {obs} in the test_game. ========== \n")
-    attackers_traj.append(obs[:, :2])
-    defenders_traj.append(obs[:, 2:])
-    episodic_returns = []
+        obs, _ = envs.reset()
+        print(f"========== In the {num} episode, the initial state is {obs}. ========== \n")
 
-    for _ in range(int(10*200)):
+        attackers_traj.append(obs.copy()[:2].reshape(1, 2))
+        defenders_traj.append(obs.copy()[2:].reshape(1, 2))
+        episodic_returns = []
+        
         actions, _, _, _ = agent.get_action_and_value(torch.Tensor(obs).to(device))
-        print(f"Step {_} action is {actions}. \n")
         next_obs, reward, terminated, truncated, infos = envs.step(actions.cpu().numpy())
         step += 1
-        attackers_traj.append(next_obs[:, :2])
-        defenders_traj.append(next_obs[:, 2:])
         attackers_status.append(getAttackersStatus(next_obs[:, :2], next_obs[:, 2:], attackers_status[-1]))
 
-        if terminated[0] or truncated[0]:
+        if terminated or truncated:
             break
-        else:
-            obs = next_obs
-    # print(f"================ The {num} game is over at the {step} step ({step / 200} seconds. ================ \n")
-    print(f"================ The game is over at the {step} step ({step / 200} seconds. ================ \n")
-    current_status_check(attackers_status[-1], step)
-    animation(attackers_traj, defenders_traj, attackers_status)
+        print(f"================ The {num} game is over at the {step} step ({step / 200} seconds. ================ \n")
+        current_status_check(attackers_status[-1], step)
+        animation(attackers_traj, defenders_traj, attackers_status)
         # for info in infos["final_info"]:
         #     if "episode" not in info:
         #         continue

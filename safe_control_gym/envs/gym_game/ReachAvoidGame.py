@@ -20,15 +20,15 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
                  num_defenders: int=1,
                  attackers_dynamics=Dynamics.SIG,  
                  defenders_dynamics=Dynamics.FSIG,
-                 initial_attacker: np.ndarray=None,  # shape (num_atackers, state_dim)
-                 initial_defender: np.ndarray=None,  # shape (num_defenders, state_dim)
+                 initial_attacker: np.ndarray=None,  # shape (num_atackers, state_dim), np.array([[-0.4, -0.8]])
+                 initial_defender: np.ndarray=None,  # shape (num_defenders, state_dim), np.array([[0.3, -0.8]])
                  ctrl_freq: int = 200,
                  seed = 42,
                  random_init = True,
                  uMode="min", 
                  dMode="max",
                  output_folder='results',
-                 game_length_sec=20,
+                 game_length_sec=10,
                  map={'map': [-1.0, 1.0, -1.0, 1.0]},  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
                  des={'goal0': [0.6, 0.8, 0.1, 0.3]},  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
                  obstacles: dict = {'obs1': [-0.1, 0.1, -1.0, -0.3], 'obs2': [-0.1, 0.1, 0.3, 1.0]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
@@ -124,7 +124,8 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         
         #### Step the simulation using the desired physics update ##        
         attackers_action = self._computeAttackerActions()  # ndarray, shape (num_defenders, dim_action)
-        defenders_action = action.copy().reshape(self.NUM_DEFENDERS, 2)  # ndarray, shape (num_defenders, dim_action)
+        clipped_action = np.clip(action.copy(), -1.0, +1.0)  # Hanyang: clip the action to [-1, 1]
+        defenders_action = clipped_action.reshape(self.NUM_DEFENDERS, 2)  # ndarray, shape (num_defenders, dim_action)
         self.attackers.step(attackers_action)
         self.defenders.step(defenders_action)
         #### Update and all players' information #####

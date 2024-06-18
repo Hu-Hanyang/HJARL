@@ -203,6 +203,7 @@ class BaseGameEnv(gym.Env):
         self._housekeeping()
         #### Update and all players' information #####
         self._updateAndLog()
+        print(f"========== Initial attackers: {self.init_attackers} and defenders: {self.init_defenders} in the reset method in BaseGame.py. ==========\n")
         #### Prepare the observation #############################
         obs = self._computeObs()
         info = self._computeInfo()

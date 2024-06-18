@@ -3,6 +3,7 @@
 import os
 import os.path as osp
 import re
+import cv2
 from collections import defaultdict
 
 import matplotlib.pyplot as plt
@@ -488,3 +489,80 @@ def current_status_check(current_attackers_status, step=None):
     print(f"================= The current status of the attackers: {status} =================")
 
     return status
+
+
+def record_video(attackers_traj, defenders_traj, attackers_status, filename='animation.mp4', fps=10):
+    # Ensure the save directory exists
+    save_dir = os.path.join('MRAG', 'game_recordings')
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir+'/')
+    # Full path for the video file
+    video_path = os.path.join(save_dir, filename)
+
+    # VideoWriter setup
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    frame_size = (800, 800)
+    out = cv2.VideoWriter(video_path, fourcc, fps, frame_size)
+
+    # Set up the plot
+    fig, ax = plt.subplots()
+    ax.set_xlim([-1, 1])
+    ax.set_ylim([-1, 1])
+    
+    # Plot the obstacles
+    obstacles = [
+        [(-0.1, -1.0), (0.1, -1.0), (0.1, -0.3), (-0.1, -0.3), (-0.1, -1.0)], 
+        [(-0.1, 0.3), (0.1, 0.3), (0.1, 0.6), (-0.1, 0.6), (-0.1, 0.3)]
+    ]
+    for obstacle in obstacles:
+        x, y = zip(*obstacle)
+        ax.plot(x, y, "k-")
+
+    # Plot the target
+    target = [(0.6, 0.1), (0.8, 0.1), (0.8, 0.3), (0.6, 0.3), (0.6, 0.1)]
+    x, y = zip(*target)
+    ax.plot(x, y, "g-")
+
+    for i, (attackers, defenders, status) in enumerate(zip(attackers_traj, defenders_traj, attackers_status)):
+        ax.clear()
+        ax.set_xlim([-1, 1])
+        ax.set_ylim([-1, 1])
+
+        # Re-plot the obstacles and target on each frame
+        for obstacle in obstacles:
+            x, y = zip(*obstacle)
+            ax.plot(x, y, color="black", linestyle="-")
+        x, y = zip(*target)
+        ax.plot(x, y, color="purple", linestyle="-")
+
+        # Plot attackers
+        free_attackers = attackers[status == 0]
+        captured_attackers = attackers[status == -1]
+        arrived_attackers = attackers[status == 1]
+
+        if free_attackers.size > 0:
+            ax.scatter(free_attackers[:, 0], free_attackers[:, 1], c='red', marker='^', label='Free Attackers')
+        if captured_attackers.size > 0:
+            ax.scatter(captured_attackers[:, 0], captured_attackers[:, 1], c='red', marker='p', label='Captured Attackers')
+        if arrived_attackers.size > 0:
+            ax.scatter(arrived_attackers[:, 0], arrived_attackers[:, 1], c='green', marker='^', label='Arrived Attackers')
+
+        # Plot defenders
+        if defenders.size > 0:
+            ax.scatter(defenders[:, 0], defenders[:, 1], c='blue', marker='s', label='Defenders')
+
+        # Convert Matplotlib plot to a frame for OpenCV
+        fig.canvas.draw()
+        img = np.frombuffer(fig.canvas.tostring_rgb(), dtype=np.uint8)
+        img = img.reshape(fig.canvas.get_width_height()[::-1] + (3,))
+
+        # Resize and convert to BGR for OpenCV
+        img = cv2.resize(img, frame_size)
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+
+        # Write frame to video
+        out.write(img)
+    print(f"========== Animation saved at {video_path}. ==========")
+    # Release the video writer
+    out.release()
+  
