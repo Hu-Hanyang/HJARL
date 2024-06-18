@@ -1,0 +1,25 @@
+diff --git a/training_results/game/ppo/2024/10000000.0/events.out.tfevents.1718722074.cs-mars-14.26217.0 b/training_results/game/ppo/2024/10000000.0/events.out.tfevents.1718722074.cs-mars-14.26217.0
+deleted file mode 100644
+index 8410d3c..0000000
+Binary files a/training_results/game/ppo/2024/10000000.0/events.out.tfevents.1718722074.cs-mars-14.26217.0 and /dev/null differ
+diff --git a/training_results/game/ppo/2024/10000000.0/train_game.cleanrl_model b/training_results/game/ppo/2024/10000000.0/train_game.cleanrl_model
+deleted file mode 100644
+index a37dfbe..0000000
+Binary files a/training_results/game/ppo/2024/10000000.0/train_game.cleanrl_model and /dev/null differ
+diff --git a/training_results/game/ppo/2024/20000000.0/events.out.tfevents.1718677023.cs-mars-14.16320.0 b/training_results/game/ppo/2024/20000000.0/events.out.tfevents.1718677023.cs-mars-14.16320.0
+deleted file mode 100644
+index e5cddfc..0000000
+Binary files a/training_results/game/ppo/2024/20000000.0/events.out.tfevents.1718677023.cs-mars-14.16320.0 and /dev/null differ
+diff --git a/training_results/game/ppo/2024/20000000.0/train_game.cleanrl_model b/training_results/game/ppo/2024/20000000.0/train_game.cleanrl_model
+deleted file mode 100644
+index a6af30a..0000000
+Binary files a/training_results/game/ppo/2024/20000000.0/train_game.cleanrl_model and /dev/null differ
+diff --git a/wandb/latest-run b/wandb/latest-run
+index 5a64040..ed21d8a 120000
+--- a/wandb/latest-run
++++ b/wandb/latest-run
+@@ -1 +1 @@
+-run-20240618_074750-o4b743hf
+\ No newline at end of file
++run-20240618_104044-ngq8rkkn
+\ No newline at end of file

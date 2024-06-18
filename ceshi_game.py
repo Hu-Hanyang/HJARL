@@ -1,27 +1,27 @@
 import  numpy as np
 import tyro
 import gymnasium as gym
-from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidGameEnv
+from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidGameEnv, ReachAvoidTestGame
 from safe_control_gym.experiments.train_game import Args
 
 
 
 def make_env(env_id, idx, capture_video, run_name, gamma):
     def thunk():
-        if capture_video and idx == 0:
-            # env = gym.make(env_id, render_mode="rgb_array")
-            env = ReachAvoidGameEnv()
-            env = gym.wrappers.RecordVideo(env, f"videos/{run_name}")
-        else:
-            # env = gym.make(env_id)
-            env = ReachAvoidGameEnv()
-        env = gym.wrappers.FlattenObservation(env)  # deal with dm_control's Dict observation space
-        env = gym.wrappers.RecordEpisodeStatistics(env)
-        env = gym.wrappers.ClipAction(env)
-        env = gym.wrappers.NormalizeObservation(env)
-        env = gym.wrappers.TransformObservation(env, lambda obs: np.clip(obs, -10, 10))
-        env = gym.wrappers.NormalizeReward(env, gamma=gamma)
-        env = gym.wrappers.TransformReward(env, lambda reward: np.clip(reward, -10, 10))
+        # if capture_video and idx == 0:
+        #     # env = gym.make(env_id, render_mode="rgb_array")
+        #     env = ReachAvoidGameEnv()
+        #     env = gym.wrappers.RecordVideo(env, f"videos/{run_name}")
+        # else:
+        #     # env = gym.make(env_id)
+        env = ReachAvoidTestGame()
+        # env = gym.wrappers.FlattenObservation(env)  # deal with dm_control's Dict observation space
+        # env = gym.wrappers.RecordEpisodeStatistics(env)
+        # env = gym.wrappers.ClipAction(env)
+        # env = gym.wrappers.NormalizeObservation(env)
+        # env = gym.wrappers.TransformObservation(env, lambda obs: np.clip(obs, -10, 10))
+        # env = gym.wrappers.NormalizeReward(env, gamma=gamma)
+        # env = gym.wrappers.TransformReward(env, lambda reward: np.clip(reward, -10, 10))
         return env
 
     return thunk
@@ -33,20 +33,21 @@ args = tyro.cli(Args)
 
 env = gym.vector.SyncVectorEnv([make_env(args.env_id, 0, args.capture_video, "ceshi_game", args.gamma)])
 
+obs, info = env.reset()
+print(f"The obs is {obs}. \n")
+
 initial_attacker = np.array([[-0.1, 0.0]])
 initial_defender = np.array([[0.0, 0.0]])
 # env = ReachAvoidGameEnv(initial_attacker=initial_attacker, initial_defender=initial_defender, random_init=False)
 # print(f"The initial state is {env.}. \n")
 # obs, info = env.reset()
-print(f"The state space of the env is {env.observation_space}. \n")
-print(f"The action space of the env is {env.action_space}. \n")
+# print(f"The state space of the env is {env.observation_space}. \n")
+# print(f"The action space of the env is {env.action_space}. \n")
 # print(f"The {envs.state}")
 
 # print(f"The obs is {obs} and the shape of the obs is {obs.shape}. \n")
 # print(f"The state of the attacker is {env.state[0]} and the state of the defender is {env.state[1]}. \n")
 
-obs, info = env.reset()
-print(f"The obs is {obs}. \n")
 # print(f"The state space of the env is {env.observation_space}. \n")
 # print(f"The action space of the env is {env.action_space}. \n")
 # print(f"The obs is {obs}. \n")

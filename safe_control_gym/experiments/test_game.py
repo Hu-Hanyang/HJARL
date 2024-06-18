@@ -108,6 +108,7 @@ class Agent(nn.Module):
             layer_init(nn.Linear(64, 64)),
             nn.Tanh(),
             layer_init(nn.Linear(64, np.prod(envs.single_action_space.shape)), std=0.01),
+            nn.Tanh(),
         )
         self.actor_logstd = nn.Parameter(torch.zeros(1, np.prod(envs.single_action_space.shape)))
 
@@ -156,13 +157,14 @@ def evaluate(
     defenders_traj.append(obs[:, 2:])
     episodic_returns = []
 
-    for _ in range(int(10*200)):
+    for act in range(int(10*200)):
         actions, _, _, _ = agent.get_action_and_value(torch.Tensor(obs).to(device))
-        # print(f"Step {_} action is {actions}. \n")
+        # print(f"Step {act} action is {actions}. \n")
         next_obs, reward, terminated, truncated, infos = envs.step(actions.cpu().numpy())
         step += 1
         attackers_traj.append(next_obs[:, :2])
         defenders_traj.append(next_obs[:, 2:])
+        print(f"Step {step} the relative distance is {np.linalg.norm(next_obs[:, :2] - next_obs[:, 2:])}. \n")
         attackers_status.append(getAttackersStatus(next_obs[:, :2], next_obs[:, 2:], attackers_status[-1]))
 
         if terminated[0] or truncated[0]:
@@ -181,7 +183,7 @@ if __name__ == "__main__":
     # Load the trained model
     args = tyro.cli(Args)
     args.seed = 2024
-    args.total_timesteps = 1e7
+    args.total_timesteps = 2e7
     args.exp_name = "train_game.cleanrl_model"
     run_name = os.path.join('training_results/' + 'game/ppo/' +f'{args.seed}/' + f'{args.total_timesteps}' )
     model_path = f"{run_name}/{args.exp_name}"
