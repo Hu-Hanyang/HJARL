@@ -1,0 +1,30 @@
+diff --git a/safe_control_gym/experiments/train_game.py b/safe_control_gym/experiments/train_game.py
+index a761901..53325c0 100644
+--- a/safe_control_gym/experiments/train_game.py
++++ b/safe_control_gym/experiments/train_game.py
+@@ -45,7 +45,7 @@ class Args:
+     # Algorithm specific arguments
+     env_id: str = "reach_avoid"
+     """the id of the environment"""
+-    total_timesteps: int = 1e7
++    total_timesteps: int = 2e7
+     """total timesteps of the experiments"""
+     learning_rate: float = 3e-4
+     """the learning rate of the optimizer"""
+diff --git a/training_results/game/ppo/2024/10000000.0/events.out.tfevents.1718487615.cs-mars-14.13248.0 b/training_results/game/ppo/2024/10000000.0/events.out.tfevents.1718487615.cs-mars-14.13248.0
+deleted file mode 100644
+index 795591d..0000000
+Binary files a/training_results/game/ppo/2024/10000000.0/events.out.tfevents.1718487615.cs-mars-14.13248.0 and /dev/null differ
+diff --git a/training_results/game/ppo/2024/10000000.0/train_game.cleanrl_model b/training_results/game/ppo/2024/10000000.0/train_game.cleanrl_model
+deleted file mode 100644
+index 7dc57b2..0000000
+Binary files a/training_results/game/ppo/2024/10000000.0/train_game.cleanrl_model and /dev/null differ
+diff --git a/wandb/latest-run b/wandb/latest-run
+index 5881952..3038406 120000
+--- a/wandb/latest-run
++++ b/wandb/latest-run
+@@ -1 +1 @@
+-run-20240615_144011-5bzvjoay
+\ No newline at end of file
++run-20240617_191659-zknrsugm
+\ No newline at end of file

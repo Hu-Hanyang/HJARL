@@ -150,3 +150,4 @@ dmypy.json
 
 # safe-con
 safe_control_gym/envs/gym_game/values
+wandb/run-20240617_191659-zknrsugm/run-zknrsugm.wandb
