@@ -45,7 +45,7 @@ class Args:
     # Algorithm specific arguments
     env_id: str = "reach_avoid"
     """the id of the environment"""
-    total_timesteps: int = 1e7
+    total_timesteps: int = 2e7
     """total timesteps of the experiments"""
     learning_rate: float = 3e-4
     """the learning rate of the optimizer"""

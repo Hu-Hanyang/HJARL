@@ -439,10 +439,10 @@ def animation(attackers_traj, defenders_traj, attackers_status):
                                                                             "fromcurrent": True, "transition": {"duration": 0}}])])]), frames=frames) # for the legend
 
     # plot target
-    fig.add_shape(type='rect', x0=0.6, y0=0.1, x1=0.8, y1=0.3, line=dict(color='purple', width=3.0), name="Target")
+    fig.add_shape(type='rect', x0=0.6, y0=0.1, x1=0.8, y1=0.3, line=dict(color='purple', width=2.0), name="Target")
     # plot obstacles
-    fig.add_shape(type='rect', x0=-0.1, y0=0.3, x1=0.1, y1=0.6, line=dict(color='black', width=3.0), name="Obstacle")
-    fig.add_shape(type='rect', x0=-0.1, y0=-1.0, x1=0.1, y1=-0.3, line=dict(color='black', width=3.0))
+    fig.add_shape(type='rect', x0=-0.1, y0=0.3, x1=0.1, y1=0.6, line=dict(color='black', width=2.0), name="Obstacle")
+    fig.add_shape(type='rect', x0=-0.1, y0=-1.0, x1=0.1, y1=-0.3, line=dict(color='black', width=2.0))
     fig.add_trace(go.Scatter(x=[-0.1, 0.1], y=[0.3, 0.3], mode='lines', name='Obstacle', line=dict(color='black')))
 
     # figure settings
@@ -493,7 +493,7 @@ def current_status_check(current_attackers_status, step=None):
 
 def record_video(attackers_traj, defenders_traj, attackers_status, filename='animation.mp4', fps=10):
     # Ensure the save directory exists
-    save_dir = os.path.join('MRAG', 'game_recordings')
+    save_dir = os.path.join('test_results/', 'game')
     if not os.path.exists(save_dir):
         os.makedirs(save_dir+'/')
     # Full path for the video file

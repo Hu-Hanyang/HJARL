@@ -237,10 +237,10 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
     def _computeReward(self):
         """Computes the current reward value.
 
-        Once the attacker is captured: +100
-        Once the attacker arrived at the goal: -100
-        The defender hits the obstacle: -100
-        One step and nothing happens: maybe use the distance between the attacker and the defender as a sign?
+        Once the attacker is captured: +200
+        Once the attacker arrived at the goal: -200
+        The defender hits the obstacle: -200
+        One step and nothing happens: -current_relative_distance
         In status, 0 stands for free, -1 stands for captured, 1 stands for arrived
 
         Returns
@@ -252,7 +252,7 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         last_attacker_status = self.attackers_status[-2]
         current_attacker_status = self.attackers_status[-1]
         reward = 0.0
-        # check the attacker status
+        # check the attacker status: if captured, reward = 200; elif arrived, reward = -200; free, reward = 0
         for num in range(self.NUM_ATTACKERS):
             reward += (current_attacker_status[num] - last_attacker_status[num]) * (-200)
         # check the defender status
@@ -261,7 +261,7 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         # check the relative distance difference or relative distance
         current_attacker_state = self.attackers._get_state().copy()
         current_relative_distance = np.linalg.norm(current_attacker_state[0] - current_defender_state[0])
-        last_relative_distance = np.linalg.norm(self.attackers_traj[-2][0] - self.defenders_traj[-2][0])
+        # last_relative_distance = np.linalg.norm(self.attackers_traj[-2][0] - self.defenders_traj[-2][0])
         # reward += (current_relative_distance - last_relative_distance) * -1.0 / (2*np.sqrt(2))
         reward += -current_relative_distance
         
@@ -447,8 +447,8 @@ class ReachAvoidTestGame(ReachAvoidGameEnv):
     NAME = 'reach_avoid_test'
     def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
         # Set disturbance_type to 'fixed' regardless of the input
-        kwargs['random_init'] = False
+        kwargs['random_init'] = True
         kwargs['initial_attacker'] = np.array([[-0.4, -0.8]])
         kwargs['initial_defender'] = np.array([[0.0, 0.0]])
-        kwargs['seed'] = 42
+        kwargs['seed'] = 2025
         super().__init__(*args, **kwargs)

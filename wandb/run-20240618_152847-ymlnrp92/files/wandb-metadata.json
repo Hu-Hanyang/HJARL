@@ -1,0 +1,208 @@
+{
+    "os": "Linux-5.4.0-146-generic-x86_64-with-glibc2.10",
+    "python": "3.8.16",
+    "heartbeatAt": "2024-06-18T22:28:47.442153",
+    "startedAt": "2024-06-18T22:28:47.085007",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "safe_control_gym/experiments/train_game.py",
+    "codePathLocal": "safe_control_gym/experiments/train_game.py",
+    "codePath": "safe_control_gym/experiments/train_game.py",
+    "git": {
+        "remote": "git@github.com:Hu-Hanyang/safe-control-gym.git",
+        "commit": "4c6a4a6025e82e9942990baed1b2fceb7a4b79a0"
+    },
+    "email": "HuHY97@outlook.com",
+    "root": "/local-scratch/localhome/hha160/projects/safe-control-gym",
+    "host": "cs-mars-14",
+    "username": "hha160",
+    "executable": "/localhome/hha160/anaconda3/envs/quadrotor/bin/python",
+    "cpu_count": 16,
+    "cpu_count_logical": 32,
+    "cpu_freq": {
+        "current": 2541.1145312500003,
+        "min": 2200.0,
+        "max": 3400.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2238.102,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2233.596,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2226.208,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2223.382,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2225.099,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2201.008,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2221.737,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2237.613,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 3570.482,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2879.985,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2875.006,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2850.769,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2873.243,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2874.27,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2861.65,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2878.242,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2226.402,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2226.239,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2235.922,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2239.443,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2234.381,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2401.613,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2236.034,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2237.496,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 3252.525,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2578.908,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2845.727,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2406.495,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2879.079,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2665.581,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2861.508,
+            "min": 2200.0,
+            "max": 3400.0
+        },
+        {
+            "current": 2317.92,
+            "min": 2200.0,
+            "max": 3400.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 116.77696228027344,
+            "used": 85.41812133789062
+        }
+    },
+    "gpu": "NVIDIA GeForce RTX 3080",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 3080",
+            "memory_total": 10737418240
+        }
+    ],
+    "memory": {
+        "total": 31.33232879638672
+    }
+}

@@ -1,0 +1,22 @@
+diff --git a/safe_control_gym/experiments/train_game.py b/safe_control_gym/experiments/train_game.py
+index f59782e..3cf1fc6 100644
+--- a/safe_control_gym/experiments/train_game.py
++++ b/safe_control_gym/experiments/train_game.py
+@@ -45,7 +45,7 @@ class Args:
+     # Algorithm specific arguments
+     env_id: str = "reach_avoid"
+     """the id of the environment"""
+-    total_timesteps: int = 1e7
++    total_timesteps: int = 2e7
+     """total timesteps of the experiments"""
+     learning_rate: float = 3e-4
+     """the learning rate of the optimizer"""
+diff --git a/wandb/latest-run b/wandb/latest-run
+index ed21d8a..e39816a 120000
+--- a/wandb/latest-run
++++ b/wandb/latest-run
+@@ -1 +1 @@
+-run-20240618_104044-ngq8rkkn
+\ No newline at end of file
++run-20240618_152847-ymlnrp92
+\ No newline at end of file

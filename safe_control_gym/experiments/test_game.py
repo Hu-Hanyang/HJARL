@@ -6,9 +6,12 @@ from safe_control_gym.experiments.train_game import Args, layer_init
 import gymnasium as gym
 import torch
 import torch.nn as nn
+from datetime import datetime
 from torch.distributions.normal import Normal
-from safe_control_gym.utils.plotting import animation, current_status_check
+from safe_control_gym.utils.plotting import animation, current_status_check, record_video
 from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidTestGame
+
+
 
 
 map = {'map': [-1., 1., -1., 1.]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
@@ -130,7 +133,7 @@ def evaluate(
     model_path: str,
     make_env: Callable,
     env_id: str,
-    eval_episodes: int, #TODO: Hanyang: need to change this to only one episode, that is to say, one game.
+    eval_episodes: int, 
     save_path: str,
     Model: torch.nn.Module,
     device: torch.device = torch.device("cpu"),
@@ -152,7 +155,8 @@ def evaluate(
     attackers_traj, defenders_traj = [], []
 
     obs, _ = envs.reset()
-    print(f"========== The initial state is {obs} in the test_game. ========== \n")
+    initial_obs = obs.copy()
+    print(f"========== The initial state is {initial_obs} in the test_game. ========== \n")
     attackers_traj.append(obs[:, :2])
     defenders_traj.append(obs[:, 2:])
     episodic_returns = []
@@ -175,6 +179,7 @@ def evaluate(
     print(f"================ The game is over at the {step} step ({step / 200} seconds. ================ \n")
     current_status_check(attackers_status[-1], step)
     animation(attackers_traj, defenders_traj, attackers_status)
+    # record_video(attackers_traj, defenders_traj, attackers_status, filename=f'1vs1_{datetime.now().strftime("%Y.%m.%d_%H:%M")}.mp4', fps=10)
         
     return episodic_returns, envs
 
