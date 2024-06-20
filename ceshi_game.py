@@ -31,18 +31,19 @@ args = tyro.cli(Args)
 # envs = gym.vector.SyncVectorEnv(
 #     [make_env(args.env_id, i, args.capture_video, "ceshi_game", args.gamma) for i in range(1)])
 
-env = gym.vector.SyncVectorEnv([make_env(args.env_id, 0, args.capture_video, "ceshi_game", args.gamma)])
+# env = gym.vector.SyncVectorEnv([make_env(args.env_id, 0, args.capture_video, "ceshi_game", args.gamma)])
+env = ReachAvoidTestGame()
 
-obs, info = env.reset()
-print(f"The obs is {obs}. \n")
+# obs, info = env.reset()
+# print(f"The obs is {obs}. \n")
 
-initial_attacker = np.array([[-0.1, 0.0]])
-initial_defender = np.array([[0.0, 0.0]])
+# initial_attacker = np.array([[-0.1, 0.0]])
+# initial_defender = np.array([[0.0, 0.0]])
 # env = ReachAvoidGameEnv(initial_attacker=initial_attacker, initial_defender=initial_defender, random_init=False)
 # print(f"The initial state is {env.}. \n")
 # obs, info = env.reset()
-# print(f"The state space of the env is {env.observation_space}. \n")
-# print(f"The action space of the env is {env.action_space}. \n")
+print(f"The state space of the env is {env.observation_space}. \n")
+print(f"The action space of the env is {env.action_space}. \n")
 # print(f"The {envs.state}")
 
 # print(f"The obs is {obs} and the shape of the obs is {obs.shape}. \n")

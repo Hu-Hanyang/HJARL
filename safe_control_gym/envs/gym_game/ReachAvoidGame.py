@@ -9,6 +9,9 @@ from safe_control_gym.envs.gym_game.utilities import find_sign_change1vs0, spa_d
 from safe_control_gym.envs.gym_game.BaseRLGame import BaseRLGameEnv
 from safe_control_gym.envs.gym_game.BaseGame import Dynamics
 
+from gymnasium import spaces
+
+
 
 class ReachAvoidGameEnv(BaseRLGameEnv):
     """Multi-agent reach-avoid games class for SingleIntegrator dynamics."""
@@ -283,7 +286,7 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         current_attacker_status = self.attackers_status[-1]
         attacker_done = np.all((current_attacker_status == 1) | (current_attacker_status == -1))
         if attacker_done:
-            print("The attacker is captured or arrived. And the game is over.")
+            print(" ========== The attacker is captured or arrived in the _computeTerminated() in ReachAvoidGame.py. ========= \n")
         # check the defender status: hit the obstacle, or the attacker is captured
         current_defender_state = self.defenders._get_state().copy()
         defender_done = self._check_area(current_defender_state[0], self.obstacles)
@@ -454,5 +457,109 @@ class ReachAvoidTestGame(ReachAvoidGameEnv):
         kwargs['random_init'] = True
         kwargs['initial_attacker'] = np.array([[0.0, 0.0]])
         kwargs['initial_defender'] = np.array([[0.3, 0.0]])
-        kwargs['seed'] = 2025
+        kwargs['seed'] = 42
         super().__init__(*args, **kwargs)
+
+
+
+class ReachAvoidGameTest(ReachAvoidGameEnv):
+    NAME = 'reach_avoid_test2'
+    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
+        # Set disturbance_type to 'fixed' regardless of the input
+        kwargs['random_init'] = False
+        kwargs['initial_attacker'] = np.array([[0.0, 0.0]])
+        kwargs['initial_defender'] = np.array([[0.3, 0.0]])
+        kwargs['seed'] = 42
+        super().__init__(*args, **kwargs)
+    
+
+    def _actionSpace(self):
+        """Returns the action space of the environment.
+        Formulation: [defenders' action spaces]
+        Returns
+        -------
+        spaces.Box
+            A Box of size NUM_DEFENDERS x 2, or 1, depending on the action type.
+
+        """
+        
+        if self.DEFENDER_PHYSICS == Dynamics.SIG or self.DEFENDER_PHYSICS == Dynamics.FSIG:
+            defender_lower_bound = np.array([-1.0, -1.0])
+            defender_upper_bound = np.array([+1.0, +1.0])
+        elif self.DEFENDER_PHYSICS == Dynamics.DUB3D:
+            defender_lower_bound = np.array([-1.0])
+            defender_upper_bound = np.array([+1.0])
+        else:
+            print("[ERROR] in Defender Action Space, BaseRLGameEnv._actionSpace()")
+            exit()
+        
+        # attackers_lower_bound = np.array([attacker_lower_bound for i in range(self.NUM_ATTACKERS)])
+        # attackers_upper_bound = np.array([attacker_upper_bound for i in range(self.NUM_ATTACKERS)])
+
+        # if self.NUM_DEFENDERS > 0:
+        #     defenders_lower_bound = np.array([defender_lower_bound for i in range(self.NUM_DEFENDERS)])
+        #     defenders_upper_bound = np.array([defender_upper_bound for i in range(self.NUM_DEFENDERS)])
+            
+        #     act_lower_bound = np.concatenate((attackers_lower_bound, defenders_lower_bound), axis=0)
+        #     act_upper_bound = np.concatenate((attackers_upper_bound, defenders_upper_bound), axis=0)
+        # else:
+        #     act_lower_bound = attackers_lower_bound
+        #     act_upper_bound = attackers_upper_bound
+            
+        defenders_lower_bound = np.array([defender_lower_bound for i in range(self.NUM_DEFENDERS)])
+        defenders_upper_bound = np.array([defender_upper_bound for i in range(self.NUM_DEFENDERS)])
+        # Flatten the lower and upper bounds to ensure the action space shape is (4,)
+        act_lower_bound = defenders_lower_bound
+        act_upper_bound = defenders_upper_bound
+
+        return spaces.Box(low=act_lower_bound, high=act_upper_bound, dtype=np.float32)
+
+
+    def _observationSpace(self):
+        """Returns the observation space of the environment.
+        Formulation: [attackers' obs spaces, defenders' obs spaces]
+        Returns
+        -------
+        ndarray
+            A Box() of shape NUM_PLAYERS x 2, or 3 depending on the observation type.
+
+        """
+        
+        if self.ATTACKER_PHYSICS == Dynamics.SIG or self.ATTACKER_PHYSICS == Dynamics.FSIG:
+            attacker_lower_bound = np.array([-1.0, -1.0])
+            attacker_upper_bound = np.array([+1.0, +1.0])
+        elif self.ATTACKER_PHYSICS == Dynamics.DUB3D:
+            attacker_lower_bound = np.array([-1.0, -1.0, -1.0])
+            attacker_upper_bound = np.array([+1.0, +1.0, +1.0])
+        else:
+            print("[ERROR] Attacker Obs Space in BaseRLGameEnv._observationSpace()")
+            exit()
+        
+        if self.DEFENDER_PHYSICS == Dynamics.SIG or self.DEFENDER_PHYSICS == Dynamics.FSIG:
+            defender_lower_bound = np.array([-1.0, -1.0])
+            defender_upper_bound = np.array([+1.0, +1.0])
+        elif self.DEFENDER_PHYSICS == Dynamics.DUB3D:
+            defender_lower_bound = np.array([-1.0, -1.0, -1.0])
+            defender_upper_bound = np.array([+1.0, +1.0, +1.0])
+        else:
+            print("[ERROR] in Defender Obs Space, BaseRLGameEnv._observationSpace()")
+            exit()
+        
+        attackers_lower_bound = np.array([attacker_lower_bound for i in range(self.NUM_ATTACKERS)])
+        attackers_upper_bound = np.array([attacker_upper_bound for i in range(self.NUM_ATTACKERS)])
+
+        if self.NUM_DEFENDERS > 0:
+            defenders_lower_bound = np.array([defender_lower_bound for i in range(self.NUM_DEFENDERS)])
+            defenders_upper_bound = np.array([defender_upper_bound for i in range(self.NUM_DEFENDERS)])
+            
+            obs_lower_bound = np.concatenate((attackers_lower_bound, defenders_lower_bound), axis=0)
+            obs_upper_bound = np.concatenate((attackers_upper_bound, defenders_upper_bound), axis=0)
+        else:
+            obs_lower_bound = attackers_lower_bound
+            obs_upper_bound = attackers_upper_bound
+        
+        # Flatten the lower and upper bounds to ensure the observation space shape is (4,)
+        obs_lower_bound = obs_lower_bound.reshape(1, 4)
+        obs_upper_bound = obs_upper_bound.reshape(1, 4)
+
+        return spaces.Box(low=obs_lower_bound, high=obs_upper_bound, dtype=np.float32)
