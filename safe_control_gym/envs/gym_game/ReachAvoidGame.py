@@ -282,9 +282,13 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         # check the attacker status
         current_attacker_status = self.attackers_status[-1]
         attacker_done = np.all((current_attacker_status == 1) | (current_attacker_status == -1))
+        if attacker_done:
+            print("The attacker is captured or arrived. And the game is over.")
         # check the defender status: hit the obstacle, or the attacker is captured
         current_defender_state = self.defenders._get_state().copy()
         defender_done = self._check_area(current_defender_state[0], self.obstacles)
+        if defender_done:
+            print("The defender hits the obstacle. And the game is over.")
         # final done
         done = True if attacker_done or defender_done else False
         
@@ -448,7 +452,7 @@ class ReachAvoidTestGame(ReachAvoidGameEnv):
     def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
         # Set disturbance_type to 'fixed' regardless of the input
         kwargs['random_init'] = True
-        kwargs['initial_attacker'] = np.array([[-0.4, -0.8]])
-        kwargs['initial_defender'] = np.array([[0.0, 0.0]])
+        kwargs['initial_attacker'] = np.array([[0.0, 0.0]])
+        kwargs['initial_defender'] = np.array([[0.3, 0.0]])
         kwargs['seed'] = 2025
         super().__init__(*args, **kwargs)

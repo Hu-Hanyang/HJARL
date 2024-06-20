@@ -1,0 +1,5 @@
+Test task: quadrotor_fixed_distb_level1.0
+Controller: ppo trained in the quadrotor_null
+Number of episodes: 10
+Performances of returns: -109.59 ±  6.54
+Performances of lengths: 45 ±  28.54

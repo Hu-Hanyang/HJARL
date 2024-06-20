@@ -358,8 +358,10 @@ class BaseDistbAviary(BenchmarkEnv):
             for i in range(self.NUM_DRONES):
                 # Hanayng: calculate the HJ disturbances or randomized disturbances
                 if self.distb_type == 'random':
-                    low = np.array([-5.3e-3, -5.3e-3, -1.43e-4])
-                    high = np.array([5.3e-3, 5.3e-3, 1.43e-4])
+                    # low = np.array([-5.3e-3, -5.3e-3, -1.43e-4])
+                    # high = np.array([5.3e-3, 5.3e-3, 1.43e-4])
+                    low = np.array([-7e-3, -7e-3, -1.5e-4])
+                    high = np.array([6e-3, 6e-3, 1.5e-4])
                     # Generate a random sample
                     hj_distbs = np.random.uniform(low, high)
                 else: # HJ based fixed, random_hj or boltzmann disturbances
@@ -367,6 +369,7 @@ class BaseDistbAviary(BenchmarkEnv):
                     current_angle_rates = self._get_drone_state_vector(i)[13:16]
                     current_state = np.concatenate((current_angles, current_angle_rates), axis=0)
                     _, hj_distbs = distur_gener_quadrotor(current_state, self.distb_level)
+                    print(f"[INFO] The disturbance for drone {i} is {hj_distbs}. \n")
                 
                 if self.PHYSICS == Physics.PYB:
                     # self._physics(clipped_action[i, :], i)

@@ -728,8 +728,8 @@ class QuadrotorNullDistb(QuadrotorDistb):
         kwargs['distb_level'] = 0.0
         kwargs['randomized_init'] = True
         kwargs['record'] = False
-        kwargs['seed'] = 42
-        kwargs['adversary_disturbance'] = 'dynamics'
+        kwargs['seed'] = 1000
+        # kwargs['adversary_disturbance'] = 'dynamics'  # Hanyang: for rarl and rap
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
         
         
@@ -754,6 +754,6 @@ class QuadrotorRandomDistb(QuadrotorDistb):
         kwargs['distb_level'] = 0.0
         kwargs['randomized_init'] = True
         kwargs['record'] = False
-        kwargs['seed'] = 42
+        kwargs['seed'] = 2024
         kwargs['adversary_disturbance'] = 'dynamics'  # TODO: for rarl test, but not sure whether it has influences on the performances or not
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,

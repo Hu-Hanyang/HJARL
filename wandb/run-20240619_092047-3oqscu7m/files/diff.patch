@@ -1,0 +1,34 @@
+diff --git a/safe_control_gym/envs/gym_game/ReachAvoidGame.py b/safe_control_gym/envs/gym_game/ReachAvoidGame.py
+index c296a1b..0ee7aaf 100644
+--- a/safe_control_gym/envs/gym_game/ReachAvoidGame.py
++++ b/safe_control_gym/envs/gym_game/ReachAvoidGame.py
+@@ -450,5 +450,5 @@ class ReachAvoidTestGame(ReachAvoidGameEnv):
+         kwargs['random_init'] = True
+         kwargs['initial_attacker'] = np.array([[-0.4, -0.8]])
+         kwargs['initial_defender'] = np.array([[0.0, 0.0]])
+-        kwargs['seed'] = 2025
++        kwargs['seed'] = 2024
+         super().__init__(*args, **kwargs)
+\ No newline at end of file
+diff --git a/safe_control_gym/experiments/train_game.py b/safe_control_gym/experiments/train_game.py
+index 3cf1fc6..e2174fe 100644
+--- a/safe_control_gym/experiments/train_game.py
++++ b/safe_control_gym/experiments/train_game.py
+@@ -45,7 +45,7 @@ class Args:
+     # Algorithm specific arguments
+     env_id: str = "reach_avoid"
+     """the id of the environment"""
+-    total_timesteps: int = 2e7
++    total_timesteps: int = 3e7
+     """total timesteps of the experiments"""
+     learning_rate: float = 3e-4
+     """the learning rate of the optimizer"""
+diff --git a/wandb/latest-run b/wandb/latest-run
+index e39816a..fe864e7 120000
+--- a/wandb/latest-run
++++ b/wandb/latest-run
+@@ -1 +1 @@
+-run-20240618_152847-ymlnrp92
+\ No newline at end of file
++run-20240619_092047-3oqscu7m
+\ No newline at end of file
