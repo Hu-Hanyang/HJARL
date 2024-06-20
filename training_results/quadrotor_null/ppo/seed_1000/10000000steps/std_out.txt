@@ -511,3 +511,22 @@
 |    step_time            | 520      |
 --------------------------------------
 
+2024-06-20 12:32:10,993 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0124   |
+|    entropy_loss         | -7.91    |
+|    policy_loss          | -0.00426 |
+|    value_loss           | 0.571    |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 1e+03    |
+|    ep_return            | -52.1    |
+|    ep_reward            | -0.0521  |
+| time/                   |          |
+|    progress             | 0.918    |
+|    step                 | 9.18e+06 |
+|    step_time            | 527      |
+--------------------------------------
+

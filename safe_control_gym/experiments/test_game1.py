@@ -147,7 +147,7 @@ def evaluate(
         # print(f"Step {act}: the action is {actions}. \n")
         # actions = actions.flatten()
         next_obs, reward, terminated, truncated, infos = envs.step(actions.cpu().numpy())
-        next_obs = np.atleast_2d(next_obs)
+        next_obs = np.atleast_2d(next_obs.copy())
         step += 1
         print(f"Step {step}: the reward is {reward}. \n")
         print(f"Step {step}: the terminated is {terminated}. \n")
@@ -174,7 +174,7 @@ if __name__ == "__main__":
     # Load the trained model
     args = tyro.cli(Args)
     args.seed = 2024
-    args.total_timesteps = 3e7
+    args.total_timesteps = 2e7
     args.exp_name = "train_game.cleanrl_model"
     run_name = os.path.join('training_results/' + 'game/ppo/' +f'{args.seed}/' + f'{args.total_timesteps}' )
     model_path = f"{run_name}/{args.exp_name}"

@@ -255,12 +255,20 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         last_attacker_status = self.attackers_status[-2]
         current_attacker_status = self.attackers_status[-1]
         reward = 0.0
-        # check the attacker status: if captured, reward = 200; elif arrived, reward = -200; free, reward = 0
-        for num in range(self.NUM_ATTACKERS):
-            reward += (current_attacker_status[num] - last_attacker_status[num]) * (-200)
+        # reward 1: check the attacker status: if captured, reward = 200; elif arrived, reward = -200; free, reward = 0
+        # for num in range(self.NUM_ATTACKERS):
+        #     reward += (current_attacker_status[num] - last_attacker_status[num]) * (-200)
+        # reward 2:
+        status_change = current_attacker_status[0] - last_attacker_status[0]
+        if status_change == 1:  # attacker arrived
+            reward += -200
+        elif status_change == -1:  # attacker is captured
+            reward += 500
+        else:  # attacker is free
+            reward += 0.0
         # check the defender status
         current_defender_state = self.defenders._get_state().copy()
-        reward += -200 if self._check_area(current_defender_state[0], self.obstacles) else 0.0
+        reward += -500 if self._check_area(current_defender_state[0], self.obstacles) else 0.0
         # check the relative distance difference or relative distance
         current_attacker_state = self.attackers._get_state().copy()
         current_relative_distance = np.linalg.norm(current_attacker_state[0] - current_defender_state[0])
