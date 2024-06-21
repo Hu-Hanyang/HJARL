@@ -104,8 +104,8 @@ class Agent(nn.Module):
         action_std = torch.exp(action_logstd)
         probs = Normal(action_mean, action_std)
         if action is None:
-            # action = probs.sample()
-            action = action_mean.detach()  # Hanyang: test deterministic policy
+            action = probs.sample()
+            # action = action_mean.detach()  # Hanyang: test deterministic policy
         return action, probs.log_prob(action).sum(1), probs.entropy().sum(1), self.critic(x)
     
 
@@ -174,7 +174,7 @@ if __name__ == "__main__":
     # Load the trained model
     args = tyro.cli(Args)
     args.seed = 2024
-    args.total_timesteps = 2e7
+    args.total_timesteps = 1e7
     args.exp_name = "train_game.cleanrl_model"
     run_name = os.path.join('training_results/' + 'game/ppo/' +f'{args.seed}/' + f'{args.total_timesteps}' )
     model_path = f"{run_name}/{args.exp_name}"

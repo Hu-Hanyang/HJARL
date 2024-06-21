@@ -530,3 +530,42 @@
 |    step_time            | 527      |
 --------------------------------------
 
+2024-06-20 13:15:39,004 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0194   |
+|    entropy_loss         | -8.26    |
+|    policy_loss          | -0.00439 |
+|    value_loss           | 9.6      |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 878      |
+|    ep_return            | -67.2    |
+|    ep_reward            | -0.389   |
+| time/                   |          |
+|    progress             | 0.95     |
+|    step                 | 9.5e+06  |
+|    step_time            | 523      |
+--------------------------------------
+
+2024-06-20 13:59:22,537 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0126   |
+|    entropy_loss         | -8.37    |
+|    policy_loss          | -0.00515 |
+|    value_loss           | 1.12     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 903      |
+|    ep_return            | -52.9    |
+|    ep_reward            | -0.388   |
+| time/                   |          |
+|    progress             | 0.983    |
+|    step                 | 9.83e+06 |
+|    step_time            | 525      |
+--------------------------------------
+
+2024-06-20 14:25:45,800 : Checkpoint | training_results/quadrotor_null/ppo/seed_1000/10000000steps/model_latest.pt

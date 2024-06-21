@@ -274,7 +274,7 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         current_relative_distance = np.linalg.norm(current_attacker_state[0] - current_defender_state[0])
         # last_relative_distance = np.linalg.norm(self.attackers_traj[-2][0] - self.defenders_traj[-2][0])
         # reward += (current_relative_distance - last_relative_distance) * -1.0 / (2*np.sqrt(2))
-        reward += -current_relative_distance
+        reward += -(current_relative_distance*10)
         
         return reward
 
@@ -474,7 +474,7 @@ class ReachAvoidGameTest(ReachAvoidGameEnv):
     NAME = 'reach_avoid_test2'
     def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
         # Set disturbance_type to 'fixed' regardless of the input
-        kwargs['random_init'] = False
+        kwargs['random_init'] = True
         kwargs['initial_attacker'] = np.array([[0.0, 0.0]])
         kwargs['initial_defender'] = np.array([[0.3, 0.0]])
         kwargs['seed'] = 42
