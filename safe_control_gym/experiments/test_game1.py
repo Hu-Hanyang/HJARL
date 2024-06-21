@@ -104,8 +104,8 @@ class Agent(nn.Module):
         action_std = torch.exp(action_logstd)
         probs = Normal(action_mean, action_std)
         if action is None:
-            action = probs.sample()
-            # action = action_mean.detach()  # Hanyang: test deterministic policy
+            # action = probs.sample()
+            action = action_mean.detach()  # Hanyang: test deterministic policy
         return action, probs.log_prob(action).sum(1), probs.entropy().sum(1), self.critic(x)
     
 
@@ -141,20 +141,23 @@ def evaluate(
     attackers_traj.append(obs[:, :2])
     defenders_traj.append(obs[:, 2:])
     episodic_returns = []
+    actions_storage = []
 
     for act in range(int(10*200)):
         actions, _, _, _ = agent.get_action_and_value(torch.Tensor(obs).to(device))
-        # print(f"Step {act}: the action is {actions}. \n")
+        actions_storage.append(actions)
+        # print(f"Step {step}: the action is {actions}. \n")
         # actions = actions.flatten()
         next_obs, reward, terminated, truncated, infos = envs.step(actions.cpu().numpy())
         next_obs = np.atleast_2d(next_obs.copy())
         step += 1
         print(f"Step {step}: the reward is {reward}. \n")
-        print(f"Step {step}: the terminated is {terminated}. \n")
+        # print(f"Step {step}: the terminated is {terminated}. \n")
         attackers_traj.append(next_obs[:, :2])
         defenders_traj.append(next_obs[:, 2:])
-        # print(f"Step {step}: the relative distance is {np.linalg.norm(next_obs[:, :2] - next_obs[:, 2:])}. \n")
-        print(f"Step {step}: the current position of the attacker is {next_obs[:, :2]}. \n")
+        print(f"Step {step}: the relative distance is {np.linalg.norm(next_obs[:, :2] - next_obs[:, 2:])}. \n")
+        # print(f"Step {step}: the current position of the attacker is {next_obs[:, :2]}. \n")
+        # print(f"Step {step}: the current position of the defender is {next_obs[:, 2:]}. \n")
         attackers_status.append(getAttackersStatus(next_obs[:, :2], next_obs[:, 2:], attackers_status[-1]))
 
         if terminated or truncated:
@@ -165,6 +168,7 @@ def evaluate(
     print(f"================ The game is over at the {step} step ({step / 200} seconds. ================ \n")
     current_status_check(attackers_status[-1], step)
     animation(attackers_traj, defenders_traj, attackers_status)
+    # print(f"The actions are {actions_storage}. \n")
     # record_video(attackers_traj, defenders_traj, attackers_status, filename=f'1vs1_{datetime.now().strftime("%Y.%m.%d_%H:%M")}.mp4', fps=10)
         
     return episodic_returns, envs

@@ -261,20 +261,20 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         # reward 2:
         status_change = current_attacker_status[0] - last_attacker_status[0]
         if status_change == 1:  # attacker arrived
-            reward += -200
+            reward += -5
         elif status_change == -1:  # attacker is captured
-            reward += 500
+            reward += 10
         else:  # attacker is free
             reward += 0.0
         # check the defender status
         current_defender_state = self.defenders._get_state().copy()
-        reward += -500 if self._check_area(current_defender_state[0], self.obstacles) else 0.0
+        reward += -10 if self._check_area(current_defender_state[0], self.obstacles) else 0.0
         # check the relative distance difference or relative distance
         current_attacker_state = self.attackers._get_state().copy()
         current_relative_distance = np.linalg.norm(current_attacker_state[0] - current_defender_state[0])
         # last_relative_distance = np.linalg.norm(self.attackers_traj[-2][0] - self.defenders_traj[-2][0])
         # reward += (current_relative_distance - last_relative_distance) * -1.0 / (2*np.sqrt(2))
-        reward += -(current_relative_distance*10)
+        reward += -(current_relative_distance)
         
         return reward
 
@@ -293,13 +293,15 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         # check the attacker status
         current_attacker_status = self.attackers_status[-1]
         attacker_done = np.all((current_attacker_status == 1) | (current_attacker_status == -1))
-        if attacker_done:
-            print(" ========== The attacker is captured or arrived in the _computeTerminated() in ReachAvoidGame.py. ========= \n")
+        # if attacker_done:
+        #     print(" ========== The attacker is captured or arrived in the _computeTerminated() in ReachAvoidGame.py. ========= \n")
         # check the defender status: hit the obstacle, or the attacker is captured
         current_defender_state = self.defenders._get_state().copy()
         defender_done = self._check_area(current_defender_state[0], self.obstacles)
-        if defender_done:
-            print("The defender hits the obstacle. And the game is over.")
+        # print(f"========== The defender_done is {defender_done} in ReachAvoidGame.py. ========= \n")
+        # if defender_done:
+            # print(" ========== The defender hits the obstacle in the _computeTerminated() in ReachAvoidGame.py. ========= \n")
+            
         # final done
         done = True if attacker_done or defender_done else False
         
@@ -476,7 +478,7 @@ class ReachAvoidGameTest(ReachAvoidGameEnv):
         # Set disturbance_type to 'fixed' regardless of the input
         kwargs['random_init'] = True
         kwargs['initial_attacker'] = np.array([[0.0, 0.0]])
-        kwargs['initial_defender'] = np.array([[0.3, 0.0]])
+        kwargs['initial_defender'] = np.array([[0.2, 0.0]])
         kwargs['seed'] = 42
         super().__init__(*args, **kwargs)
     
