@@ -757,3 +757,18 @@ class QuadrotorRandomDistb(QuadrotorDistb):
         kwargs['seed'] = 2024
         kwargs['adversary_disturbance'] = 'dynamics'  # TODO: for rarl test, but not sure whether it has influences on the performances or not
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
+
+
+class QuadrotorWindDistb(QuadrotorDistb):
+    NAME = 'quadrotor_wind'
+    #TODO: Hanyang: add contant wind torque disturbance
+    # Hanyang: add contant wind torque disturbance
+    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
+        # Set disturbance_type to 'fixed' regardless of the input
+        kwargs['distb_type'] = 'wind'
+        kwargs['distb_level'] = 0.0
+        kwargs['randomized_init'] = True
+        kwargs['record'] = False
+        kwargs['seed'] = 2024
+        kwargs['adversary_disturbance'] = 'dynamics'  # TODO: for rarl test, but not sure whether it has influences on the performances or not
+        super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,

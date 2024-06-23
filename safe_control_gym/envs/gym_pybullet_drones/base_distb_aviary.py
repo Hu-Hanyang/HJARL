@@ -161,7 +161,7 @@ class BaseDistbAviary(BenchmarkEnv):
         # Hanyang: initialize the disturbance parameters and the initial state randomization parameters here.
         self.distb_type = distb_type
         self.distb_level = distb_level
-        assert self.distb_type in ['fixed', 'boltzmann', 'random_hj', 'random', None], f"[ERROR] The disturbance type '{self.distb_type}' is not supported now. \n"
+        assert self.distb_type in ['fixed', 'boltzmann', 'random_hj', 'random', 'wind', None], f"[ERROR] The disturbance type '{self.distb_type}' is not supported now. \n"
         self.init_xy_lim = 0.25
         self.init_z_lim = 0.1
         self.init_rp_lim = np.pi/6
@@ -364,12 +364,15 @@ class BaseDistbAviary(BenchmarkEnv):
                     high = np.array([6e-3, 6e-3, 1.5e-4])
                     # Generate a random sample
                     hj_distbs = np.random.uniform(low, high)
+                elif self.distb_type == 'wind':  # contant wind disturbances
+                    hj_distbs = np.array([0.0, 0.0037099999999999998, 0.0])
+                    # print(f"[INFO] The disturbance in the wind distb is {hj_distbs}. \n")
                 else: # HJ based fixed, random_hj or boltzmann disturbances
                     current_angles = quat2euler(self._get_drone_state_vector(i)[3:7])  # convert quaternion to eulers
                     current_angle_rates = self._get_drone_state_vector(i)[13:16]
                     current_state = np.concatenate((current_angles, current_angle_rates), axis=0)
                     _, hj_distbs = distur_gener_quadrotor(current_state, self.distb_level)
-                    print(f"[INFO] The disturbance for drone {i} is {hj_distbs}. \n")
+                    # print(f"[INFO] The disturbance for drone {i} is {hj_distbs}. \n")
                 
                 if self.PHYSICS == Physics.PYB:
                     # self._physics(clipped_action[i, :], i)

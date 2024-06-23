@@ -1,0 +1,5 @@
+Test task: quadrotor_randomhj
+Controller: ppo trained in the quadrotor_null
+Number of episodes: 10
+Performances of returns: -95.22 ±  23.81
+Performances of lengths: 226 ±  387.58
