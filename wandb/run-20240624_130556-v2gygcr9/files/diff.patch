@@ -1,0 +1,38 @@
+diff --git a/safe_control_gym/envs/gym_game/BaseGame.py b/safe_control_gym/envs/gym_game/BaseGame.py
+index 68db391..2b992cf 100644
+--- a/safe_control_gym/envs/gym_game/BaseGame.py
++++ b/safe_control_gym/envs/gym_game/BaseGame.py
+@@ -128,7 +128,7 @@ class BaseGameEnv(gym.Env):
+             defenders (np.ndarray): the initial positions of the defenders
+         '''
+         np.random.seed(self.initial_players_seed)
+-    
++        print(f"========== self.call_counter: {self.call_counter} in BaseGame.py. ==========\n")
+         # Map boundaries
+         min_val, max_val = -0.9, 0.9
+         
+diff --git a/training_results/game/ppo/42/10000000.0/events.out.tfevents.1719252685.cs-mars-14.23354.0 b/training_results/game/ppo/42/10000000.0/events.out.tfevents.1719252685.cs-mars-14.23354.0
+deleted file mode 100644
+index 0f43e0a..0000000
+Binary files a/training_results/game/ppo/42/10000000.0/events.out.tfevents.1719252685.cs-mars-14.23354.0 and /dev/null differ
+diff --git a/training_results/game/ppo/42/10000000.0/reward5.png b/training_results/game/ppo/42/10000000.0/reward5.png
+deleted file mode 100644
+index be3f8ec..0000000
+Binary files a/training_results/game/ppo/42/10000000.0/reward5.png and /dev/null differ
+diff --git a/training_results/game/ppo/42/10000000.0/reward5_init.png b/training_results/game/ppo/42/10000000.0/reward5_init.png
+deleted file mode 100644
+index 4dd0892..0000000
+Binary files a/training_results/game/ppo/42/10000000.0/reward5_init.png and /dev/null differ
+diff --git a/training_results/game/ppo/42/10000000.0/train_game.cleanrl_model b/training_results/game/ppo/42/10000000.0/train_game.cleanrl_model
+deleted file mode 100644
+index afe5179..0000000
+Binary files a/training_results/game/ppo/42/10000000.0/train_game.cleanrl_model and /dev/null differ
+diff --git a/wandb/latest-run b/wandb/latest-run
+index b5cf86c..05f0a22 120000
+--- a/wandb/latest-run
++++ b/wandb/latest-run
+@@ -1 +1 @@
+-run-20240624_111121-7fza559v
+\ No newline at end of file
++run-20240624_130556-v2gygcr9
+\ No newline at end of file

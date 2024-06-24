@@ -128,7 +128,7 @@ class BaseGameEnv(gym.Env):
             defenders (np.ndarray): the initial positions of the defenders
         '''
         np.random.seed(self.initial_players_seed)
-    
+        print(f"========== self.call_counter: {self.call_counter} in BaseGame.py. ==========\n")
         # Map boundaries
         min_val, max_val = -0.9, 0.9
         
@@ -192,13 +192,13 @@ class BaseGameEnv(gym.Env):
                     return (new_point_x, new_point_y)
         
         # Calculate desired distance based on the counter
-        if self.call_counter < 128:  # 128 episodes
+        if self.call_counter < 500:  # 2e5 steps 
             distance = 0.15
             r = 0.05
-        elif self.call_counter < 256:
+        elif self.call_counter < 1000:  # around 4e5 steps
             distance = 0.35
             r = 0.15
-        elif self.call_counter < 512:
+        elif self.call_counter < 1800:
             distance = 0.75
             r = 0.25
         else:
