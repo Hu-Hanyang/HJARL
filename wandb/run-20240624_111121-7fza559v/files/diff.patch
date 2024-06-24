@@ -1,0 +1,281 @@
+diff --git a/ceshi_game.py b/ceshi_game.py
+index 7aa8f7e..9f804c3 100644
+--- a/ceshi_game.py
++++ b/ceshi_game.py
+@@ -32,7 +32,7 @@ args = tyro.cli(Args)
+ #     [make_env(args.env_id, i, args.capture_video, "ceshi_game", args.gamma) for i in range(1)])
+ 
+ # env = gym.vector.SyncVectorEnv([make_env(args.env_id, 0, args.capture_video, "ceshi_game", args.gamma)])
+-env = ReachAvoidTestGame()
++# env = ReachAvoidTestGame()
+ 
+ # obs, info = env.reset()
+ # print(f"The obs is {obs}. \n")
+@@ -42,8 +42,8 @@ env = ReachAvoidTestGame()
+ # env = ReachAvoidGameEnv(initial_attacker=initial_attacker, initial_defender=initial_defender, random_init=False)
+ # print(f"The initial state is {env.}. \n")
+ # obs, info = env.reset()
+-print(f"The state space of the env is {env.observation_space}. \n")
+-print(f"The action space of the env is {env.action_space}. \n")
++# print(f"The state space of the env is {env.observation_space}. \n")
++# print(f"The action space of the env is {env.action_space}. \n")
+ # print(f"The {envs.state}")
+ 
+ # print(f"The obs is {obs} and the shape of the obs is {obs.shape}. \n")
+@@ -99,4 +99,75 @@ print(f"The action space of the env is {env.action_space}. \n")
+ 
+ # print(f"The defender is in the obstacle area: {_check_area(current_defenders[0], obstacles)}. \n")
+ # reward = 0.0
+-# reward += -1.0 if _check_area(current_defenders[0], obstacles) else 0.0
+\ No newline at end of file
++# reward += -1.0 if _check_area(current_defenders[0], obstacles) else 0.0
++
++
++
++ # Map boundaries
++min_val, max_val = -0.9, 0.9
++
++# Obstacles and target areas
++obstacles = [
++([-0.1, 0.1], [-1.0, -0.3]),  # First obstacle
++([-0.1, 0.1], [0.3, 0.6])     # Second obstacle
++]
++target = ([0.6, 0.8], [0.1, 0.3])
++
++def is_valid_position(pos):
++    x, y = pos
++    # Check boundaries
++    if not (min_val <= x <= max_val and min_val <= y <= max_val):
++        return False
++    # Check obstacles
++    for (ox, oy) in obstacles:
++        if ox[0] <= x <= ox[1] and oy[0] <= y <= oy[1]:
++            return False
++    # Check target
++    if target[0][0] <= x <= target[0][1] and target[1][0] <= y <= target[1][1]:
++        return False
++    return True
++
++def generate_position(current_seed):
++    np.random.seed(current_seed)
++    while True:
++        pos = np.round(np.random.uniform(min_val, max_val, 2), 1)
++        if is_valid_position(pos):
++            return pos
++
++def generate_neighborpoint(position, distance, radius, seed):
++    """
++    Generate a random point within a circle whose center is a specified distance away from a given position.
++
++    Parameters:
++    position (tuple): The (x, y) coordinates of the initial position.
++    distance (float): The distance from the initial position to the center of the circle.
++    radius (float): The radius of the circle.
++    seed (int): The random seed.
++
++    Returns:
++    tuple: A random (x, y) point within the specified circle.
++    """
++    np.random.seed(seed)
++    while True:
++        # Randomly choose an angle to place the circle's center
++        angle = np.random.uniform(0, 2 * np.pi)
++        
++        # Determine the center of the circle
++        center_x = position[0] + distance * np.cos(angle)
++        center_y = position[1] + distance * np.sin(angle)
++        
++        # Generate a random point within the circle
++        point_angle = np.random.uniform(0, 2 * np.pi)
++        point_radius = np.sqrt(np.random.uniform(0, 1)) * radius
++        point_x = center_x + point_radius * np.cos(point_angle)
++        point_y = center_y + point_radius * np.sin(point_angle)
++
++        if is_valid_position((point_x, point_y)):
++            return (point_x, point_y)
++
++# attacker = np.array([[0.0, 0.0]])
++attacker = np.round(np.random.uniform(min_val, max_val, 2), 1)
++print(f"The attacker is {attacker}. \n")
++defender = generate_neighborpoint(attacker, 0.5, 0.1, 0)
++print(f"The defender is {defender}. \n")
++print(f"The distance between the attacker and the defender is {np.linalg.norm(attacker - defender)}. \n")
+\ No newline at end of file
+diff --git a/safe_control_gym/envs/gym_game/BaseGame.py b/safe_control_gym/envs/gym_game/BaseGame.py
+index 64f6d62..68db391 100644
+--- a/safe_control_gym/envs/gym_game/BaseGame.py
++++ b/safe_control_gym/envs/gym_game/BaseGame.py
+@@ -71,6 +71,7 @@ class BaseGameEnv(gym.Env):
+         self.init_attackers = initial_attacker
+         self.init_defenders = initial_defender
+         #### Housekeeping ##########################################
++        self.call_counter = 0
+         self.random_init = random_init
+         self._housekeeping()
+         #### Update and all players' information #####
+@@ -129,7 +130,7 @@ class BaseGameEnv(gym.Env):
+         np.random.seed(self.initial_players_seed)
+     
+         # Map boundaries
+-        min_val, max_val = -0.99, 0.99
++        min_val, max_val = -0.9, 0.9
+         
+         # Obstacles and target areas
+         obstacles = [
+@@ -159,21 +160,59 @@ class BaseGameEnv(gym.Env):
+                 if is_valid_position(pos):
+                     return pos
+         
+-        def distance(pos1, pos2):
+-            return np.sqrt((pos1[0] - pos2[0]) ** 2 + (pos1[1] - pos2[1]) ** 2)
++        def generate_neighborpoint(point, distance, radius, seed):
++            """
++            Generate a random point within a circle whose center is a specified distance away from a given position.
++
++            Parameters:
++            position (tuple): The (x, y) coordinates of the initial position.
++            distance (float): The distance from the initial position to the center of the circle.
++            radius (float): The radius of the circle.
++            seed (int): The random seed.
++
++            Returns:
++            tuple: A random (x, y) point whose relative distance between the input position is .
++            """
++            np.random.seed(seed)
++            while True:
++                # Randomly choose an angle to place the circle's center
++                angle = np.random.uniform(0, 2 * np.pi)
++                
++                # Determine the center of the circle
++                center_x = point[0] + distance * np.cos(angle)
++                center_y = point[1] + distance * np.sin(angle)
++                
++                # Generate a random point within the circle
++                point_angle = np.random.uniform(0, 2 * np.pi)
++                point_radius = np.sqrt(np.random.uniform(0, 1)) * radius
++                new_point_x = center_x + point_radius * np.cos(point_angle)
++                new_point_y = center_y + point_radius * np.sin(point_angle)
++
++                if is_valid_position((new_point_x, new_point_y)):
++                    return (new_point_x, new_point_y)
++        
++        # Calculate desired distance based on the counter
++        if self.call_counter < 128:  # 128 episodes
++            distance = 0.15
++            r = 0.05
++        elif self.call_counter < 256:
++            distance = 0.35
++            r = 0.15
++        elif self.call_counter < 512:
++            distance = 0.75
++            r = 0.25
++        else:
++            distance = 1.45
++            r = 1.35
+         
+         attacker_seed = self.initial_players_seed
+         defender_seed = self.initial_players_seed + 1
+         
+-        while True:
+-            attacker_pos = generate_position(attacker_seed)
+-            defender_pos = generate_position(defender_seed)
+-            
+-            if distance(attacker_pos, defender_pos) > 1.0:
+-                break
+-            defender_seed += 1  # Change the seed for the defender until a valid position is found
++        attacker_pos = generate_position(attacker_seed)
++        defender_pos = generate_neighborpoint(attacker_pos, distance, r, defender_seed)
+         
+         self.initial_players_seed += 1
++        self.call_counter += 1  # Increment the call counter
+         
+         return np.array([attacker_pos]), np.array([defender_pos])
+ 
+diff --git a/safe_control_gym/envs/gym_game/ReachAvoidGame.py b/safe_control_gym/envs/gym_game/ReachAvoidGame.py
+index 0ec1234..8123b66 100644
+--- a/safe_control_gym/envs/gym_game/ReachAvoidGame.py
++++ b/safe_control_gym/envs/gym_game/ReachAvoidGame.py
+@@ -183,7 +183,7 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
+             current_defender_state = self.defenders._get_state()
+ 
+             for num in range(self.NUM_ATTACKERS):
+-                if last_status[num]:  # attacker has arrived or been captured
++                if last_status[num]:  # attacker has arrived(+1) or been captured(-1)
+                     new_status[num] = last_status[num]
+                 else: # attacker is free last time
+                     # check if the attacker arrive at the des this time
+@@ -196,7 +196,7 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
+                     else:
+                         # check if the attacker is captured
+                         for j in range(self.NUM_DEFENDERS):
+-                            if np.linalg.norm(current_attacker_state[num] - current_defender_state[j]) <= 0.1:
++                            if np.linalg.norm(current_attacker_state[num] - current_defender_state[j]) <= 0.1:  # Hanyang: 0.1 is the threshold
+                                 new_status[num] = -1
+                                 break
+ 
+@@ -261,14 +261,14 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
+         # reward 2:
+         status_change = current_attacker_status[0] - last_attacker_status[0]
+         if status_change == 1:  # attacker arrived
+-            reward += -5
++            reward += -50
+         elif status_change == -1:  # attacker is captured
+-            reward += 10
++            reward += 50
+         else:  # attacker is free
+             reward += 0.0
+         # check the defender status
+         current_defender_state = self.defenders._get_state().copy()
+-        reward += -10 if self._check_area(current_defender_state[0], self.obstacles) else 0.0
++        reward += -50 if self._check_area(current_defender_state[0], self.obstacles) else 0.0
+         # check the relative distance difference or relative distance
+         current_attacker_state = self.attackers._get_state().copy()
+         current_relative_distance = np.linalg.norm(current_attacker_state[0] - current_defender_state[0])
+diff --git a/safe_control_gym/experiments/train_game.py b/safe_control_gym/experiments/train_game.py
+index 3cf1fc6..23c923e 100644
+--- a/safe_control_gym/experiments/train_game.py
++++ b/safe_control_gym/experiments/train_game.py
+@@ -21,7 +21,7 @@ from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidGameEnv
+ class Args:
+     exp_name: str = os.path.basename(__file__)[: -len(".py")]
+     """the name of this experiment"""
+-    seed: int = 2024
++    seed: int = 42
+     """seed of the experiment"""
+     torch_deterministic: bool = True
+     """if toggled, `torch.backends.cudnn.deterministic=False`"""
+@@ -45,11 +45,11 @@ class Args:
+     # Algorithm specific arguments
+     env_id: str = "reach_avoid"
+     """the id of the environment"""
+-    total_timesteps: int = 2e7
++    total_timesteps: int = 1e7
+     """total timesteps of the experiments"""
+     learning_rate: float = 3e-4
+     """the learning rate of the optimizer"""
+-    num_envs: int = 2
++    num_envs: int = 4
+     """the number of parallel game environments"""
+     num_steps: int = 2048
+     """the number of steps to run in each environment per policy rollout"""
+diff --git "a/training_results/game/ppo/2024/20000000.0/Screenshot 2024-06-23 at 11.25.14\342\200\257AM.png" "b/training_results/game/ppo/2024/20000000.0/Screenshot 2024-06-23 at 11.25.14\342\200\257AM.png"
+deleted file mode 100644
+index 7aecba0..0000000
+Binary files "a/training_results/game/ppo/2024/20000000.0/Screenshot 2024-06-23 at 11.25.14\342\200\257AM.png" and /dev/null differ
+diff --git a/training_results/game/ppo/2024/20000000.0/events.out.tfevents.1719073968.cs-mars-14.2743.0 b/training_results/game/ppo/2024/20000000.0/events.out.tfevents.1719073968.cs-mars-14.2743.0
+deleted file mode 100644
+index d422b35..0000000
+Binary files a/training_results/game/ppo/2024/20000000.0/events.out.tfevents.1719073968.cs-mars-14.2743.0 and /dev/null differ
+diff --git a/training_results/game/ppo/2024/20000000.0/train_game.cleanrl_model b/training_results/game/ppo/2024/20000000.0/train_game.cleanrl_model
+deleted file mode 100644
+index 968c322..0000000
+Binary files a/training_results/game/ppo/2024/20000000.0/train_game.cleanrl_model and /dev/null differ
+diff --git a/wandb/latest-run b/wandb/latest-run
+index 6eb3ab1..b5cf86c 120000
+--- a/wandb/latest-run
++++ b/wandb/latest-run
+@@ -1 +1 @@
+-run-20240622_093244-xrlwdxiv
+\ No newline at end of file
++run-20240624_111121-7fza559v
+\ No newline at end of file

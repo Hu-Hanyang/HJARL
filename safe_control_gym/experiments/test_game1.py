@@ -9,7 +9,7 @@ import torch.nn as nn
 from datetime import datetime
 from torch.distributions.normal import Normal
 from safe_control_gym.utils.plotting import animation, current_status_check, record_video
-from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidGameTest, ReachAvoidTestGame
+from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidGameTest
 
 
 
@@ -177,8 +177,8 @@ def evaluate(
 if __name__ == "__main__":
     # Load the trained model
     args = tyro.cli(Args)
-    args.seed = 2024
-    args.total_timesteps = 2e7
+    args.seed = 42
+    args.total_timesteps = 1e7
     args.exp_name = "train_game.cleanrl_model"
     run_name = os.path.join('training_results/' + 'game/ppo/' +f'{args.seed}/' + f'{args.total_timesteps}' )
     model_path = f"{run_name}/{args.exp_name}"

@@ -21,7 +21,7 @@ from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidGameEnv
 class Args:
     exp_name: str = os.path.basename(__file__)[: -len(".py")]
     """the name of this experiment"""
-    seed: int = 2024
+    seed: int = 42
     """seed of the experiment"""
     torch_deterministic: bool = True
     """if toggled, `torch.backends.cudnn.deterministic=False`"""
@@ -45,11 +45,11 @@ class Args:
     # Algorithm specific arguments
     env_id: str = "reach_avoid"
     """the id of the environment"""
-    total_timesteps: int = 2e7
+    total_timesteps: int = 1e7
     """total timesteps of the experiments"""
     learning_rate: float = 3e-4
     """the learning rate of the optimizer"""
-    num_envs: int = 2
+    num_envs: int = 4
     """the number of parallel game environments"""
     num_steps: int = 2048
     """the number of steps to run in each environment per policy rollout"""

@@ -71,6 +71,7 @@ class BaseGameEnv(gym.Env):
         self.init_attackers = initial_attacker
         self.init_defenders = initial_defender
         #### Housekeeping ##########################################
+        self.call_counter = 0
         self.random_init = random_init
         self._housekeeping()
         #### Update and all players' information #####
@@ -129,7 +130,7 @@ class BaseGameEnv(gym.Env):
         np.random.seed(self.initial_players_seed)
     
         # Map boundaries
-        min_val, max_val = -0.99, 0.99
+        min_val, max_val = -0.9, 0.9
         
         # Obstacles and target areas
         obstacles = [
@@ -159,21 +160,59 @@ class BaseGameEnv(gym.Env):
                 if is_valid_position(pos):
                     return pos
         
-        def distance(pos1, pos2):
-            return np.sqrt((pos1[0] - pos2[0]) ** 2 + (pos1[1] - pos2[1]) ** 2)
+        def generate_neighborpoint(point, distance, radius, seed):
+            """
+            Generate a random point within a circle whose center is a specified distance away from a given position.
+
+            Parameters:
+            position (tuple): The (x, y) coordinates of the initial position.
+            distance (float): The distance from the initial position to the center of the circle.
+            radius (float): The radius of the circle.
+            seed (int): The random seed.
+
+            Returns:
+            tuple: A random (x, y) point whose relative distance between the input position is .
+            """
+            np.random.seed(seed)
+            while True:
+                # Randomly choose an angle to place the circle's center
+                angle = np.random.uniform(0, 2 * np.pi)
+                
+                # Determine the center of the circle
+                center_x = point[0] + distance * np.cos(angle)
+                center_y = point[1] + distance * np.sin(angle)
+                
+                # Generate a random point within the circle
+                point_angle = np.random.uniform(0, 2 * np.pi)
+                point_radius = np.sqrt(np.random.uniform(0, 1)) * radius
+                new_point_x = center_x + point_radius * np.cos(point_angle)
+                new_point_y = center_y + point_radius * np.sin(point_angle)
+
+                if is_valid_position((new_point_x, new_point_y)):
+                    return (new_point_x, new_point_y)
+        
+        # Calculate desired distance based on the counter
+        if self.call_counter < 128:  # 128 episodes
+            distance = 0.15
+            r = 0.05
+        elif self.call_counter < 256:
+            distance = 0.35
+            r = 0.15
+        elif self.call_counter < 512:
+            distance = 0.75
+            r = 0.25
+        else:
+            distance = 1.45
+            r = 1.35
         
         attacker_seed = self.initial_players_seed
         defender_seed = self.initial_players_seed + 1
         
-        while True:
-            attacker_pos = generate_position(attacker_seed)
-            defender_pos = generate_position(defender_seed)
-            
-            if distance(attacker_pos, defender_pos) > 1.0:
-                break
-            defender_seed += 1  # Change the seed for the defender until a valid position is found
+        attacker_pos = generate_position(attacker_seed)
+        defender_pos = generate_neighborpoint(attacker_pos, distance, r, defender_seed)
         
         self.initial_players_seed += 1
+        self.call_counter += 1  # Increment the call counter
         
         return np.array([attacker_pos]), np.array([defender_pos])
 

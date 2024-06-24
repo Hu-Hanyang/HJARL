@@ -183,7 +183,7 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
             current_defender_state = self.defenders._get_state()
 
             for num in range(self.NUM_ATTACKERS):
-                if last_status[num]:  # attacker has arrived or been captured
+                if last_status[num]:  # attacker has arrived(+1) or been captured(-1)
                     new_status[num] = last_status[num]
                 else: # attacker is free last time
                     # check if the attacker arrive at the des this time
@@ -196,7 +196,7 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
                     else:
                         # check if the attacker is captured
                         for j in range(self.NUM_DEFENDERS):
-                            if np.linalg.norm(current_attacker_state[num] - current_defender_state[j]) <= 0.1:
+                            if np.linalg.norm(current_attacker_state[num] - current_defender_state[j]) <= 0.1:  # Hanyang: 0.1 is the threshold
                                 new_status[num] = -1
                                 break
 
@@ -261,20 +261,20 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         # reward 2:
         status_change = current_attacker_status[0] - last_attacker_status[0]
         if status_change == 1:  # attacker arrived
-            reward += -5
+            reward += -500
         elif status_change == -1:  # attacker is captured
-            reward += 10
+            reward += 500
         else:  # attacker is free
             reward += 0.0
         # check the defender status
         current_defender_state = self.defenders._get_state().copy()
-        reward += -10 if self._check_area(current_defender_state[0], self.obstacles) else 0.0
+        reward += -500 if self._check_area(current_defender_state[0], self.obstacles) else 0.0
         # check the relative distance difference or relative distance
         current_attacker_state = self.attackers._get_state().copy()
         current_relative_distance = np.linalg.norm(current_attacker_state[0] - current_defender_state[0])
         # last_relative_distance = np.linalg.norm(self.attackers_traj[-2][0] - self.defenders_traj[-2][0])
         # reward += (current_relative_distance - last_relative_distance) * -1.0 / (2*np.sqrt(2))
-        reward += -(current_relative_distance)
+        reward += -(current_relative_distance*5)
         
         return reward
 
@@ -476,11 +476,70 @@ class ReachAvoidGameTest(ReachAvoidGameEnv):
     NAME = 'reach_avoid_test2'
     def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
         # Set disturbance_type to 'fixed' regardless of the input
-        kwargs['random_init'] = True
+        kwargs['random_init'] = False
         kwargs['initial_attacker'] = np.array([[0.0, 0.0]])
-        kwargs['initial_defender'] = np.array([[0.2, 0.0]])
+        kwargs['initial_defender'] = np.array([[-0.15, 0.0]])
         kwargs['seed'] = 42
         super().__init__(*args, **kwargs)
+    
+    
+    def initial_players(self):
+        '''Set the initial positions for all players.
+        
+        Returns:
+            attackers (np.ndarray): the initial positions of the attackers
+            defenders (np.ndarray): the initial positions of the defenders
+        '''
+        np.random.seed(self.initial_players_seed)
+    
+        # Map boundaries
+        min_val, max_val = -0.99, 0.99
+        
+        # Obstacles and target areas
+        obstacles = [
+            ([-0.1, 0.1], [-1.0, -0.3]),  # First obstacle
+            ([-0.1, 0.1], [0.3, 0.6])     # Second obstacle
+        ]
+        target = ([0.6, 0.8], [0.1, 0.3])
+        
+        def is_valid_position(pos):
+            x, y = pos
+            # Check boundaries
+            if not (min_val <= x <= max_val and min_val <= y <= max_val):
+                return False
+            # Check obstacles
+            for (ox, oy) in obstacles:
+                if ox[0] <= x <= ox[1] and oy[0] <= y <= oy[1]:
+                    return False
+            # Check target
+            if target[0][0] <= x <= target[0][1] and target[1][0] <= y <= target[1][1]:
+                return False
+            return True
+        
+        def generate_position(current_seed):
+            np.random.seed(current_seed)
+            while True:
+                pos = np.round(np.random.uniform(min_val, max_val, 2), 1)
+                if is_valid_position(pos):
+                    return pos
+        
+        def distance(pos1, pos2):
+            return np.sqrt((pos1[0] - pos2[0]) ** 2 + (pos1[1] - pos2[1]) ** 2)
+        
+        attacker_seed = self.initial_players_seed
+        defender_seed = self.initial_players_seed + 1
+        
+        while True:
+            attacker_pos = generate_position(attacker_seed)
+            defender_pos = generate_position(defender_seed)
+            
+            if distance(attacker_pos, defender_pos) > 1.0:
+                break
+            defender_seed += 1  # Change the seed for the defender until a valid position is found
+        
+        self.initial_players_seed += 1
+        
+        return np.array([attacker_pos]), np.array([defender_pos])
     
 
     def _actionSpace(self):
