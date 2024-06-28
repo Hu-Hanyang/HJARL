@@ -34,7 +34,7 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
                  game_length_sec=10,
                  map={'map': [-1.0, 1.0, -1.0, 1.0]},  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
                  des={'goal0': [0.6, 0.8, 0.1, 0.3]},  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
-                 obstacles: dict = {'obs1': [-0.1, 0.1, -1.0, -0.3], 'obs2': [-0.1, 0.1, 0.3, 1.0]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
+                 obstacles: dict = {'obs1': [-0.1, 0.1, -1.0, -0.3], 'obs2': [-0.1, 0.1, 0.3, 0.6]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
                  ):
         """Initialization of a generic aviary environment.
 
@@ -261,20 +261,20 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         # reward 2:
         status_change = current_attacker_status[0] - last_attacker_status[0]
         if status_change == 1:  # attacker arrived
-            reward += -500
+            reward += -100
         elif status_change == -1:  # attacker is captured
-            reward += 500
+            reward += 100
         else:  # attacker is free
             reward += 0.0
         # check the defender status
         current_defender_state = self.defenders._get_state().copy()
-        reward += -500 if self._check_area(current_defender_state[0], self.obstacles) else 0.0
+        reward += -100 if self._check_area(current_defender_state[0], self.obstacles) else 0.0
         # check the relative distance difference or relative distance
         current_attacker_state = self.attackers._get_state().copy()
         current_relative_distance = np.linalg.norm(current_attacker_state[0] - current_defender_state[0])
         # last_relative_distance = np.linalg.norm(self.attackers_traj[-2][0] - self.defenders_traj[-2][0])
         # reward += (current_relative_distance - last_relative_distance) * -1.0 / (2*np.sqrt(2))
-        reward += -(current_relative_distance*5)
+        reward += -(current_relative_distance)
         
         return reward
 
@@ -477,9 +477,9 @@ class ReachAvoidGameTest(ReachAvoidGameEnv):
     def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
         # Set disturbance_type to 'fixed' regardless of the input
         kwargs['random_init'] = False
-        kwargs['initial_attacker'] = np.array([[-0.5, 0.5]])
-        kwargs['initial_defender'] = np.array([[0.3, 0.0]])
-        kwargs['seed'] = 42
+        # kwargs['initial_attacker'] = np.array([[-0.5, 0.5]])
+        # kwargs['initial_defender'] = np.array([[0.3, -0.2]])
+        kwargs['seed'] = 2024
         super().__init__(*args, **kwargs)
     
     

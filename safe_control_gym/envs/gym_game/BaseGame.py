@@ -128,7 +128,6 @@ class BaseGameEnv(gym.Env):
             defenders (np.ndarray): the initial positions of the defenders
         '''
         np.random.seed(self.initial_players_seed)
-        print(f"========== self.call_counter: {self.call_counter} in BaseGame.py. ==========\n")
         # Map boundaries
         min_val, max_val = -0.9, 0.9
         
@@ -187,29 +186,51 @@ class BaseGameEnv(gym.Env):
                 point_radius = np.sqrt(np.random.uniform(0, 1)) * radius
                 new_point_x = center_x + point_radius * np.cos(point_angle)
                 new_point_y = center_y + point_radius * np.sin(point_angle)
+                
+                # Check the boundary
+                x_min, x_max, y_min, y_max = -0.85, 0.85, -0.85, 0.85
+                new_point_x = max(min(center_x, x_max), x_min)
+                new_point_y = max(min(center_y, y_max), y_min)
 
                 if is_valid_position((new_point_x, new_point_y)):
                     return (new_point_x, new_point_y)
         
         # Calculate desired distance based on the counter
-        if self.call_counter < 500:  # 2e5 steps 
+        stage = -1
+        if self.call_counter < 3000:  # [0.10, 0.20]
             distance = 0.15
             r = 0.05
-        elif self.call_counter < 1000:  # around 4e5 steps
+            stage = 0
+        elif self.call_counter < 7000:  # [0.20, 0.50]
             distance = 0.35
             r = 0.15
-        elif self.call_counter < 1800:
+            stage = 1
+        elif self.call_counter < 12000:  # [0.50, 1.00]
             distance = 0.75
             r = 0.25
-        else:
+            stage = 2
+        elif self.call_counter < 18000:  # [1.00, 2.00]
+            distance = 1.50
+            r = 0.50
+            stage = 3
+        elif self.call_counter < 25000:  # [2.00, 2.80]
+            distance = 2.40
+            r = 0.40
+            stage = 4
+        else:  # [0.10, 2.80]
             distance = 1.45
             r = 1.35
+            stage = 5
+        
+        print(f"========== self.call_counter: {self.call_counter} and stage: {stage} in BaseGame.py. ==========")
         
         attacker_seed = self.initial_players_seed
         defender_seed = self.initial_players_seed + 1
         
         attacker_pos = generate_position(attacker_seed)
+        print(f"========== attacker_pos: {attacker_pos} in BaseGame.py. ==========")
         defender_pos = generate_neighborpoint(attacker_pos, distance, r, defender_seed)
+        print(f"========== defender_pos: {defender_pos} in BaseGame.py. ========== \n")
         
         self.initial_players_seed += 1
         self.call_counter += 1  # Increment the call counter
@@ -242,7 +263,6 @@ class BaseGameEnv(gym.Env):
         self._housekeeping()
         #### Update and all players' information #####
         self._updateAndLog()
-        print(f"========== Initial attackers: {self.init_attackers} and defenders: {self.init_defenders} in the reset method in BaseGame.py. ==========\n")
         #### Prepare the observation #############################
         obs = self._computeObs()
         info = self._computeInfo()

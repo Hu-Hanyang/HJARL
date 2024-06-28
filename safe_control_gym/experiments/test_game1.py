@@ -118,9 +118,13 @@ def evaluate(
     device: torch.device = torch.device("cpu"),
     capture_video: bool = False,
     gamma: float = 0.99,
-):
+):  
+    
+    initial_attackers = np.array([[-0.8, 0.0]])
+    initial_defenders = np.array([[0.5, -0.5]])
     # envs = gym.vector.SyncVectorEnv([make_env(env_id, 0, capture_video, save_path, gamma)])
-    envs = ReachAvoidGameTest()
+    envs = ReachAvoidGameTest(initial_attacker=initial_attackers, 
+                              initial_defender=initial_defenders)
     # print(f"The state space of the env is {envs.observation_space}. \n")  # Box(-1.0, 1.0, (1, 4))
     # print(f"The action space of the env is {envs.action_space}. \n")  # Box(-1.0, 1.0, (1, 2))
     agent = Model(envs).to(device)
