@@ -476,7 +476,7 @@ class ReachAvoidGameTest(ReachAvoidGameEnv):
     NAME = 'reach_avoid_test2'
     def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
         # Set disturbance_type to 'fixed' regardless of the input
-        kwargs['random_init'] = False
+        # kwargs['random_init'] = False
         # kwargs['initial_attacker'] = np.array([[-0.5, 0.5]])
         # kwargs['initial_defender'] = np.array([[0.3, -0.2]])
         kwargs['seed'] = 2024

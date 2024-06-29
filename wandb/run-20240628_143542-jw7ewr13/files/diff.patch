@@ -1,0 +1,53 @@
+diff --git a/safe_control_gym/experiments/train_game.py b/safe_control_gym/experiments/train_game.py
+index cfb48bc..7d66009 100644
+--- a/safe_control_gym/experiments/train_game.py
++++ b/safe_control_gym/experiments/train_game.py
+@@ -29,7 +29,7 @@ class Args:
+     """if toggled, cuda will be enabled by default"""
+     track: bool = True
+     """if toggled, this experiment will be tracked with Weights and Biases"""
+-    wandb_project_name: str = "ReachAvoidGame"
++    wandb_project_name: str = "Pendulum-ppo-test"  # ReachAvoidGame
+     """the wandb's project name"""
+     wandb_entity: str = None
+     """the entity (team) of wandb's project"""
+@@ -45,11 +45,11 @@ class Args:
+     # Algorithm specific arguments
+     env_id: str = "reach_avoid"
+     """the id of the environment"""
+-    total_timesteps: int = 2e7
++    total_timesteps: int = 1e7
+     """total timesteps of the experiments"""
+     learning_rate: float = 3e-4
+     """the learning rate of the optimizer"""
+-    num_envs: int = 16
++    num_envs: int = 4
+     """the number of parallel game environments"""
+     num_steps: int = 2048
+     """the number of steps to run in each environment per policy rollout"""
+@@ -91,11 +91,14 @@ def make_env(env_id, idx, capture_video, run_name, gamma):
+     def thunk():
+         if capture_video and idx == 0:
+             # env = gym.make(env_id, render_mode="rgb_array")
+-            env = ReachAvoidGameEnv()
++            # env = ReachAvoidGameEnv()
++            env = gym.make("Pendulum-v1")
+             env = gym.wrappers.RecordVideo(env, f"videos/{run_name}")
+         else:
+             # env = gym.make(env_id)
+-            env = ReachAvoidGameEnv()
++            # env = ReachAvoidGameEnv()
++            env = gym.make("Pendulum-v1")
++
+         env = gym.wrappers.FlattenObservation(env)  # deal with dm_control's Dict observation space
+         env = gym.wrappers.RecordEpisodeStatistics(env)
+         env = gym.wrappers.ClipAction(env)
+diff --git a/wandb/latest-run b/wandb/latest-run
+index 854a52a..0027d85 120000
+--- a/wandb/latest-run
++++ b/wandb/latest-run
+@@ -1 +1 @@
+-run-20240626_213342-jxtar95o
+\ No newline at end of file
++run-20240628_143542-jw7ewr13
+\ No newline at end of file

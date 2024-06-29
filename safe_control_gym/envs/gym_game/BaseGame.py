@@ -201,19 +201,19 @@ class BaseGameEnv(gym.Env):
             distance = 0.15
             r = 0.05
             stage = 0
-        elif self.call_counter < 7000:  # [0.20, 0.50]
+        elif self.call_counter < 6000:  # [0.20, 0.50]
             distance = 0.35
             r = 0.15
             stage = 1
-        elif self.call_counter < 12000:  # [0.50, 1.00]
+        elif self.call_counter < 10000:  # [0.50, 1.00]
             distance = 0.75
             r = 0.25
             stage = 2
-        elif self.call_counter < 18000:  # [1.00, 2.00]
+        elif self.call_counter < 15000:  # [1.00, 2.00]
             distance = 1.50
             r = 0.50
             stage = 3
-        elif self.call_counter < 25000:  # [2.00, 2.80]
+        elif self.call_counter < 20000:  # [2.00, 2.80]
             distance = 2.40
             r = 0.40
             stage = 4
@@ -230,8 +230,8 @@ class BaseGameEnv(gym.Env):
         attacker_pos = generate_position(attacker_seed)
         print(f"========== attacker_pos: {attacker_pos} in BaseGame.py. ==========")
         defender_pos = generate_neighborpoint(attacker_pos, distance, r, defender_seed)
-        print(f"========== defender_pos: {defender_pos} in BaseGame.py. ========== \n")
-        
+        print(f"========== defender_pos: {defender_pos} in BaseGame.py. ==========")
+        print(f"========== The relative distance is {np.linalg.norm(attacker_pos - defender_pos)} in BaseGame.py. ========== \n ")
         self.initial_players_seed += 1
         self.call_counter += 1  # Increment the call counter
         

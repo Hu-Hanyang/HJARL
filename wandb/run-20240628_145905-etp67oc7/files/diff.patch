@@ -1,0 +1,102 @@
+diff --git a/ceshi_game.py b/ceshi_game.py
+index 9f804c3..2b1c2e4 100644
+--- a/ceshi_game.py
++++ b/ceshi_game.py
+@@ -3,6 +3,7 @@ import tyro
+ import gymnasium as gym
+ from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidGameEnv, ReachAvoidTestGame
+ from safe_control_gym.experiments.train_game import Args
++from stable_baselines3.common.env_checker import check_env
+ 
+ 
+ 
+@@ -166,8 +167,10 @@ def generate_neighborpoint(position, distance, radius, seed):
+             return (point_x, point_y)
+ 
+ # attacker = np.array([[0.0, 0.0]])
+-attacker = np.round(np.random.uniform(min_val, max_val, 2), 1)
+-print(f"The attacker is {attacker}. \n")
+-defender = generate_neighborpoint(attacker, 0.5, 0.1, 0)
+-print(f"The defender is {defender}. \n")
+-print(f"The distance between the attacker and the defender is {np.linalg.norm(attacker - defender)}. \n")
+\ No newline at end of file
++# attacker = np.round(np.random.uniform(min_val, max_val, 2), 1)
++# print(f"The attacker is {attacker}. \n")
++# defender = generate_neighborpoint(attacker, 0.5, 0.1, 0)
++# print(f"The defender is {defender}. \n")
++# print(f"The distance between the attacker and the defender is {np.linalg.norm(attacker - defender)}. \n")
++
++env = ReachAvoidTestGame()
+diff --git a/safe_control_gym/experiments/train_game.py b/safe_control_gym/experiments/train_game.py
+index cfb48bc..4dcf756 100644
+--- a/safe_control_gym/experiments/train_game.py
++++ b/safe_control_gym/experiments/train_game.py
+@@ -29,7 +29,7 @@ class Args:
+     """if toggled, cuda will be enabled by default"""
+     track: bool = True
+     """if toggled, this experiment will be tracked with Weights and Biases"""
+-    wandb_project_name: str = "ReachAvoidGame"
++    wandb_project_name: str = "Pendulum-ppo-test"  # ReachAvoidGame
+     """the wandb's project name"""
+     wandb_entity: str = None
+     """the entity (team) of wandb's project"""
+@@ -45,11 +45,11 @@ class Args:
+     # Algorithm specific arguments
+     env_id: str = "reach_avoid"
+     """the id of the environment"""
+-    total_timesteps: int = 2e7
++    total_timesteps: int = 1e7
+     """total timesteps of the experiments"""
+     learning_rate: float = 3e-4
+     """the learning rate of the optimizer"""
+-    num_envs: int = 16
++    num_envs: int = 4
+     """the number of parallel game environments"""
+     num_steps: int = 2048
+     """the number of steps to run in each environment per policy rollout"""
+@@ -91,11 +91,14 @@ def make_env(env_id, idx, capture_video, run_name, gamma):
+     def thunk():
+         if capture_video and idx == 0:
+             # env = gym.make(env_id, render_mode="rgb_array")
+-            env = ReachAvoidGameEnv()
++            # env = ReachAvoidGameEnv()
++            env = gym.make("Pendulum-v1")
+             env = gym.wrappers.RecordVideo(env, f"videos/{run_name}")
+         else:
+             # env = gym.make(env_id)
+-            env = ReachAvoidGameEnv()
++            # env = ReachAvoidGameEnv()
++            env = gym.make("Pendulum-v1")
++
+         env = gym.wrappers.FlattenObservation(env)  # deal with dm_control's Dict observation space
+         env = gym.wrappers.RecordEpisodeStatistics(env)
+         env = gym.wrappers.ClipAction(env)
+@@ -130,7 +133,7 @@ class Agent(nn.Module):
+             layer_init(nn.Linear(64, 64)),
+             nn.Tanh(),
+             layer_init(nn.Linear(64, np.prod(envs.single_action_space.shape)), std=0.01),
+-            nn.Tanh(),  # Hanyang: add tanh layer to clip the action space
++            # nn.Tanh(),  # Hanyang: add tanh layer to clip the action space
+         )
+         self.actor_logstd = nn.Parameter(torch.zeros(1, np.prod(envs.single_action_space.shape)))
+ 
+@@ -153,7 +156,9 @@ if __name__ == "__main__":
+     args.minibatch_size = int(args.batch_size // args.num_minibatches)
+     args.num_iterations = int(args.total_timesteps // args.batch_size)
+     # Hanyang: make saving directory
+-    run_name = os.path.join('training_results/' + 'game/ppo/' +f'{args.seed}/' + f'{args.total_timesteps}' )
++    # run_name = os.path.join('training_results/' + 'game/ppo/' +f'{args.seed}/' + f'{args.total_timesteps}' )
++    run_name = os.path.join('training_results/' + 'pendulum/' +f'{args.seed}/' + f'{args.total_timesteps}' )
++    
+     if not os.path.exists(run_name):
+         os.makedirs(run_name+'/')
+         
+diff --git a/wandb/latest-run b/wandb/latest-run
+index 854a52a..038fb8b 120000
+--- a/wandb/latest-run
++++ b/wandb/latest-run
+@@ -1 +1 @@
+-run-20240626_213342-jxtar95o
+\ No newline at end of file
++run-20240628_145905-etp67oc7
+\ No newline at end of file

@@ -1,4 +1,4 @@
-# quadrotor
+# game
 # Model args
 hidden_dim: 64
 activation: 'tanh'

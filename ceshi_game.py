@@ -2,7 +2,8 @@ import  numpy as np
 import tyro
 import gymnasium as gym
 from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidGameEnv, ReachAvoidTestGame
-from safe_control_gym.experiments.train_game import Args
+from safe_control_gym.experiments.train_game_cleanrl import Args
+from stable_baselines3.common.env_checker import check_env
 
 
 
@@ -166,8 +167,10 @@ def generate_neighborpoint(position, distance, radius, seed):
             return (point_x, point_y)
 
 # attacker = np.array([[0.0, 0.0]])
-attacker = np.round(np.random.uniform(min_val, max_val, 2), 1)
-print(f"The attacker is {attacker}. \n")
-defender = generate_neighborpoint(attacker, 0.5, 0.1, 0)
-print(f"The defender is {defender}. \n")
-print(f"The distance between the attacker and the defender is {np.linalg.norm(attacker - defender)}. \n")
+# attacker = np.round(np.random.uniform(min_val, max_val, 2), 1)
+# print(f"The attacker is {attacker}. \n")
+# defender = generate_neighborpoint(attacker, 0.5, 0.1, 0)
+# print(f"The defender is {defender}. \n")
+# print(f"The distance between the attacker and the defender is {np.linalg.norm(attacker - defender)}. \n")
+
+env = ReachAvoidTestGame()
