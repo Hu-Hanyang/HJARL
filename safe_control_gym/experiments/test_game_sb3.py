@@ -23,7 +23,7 @@ from stable_baselines3.common.monitor import Monitor
 
 map = {'map': [-1., 1., -1., 1.]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
 des = {'goal0': [0.6, 0.8, 0.1, 0.3]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
-obstacles = {'obs1': [-0.1, 0.1, -1.0, -0.3], 'obs2': [-0.1, 0.1, 0.3, 1.0]} 
+obstacles = {'obs1': [-0.1, 0.1, -1.0, -0.3], 'obs2': [-0.1, 0.1, 0.3, 0.6]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
 
 
 def check_area(state, area):
@@ -79,69 +79,14 @@ def getAttackersStatus(attackers, defenders, last_status):
                             break
 
             return new_status
-
-
-# def make_env(env_id, idx, capture_video, run_name, gamma):
-#     def thunk():
-#         # if capture_video and idx == 0:
-#         #     # env = gym.make(env_id, render_mode="rgb_array")
-#         #     env = ReachAvoidTestGame()
-#         #     # env = gym.wrappers.RecordVideo(env, f"videos/{run_name}")
-#         # else:
-#         #     # env = gym.make(env_id)
-#         env = ReachAvoidTestGame()
-#         # env = gym.wrappers.FlattenObservation(env)  # deal with dm_control's Dict observation space
-#         # env = gym.wrappers.RecordEpisodeStatistics(env)
-#         # env = gym.wrappers.ClipAction(env)
-#         # env = gym.wrappers.NormalizeObservation(env)
-#         # env = gym.wrappers.TransformObservation(env, lambda obs: np.clip(obs, -10, 10))
-#         # env = gym.wrappers.NormalizeReward(env, gamma=gamma)
-#         # env = gym.wrappers.TransformReward(env, lambda reward: np.clip(reward, -10, 10))
-#         return env
-
-#     return thunk
-
-
-class Agent(nn.Module):
-    def __init__(self, envs):
-        super().__init__()
-        self.critic = nn.Sequential(
-            layer_init(nn.Linear(np.array(envs.single_observation_space.shape).prod(), 64)),
-            nn.Tanh(),
-            layer_init(nn.Linear(64, 64)),
-            nn.Tanh(),
-            layer_init(nn.Linear(64, 1), std=1.0),
-        )
-        self.actor_mean = nn.Sequential(
-            layer_init(nn.Linear(np.array(envs.single_observation_space.shape).prod(), 64)),
-            nn.Tanh(),
-            layer_init(nn.Linear(64, 64)),
-            nn.Tanh(),
-            layer_init(nn.Linear(64, np.prod(envs.single_action_space.shape)), std=0.01),
-            nn.Tanh(),
-        )
-        self.actor_logstd = nn.Parameter(torch.zeros(1, np.prod(envs.single_action_space.shape)))
-
-    def get_value(self, x):
-        return self.critic(x)
-
-    def get_action_and_value(self, x, action=None):
-        action_mean = self.actor_mean(x)
-        action_logstd = self.actor_logstd.expand_as(action_mean)
-        action_std = torch.exp(action_logstd)
-        probs = Normal(action_mean, action_std)
-        if action is None:
-            # action = probs.sample()
-            action = action_mean.detach()  # Hanyang: test deterministic policy
-        return action, probs.log_prob(action).sum(1), probs.entropy().sum(1), self.critic(x)
-    
+        
 
 def test_sb3():
     # Set up env hyperparameters.
     n_env = 8
     env_seed = 2024
     # Setp up algorithm hyperparameters.
-    total_timesteps = 1e7
+    total_timesteps = 1e8
     batch_size = 64
     n_epochs = 15
     n_steps = 2048
@@ -149,15 +94,26 @@ def test_sb3():
     target_kl = 0.01
 
     # Load the trained model
-    trained_model = os.path.join('training_results', "game/sb3/", f'seed_{env_seed}', f'{total_timesteps}steps/', 'final_model.zip')
+    trained_model = os.path.join('training_results', "game/sb3/distance_init", f'seed_{env_seed}', f'{total_timesteps}steps/', 'final_model.zip')
     assert os.path.exists(trained_model), f"[ERROR] The trained model {trained_model} does not exist, please check the loading path or train one first."
     model = PPO.load(trained_model)
     
     # Create the environment.
-    initial_attackers = np.array([[-0.5, 0.8]])
-    initial_defenders = np.array([[0.3, -0.3]])
+    #TODO the defender hits the obs
+    # initial_attacker = np.array([[-0.5, 0.8]])
+    # initial_defender = np.array([[0.3, -0.3]])
+    #TODO the defender hits the obs
+    initial_attacker = np.array([[-0.5, 0.8]])
+    initial_defender = np.array([[0.5, 0.0]])
+    # Random test 
+    initial_attacker = np.array([[-0.5, -0.8]])
+    initial_defender = np.array([[0.5, -0.5]])
     
-    envs = ReachAvoidGameTest(initial_attacker=initial_attackers, initial_defender=initial_defenders, random_init=False)
+    
+    envs = ReachAvoidGameTest(random_init=False,
+                              seed=env_seed,
+                              initial_attacker=initial_attacker, 
+                              initial_defender=initial_defender)
     # print(f"The state space of the env is {envs.observation_space}. \n")  # Box(-1.0, 1.0, (1, 4)
     # print(f"The action space of the env is {envs.action_space}. \n")  # Box(-1.0, 1.0, (1, 2)
 

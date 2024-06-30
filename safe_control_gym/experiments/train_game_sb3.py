@@ -29,7 +29,7 @@ def train_game():
     n_env = 8
     env_seed = 2024
     # Setp up algorithm hyperparameters.
-    total_timesteps = 2e7
+    total_timesteps = 1e8
     batch_size = 64
     n_epochs = 15
     n_steps = 2048
