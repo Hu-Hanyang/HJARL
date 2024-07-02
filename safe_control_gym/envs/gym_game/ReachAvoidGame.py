@@ -28,6 +28,7 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
                  ctrl_freq: int = 200,
                  seed = 42,
                  random_init = True,
+                 init_type = 'difficulty_init',
                  uMode="min", 
                  dMode="max",
                  output_folder='results',
@@ -56,6 +57,7 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
             The control frequency of the environment.
         seed : int, optional
         random_init: bool, optional
+        init_type: str, optional
         uMode : str, optional
             The mode of the attacker, default is "min".
         dMode : str, optional
@@ -76,7 +78,8 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         super().__init__(num_attackers=num_attackers, num_defenders=num_defenders, 
                          attackers_dynamics=attackers_dynamics, defenders_dynamics=defenders_dynamics, 
                          initial_attacker=initial_attacker, initial_defender=initial_defender, 
-                         ctrl_freq=ctrl_freq, seed=seed, random_init=random_init, output_folder=output_folder
+                         ctrl_freq=ctrl_freq, seed=seed, random_init=random_init, init_type=init_type, 
+                         output_folder=output_folder
                          )
         
         assert map is not None, "Map must be provided in the game."
@@ -460,17 +463,16 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
 
 
 
-class ReachAvoidTestGame(ReachAvoidGameEnv):
-    NAME = 'reach_avoid_test'
+class ReachAvoidGameTest(ReachAvoidGameEnv):
+    NAME = 'reach_avoid_test2'
     def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
         # Set disturbance_type to 'fixed' regardless of the input
-        kwargs['random_init'] = True
-        kwargs['initial_attacker'] = np.array([[0.0, 0.0]])
-        kwargs['initial_defender'] = np.array([[0.3, 0.0]])
-        kwargs['seed'] = 42
+        # kwargs['random_init'] = False
+        # kwargs['initial_attacker'] = np.array([[-0.5, 0.5]])
+        # kwargs['initial_defender'] = np.array([[0.3, -0.2]])
+        kwargs['seed'] = 2024
         super().__init__(*args, **kwargs)
-
-
+        
 
 class ReachAvoidGameTest(ReachAvoidGameEnv):
     NAME = 'reach_avoid_test2'

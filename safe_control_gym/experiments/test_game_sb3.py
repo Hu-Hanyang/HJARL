@@ -1,5 +1,5 @@
 import os
-import tyro
+import argparse
 from typing import Callable
 import numpy as np
 from safe_control_gym.experiments.train_game_cleanrl import Args, layer_init
@@ -81,12 +81,12 @@ def getAttackersStatus(attackers, defenders, last_status):
             return new_status
         
 
-def test_sb3():
+def test_sb3(init_type='random', total_steps=2e7):
     # Set up env hyperparameters.
     n_env = 8
     env_seed = 2024
     # Setp up algorithm hyperparameters.
-    total_timesteps = 1e8
+    total_timesteps = total_steps
     batch_size = 64
     n_epochs = 15
     n_steps = 2048
@@ -94,7 +94,7 @@ def test_sb3():
     target_kl = 0.01
 
     # Load the trained model
-    trained_model = os.path.join('training_results', "game/sb3/distance_init", f'seed_{env_seed}', f'{total_timesteps}steps/', 'final_model.zip')
+    trained_model = os.path.join('training_results', f"game/sb3/{init_type}/", f'seed_{env_seed}', f'{total_timesteps}steps/', 'final_model.zip')
     assert os.path.exists(trained_model), f"[ERROR] The trained model {trained_model} does not exist, please check the loading path or train one first."
     model = PPO.load(trained_model)
     
@@ -103,15 +103,16 @@ def test_sb3():
     # initial_attacker = np.array([[-0.5, 0.8]])
     # initial_defender = np.array([[0.3, -0.3]])
     #TODO the defender hits the obs
-    initial_attacker = np.array([[-0.5, 0.8]])
-    initial_defender = np.array([[0.5, 0.0]])
+    # initial_attacker = np.array([[-0.5, 0.8]])
+    # initial_defender = np.array([[0.5, 0.0]])
     # Random test 
-    initial_attacker = np.array([[-0.5, -0.8]])
+    initial_attacker = np.array([[-0.5, 0.8]])
     initial_defender = np.array([[0.5, -0.5]])
     
     
     envs = ReachAvoidGameTest(random_init=False,
                               seed=env_seed,
+                              init_type=init_type,
                               initial_attacker=initial_attacker, 
                               initial_defender=initial_defender)
     # print(f"The state space of the env is {envs.observation_space}. \n")  # Box(-1.0, 1.0, (1, 4)
@@ -124,19 +125,14 @@ def test_sb3():
     attackers_status.append(np.zeros(1))
     attackers_traj, defenders_traj = [], []
 
-    obs, _ = envs.reset()
-    # print(obs.shape)  # (4,)
+    obs, _ = envs.reset()  # obs.shape = (4,)
     initial_obs = obs.copy()
     print(f"========== The initial state is {initial_obs} in the test_game. ========== \n")
     attackers_traj.append(np.array([obs[:2]]))
     defenders_traj.append(np.array([obs[2:]]))
-    episodic_returns = []
 
-    for act in range(int(10*200)):
-        actions, _ = model.predict(obs, deterministic=False)
-        
-        # actions, _, _, _ = agent.get_action_and_value(torch.Tensor(obs).to(device))
-        # print(f"Step {act}: the action is {actions}. \n")
+    for sim in range(int(10*200)):
+        actions, _ = model.predict(obs, deterministic=True)
         next_obs, reward, terminated, truncated, infos = envs.step(actions)
         step += 1
         print(f"Step {step}: the reward is {reward}. \n")
@@ -159,11 +155,12 @@ def test_sb3():
 
 
 if __name__ == "__main__":
-
-    test_sb3()
+    parser = argparse.ArgumentParser(description='Single agent reinforcement learning example script')
+    parser.add_argument('--init_type',           default="random",        type=str,           help='The initilaization method (default: random)', metavar='')
+    parser.add_argument('--total_steps',         default=2e7,             type=float,         help='The total training steps (default: 2e7)', metavar='')
     
-    # # Check the final result
-    # current_status_check(envs.current_attackers_status, step=None)
-    # # Visualize the game
-    # animation(envs.attackers_traj, envs.defenders_traj, envs.attackers_status)
+    args = parser.parse_args()
+    
+    test_sb3(init_type=args.init_type, total_steps=args.total_steps)
+    # python safe_control_gym/experiments/test_game_sb3.py --init_type difficulty_init --total_steps 4e7
     

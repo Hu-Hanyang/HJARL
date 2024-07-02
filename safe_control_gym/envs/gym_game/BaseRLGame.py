@@ -27,6 +27,7 @@ class BaseRLGameEnv(BaseGameEnv):
                  ctrl_freq: int = 200,
                  seed = 42,
                  random_init = True,
+                 init_type = 'random',
                  output_folder='results',
                  ):
         """Initialization of a generic aviary environment.
@@ -49,6 +50,7 @@ class BaseRLGameEnv(BaseGameEnv):
             The control frequency of the environment.
         seed : int, optional
         random_init: bool, optional
+        init_type: str, optional
         output_folder : str, optional
             The folder where to save logs.
 
@@ -57,7 +59,8 @@ class BaseRLGameEnv(BaseGameEnv):
         super().__init__(num_attackers=num_attackers, num_defenders=num_defenders, 
                          attackers_dynamics=attackers_dynamics, defenders_dynamics=defenders_dynamics, 
                          initial_attacker=initial_attacker, initial_defender=initial_defender, 
-                         ctrl_freq=ctrl_freq, seed=seed, random_init=random_init, output_folder=output_folder
+                         ctrl_freq=ctrl_freq, seed=seed, random_init=random_init, init_type=init_type,
+                         output_folder=output_folder
                          )
         
         #### Create action and observation spaces ##################

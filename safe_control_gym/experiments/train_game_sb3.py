@@ -1,17 +1,8 @@
 '''Template training/plotting/testing script.'''
 
 import os
-import shutil
-from functools import partial
-
-import munch
-import yaml
 import time
-
-from safe_control_gym.utils.configuration import ConfigFactory
-from safe_control_gym.utils.plotting import plot_from_logs
-from safe_control_gym.utils.registration import make
-from safe_control_gym.utils.utils import mkdirs, set_device_from_config, set_seed_from_config
+import argparse
 
 from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidGameEnv
 
@@ -24,19 +15,22 @@ from stable_baselines3.common.monitor import Monitor
 
 
 
-def train_game():
+def train_game(init_type='random', total_steps=2e7):
     # Set up env hyperparameters.
     n_env = 8
     env_seed = 2024
     # Setp up algorithm hyperparameters.
-    total_timesteps = 1e8
+    total_timesteps = total_steps
     batch_size = 64
     n_epochs = 15
     n_steps = 2048
-    seed = 0
+    policy_seed = 42
     target_kl = 0.01
     # Set up saving directory.
-    filename = os.path.join('training_results', "game/sb3/", f'seed_{env_seed}', f'{total_timesteps}steps')
+    env = ReachAvoidGameEnv()
+    assert env.init_type == init_type, f"init_type is not matched. The env.init_type is {env.init_type}, but the input is {init_type}."
+    
+    filename = os.path.join('training_results', f"game/sb3/{init_type}/", f'seed_{env_seed}', f'{total_timesteps}steps')
 
     # Create the environment.
     train_env = make_vec_env(ReachAvoidGameEnv, 
@@ -49,7 +43,7 @@ def train_game():
             batch_size=batch_size,
             n_epochs=n_epochs,
             n_steps=n_steps,
-            seed=seed,
+            seed=policy_seed,
             target_kl=target_kl, 
             tensorboard_log=filename+'/tb/',
             verbose=1)
@@ -67,4 +61,10 @@ def train_game():
 
 
 if __name__ == '__main__':
-    train_game()
+    parser = argparse.ArgumentParser(description='Single agent reinforcement learning example script')
+    parser.add_argument('--init_type',           default="random",        type=str,           help='The initilaization method (default: random)', metavar='')
+    parser.add_argument('--total_steps',         default=2e7,             type=float,         help='The total training steps (default: 2e7)', metavar='')
+    
+    args = parser.parse_args()
+    
+    train_game(init_type=args.init_type, total_steps=args.total_steps)
