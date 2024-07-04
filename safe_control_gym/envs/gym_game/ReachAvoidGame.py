@@ -716,10 +716,10 @@ class ReachAvoidEasierGame(ReachAvoidGameEnv):
             # Check boundaries
             if not (min_val <= x <= max_val and min_val <= y <= max_val):
                 return False
-            # Check obstacles
-            for (ox, oy) in obstacles:
-                if ox[0] <= x <= ox[1] and oy[0] <= y <= oy[1]:
-                    return False
+            # # Check obstacles
+            # for (ox, oy) in obstacles:
+            #     if ox[0] <= x <= ox[1] and oy[0] <= y <= oy[1]:
+            #         return False
             # Check target
             if target[0][0] <= x <= target[0][1] and target[1][0] <= y <= target[1][1]:
                 return False
