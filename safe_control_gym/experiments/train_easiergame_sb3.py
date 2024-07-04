@@ -5,7 +5,7 @@ import time
 import torch
 import argparse
 
-from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidGameEnv
+from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidEasierGame
 
 from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
@@ -18,7 +18,7 @@ from stable_baselines3.common.monitor import Monitor
 
 def train_game(init_type='random', total_steps=2e7):
     # Set up env hyperparameters.
-    n_env = 8
+    n_env = 2
     env_seed = 2024
     # Setp up algorithm hyperparameters.
     total_timesteps = total_steps
@@ -28,13 +28,13 @@ def train_game(init_type='random', total_steps=2e7):
     policy_seed = 42
     target_kl = 0.01
     # Set up saving directory.
-    env = ReachAvoidGameEnv()
+    env = ReachAvoidEasierGame()
     assert env.init_type == init_type, f"init_type is not matched. The env.init_type is {env.init_type}, but the input is {init_type}."
     
-    filename = os.path.join('training_results', f"game/sb3/{init_type}/", f'seed_{env_seed}', f'{total_timesteps}steps')
+    filename = os.path.join('training_results', f"easier_game/sb3/{init_type}/", f'seed_{env_seed}', f'{total_timesteps}steps')
 
     # Create the environment.
-    train_env = make_vec_env(ReachAvoidGameEnv, 
+    train_env = make_vec_env(ReachAvoidEasierGame, 
                              n_envs=n_env, 
                              seed=env_seed)
     print(f"==============The environment is ready.============== \n")
@@ -58,9 +58,9 @@ def train_game(init_type='random', total_steps=2e7):
     model.save(filename+'/final_model.zip')
     # Save the value network separately
     torch.save(model.policy.value_net.state_dict(), "value_net.pth")    
-    print(filename)
+    print(f"========== The model is saved at {filename}. ========== \n")
     duration = time.perf_counter() - start_time
-    print(f"The time of training is {duration//3600}hours-{(duration%3600)//60}minutes-{(duration%3600)%60}seconds. \n")
+    print(f"========== The time of training is {duration//3600}hours-{(duration%3600)//60}minutes-{(duration%3600)%60}seconds. ========== \n")
 
 
 if __name__ == '__main__':
@@ -71,4 +71,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     train_game(init_type=args.init_type, total_steps=args.total_steps)
-    # python safe_control_gym/experiments/train_game_sb3.py --init_type random --total_steps 2e7
+    # python safe_control_gym/experiments/train_easiergame_sb3.py --init_type distance_init --total_steps 2e6
+    # python safe_control_gym/experiments/train_easiergame_sb3.py --init_type random --total_steps 2e6
+

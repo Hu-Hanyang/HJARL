@@ -327,19 +327,19 @@ class BaseGameEnv(gym.Env):
             np.random.seed(current_seed)
             # Generate the attacker position
             difficulty_level = -1
-            if init_player_call_counter < 3000:  # difficulty_level 0, # [0.10, 0.50]
+            if init_player_call_counter < 2000:  # difficulty_level 0, # [0.10, 0.50]
                 difficulty_level = 0
                 distance = 0.30
                 r = 0.20
                 attacker_pos = _generate_attacker_pos()
                 defender_pos = _generate_neighborpoint(attacker_pos, distance, r)
-            elif init_player_call_counter < 8000:  # difficulty_level 1, # [0.50, 1.50]
+            elif init_player_call_counter < 5000:  # difficulty_level 1, # [0.50, 1.50]
                 difficulty_level = 1
                 distance = 1.00
                 r = 0.50
                 attacker_pos = _generate_attacker_pos()
                 defender_pos = _generate_neighborpoint(attacker_pos, distance, r)
-            elif init_player_call_counter < 15000:  # difficulty_level 2, # [1.50, 2.80]
+            elif init_player_call_counter < 10000:  # difficulty_level 2, # [1.50, 2.80]
                 difficulty_level = 2
                 distance = 2.15
                 r = 0.65

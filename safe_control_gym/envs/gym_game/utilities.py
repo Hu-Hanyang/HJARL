@@ -224,7 +224,7 @@ def find_sign_change1vs0(grid1vs0, value1vs0, attacker):
     return np.where(checklist==1)[0], np.where(checklist==-1)[0]
 
 
-def find_sign_change1vs1(grid1vs1, value1vs1, current_state, defender):
+def find_sign_change1vs1(grid1vs1, value1vs1, current_state):
     """Return two positions (neg2pos, pos2neg) of the value function
 
     Args:

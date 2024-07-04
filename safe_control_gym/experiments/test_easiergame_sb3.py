@@ -5,10 +5,12 @@ import numpy as np
 import gymnasium as gym
 import torch
 import torch.nn as nn
+
+from odp.Grid import Grid
 from datetime import datetime
 from torch.distributions.normal import Normal
-from safe_control_gym.utils.plotting import animation, current_status_check, record_video
-from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidGameTest
+from safe_control_gym.utils.plotting import animation_easier_game, current_status_check, record_video
+from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidEasierGame
 
 from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
@@ -18,12 +20,13 @@ from stable_baselines3.common.utils import obs_as_tensor, safe_mean, set_random_
 from stable_baselines3.common.monitor import Monitor
 
 
-
-
 map = {'map': [-1., 1., -1., 1.]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
 des = {'goal0': [0.6, 0.8, 0.1, 0.3]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
-obstacles = {'obs1': [-0.1, 0.1, -1.0, -0.3], 'obs2': [-0.1, 0.1, 0.3, 0.6]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
+obstacles = {'obs1': [100, 100, 100, 100]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
 
+value1vs1 = np.load(('safe_control_gym/envs/gym_game/values/1vs1Defender_easier.npy'))
+grid1vs0 = Grid(np.array([-1.0, -1.0]), np.array([1.0, 1.0]), 2, np.array([100, 100])) 
+grid1vs1 = Grid(np.array([-1.0, -1.0, -1.0, -1.0]), np.array([1.0, 1.0, 1.0, 1.0]), 4, np.array([45, 45, 45, 45]))
 
 def check_area(state, area):
     """Check if the state is inside the area.
@@ -78,6 +81,34 @@ def getAttackersStatus(attackers, defenders, last_status):
                             break
 
             return new_status
+
+
+def check_current_value(attackers, defenders, value_function, grids):
+    """ Check the value of the current state of the attackers and defenders.
+
+    Args:
+        attackers (np.ndarray): the attackers' states
+        defenders (np.ndarray): the defenders' states
+        value (np.ndarray): the value function for the game
+        grid (Grid): the grid for the game
+
+    Returns:
+        value (float): the value of the current state of the attackers and defenders
+    """
+    if len(value_function.shape) == 4:  # 1vs1 game
+        # joint_slice = po2slice1vs1(attackers[0], defenders[0], value_function.shape[0])
+        joint_slice = grids.get_index(np.concatenate((attackers[0], defenders[0])))
+    elif len(value_function.shape) == 6:  # 1vs2 or 2vs1 game
+        if attackers.shape[0] == 1:  # 1vs2 game
+            # joint_slice = po2slice2vs1(attackers[0], defenders[0], defenders[1], value_function.shape[0])
+            joint_slice = grids.get_index(np.concatenate((attackers[0], defenders[0], defenders[1])))
+        else:  # 2vs1 game
+            # joint_slice = po2slice2vs1(attackers[0], attackers[1], defenders[0], value_function.shape[0])
+            joint_slice = grids.get_index(np.concatenate((attackers[0], attackers[1], defenders[0])))
+
+    value = value_function[joint_slice]
+
+    return value
         
 
 def test_sb3(init_type='random', total_steps=2e7):
@@ -93,7 +124,7 @@ def test_sb3(init_type='random', total_steps=2e7):
     target_kl = 0.01
 
     # Load the trained model
-    trained_model = os.path.join('training_results', f"game/sb3/{init_type}/", f'seed_{env_seed}', f'{total_timesteps}steps/', 'final_model.zip')
+    trained_model = os.path.join('training_results', f"easier_game/sb3/{init_type}/", f'seed_{env_seed}', f'{total_timesteps}steps/', 'final_model.zip')
     value_net_address = os.path.join('training_results', f"game/sb3/{init_type}/", f'seed_{env_seed}', f'{total_timesteps}steps/', 'value_net.pth')
     assert os.path.exists(trained_model), f"[ERROR] The trained model {trained_model} does not exist, please check the loading path or train one first."
     model = PPO.load(trained_model)
@@ -103,17 +134,17 @@ def test_sb3(init_type='random', total_steps=2e7):
     # initial_attacker = np.array([[-0.5, 0.8]])
     # initial_defender = np.array([[0.3, -0.3]])
     #TODO the defender hits the obs
-    initial_attacker = np.array([[-0.5, 0.8]])
-    initial_defender = np.array([[0.5, 0.0]])
+    initial_attacker = np.array([[-0.1, 0.0]])
+    initial_defender = np.array([[-0.5, 0.0]])
     
     # Random test 
     # initial_attacker = np.array([[-0.5, 0.0]])
     # initial_defender = np.array([[0.3, 0.0]])
     
     
-    envs = ReachAvoidGameTest(random_init=False,
+    envs = ReachAvoidEasierGame(random_init=False,
                               seed=test_seed,
-                              init_type=init_type,
+                              init_type='random',
                               initial_attacker=initial_attacker, 
                               initial_defender=initial_defender)
     # print(f"The state space of the env is {envs.observation_space}. \n")  # Box(-1.0, 1.0, (1, 4)
@@ -131,6 +162,7 @@ def test_sb3(init_type='random', total_steps=2e7):
     obs, _ = envs.reset()  # obs.shape = (4,)
     initial_obs = obs.copy()
     print(f"========== The initial state is {initial_obs} in the test_game. ========== \n")
+    print(f"========== The initial value function is {check_current_value(np.array(obs[:2].reshape(1,2)), np.array(obs[2:].reshape(1,2)), value1vs1, grid1vs1)}. ========== \n")
     attackers_traj.append(np.array([obs[:2]]))
     defenders_traj.append(np.array([obs[2:]]))
 
@@ -153,7 +185,7 @@ def test_sb3(init_type='random', total_steps=2e7):
     # print(f"================ The {num} game is over at the {step} step ({step / 200} seconds. ================ \n")
     print(f"================ The game is over at the {step} step ({step / 200} seconds. ================ \n")
     current_status_check(attackers_status[-1], step)
-    animation(attackers_traj, defenders_traj, attackers_status)
+    animation_easier_game(attackers_traj, defenders_traj, attackers_status)
     # record_video(attackers_traj, defenders_traj, attackers_status, filename=f'1vs1_{datetime.now().strftime("%Y.%m.%d_%H:%M")}.mp4', fps=10)
 
 
@@ -166,8 +198,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     
     test_sb3(init_type=args.init_type, total_steps=args.total_steps)
-    # python safe_control_gym/experiments/test_game_sb3.py --init_type difficulty_init --total_steps 1e8
-    # python safe_control_gym/experiments/test_game_sb3.py --init_type difficulty_init --total_steps 4e7
-    # python safe_control_gym/experiments/test_game_sb3.py --init_type distance_init --total_steps 6e7
-    # python safe_control_gym/experiments/test_game_sb3.py --init_type random --total_steps 2e7
-    # python safe_control_gym/experiments/test_game_sb3.py --init_type difficulty_init --total_steps 5e7
+
+    # python safe_control_gym/experiments/test_easiergame_sb3.py --init_type distance_init --total_steps 1e7
+    # python safe_control_gym/experiments/test_easiergame_sb3.py --init_type random --total_steps 2e6
+

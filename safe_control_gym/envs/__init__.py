@@ -72,4 +72,4 @@ register(idx='reach_avoid',
          config_entry_point='safe_control_gym.envs.gym_game:game.yaml')
 
 register(idx='reach_avoid_test',
-         entry_point='safe_control_gym.envs.gym_game.ReachAvoidGame:ReachAvoidTestGame')
+         entry_point='safe_control_gym.envs.gym_game.ReachAvoidGame:ReachAvoidGameTest')

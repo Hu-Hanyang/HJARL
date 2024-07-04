@@ -150,25 +150,7 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         self.defenders_actions.append(defenders_action)
         
         return obs, reward, terminated, truncated, info
-    
-    
-    def _computeAttackerActions(self):
-        """Computes the current actions of the attackers.
-
-        Must be implemented in a subclass.
-
-        """
-        current_attacker_state = self.attackers._get_state().copy()
-        control_attackers = np.zeros((self.NUM_ATTACKERS, 2))
-        for i in range(self.NUM_ATTACKERS):
-            neg2pos, pos2neg = find_sign_change1vs0(self.grid1vs0, self.value1vs0, current_attacker_state[i])
-            if len(neg2pos):
-                control_attackers[i] = self.attacker_control_1vs0(self.grid1vs0, self.value1vs0, current_attacker_state[i], neg2pos)
-            else:
-                control_attackers[i] = (0.0, 0.0)
-                
-        return control_attackers
-    
+        
     
     def _getAttackersStatus(self):
         """Returns the current status of all attackers.
@@ -258,20 +240,18 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         last_attacker_status = self.attackers_status[-2]
         current_attacker_status = self.attackers_status[-1]
         reward = 0.0
-        # reward 1: check the attacker status: if captured, reward = 200; elif arrived, reward = -200; free, reward = 0
         # for num in range(self.NUM_ATTACKERS):
         #     reward += (current_attacker_status[num] - last_attacker_status[num]) * (-200)
-        # reward 2:
         status_change = current_attacker_status[0] - last_attacker_status[0]
         if status_change == 1:  # attacker arrived
-            reward += -100
+            reward += -20
         elif status_change == -1:  # attacker is captured
-            reward += 100
+            reward += 20
         else:  # attacker is free
             reward += 0.0
         # check the defender status
         current_defender_state = self.defenders._get_state().copy()
-        reward += -100 if self._check_area(current_defender_state[0], self.obstacles) else 0.0
+        reward += -20 if self._check_area(current_defender_state[0], self.obstacles) else 0.0
         # check the relative distance difference or relative distance
         current_attacker_state = self.attackers._get_state().copy()
         current_relative_distance = np.linalg.norm(current_attacker_state[0] - current_defender_state[0])
@@ -463,25 +443,15 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
 
 
 
-class ReachAvoidGameTest(ReachAvoidGameEnv):
-    NAME = 'reach_avoid_test2'
-    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
-        # Set disturbance_type to 'fixed' regardless of the input
-        # kwargs['random_init'] = False
-        # kwargs['initial_attacker'] = np.array([[-0.5, 0.5]])
-        # kwargs['initial_defender'] = np.array([[0.3, -0.2]])
-        kwargs['seed'] = 2024
-        super().__init__(*args, **kwargs)
-        
 
 class ReachAvoidGameTest(ReachAvoidGameEnv):
-    NAME = 'reach_avoid_test2'
+    NAME = 'reach_avoid_test'
     def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
         # Set disturbance_type to 'fixed' regardless of the input
         # kwargs['random_init'] = False
         # kwargs['initial_attacker'] = np.array([[-0.5, 0.5]])
         # kwargs['initial_defender'] = np.array([[0.3, -0.2]])
-        kwargs['seed'] = 2024
+        # kwargs['seed'] = 2024
         super().__init__(*args, **kwargs)
     
     
@@ -634,3 +604,128 @@ class ReachAvoidGameTest(ReachAvoidGameEnv):
         obs_upper_bound = obs_upper_bound.reshape(1, 4)
 
         return spaces.Box(low=obs_lower_bound, high=obs_upper_bound, dtype=np.float32)
+    
+
+
+class ReachAvoidEasierGame(ReachAvoidGameEnv):
+    NAME = 'reach_avoid_easier'
+    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
+        # Set disturbance_type to 'fixed' regardless of the input
+        # kwargs['random_init'] = False
+        # kwargs['initial_attacker'] = np.array([[-0.5, 0.5]])
+        # kwargs['initial_defender'] = np.array([[0.3, -0.2]])
+        kwargs['init_type'] = 'random' # 'distance_init'
+        kwargs['obstacles'] = {'obs1': [100, 100, 100, 100]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
+        # kwargs['seed'] = 2024
+        super().__init__(*args, **kwargs)
+        self.grid1vs0 = Grid(np.array([-1.0, -1.0]), np.array([1.0, 1.0]), 2, np.array([100, 100])) 
+        self.grid1vs1 = Grid(np.array([-1.0, -1.0, -1.0, -1.0]), np.array([1.0, 1.0, 1.0, 1.0]), 4, np.array([45, 45, 45, 45]))
+        self.value1vs1_easier = np.load('safe_control_gym/envs/gym_game/values/1vs1Attacker_easier.npy')
+        self.value1vs0_easier = np.load('safe_control_gym/envs/gym_game/values/1vs0Attacker_easier.npy')
+        self.value1vs1 = np.load('safe_control_gym/envs/gym_game/values/1vs1Defender_easier.npy')
+    
+
+    # def _computeAttackerActions(self):
+    #     """Computes the sub-optimal control (1 vs. 0 value function only)current actions of the attackers.
+
+    #     """
+    #     control_attackers = np.zeros((self.NUM_ATTACKERS, 2))
+    #     current_attacker_state = self.attackers._get_state().copy()
+
+    #     # if current_value >= 0:
+    #     for i in range(self.NUM_ATTACKERS):
+    #         neg2pos, pos2neg = find_sign_change1vs0(self.grid1vs0, self.value1vs0_easier, current_attacker_state[i])
+    #         if len(neg2pos):
+    #             control_attackers[i] = self.attacker_control_1vs0(self.grid1vs0, self.value1vs0_easier, current_attacker_state[i], neg2pos)
+    #         else:
+    #             control_attackers[i] = (0.0, 0.0)
+
+    #     return control_attackers
+
+
+    def _computeAttackerActions(self):
+        """Computes the the sub-optimal + optimal control (1 vs. 0 + 1 vs. 1 value functions) of the attacker.
+
+        """
+        control_attackers = np.zeros((self.NUM_ATTACKERS, 2))
+        current_attacker_state = self.attackers._get_state().copy()
+        current_defender_state = self.defenders._get_state().copy()
+        current_joint_state = np.concatenate((current_attacker_state[0], current_defender_state[0]))
+        # print(f"========== The current_joint_state is {current_joint_state} in ReachAvoidEasierGame.py. ========= \n")
+        current_state_slice = self.grid1vs1.get_index(current_joint_state)
+
+        current_value = self.value1vs1[current_state_slice]
+        # print(f"========== The current_value is {current_value} in ReachAvoidEasierGame.py. ========= \n")
+
+        if current_value >= 0:
+            for i in range(self.NUM_ATTACKERS):
+                neg2pos, pos2neg = find_sign_change1vs0(self.grid1vs0, self.value1vs0_easier, current_attacker_state[i])
+                if len(neg2pos):
+                    control_attackers[i] = self.attacker_control_1vs0(self.grid1vs0, self.value1vs0_easier, current_attacker_state[i], neg2pos)
+                else:
+                    control_attackers[i] = (0.0, 0.0)
+        else:
+            for i in range(self.NUM_ATTACKERS):
+                neg2pos, pos2neg = find_sign_change1vs1(self.grid1vs1, self.value1vs1_easier, current_joint_state)
+                if len(neg2pos):
+                    control_attackers[i] = self.attacker_control_1vs1(self.grid1vs1, self.value1vs1_easier, current_joint_state, neg2pos)
+                else:
+                    control_attackers[i] = (0.0, 0.0)
+
+        return control_attackers
+
+
+    def initial_players(self):
+        '''Set the initial positions for all players.
+        
+        Returns:
+            attackers (np.ndarray): the initial positions of the attackers
+            defenders (np.ndarray): the initial positions of the defenders
+        '''
+        np.random.seed(self.initial_players_seed)
+    
+        # Map boundaries
+        min_val, max_val = -0.99, 0.99
+        
+        # Obstacles and target areas
+        obstacles = {'obs1': [100, 100, 100, 100]}  
+        target = ([0.6, 0.8], [0.1, 0.3])
+        
+        def is_valid_position(pos):
+            x, y = pos
+            # Check boundaries
+            if not (min_val <= x <= max_val and min_val <= y <= max_val):
+                return False
+            # Check obstacles
+            for (ox, oy) in obstacles:
+                if ox[0] <= x <= ox[1] and oy[0] <= y <= oy[1]:
+                    return False
+            # Check target
+            if target[0][0] <= x <= target[0][1] and target[1][0] <= y <= target[1][1]:
+                return False
+            return True
+        
+        def generate_position(current_seed):
+            np.random.seed(current_seed)
+            while True:
+                pos = np.round(np.random.uniform(min_val, max_val, 2), 1)
+                if is_valid_position(pos):
+                    return pos
+        
+        def distance(pos1, pos2):
+            return np.sqrt((pos1[0] - pos2[0]) ** 2 + (pos1[1] - pos2[1]) ** 2)
+        
+        attacker_seed = self.initial_players_seed
+        defender_seed = self.initial_players_seed + 1
+        
+        while True:
+            attacker_pos = generate_position(attacker_seed)
+            defender_pos = generate_position(defender_seed)
+            
+            if distance(attacker_pos, defender_pos) > 1.0:
+                break
+            defender_seed += 1  # Change the seed for the defender until a valid position is found
+        
+        self.initial_players_seed += 1
+        
+        return np.array([attacker_pos]), np.array([defender_pos])
