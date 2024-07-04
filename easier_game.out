@@ -1,0 +1,32 @@
+Start to compile the sh file now!
+]2;conda activate quadrotor]1;]2;cd /localscratch/hha160/safe-control-gym]1;]2;echo 'Start to train the easier game now!']1;Start to train the easier game now!
+]2;python safe_control_gym/experiments/train_easiergame_sb3.py --optimality 1vs1]1;Traceback (most recent call last):
+  File "safe_control_gym/experiments/train_easiergame_sb3.py", line 8, in <module>
+    from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidEasierGame
+  File "/localscratch/hha160/safe-control-gym/safe_control_gym/envs/gym_game/ReachAvoidGame.py", line 8, in <module>
+    from safe_control_gym.envs.gym_game.utilities import find_sign_change1vs0, spa_deriv, find_sign_change1vs1
+  File "/localscratch/hha160/safe-control-gym/safe_control_gym/envs/gym_game/utilities.py", line 10, in <module>
+    from safe_control_gym.envs.gym_game.dynamics.SingleIntegrator import SingleIntegrator
+  File "/localscratch/hha160/safe-control-gym/safe_control_gym/envs/gym_game/dynamics/SingleIntegrator.py", line 2, in <module>
+    import heterocl as hcl
+  File "/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/heterocl/__init__.py", line 2, in <module>
+    from .api import *
+  File "/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/heterocl/api.py", line 11, in <module>
+    from .tensor import Scalar, Tensor, TensorSlice
+  File "/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/heterocl/tensor.py", line 8, in <module>
+    from .schedule import Stage
+  File "/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/heterocl/schedule.py", line 4, in <module>
+    import matplotlib.pyplot as plt
+  File "/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/matplotlib/__init__.py", line 129, in <module>
+    from . import _api, _version, cbook, _docstring, rcsetup
+  File "/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/matplotlib/rcsetup.py", line 27, in <module>
+    from matplotlib.colors import Colormap, is_color_like
+  File "/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/matplotlib/colors.py", line 56, in <module>
+    from matplotlib import _api, _cm, cbook, scale
+  File "/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/matplotlib/scale.py", line 22, in <module>
+    from matplotlib.ticker import (
+  File "/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/matplotlib/ticker.py", line 138, in <module>
+    from matplotlib import transforms as mtransforms
+  File "/home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/matplotlib/transforms.py", line 49, in <module>
+    from matplotlib._path import (
+ImportError: /lib/x86_64-linux-gnu/libstdc++.so.6: version `GLIBCXX_3.4.29' not found (required by /home/hha160/.conda/envs/quadrotor/lib/python3.8/site-packages/matplotlib/_path.cpython-38-x86_64-linux-gnu.so)
