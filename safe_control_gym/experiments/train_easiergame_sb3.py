@@ -16,11 +16,12 @@ from stable_baselines3.common.monitor import Monitor
 
 
 
-def train_game(init_type='random', total_steps=2e7):
+def train_game(optimality='1vs0', init_type='random', total_steps=2e7):
     # Set up env hyperparameters.
-    n_env = 2
-    env_seed = 2024
+    n_env = 8
+    env_seed = 42
     # Setp up algorithm hyperparameters.
+    optimality = optimality
     total_timesteps = total_steps
     batch_size = 64
     n_epochs = 15
@@ -31,7 +32,7 @@ def train_game(init_type='random', total_steps=2e7):
     env = ReachAvoidEasierGame()
     assert env.init_type == init_type, f"init_type is not matched. The env.init_type is {env.init_type}, but the input is {init_type}."
     
-    filename = os.path.join('training_results', f"easier_game/sb3/{init_type}/", f'seed_{env_seed}', f'{total_timesteps}steps')
+    filename = os.path.join('training_results', f"easier_game/sb3/{init_type}/{optimality}/", f'seed_{env_seed}', f'{total_timesteps}steps')
 
     # Create the environment.
     train_env = make_vec_env(ReachAvoidEasierGame, 
@@ -65,6 +66,7 @@ def train_game(init_type='random', total_steps=2e7):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Single agent reinforcement learning example script')
+    parser.add_argument('--optimality',           default="1vs0",        type=str,           help='The initilaization method (default: random)', metavar='')
     parser.add_argument('--init_type',           default="random",        type=str,           help='The initilaization method (default: random)', metavar='')
     parser.add_argument('--total_steps',         default=2e7,             type=float,         help='The total training steps (default: 2e7)', metavar='')
     
@@ -73,4 +75,5 @@ if __name__ == '__main__':
     train_game(init_type=args.init_type, total_steps=args.total_steps)
     # python safe_control_gym/experiments/train_easiergame_sb3.py --init_type distance_init --total_steps 2e6
     # python safe_control_gym/experiments/train_easiergame_sb3.py --init_type random --total_steps 2e6
+    # python safe_control_gym/experiments/train_easiergame_sb3.py  --optimality 1vs1 --init_type random --total_steps 2e6
 

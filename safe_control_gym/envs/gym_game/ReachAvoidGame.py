@@ -642,9 +642,9 @@ class ReachAvoidEasierGame(ReachAvoidGameEnv):
 
     #     return control_attackers
 
-
+    
     def _computeAttackerActions(self):
-        """Computes the the sub-optimal + optimal control (1 vs. 0 + 1 vs. 1 value functions) of the attacker.
+        """Computes the the optimal control (1 vs. 1 value functions only) of the attacker.
 
         """
         control_attackers = np.zeros((self.NUM_ATTACKERS, 2))
@@ -652,27 +652,47 @@ class ReachAvoidEasierGame(ReachAvoidGameEnv):
         current_defender_state = self.defenders._get_state().copy()
         current_joint_state = np.concatenate((current_attacker_state[0], current_defender_state[0]))
         # print(f"========== The current_joint_state is {current_joint_state} in ReachAvoidEasierGame.py. ========= \n")
-        current_state_slice = self.grid1vs1.get_index(current_joint_state)
 
-        current_value = self.value1vs1[current_state_slice]
-        # print(f"========== The current_value is {current_value} in ReachAvoidEasierGame.py. ========= \n")
-
-        if current_value >= 0:
-            for i in range(self.NUM_ATTACKERS):
-                neg2pos, pos2neg = find_sign_change1vs0(self.grid1vs0, self.value1vs0_easier, current_attacker_state[i])
-                if len(neg2pos):
-                    control_attackers[i] = self.attacker_control_1vs0(self.grid1vs0, self.value1vs0_easier, current_attacker_state[i], neg2pos)
-                else:
-                    control_attackers[i] = (0.0, 0.0)
-        else:
-            for i in range(self.NUM_ATTACKERS):
-                neg2pos, pos2neg = find_sign_change1vs1(self.grid1vs1, self.value1vs1_easier, current_joint_state)
-                if len(neg2pos):
-                    control_attackers[i] = self.attacker_control_1vs1(self.grid1vs1, self.value1vs1_easier, current_joint_state, neg2pos)
-                else:
-                    control_attackers[i] = (0.0, 0.0)
+        for i in range(self.NUM_ATTACKERS):
+            neg2pos, pos2neg = find_sign_change1vs1(self.grid1vs1, self.value1vs1_easier, current_joint_state)
+            if len(neg2pos):
+                control_attackers[i] = self.attacker_control_1vs1(self.grid1vs1, self.value1vs1_easier, current_joint_state, neg2pos)
+            else:
+                control_attackers[i] = (0.0, 0.0)
 
         return control_attackers
+
+
+    # def _computeAttackerActions(self):
+    #     """Computes the the sub-optimal + optimal control (1 vs. 0 + 1 vs. 1 value functions) of the attacker.
+
+    #     """
+    #     control_attackers = np.zeros((self.NUM_ATTACKERS, 2))
+    #     current_attacker_state = self.attackers._get_state().copy()
+    #     current_defender_state = self.defenders._get_state().copy()
+    #     current_joint_state = np.concatenate((current_attacker_state[0], current_defender_state[0]))
+    #     # print(f"========== The current_joint_state is {current_joint_state} in ReachAvoidEasierGame.py. ========= \n")
+    #     current_state_slice = self.grid1vs1.get_index(current_joint_state)
+
+    #     current_value = self.value1vs1[current_state_slice]
+    #     # print(f"========== The current_value is {current_value} in ReachAvoidEasierGame.py. ========= \n")
+
+    #     if current_value >= 0:
+    #         for i in range(self.NUM_ATTACKERS):
+    #             neg2pos, pos2neg = find_sign_change1vs0(self.grid1vs0, self.value1vs0_easier, current_attacker_state[i])
+    #             if len(neg2pos):
+    #                 control_attackers[i] = self.attacker_control_1vs0(self.grid1vs0, self.value1vs0_easier, current_attacker_state[i], neg2pos)
+    #             else:
+    #                 control_attackers[i] = (0.0, 0.0)
+    #     else:
+    #         for i in range(self.NUM_ATTACKERS):
+    #             neg2pos, pos2neg = find_sign_change1vs1(self.grid1vs1, self.value1vs1_easier, current_joint_state)
+    #             if len(neg2pos):
+    #                 control_attackers[i] = self.attacker_control_1vs1(self.grid1vs1, self.value1vs1_easier, current_joint_state, neg2pos)
+    #             else:
+    #                 control_attackers[i] = (0.0, 0.0)
+
+    #     return control_attackers
 
 
     def initial_players(self):
