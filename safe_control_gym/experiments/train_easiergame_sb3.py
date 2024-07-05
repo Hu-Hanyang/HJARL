@@ -18,7 +18,7 @@ from stable_baselines3.common.monitor import Monitor
 
 def train_game(optimality='1vs0', init_type='random', total_steps=2e7):
     # Set up env hyperparameters.
-    n_env = 8
+    n_env = 4
     env_seed = 42
     # Setp up algorithm hyperparameters.
     optimality = optimality
@@ -58,7 +58,7 @@ def train_game(optimality='1vs0', init_type='random', total_steps=2e7):
     #### Save the model ########################################
     model.save(filename+'/final_model.zip')
     # Save the value network separately
-    torch.save(model.policy.value_net.state_dict(), "value_net.pth")    
+    torch.save(model.policy.value_net.state_dict(), filename+'/value_net.pth')    
     print(f"========== The model is saved at {filename}. ========== \n")
     duration = time.perf_counter() - start_time
     print(f"========== The time of training is {duration//3600}hours-{(duration%3600)//60}minutes-{(duration%3600)%60}seconds. ========== \n")
@@ -76,4 +76,5 @@ if __name__ == '__main__':
     # python safe_control_gym/experiments/train_easiergame_sb3.py --init_type distance_init --total_steps 2e6
     # python safe_control_gym/experiments/train_easiergame_sb3.py --init_type random --total_steps 2e6
     # python safe_control_gym/experiments/train_easiergame_sb3.py  --optimality 1vs1 --init_type random --total_steps 2e6
+    # python safe_control_gym/experiments/train_easiergame_sb3.py  --optimality 1vs0_1vs1 --init_type random --total_steps 2e6
 

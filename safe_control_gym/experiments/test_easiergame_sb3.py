@@ -120,7 +120,7 @@ def test_sb3(optimality='1vs1', init_type='random', total_steps=2e7):
     batch_size = 64
     n_epochs = 15
     n_steps = 2048
-    test_seed = 42
+    test_seed = 2024
     target_kl = 0.01
 
     # Load the trained model
@@ -134,8 +134,8 @@ def test_sb3(optimality='1vs1', init_type='random', total_steps=2e7):
     # initial_attacker = np.array([[-0.5, 0.8]])
     # initial_defender = np.array([[0.3, -0.3]])
     #TODO the defender hits the obs
-    initial_attacker = np.array([[-0.1, 0.0]])
-    initial_defender = np.array([[-0.5, 0.0]])
+    initial_attacker = np.array([[0.0, 0.0]])
+    initial_defender = np.array([[-0.5, -0.5]])
     
     # Random test 
     # initial_attacker = np.array([[-0.5, 0.0]])
@@ -202,4 +202,5 @@ if __name__ == "__main__":
 
     # python safe_control_gym/experiments/test_easiergame_sb3.py --init_type distance_init --total_steps 1e7
     # python safe_control_gym/experiments/test_easiergame_sb3.py --init_type random --total_steps 2e6
-
+    # python safe_control_gym/experiments/test_easiergame_sb3.py  --optimality 1vs1 --init_type random --total_steps 2e6
+    # python safe_control_gym/experiments/test_easiergame_sb3.py  --optimality 1vs0_1vs1 --init_type random --total_steps 2e6
