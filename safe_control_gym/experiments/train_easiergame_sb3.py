@@ -72,7 +72,7 @@ if __name__ == '__main__':
     
     args = parser.parse_args()
     
-    train_game(init_type=args.init_type, total_steps=args.total_steps)
+    train_game(optimality=args.optimality, init_type=args.init_type, total_steps=args.total_steps)
     # python safe_control_gym/experiments/train_easiergame_sb3.py --init_type distance_init --total_steps 2e6
     # python safe_control_gym/experiments/train_easiergame_sb3.py --init_type random --total_steps 2e6
     # python safe_control_gym/experiments/train_easiergame_sb3.py  --optimality 1vs1 --init_type random --total_steps 2e6

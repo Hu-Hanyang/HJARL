@@ -111,7 +111,7 @@ def check_current_value(attackers, defenders, value_function, grids):
     return value
         
 
-def test_sb3(init_type='random', total_steps=2e7):
+def test_sb3(optimality='1vs1', init_type='random', total_steps=2e7):
     # Set up env hyperparameters.
     n_env = 8
     env_seed = 2024
@@ -124,8 +124,8 @@ def test_sb3(init_type='random', total_steps=2e7):
     target_kl = 0.01
 
     # Load the trained model
-    trained_model = os.path.join('training_results', f"easier_game/sb3/{init_type}/", f'seed_{env_seed}', f'{total_timesteps}steps/', 'final_model.zip')
-    value_net_address = os.path.join('training_results', f"game/sb3/{init_type}/", f'seed_{env_seed}', f'{total_timesteps}steps/', 'value_net.pth')
+    trained_model = os.path.join('training_results', f"easier_game/sb3/{init_type}/{optimality}/", f'seed_{env_seed}', f'{total_timesteps}steps/', 'final_model.zip')
+    value_net_address = os.path.join('training_results', f"easier_game/sb3/{init_type}/{optimality}/", f'seed_{env_seed}', f'{total_timesteps}steps/', 'value_net.pth')
     assert os.path.exists(trained_model), f"[ERROR] The trained model {trained_model} does not exist, please check the loading path or train one first."
     model = PPO.load(trained_model)
     
@@ -192,12 +192,13 @@ def test_sb3(init_type='random', total_steps=2e7):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Single agent reinforcement learning example script')
+    parser.add_argument('--optimality',           default="1vs0",        type=str,           help='The initilaization method (default: random)', metavar='')
     parser.add_argument('--init_type',           default="random",        type=str,           help='The initilaization method (default: random)', metavar='')
     parser.add_argument('--total_steps',         default=2e7,             type=float,         help='The total training steps (default: 2e7)', metavar='')
     
     args = parser.parse_args()
     
-    test_sb3(init_type=args.init_type, total_steps=args.total_steps)
+    test_sb3(optimality=args.optimality, init_type=args.init_type, total_steps=args.total_steps)
 
     # python safe_control_gym/experiments/test_easiergame_sb3.py --init_type distance_init --total_steps 1e7
     # python safe_control_gym/experiments/test_easiergame_sb3.py --init_type random --total_steps 2e6
