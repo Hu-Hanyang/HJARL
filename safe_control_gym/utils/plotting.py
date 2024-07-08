@@ -4,6 +4,8 @@ import os
 import os.path as osp
 import re
 import cv2
+import math
+import torch
 from collections import defaultdict
 
 import matplotlib.pyplot as plt
@@ -640,4 +642,134 @@ def record_video(attackers_traj, defenders_traj, attackers_status, filename='ani
     print(f"========== Animation saved at {video_path}. ==========")
     # Release the video writer
     out.release()
-  
+
+
+def plot_network_value(fixed_defender_position, model):
+    # Define the fixed values for the last two dimensions
+    fixed_values = fixed_defender_position[0].tolist()  # list like [0.0, 0.0]
+
+    # Generate a grid of (x, y) values
+    x_values = np.linspace(-1, 1, 100)
+    y_values = np.linspace(-1, 1, 100)
+    X, Y = np.meshgrid(x_values, y_values)
+
+    # Initialize an empty array to store the value function
+    Z = np.zeros_like(X)
+
+    # Iterate over the grid and calculate the value for each (x, y) pair
+    for i in range(X.shape[0]):
+        for j in range(X.shape[1]):
+            obs = [X[i, j], Y[i, j]] + fixed_values
+            obs_tensor = torch.tensor(obs, dtype=torch.float32).unsqueeze(0).to(model.device)
+            
+            # Extract features using the vf_features_extractor
+            features = model.policy.vf_features_extractor(obs_tensor)
+            
+            # Pass the features through the mlp_extractor value_net
+            value_features = model.policy.mlp_extractor.value_net(features)
+            
+            # Pass the value features through the final value_net layer
+            value = model.policy.value_net(value_features)
+            
+            # Store the value in the Z array
+            Z[i, j] = value.item()
+
+    # Plot the value function as a heatmap
+    plt.figure(figsize=(8, 6))
+    # plt.imshow(Z, extent=[-1, 1, -1, 1], origin='lower', cmap='viridis', aspect='auto')
+    # plt.colorbar(label='Value')
+    # contour = plt.contourf(X, Y, Z, levels=50, cmap='viridis')
+    # plt.colorbar(contour, label='Value')
+    contourf = plt.contourf(X, Y, Z, levels=50, cmap='viridis')
+    # contour = plt.contour(X, Y, Z, levels=50, colors='black', linewidths=0.5)
+    plt.colorbar(contourf, label='Value')
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.title(f'Value function heatmap with the fixed defender at {fixed_defender_position}')
+    plt.show()
+
+
+def po2slice1vs1(attacker, defender, grid_size):
+    """ Convert the position of the attacker and defender to the slice of the value function for 1 vs 1 game.
+
+    Args:
+        attacker (np.ndarray): the attacker's state
+        defender (np.ndarray): the defender's state
+        grid_size (int): the size of the grid
+    
+    Returns:
+        joint_slice (tuple): the joint slice of the joint state using the grid size
+
+    """
+    joint_state = (attacker[0], attacker[1], defender[0], defender[1])  # (xA1, yA1, xD1, yD1)
+    joint_slice = []
+    grid_points = np.linspace(-1, +1, num=grid_size)
+    for i, s in enumerate(joint_state):
+        idx = np.searchsorted(grid_points, s)
+        if idx > 0 and (
+            idx == len(grid_points)
+            or math.fabs(s - grid_points[idx - 1])
+            < math.fabs(s - grid_points[idx])
+        ):
+            joint_slice.append(idx - 1)
+        else:
+            joint_slice.append(idx)
+
+    return tuple(joint_slice)
+
+
+def plot_values(fixed_defender_position, model, value1vs1, grid1vs1, attacker):
+    # Plot the hj value and the trained value network value in one figure
+    # Define the fixed values for the last two dimensions
+    fixed_values = fixed_defender_position[0].tolist()  # list like [0.0, 0.0]
+
+    # Generate a grid of (x, y) values
+    x_values = np.linspace(-1, 1, 100)
+    y_values = np.linspace(-1, 1, 100)
+    X, Y = np.meshgrid(x_values, y_values)
+
+    # Initialize an empty array to store the value function
+    Z = np.zeros_like(X)
+
+    # Iterate over the grid and calculate the value for each (x, y) pair
+    for i in range(X.shape[0]):
+        for j in range(X.shape[1]):
+            obs = [X[i, j], Y[i, j]] + fixed_values
+            obs_tensor = torch.tensor(obs, dtype=torch.float32).unsqueeze(0).to(model.device)
+            
+            # Extract features using the vf_features_extractor
+            features = model.policy.vf_features_extractor(obs_tensor)
+            
+            # Pass the features through the mlp_extractor value_net
+            value_features = model.policy.mlp_extractor.value_net(features)
+            
+            # Pass the value features through the final value_net layer
+            value = model.policy.value_net(value_features)
+            
+            # Store the value in the Z array
+            Z[i, j] = value.item()
+
+    # Prepare the hj value
+    a1x_slice, a1y_slice, d1x_slice, d1y_slice = po2slice1vs1(attacker[0], fixed_defender_position[0], value1vs1.shape[0])
+    value_function1vs1 = value1vs1[:, :, d1x_slice, d1y_slice].squeeze()
+    value_function1vs1 = np.swapaxes(value_function1vs1, 0, 1)
+    print(f"The shape of the value_function1vs1 is {value_function1vs1.shape}")
+    dims_plot = [0, 1]
+    dim1, dim2 = dims_plot[0], dims_plot[1]
+    x_hj = np.linspace(-1, 1, value_function1vs1.shape[dim1])
+    y_hj = np.linspace(-1, 1, value_function1vs1.shape[dim2])
+
+    # Plot the value function as a heatmap
+    plt.figure(figsize=(8, 6))
+    # plt.imshow(Z, extent=[-1, 1, -1, 1], origin='lower', cmap='viridis', aspect='auto')
+    # plt.colorbar(label='Value')
+    # plt.colorbar(contour, label='Value')
+    contourf = plt.contourf(X, Y, Z, levels=50, cmap='viridis')  # viridis
+    # contour = plt.contour(X, Y, Z, levels=50, colors='black', linewidths=0.5)
+    contour = plt.contour(x_hj, y_hj, value_function1vs1, levels=0, colors='magenta', linewidths=1.0, linestyles='dashed')
+
+    plt.colorbar(contourf, label='Value')
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.title(f'Value function heatmap with the fixed defender at {fixed_defender_position[0]}')
+    plt.show()

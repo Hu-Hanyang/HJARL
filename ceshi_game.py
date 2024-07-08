@@ -2,32 +2,10 @@ import  numpy as np
 import tyro
 import gymnasium as gym
 from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidGameEnv, ReachAvoidEasierGame
-from safe_control_gym.experiments.train_game_cleanrl import Args
+
 from stable_baselines3.common.env_checker import check_env
 
 
-
-def make_env(env_id, idx, capture_video, run_name, gamma):
-    def thunk():
-        # if capture_video and idx == 0:
-        #     # env = gym.make(env_id, render_mode="rgb_array")
-        #     env = ReachAvoidGameEnv()
-        #     env = gym.wrappers.RecordVideo(env, f"videos/{run_name}")
-        # else:
-        #     # env = gym.make(env_id)
-        env = ReachAvoidTestGame()
-        # env = gym.wrappers.FlattenObservation(env)  # deal with dm_control's Dict observation space
-        # env = gym.wrappers.RecordEpisodeStatistics(env)
-        # env = gym.wrappers.ClipAction(env)
-        # env = gym.wrappers.NormalizeObservation(env)
-        # env = gym.wrappers.TransformObservation(env, lambda obs: np.clip(obs, -10, 10))
-        # env = gym.wrappers.NormalizeReward(env, gamma=gamma)
-        # env = gym.wrappers.TransformReward(env, lambda reward: np.clip(reward, -10, 10))
-        return env
-
-    return thunk
-
-args = tyro.cli(Args)
 # env setup
 # envs = gym.vector.SyncVectorEnv(
 #     [make_env(args.env_id, i, args.capture_video, "ceshi_game", args.gamma) for i in range(1)])
@@ -99,9 +77,12 @@ def _check_area(state, area):
 
         return False
 
-state = np.array([0.0, 0.5])
-print(f"The state is in the obstacle area: {_check_area(state, obstacles)}. \n")
-print(f"The state is in the new obstacle area: {_check_area(state, new_obstacles)}. \n")
+state = np.array([[0.0, 0.5]])
+# print(f"The state is in the obstacle area: {_check_area(state, obstacles)}. \n")
+# print(f"The state is in the new obstacle area: {_check_area(state, new_obstacles)}. \n")
+print(f"The shape of the state is {state.shape}. \n")
+print(f"The shape of the state[0] is {state[0].shape}. \n")
+print(f"The state[0] to list is {state[0].tolist()}. \n")  
 
 # print(f"The defender is in the obstacle area: {_check_area(current_defenders[0], obstacles)}. \n")
 # reward = 0.0
