@@ -244,17 +244,17 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         #     reward += (current_attacker_status[num] - last_attacker_status[num]) * (-200)
         status_change = current_attacker_status[0] - last_attacker_status[0]
         if status_change == 1:  # attacker arrived
-            reward += -100
+            reward += -200
         elif status_change == -1:  # attacker is captured
             reward += 200
         else:  # attacker is free
             reward += 0.0
         # check the defender status
         current_defender_state = self.defenders._get_state().copy()
-        reward += -100 if self._check_area(current_defender_state[0], self.obstacles) else 0.0
+        reward += -100 if self._check_area(current_defender_state[0], self.obstacles) else 0.0  # which is 0 when there's no obs
         # check the relative distance difference or relative distance
         current_attacker_state = self.attackers._get_state().copy()
-        current_relative_distance = np.linalg.norm(current_attacker_state[0] - current_defender_state[0])
+        current_relative_distance = np.linalg.norm(current_attacker_state[0] - current_defender_state[0])  # [0.10, 2.82]
         # last_relative_distance = np.linalg.norm(self.attackers_traj[-2][0] - self.defenders_traj[-2][0])
         # reward += (current_relative_distance - last_relative_distance) * -1.0 / (2*np.sqrt(2))
         reward += -(current_relative_distance)
@@ -693,62 +693,6 @@ class ReachAvoidEasierGame(ReachAvoidGameEnv):
                     control_attackers[i] = (0.0, 0.0)
 
         return control_attackers
-
-
-    # def initial_players(self):
-    #     '''Set the initial positions for all players.
-        
-    #     Returns:
-    #         attackers (np.ndarray): the initial positions of the attackers
-    #         defenders (np.ndarray): the initial positions of the defenders
-    #     '''
-    #     np.random.seed(self.initial_players_seed)
-    
-    #     # Map boundaries
-    #     min_val, max_val = -0.99, 0.99
-        
-    #     # Obstacles and target areas
-    #     obstacles = {'obs1': [100, 100, 100, 100]}  
-    #     target = ([0.6, 0.8], [0.1, 0.3])
-        
-    #     def is_valid_position(pos):
-    #         x, y = pos
-    #         # Check boundaries
-    #         if not (min_val <= x <= max_val and min_val <= y <= max_val):
-    #             return False
-    #         # # Check obstacles
-    #         # for (ox, oy) in obstacles:
-    #         #     if ox[0] <= x <= ox[1] and oy[0] <= y <= oy[1]:
-    #         #         return False
-    #         # Check target
-    #         if target[0][0] <= x <= target[0][1] and target[1][0] <= y <= target[1][1]:
-    #             return False
-    #         return True
-        
-    #     def generate_position(current_seed):
-    #         np.random.seed(current_seed)
-    #         while True:
-    #             pos = np.round(np.random.uniform(min_val, max_val, 2), 1)
-    #             if is_valid_position(pos):
-    #                 return pos
-        
-    #     def distance(pos1, pos2):
-    #         return np.sqrt((pos1[0] - pos2[0]) ** 2 + (pos1[1] - pos2[1]) ** 2)
-        
-    #     attacker_seed = self.initial_players_seed
-    #     defender_seed = self.initial_players_seed + 1
-        
-    #     while True:
-    #         attacker_pos = generate_position(attacker_seed)
-    #         defender_pos = generate_position(defender_seed)
-            
-    #         if distance(attacker_pos, defender_pos) > 1.0:
-    #             break
-    #         defender_seed += 1  # Change the seed for the defender until a valid position is found
-        
-    #     self.initial_players_seed += 1
-        
-    #     return np.array([attacker_pos]), np.array([defender_pos])
     
 
     def initial_players(self):
