@@ -110,7 +110,7 @@ def check_current_value(attackers, defenders, value_function, grids):
 def test_sb3(optimality='1vs1', init_type='random', total_steps=2e7):
     # Set up env hyperparameters.
     n_env = 8
-    env_seed = 42  # 2024
+    env_seed = 2024  # 2024
     # Setp up algorithm hyperparameters.
     total_timesteps = total_steps
     batch_size = 64
@@ -120,6 +120,7 @@ def test_sb3(optimality='1vs1', init_type='random', total_steps=2e7):
     target_kl = 0.01
 
     # Load the trained model
+    trained_path = os.path.join('training_results', f"easier_game/sb3/{init_type}/{optimality}/", f'seed_{env_seed}', f'{total_timesteps}steps')
     trained_model = os.path.join('training_results', f"easier_game/sb3/{init_type}/{optimality}/", f'seed_{env_seed}', f'{total_timesteps}steps/', 'final_model.zip')
     assert os.path.exists(trained_model), f"[ERROR] The trained model {trained_model} does not exist, please check the loading path or train one first."
     print(f"========== The trained model is loaded from {trained_model}. =========== \n")
@@ -166,35 +167,35 @@ def test_sb3(optimality='1vs1', init_type='random', total_steps=2e7):
     # print(f"========== The initial value is {value} in the test_game. ========== \n")
 
     # # plot the value network 
-    fixed_defender_position = np.array([[0.5, 0.0]])
+    fixed_defender_position = np.array([[-0.5, -0.5]])
     # fixed_defender_position = np.array([[0.5, 0.5]])
     # plot_network_value(fixed_defender_position, model)
-    # plot_values(fixed_defender_position, model, value1vs1, grid1vs1, initial_attacker)
+    plot_values(fixed_defender_position, model, value1vs1, grid1vs1, initial_attacker, trained_path)
 
-    attackers_traj.append(np.array([obs[:2]]))
-    defenders_traj.append(np.array([obs[2:]]))
+    # attackers_traj.append(np.array([obs[:2]]))
+    # defenders_traj.append(np.array([obs[2:]]))
 
-    for sim in range(int(10*200)):
-        actions, _ = model.predict(obs, deterministic=True)
-        # print(f"Step {step}: the action is {actions}. \n")
-        next_obs, reward, terminated, truncated, infos = envs.step(actions)
-        step += 1
-        # print(f"Step {step}: the reward is {reward}. \n")
-        attackers_traj.append(np.array([next_obs[:2]]))
-        defenders_traj.append(np.array([next_obs[2:]]))
-        # print(f"Step {step}: the relative distance is {np.linalg.norm(next_obs[:, :2] - next_obs[:, 2:])}. \n")
-        # print(f"Step {step}: the current position of the attacker is {next_obs[:2]}. \n")
-        attackers_status.append(getAttackersStatus(np.array([next_obs[:2]]), np.array([next_obs[2:]]), attackers_status[-1]))
+    # for sim in range(int(10*200)):
+    #     actions, _ = model.predict(obs, deterministic=True)
+    #     # print(f"Step {step}: the action is {actions}. \n")
+    #     next_obs, reward, terminated, truncated, infos = envs.step(actions)
+    #     step += 1
+    #     # print(f"Step {step}: the reward is {reward}. \n")
+    #     attackers_traj.append(np.array([next_obs[:2]]))
+    #     defenders_traj.append(np.array([next_obs[2:]]))
+    #     # print(f"Step {step}: the relative distance is {np.linalg.norm(next_obs[:, :2] - next_obs[:, 2:])}. \n")
+    #     # print(f"Step {step}: the current position of the attacker is {next_obs[:2]}. \n")
+    #     attackers_status.append(getAttackersStatus(np.array([next_obs[:2]]), np.array([next_obs[2:]]), attackers_status[-1]))
 
-        if terminated or truncated:
-            break
-        else:
-            obs = next_obs
-    # print(f"================ The {num} game is over at the {step} step ({step / 200} seconds. ================ \n")
-    print(f"================ The game is over at the {step} step ({step / 200} seconds. ================ \n")
-    current_status_check(attackers_status[-1], step)
-    animation_easier_game(attackers_traj, defenders_traj, attackers_status)
-    # # record_video(attackers_traj, defenders_traj, attackers_status, filename=f'1vs1_{datetime.now().strftime("%Y.%m.%d_%H:%M")}.mp4', fps=10)
+    #     if terminated or truncated:
+    #         break
+    #     else:
+    #         obs = next_obs
+    # # print(f"================ The {num} game is over at the {step} step ({step / 200} seconds. ================ \n")
+    # print(f"================ The game is over at the {step} step ({step / 200} seconds. ================ \n")
+    # current_status_check(attackers_status[-1], step)
+    # animation_easier_game(attackers_traj, defenders_traj, attackers_status)
+    # # # record_video(attackers_traj, defenders_traj, attackers_status, filename=f'1vs1_{datetime.now().strftime("%Y.%m.%d_%H:%M")}.mp4', fps=10)
 
 
 
