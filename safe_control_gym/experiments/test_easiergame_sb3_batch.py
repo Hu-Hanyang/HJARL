@@ -140,7 +140,7 @@ def test_sb3(optimality='1vs0_1vs1', init_type='random', total_steps=1e7):
     for i in range(len(x_range)):
         for j in range(len(y_range)):
             initial_attacker = np.array(([[x_range[i], y_range[j]]]))
-            initial_defender = np.array([[-0.5, 0.0]])
+            initial_defender = np.array([[-0.5, 0.5]])
             # print(f"========== The attacker starts at {initial_attacker}. =========== \n")
     
             envs = ReachAvoidEasierGame(random_init=False,
