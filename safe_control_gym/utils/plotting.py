@@ -759,6 +759,9 @@ def plot_values(fixed_defender_position, model, value1vs1, grid1vs1, attacker, s
     x_hj = np.linspace(-1, 1, value_function1vs1.shape[dim1])
     y_hj = np.linspace(-1, 1, value_function1vs1.shape[dim2])
 
+    #TODO:  Load the scores
+    # if save_dir is not None:
+    #     scores = np.load(f'{save_dir}/scores_matrix_{fixed_defender_position[0].tolist()}.npy')
     # Plot the value function as a heatmap
     plt.figure(figsize=(8, 6))
     # plt.imshow(Z, extent=[-1, 1, -1, 1], origin='lower', cmap='viridis', aspect='auto')

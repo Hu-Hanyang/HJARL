@@ -77,12 +77,12 @@ def _check_area(state, area):
 
         return False
 
-state = np.array([[0.0, 0.5]])
-# print(f"The state is in the obstacle area: {_check_area(state, obstacles)}. \n")
-# print(f"The state is in the new obstacle area: {_check_area(state, new_obstacles)}. \n")
-print(f"The shape of the state is {state.shape}. \n")
-print(f"The shape of the state[0] is {state[0].shape}. \n")
-print(f"The state[0] to list is {state[0].tolist()}. \n")  
+# state = np.array([[0.0, 0.5]])
+# # print(f"The state is in the obstacle area: {_check_area(state, obstacles)}. \n")
+# # print(f"The state is in the new obstacle area: {_check_area(state, new_obstacles)}. \n")
+# print(f"The shape of the state is {state.shape}. \n")
+# print(f"The shape of the state[0] is {state[0].shape}. \n")
+# print(f"The state[0] to list is {state[0].tolist()}. \n")  
 
 # print(f"The defender is in the obstacle area: {_check_area(current_defenders[0], obstacles)}. \n")
 # reward = 0.0
@@ -331,3 +331,12 @@ print(f"The state[0] to list is {state[0].tolist()}. \n")
 # print(f"The defender position is {type(defender_pos)}. \n")
 # print(f"The attacker position is {attacker_pos} and the defender position is {defender_pos}. \n")
 # print(f"========== The relative distance is {np.linalg.norm(attacker_pos - defender_pos):.2f} in BaseGame.py. ========== \n ")
+
+
+x_values = np.linspace(-1, 1, 100)
+print(f"The x_values is {x_values}. \n")
+print(f"The shape of the x_values is {x_values.shape}. \n")
+
+x_range = np.arange(-0.95, 1.0, 0.05)
+print(f"The x_range is {x_range}. \n")
+print(f"The shape of the x_range is {x_range.shape}. \n")
