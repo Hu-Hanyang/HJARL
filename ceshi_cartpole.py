@@ -1,5 +1,5 @@
 import os
-from safe_control_gym.envs.gym_control.cartpole_distb import CartPoleDistbEnv, CartPoleFixedDistb, CartPoleBoltzDistb, CartPoleRandomDistb, CartPoleNullDistb
+# from safe_control_gym.envs.gym_control.cartpole_distb import CartPoleDistbEnv, CartPoleFixedDistb, CartPoleBoltzDistb, CartPoleRandomDistb, CartPoleNullDistb
 # from safe_control_gym.envs.gym_control.cartpole import CartPole
 from safe_control_gym.envs.gym_control.cartpole_v0 import CartPole
 # from safe_control_gym.envs.gym_control.cartpole_distb import CartPoleHJDistbEnv
@@ -40,11 +40,11 @@ def transfer(distb_level):
 # # print(f"********* The 0.3 is in the  is allowable_distb_levels: {0.3 in allowable_distb_levels}. ********* \n")
 # print(np.round(0.3, 2))
 
-# env = CartPole(randomized_init=True, seed=42)
+env = CartPole(randomized_init=True, seed=42)
 # env = CartPoleFixedDistb()
 # env = CartPoleRandomDistb()
 # env = CartPoleBoltzDistb()
-env = CartPoleNullDistb()
+# env = CartPoleNullDistb()
 obs = env.reset()
 print(f"********* The init_obs is {obs}. ********* \n")
 # steps = 10

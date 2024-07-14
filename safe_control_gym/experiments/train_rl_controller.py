@@ -72,6 +72,12 @@ def train():
         with open(os.path.join(config.output_dir, 'config.yaml'), 'w', encoding='UTF-8') as file:
             config_assemble = munch.unmunchify(config)
             yaml.dump(config_assemble, file, default_flow_style=False)
+            
+    elif config.task =='rarl_game':
+        with open(os.path.join(config.output_dir, 'config.yaml'), 'w', encoding='UTF-8') as file:
+            config_assemble = munch.unmunchify(config)
+            yaml.dump(config_assemble, file, default_flow_style=False)
+
     else:
         env_distb_type = env_func().distb_type
         env_distb_level = env_func().distb_level

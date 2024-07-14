@@ -333,10 +333,20 @@ def _check_area(state, area):
 # print(f"========== The relative distance is {np.linalg.norm(attacker_pos - defender_pos):.2f} in BaseGame.py. ========== \n ")
 
 
-x_values = np.linspace(-1, 1, 100)
-print(f"The x_values is {x_values}. \n")
-print(f"The shape of the x_values is {x_values.shape}. \n")
+# x_values = np.linspace(-1, 1, 100)
+# print(f"The x_values is {x_values}. \n")
+# print(f"The shape of the x_values is {x_values.shape}. \n")
 
-x_range = np.arange(-0.95, 1.0, 0.05)
-print(f"The x_range is {x_range}. \n")
-print(f"The shape of the x_range is {x_range.shape}. \n")
+# x_range = np.arange(-0.95, 1.0, 0.05)
+# print(f"The x_range is {x_range}. \n")
+# print(f"The shape of the x_range is {x_range.shape}. \n")
+
+
+initial_attacker=np.array([-0.3, 0.4])
+initial_defender=np.array([0.0, 0.0])
+print(f"The shape of the initial_attacker is {initial_attacker.shape}. \n")
+initial_state = np.concatenate((initial_attacker, initial_defender))
+print(f"The shape of the initial_state is {initial_state.shape}. \n")
+
+distance = np.linalg.norm(initial_attacker - initial_defender)
+print(f"The distance between the attacker and the defender is {distance:.2f}. \n")

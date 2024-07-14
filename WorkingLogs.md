@@ -99,3 +99,8 @@ python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrot
 
 ## Env Info
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_random --seed 42  --render
+
+
+
+## RARLGame
+python safe_control_gym/experiments/train_rl_controller.py --task rarl_game --algo rarl --use_gpu True --seed 42

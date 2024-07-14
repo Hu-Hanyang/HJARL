@@ -140,7 +140,7 @@ def test_sb3(optimality='1vs0_1vs1', init_type='random', total_steps=1e7):
     for i in range(len(x_range)):
         for j in range(len(y_range)):
             initial_attacker = np.array(([[x_range[i], y_range[j]]]))
-            initial_defender = np.array([[-0.5, 0.5]])
+            initial_defender = np.array([[-0.5, -0.5]])
             # print(f"========== The attacker starts at {initial_attacker}. =========== \n")
     
             envs = ReachAvoidEasierGame(random_init=False,
@@ -194,16 +194,16 @@ def test_sb3(optimality='1vs0_1vs1', init_type='random', total_steps=1e7):
     duration = time.perf_counter() - start_time
     print(f"========== The game is finished. The total time is {duration//60} min {duration%60} seconds. =========== \n")
     
-    # Plot the score matrix
-    fig, ax = plt.subplots()
-    cax = ax.matshow(score_matrix, cmap='coolwarm')
-    fig.colorbar(cax)
-    plt.title(f'The score matrix of the game with {optimality} and {init_type} initialization')
-    plt.xlabel('x-axis')
-    plt.ylabel('y-axis')
-    # plt.savefig(f'{trained_path}/score_matrix.png')
-    plt.show()
-    print(f"========== The score matrix is saved to {trained_path}/score_matrix.png. =========== \n")
+    # # Plot the score matrix
+    # fig, ax = plt.subplots()
+    # cax = ax.matshow(score_matrix, cmap='coolwarm')
+    # fig.colorbar(cax)
+    # plt.title(f'The score matrix of the game with {optimality} and {init_type} initialization')
+    # plt.xlabel('x-axis')
+    # plt.ylabel('y-axis')
+    # # plt.savefig(f'{trained_path}/score_matrix.png')
+    # plt.show()
+    # print(f"========== The score matrix is saved to {trained_path}/score_matrix.png. =========== \n")
 
 
 if __name__ == "__main__":

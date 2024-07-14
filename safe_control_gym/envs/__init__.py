@@ -73,3 +73,7 @@ register(idx='reach_avoid',
 
 register(idx='reach_avoid_test',
          entry_point='safe_control_gym.envs.gym_game.ReachAvoidGame:ReachAvoidGameTest')
+
+register(idx='rarl_game',
+         entry_point='safe_control_gym.envs.gym_game.RARLGame:RARLGameEnv',
+         config_entry_point='safe_control_gym.envs.gym_game:game.yaml')
