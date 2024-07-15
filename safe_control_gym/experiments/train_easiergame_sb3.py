@@ -19,7 +19,7 @@ from stable_baselines3.common.monitor import Monitor
 def train_game(optimality='1vs0_1vs1', init_type='random', total_steps=1e7):
     # Set up env hyperparameters.
     n_env = 4
-    env_seed = 2024
+    env_seed = 2022
     # Setp up algorithm hyperparameters.
     optimality = optimality
     total_timesteps = total_steps
