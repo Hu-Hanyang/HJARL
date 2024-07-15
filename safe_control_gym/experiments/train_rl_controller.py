@@ -74,6 +74,7 @@ def train():
             yaml.dump(config_assemble, file, default_flow_style=False)
             
     elif config.task =='rarl_game':
+        env_func().close()
         with open(os.path.join(config.output_dir, 'config.yaml'), 'w', encoding='UTF-8') as file:
             config_assemble = munch.unmunchify(config)
             yaml.dump(config_assemble, file, default_flow_style=False)
@@ -89,7 +90,7 @@ def train():
             yaml.dump(config_assemble, file, default_flow_style=False)
        
 
-    make_plots(config)
+    # make_plots(config)
 
 
 def make_plots(config):

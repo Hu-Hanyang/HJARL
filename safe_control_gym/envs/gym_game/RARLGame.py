@@ -19,7 +19,7 @@ from safe_control_gym.math_and_models.normalization import normalize_angle
 from safe_control_gym.math_and_models.symbolic_systems import SymbolicModel
 
 
-class RARLGame(BenchmarkEnv):
+class RARLGameEnv(BenchmarkEnv):
     '''1 vs. 1 reach-avoid game environment for rarl and rap algorithm.
 
     Including symbolic model, constraints, randomization, adversarial disturbances,
@@ -119,7 +119,7 @@ class RARLGame(BenchmarkEnv):
     def __init__(self,
                  init_state=None,
                  inertial_prop=None,
-                 random_init=False,
+                 random_init=True,
                  initial_attacker=np.array([-0.5, 0.5]), 
                  initial_defender=np.array([0.0, 0.0]),
                  ctrl_freq=200,
@@ -130,7 +130,7 @@ class RARLGame(BenchmarkEnv):
                  rew_act_weight=0.0001,
                  rew_exponential=True,
                  done_on_out_of_bound=True,
-                #  seed=42,  # Hanyang: feed the seed
+                 seed=42,  # Hanyang: feed the seed
                  **kwargs
                  ):
         '''Initialize a cartpole environment.
@@ -173,10 +173,11 @@ class RARLGame(BenchmarkEnv):
         self.NUM_DEFENDERS = 1
         self.random_init = random_init
         self.init_state = init_state
-        self.freqency = ctrl_freq
-        self.map={'map': [-1.0, 1.0, -1.0, 1.0]},  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
-        self.des={'goal0': [0.6, 0.8, 0.1, 0.3]},  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
-        self.obstacles: dict = {'obs1': [100, 100, 100, 100]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
+        self.frequency = ctrl_freq
+        self.initial_players_seed = seed
+        self.map={'map': [-1.0, 1.0, -1.0, 1.0]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
+        self.des={'goal0': [0.6, 0.8, 0.1, 0.3]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
+        self.obstacles={'obs1': [100, 100, 100, 100]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
 
         # Set the initial state.
         if init_state is None and self.random_init is False:
@@ -297,6 +298,8 @@ class RARLGame(BenchmarkEnv):
                     new_status[num] = last_status[num]
                 else: # attacker is free last time
                     # check if the attacker arrive at the des this time
+                    # print(f"========== The attacker's position is {current_attacker_state} in the _getAttackersStatus() in ReachAvoidGame.py. ========= \n")
+                    # print(f"The des is {self.des} in the _getAttackersStatus() in ReachAvoidGame.py. \n")
                     if self._check_area(current_attacker_state, self.des):
                         new_status[num] = 1
                     else:
@@ -325,7 +328,7 @@ class RARLGame(BenchmarkEnv):
         super().before_reset(seed=seed)
         # Initialize the environment.
         if self.init_state is None and self.random_init is False:
-            self.init_attackers, self.init_defenders = self.init_attackers.copy(), self.initial_defender.copy()
+            self.init_attackers, self.init_defenders = self.init_attackers.copy(), self.init_defenders.copy()
         elif self.init_state is None and self.random_init is True:
             self.init_attackers, self.init_defenders = self.initial_players()
         else:
@@ -400,18 +403,19 @@ class RARLGame(BenchmarkEnv):
         defender_lower_bound = np.array([-1.0, -1.0])
         defender_upper_bound = np.array([+1.0, +1.0])
     
-        defenders_lower_bound = np.array([defender_lower_bound for i in range(self.NUM_DEFENDERS)])
-        defenders_upper_bound = np.array([defender_upper_bound for i in range(self.NUM_DEFENDERS)])
-        # Flatten the lower and upper bounds to ensure the action space shape is (4,)
+        defenders_lower_bound = np.array([defender_lower_bound for i in range(1)])
+        defenders_upper_bound = np.array([defender_upper_bound for i in range(1)])
+        # Flatten the lower and upper bounds to ensure the action space shape is (2,)
         act_lower_bound = defenders_lower_bound.flatten()
         act_upper_bound = defenders_upper_bound.flatten()
 
         self.action_scale = 1
+        self.physical_action_bounds = (-1 * np.atleast_1d(self.action_scale), np.atleast_1d(self.action_scale))
 
         self.action_space = spaces.Box(low=act_lower_bound, high=act_upper_bound, dtype=np.float32)
 
 
-    def _set_observation_space1(self):
+    def _set_observation_space(self):
         '''Sets the observation space of the environment.'''
         
         attacker_lower_bound = np.array([-1.0, -1.0])
@@ -419,10 +423,10 @@ class RARLGame(BenchmarkEnv):
         defender_lower_bound = np.array([-1.0, -1.0])
         defender_upper_bound = np.array([+1.0, +1.0])
         
-        attackers_lower_bound = np.array([attacker_lower_bound for i in range(self.NUM_ATTACKERS)])
-        attackers_upper_bound = np.array([attacker_upper_bound for i in range(self.NUM_ATTACKERS)])
-        defenders_lower_bound = np.array([defender_lower_bound for i in range(self.NUM_DEFENDERS)])
-        defenders_upper_bound = np.array([defender_upper_bound for i in range(self.NUM_DEFENDERS)])
+        attackers_lower_bound = np.array([attacker_lower_bound for i in range(1)])
+        attackers_upper_bound = np.array([attacker_upper_bound for i in range(1)])
+        defenders_lower_bound = np.array([defender_lower_bound for i in range(1)])
+        defenders_upper_bound = np.array([defender_upper_bound for i in range(1)])
             
         obs_lower_bound = np.concatenate((attackers_lower_bound, defenders_lower_bound), axis=0)
         obs_upper_bound = np.concatenate((attackers_upper_bound, defenders_upper_bound), axis=0)
@@ -447,18 +451,18 @@ class RARLGame(BenchmarkEnv):
         action = self.denormalize_action(action)
         self.current_physical_action = action
 
-        # Apply disturbances.
-        if 'action' in self.disturbances:  # CartPole(): self.disturbances = None now
-            action = self.disturbances['action'].apply(action, self)
-        if self.adversary_disturbance == 'action' and self.adv_action is not None:
-            action = action + self.adv_action
+        # # Apply disturbances.
+        # if 'action' in self.disturbances:  # CartPole(): self.disturbances = None now
+        #     action = self.disturbances['action'].apply(action, self)
+        # if self.adversary_disturbance == 'action' and self.adv_action is not None:
+        #     action = action + self.adv_action
         self.current_noisy_physical_action = action
 
         # Save the actual input.
-        force = np.clip(action, self.physical_action_bounds[0], self.physical_action_bounds[1])
-        self.current_clipped_action = force
+        processed_action = np.clip(action, self.physical_action_bounds[0], self.physical_action_bounds[1])
+        self.current_clipped_action = processed_action
 
-        return force[0]  # Only use the scalar value.
+        return processed_action
 
 
     def normalize_action(self, action):
@@ -505,11 +509,11 @@ class RARLGame(BenchmarkEnv):
         '''
 
         def dynamics(current_state, action, speed):
-            dx = self.speed * action[0]
-            dy = self.speed * action[1]
+            dx = speed * action[0]
+            dy = speed * action[1]
             return (dx, dy)
         # 4th order Runge-Kutta
-        dx, dy = dynamics(current_state, action)
+        dx, dy = dynamics(current_state, action, speed)
         # Compute the k1 terms
         k1_x = 1/self.frequency * dx
         k1_y = 1/self.frequency * dy
@@ -530,7 +534,7 @@ class RARLGame(BenchmarkEnv):
         next_x = current_state[0] + (1/6) * (k1_x + 2 * k2_x + 2 * k3_x + k4_x)
         next_y = current_state[1] + (1/6) * (k1_y + 2 * k2_y + 2 * k3_y + k4_y)
 
-        return np.array(next_x, next_y) 
+        return np.array([next_x, next_y]) 
 
 
     def _advance_simulation(self, processed_action):
@@ -541,10 +545,12 @@ class RARLGame(BenchmarkEnv):
         '''
         # Apply the defender's action.
         self.current_defender = self._sig_step(self.current_defender.copy(), processed_action.copy(), 1.5)
+        # print(f"========== The defender's position is {self.current_defender} in the _advance_simulation() in ReachAvoidGame.py. ========= \n")
         # Apply the attacker's action.
         adv_disturb = self.adversary_disturbance == 'dynamics'
         assert adv_disturb and self.adv_action is not None, 'Adversary action is required.'
-        self.current_attacker = self._sig_step(self.current_attacker.copy(), self.adv_action.copy(), 1.5)
+        self.current_attacker = self._sig_step(self.current_attacker.copy(), self.adv_action.copy(), 1.0)
+        # print(f"========== The attacker's position is {self.current_attacker} in the _advance_simulation() in ReachAvoidGame.py. ========= \n")
 
 
     def _get_observation(self):
@@ -584,7 +590,7 @@ class RARLGame(BenchmarkEnv):
         last_attacker_status = self.attackers_status[-2]
         current_attacker_status = self.attackers_status[-1]
         reward = 0.0
-        # for num in range(self.NUM_ATTACKERS):
+        # for num in range(1):
         #     reward += (current_attacker_status[num] - last_attacker_status[num]) * (-200)
         status_change = current_attacker_status[0] - last_attacker_status[0]
         if status_change == 1:  # attacker arrived
@@ -733,3 +739,59 @@ class RARLGame(BenchmarkEnv):
             out = ' '.join(out.split(' ')[:-1] + [str(length)])
             root[3][2][1].attrib['xyz'] = out
         return tree
+    
+    
+    # Hanyang: the dynamics is here, no disturbances are considered
+    def _setup_symbolic(self, prior_prop={}, **kwargs):
+        '''Creates symbolic (CasADi) models for dynamics, observation, and cost.
+
+        Args:
+            prior_prop (dict): specify the prior inertial prop to use in the symbolic model.
+        '''
+        length = prior_prop.get('pole_length', self.EFFECTIVE_POLE_LENGTH)
+        m = prior_prop.get('pole_mass', self.POLE_MASS)
+        M = prior_prop.get('cart_mass', self.CART_MASS)
+        Mm, ml = m + M, m * length
+        g = self.GRAVITY_ACC
+        dt = self.CTRL_TIMESTEP
+        # Input variables.
+        x = cs.MX.sym('x')
+        x_dot = cs.MX.sym('x_dot')
+        theta = cs.MX.sym('theta')
+        theta_dot = cs.MX.sym('theta_dot')
+        X = cs.vertcat(x, x_dot, theta, theta_dot)
+        U = cs.MX.sym('U')
+        nx = 4
+        nu = 1
+        # Dynamics.
+        temp_factor = (U + ml * theta_dot**2 * cs.sin(theta)) / Mm
+        theta_dot_dot = ((g * cs.sin(theta) - cs.cos(theta) * temp_factor) / (length * (4.0 / 3.0 - m * cs.cos(theta)**2 / Mm)))
+        X_dot = cs.vertcat(x_dot, temp_factor - ml * theta_dot_dot * cs.cos(theta) / Mm, theta_dot, theta_dot_dot)
+        # Observation.
+        Y = cs.vertcat(x, x_dot, theta, theta_dot)
+        # Define cost (quadratic form).
+        Q = cs.MX.sym('Q', nx, nx)
+        R = cs.MX.sym('R', nu, nu)
+        Xr = cs.MX.sym('Xr', nx, 1)
+        Ur = cs.MX.sym('Ur', nu, 1)
+        cost_func = 0.5 * (X - Xr).T @ Q @ (X - Xr) + 0.5 * (U - Ur).T @ R @ (U - Ur)
+        # Define dynamics and cost dictionaries.
+        dynamics = {'dyn_eqn': X_dot, 'obs_eqn': Y, 'vars': {'X': X, 'U': U}}
+        cost = {'cost_func': cost_func, 'vars': {'X': X, 'U': U, 'Xr': Xr, 'Ur': Ur, 'Q': Q, 'R': R}}
+        # Additional params to cache
+        params = {
+            # prior inertial properties
+            'pole_length': length,
+            'pole_mass': m,
+            'cart_mass': M,
+            # equilibrium point for linearization
+            'X_EQ': np.zeros(self.state_dim),
+            'U_EQ': np.atleast_2d(self.U_GOAL)[0, :],
+        }
+        # Setup symbolic model.
+        self.symbolic = SymbolicModel(dynamics=dynamics, cost=cost, dt=dt, params=params)
+
+
+    def render(self):
+        print(f"========== render function has not been implemented in the RARLGame.py. ========= \n")
+        return None
