@@ -779,3 +779,57 @@ def plot_values(fixed_defender_position, model, value1vs1, grid1vs1, attacker, s
     if save_dir is not None:
         plt.savefig(os.path.join(save_dir, f'hj_network_values{fixed_defender_position[0]}.png'))
     plt.show()
+
+
+def plot_values_rarl(fixed_defender_position, model, value1vs1, grid1vs1, attacker, save_dir=None):
+    # Plot the hj value and the trained value network value in one figure
+    # Define the fixed values for the last two dimensions
+    fixed_values = fixed_defender_position[0].tolist()  # list like [0.0, 0.0]
+
+    # Generate a grid of (x, y) values
+    x_values = np.linspace(-1, 1, 100)
+    y_values = np.linspace(-1, 1, 100)
+    X, Y = np.meshgrid(x_values, y_values)
+
+    # Initialize an empty array to store the value function
+    Z = np.zeros_like(X)
+
+    # Iterate over the grid and calculate the value for each (x, y) pair
+    for i in range(X.shape[0]):
+        for j in range(X.shape[1]):
+            obs = [X[i, j], Y[i, j]] + fixed_values
+            obs_tensor = torch.tensor(obs, dtype=torch.float32).unsqueeze(0).to(model.device)
+            
+            # Extract features using the vf_features_extractor
+            value = model.agent.ac.critic(obs_tensor)
+            # Store the value in the Z array
+            Z[i, j] = value.item()
+
+    # Prepare the hj value
+    a1x_slice, a1y_slice, d1x_slice, d1y_slice = po2slice1vs1(attacker[0], fixed_defender_position[0], value1vs1.shape[0])
+    value_function1vs1 = value1vs1[:, :, d1x_slice, d1y_slice].squeeze()
+    value_function1vs1 = np.swapaxes(value_function1vs1, 0, 1)
+    # print(f"The shape of the value_function1vs1 is {value_function1vs1.shape}")
+    dims_plot = [0, 1]
+    dim1, dim2 = dims_plot[0], dims_plot[1]
+    x_hj = np.linspace(-1, 1, value_function1vs1.shape[dim1])
+    y_hj = np.linspace(-1, 1, value_function1vs1.shape[dim2])
+    # if save_dir is not None:
+    #     scores = np.load(f'{save_dir}/scores_matrix_{fixed_defender_position[0].tolist()}.npy')
+    # Plot the value function as a heatmap
+    plt.figure(figsize=(8, 6))
+    # plt.imshow(Z, extent=[-1, 1, -1, 1], origin='lower', cmap='viridis', aspect='auto')
+    # plt.colorbar(label='Value')
+    # plt.colorbar(contour, label='Value')
+    contourf = plt.contourf(X, Y, Z, levels=50, cmap='viridis')  # viridis
+    # contour = plt.contour(X, Y, Z, levels=50, colors='black', linewidths=0.5)
+    contour = plt.contour(x_hj, y_hj, value_function1vs1, levels=0, colors='magenta', linewidths=1.0, linestyles='dashed')
+    plt.scatter(fixed_defender_position[0][0], fixed_defender_position[0][1], color='red', marker='*', label='Fixed Defender')
+
+    plt.colorbar(contourf, label='Value')
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.title(f'RARL value network with the fixed defender at {fixed_defender_position[0]}')
+    if save_dir is not None:
+        plt.savefig(os.path.join(save_dir, f'hj_rarl_network_values{fixed_defender_position[0]}.png'))
+    plt.show()

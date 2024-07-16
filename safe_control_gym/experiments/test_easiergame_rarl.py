@@ -12,80 +12,24 @@ import time
 import imageio
 import psutil
 
+from odp.Grid import Grid
 from safe_control_gym.utils.configuration import ConfigFactoryTest
 from safe_control_gym.utils.plotting import plot_from_logs
 from safe_control_gym.utils.registration import make
 from safe_control_gym.utils.utils import mkdirs, set_device_from_config, set_seed_from_config
-
-#TODO: Not started yet, for rarl easier game test
-
-def generate_videos(frames, render_width, render_height, output_dir):
-    """Hanyang
-    Input:
-        frames: list, a list contains several lists, each containts a sequence of numpy ndarrays 
-        env: the quadrotor and task environment
-    """
-    # Define the output video parameters
-    fps = 24  # Frames per second
-    episodes = len(frames)
-    
-    for episode in range(episodes):
-        filename = f'Episode{episode}_{len(frames[episode])}steps_{time.strftime("%m_%d_%H_%M")}.mp4'
-
-        # Define the codec and create VideoWriter object
-        fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # You can use other codecs as well (e.g., 'XVID')
-        out = cv2.VideoWriter(output_dir+'/'+filename, fourcc, fps, (render_height, render_width))
-        # Write frames to the video file
-        for frame in frames[episode]:
-            frame = np.asarray(frame, dtype=np.uint8)
-            out.write(frame)
-        # Release the VideoWriter object
-        out.release()
+from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidEasierGame
+from safe_control_gym.experiments.test_easiergame_sb3 import check_current_value, getAttackersStatus, current_status_check, animation_easier_game
+from safe_control_gym.utils.plotting import plot_values_rarl
 
 
-def generate_gifs(frames, output_dir):
-    """Hanyang
-    Input:
-        frames: list, a list contains several lists, each containts a sequence of numpy ndarrays 
-        env: the quadrotor and task environment
-    """
-    episodes = len(frames)
-    
-    for episode in range(episodes):
-        images = []
-        filename = f'Episode{episode}_{len(frames[episode])}steps_{time.strftime("%m_%d_%H_%M")}.gif'
-        for frame in frames[episode]:
-            images.append(frame.astype(np.uint8))
-        imageio.mimsave(output_dir+'/'+filename, images, duration=20)
-        print(f"******************Generate {filename} successfully. \n****************")
 
+map = {'map': [-1., 1., -1., 1.]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
+des = {'goal0': [0.6, 0.8, 0.1, 0.3]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
+obstacles = {'obs1': [100, 100, 100, 100]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
 
-def log_performance(eval_results, config):
-    output_dir = config.output_dir
-    num_episodes = len(eval_results['ep_returns'])
-    mean_returns = np.mean(eval_results['ep_returns'])
-    std_returns = np.std(eval_results['ep_returns'])
-    mean_lengths = np.mean(eval_results['ep_lengths'])
-    std_lengths = np.std(eval_results['ep_lengths'])
-    if config.trained_task == 'cartpole_fixed' or config.trained_task == 'quadrotor_fixed':
-        trained_task = f'{config.trained_task}_distb_level{config.trained_distb_level}'
-    else:   
-        trained_task = config.trained_task
-    
-    if config.task == 'cartpole_fixed' or config.task == 'quadrotor_fixed':
-        test_task = f'{config.task}_distb_level{config.test_distb_level}'
-    else:
-        test_task = config.task
-
-    with open(os.path.join(output_dir, f'performance{time.strftime("%m_%d_%H_%M")}.txt'), 'w') as f:
-        f.write(f'Test task: {test_task}\n')
-        f.write(f'Controller: {config.algo} trained in the {trained_task}\n')
-        f.write(f'Number of episodes: {num_episodes}\n')
-        f.write(f'Performances of returns: {mean_returns: .2f} ± {std_returns: .2f}\n')
-        f.write(f'Performances of lengths: {int(mean_lengths)} ± {std_lengths: .2f}\n')
-
-    print((f"****************** The performances are logged.\n ******************"))
-
+value1vs1 = np.load(('safe_control_gym/envs/gym_game/values/1vs1Defender_easier.npy'))
+grid1vs0 = Grid(np.array([-1.0, -1.0]), np.array([1.0, 1.0]), 2, np.array([100, 100])) 
+grid1vs1 = Grid(np.array([-1.0, -1.0, -1.0, -1.0]), np.array([1.0, 1.0, 1.0, 1.0]), 4, np.array([45, 45, 45, 45]))
 
 
 def test():
@@ -95,16 +39,16 @@ def test():
     fac = ConfigFactoryTest()
     config = fac.merge()
     config.algo_config['training'] = False
-    config.output_dir = 'test_results'
+    config.output_dir = 'training_results'
     total_steps = config.algo_config['max_env_steps']
 
     # Hanyang: make output_dir
     if config.task == 'cartpole_fixed' or config.task == 'quadrotor_fixed':
         output_dir = os.path.join(config.output_dir, config.task, config.algo, 
-                                  f'distb_level{config.test_distb_level}', f'seed_{config.seed}', time.strftime("%m_%d_%H_%M"),)
+                                  f'distb_level{config.test_distb_level}', f'seed_{config.seed}')
     else:
         output_dir = os.path.join(config.output_dir, config.task, config.algo, 
-                                  f'seed_{config.seed}', time.strftime("%m_%d_%H_%M"))
+                                  f'seed_{config.seed}')
     if not os.path.exists(output_dir):
         os.makedirs(output_dir+'/')
         
@@ -123,7 +67,7 @@ def test():
     print(f"==============Env is ready.============== \n")
     
     # Create the controller/control_agent.
-    ctrl = make(config.algo,
+    model = make(config.algo,
                 env_func,
                 checkpoint_path=os.path.join(config.output_dir, 'model_latest.pt'),
                 output_dir=config.output_dir,
@@ -148,59 +92,70 @@ def test():
                                                f'seed_{config.seed}', f'{total_steps}steps', 'model_latest.pt'))
     
     assert os.path.exists(model_path), f"[ERROR] The path '{model_path}' does not exist, please check the loading path or train one first."
-    ctrl.load(model_path)
+    model.load(model_path)
     print(f"==============Model is loaded.============== \n")
-    #TODO: create an env instance here and use the ctrl as the controller to test the env.
-    ctrl.reset()
-    
-    if config.render:
-        if config.algo == 'ppo':
-            # eval_results = ctrl.run(render=False, n_episodes=10) # Hanyang: the maximum number of episodes is 3 if generating videos.
-            eval_results = ctrl.run(render=True, n_episodes=3) # Hanyang: the maximum number of episodes is 3 if generating videos.
-            
-        elif config.algo == 'rarl':
-            # eval_results = ctrl.run(render=False, n_episodes=10, use_adv=False) 
-            eval_results = ctrl.run(render=True, n_episodes=5, use_adv=False) 
-            
-        elif config.algo == 'rap':
-            # eval_results = ctrl.run(render=False, n_episodes=10, use_adv=False) 
-            eval_results = ctrl.run(render=True, n_episodes=5, use_adv=False) 
-    else:
-        if config.algo == 'ppo':
-            eval_results = ctrl.run(render=False, n_episodes=10) # Hanyang: the maximum number of episodes is 3 if generating videos.
-            # eval_results = ctrl.run(render=True, n_episodes=3) # Hanyang: the maximum number of episodes is 3 if generating videos.
-            
-        elif config.algo == 'rarl':
-            eval_results = ctrl.run(render=False, n_episodes=10, use_adv=False) 
-            # eval_results = ctrl.run(render=True, n_episodes=3, use_adv=False) 
-            
-        elif config.algo == 'rap':
-            eval_results = ctrl.run(render=False, n_episodes=10, use_adv=False) 
-            # eval_results = ctrl.run(render=True, n_episodes=3, use_adv=False) 
-        
-    ctrl.close()
-    # Hanyang: generate videos and gifs
-    print("Start to generate videos and gifs.")
-    generate_gifs(eval_results['frames'], config.output_dir)
-    log_performance(eval_results, config)
+    model.reset()
 
-    # Save the configuration.
-    if config.task == 'cartpole' or config.task == 'cartpole_v0':
-        env_func().close()
-        with open(os.path.join(config.output_dir,  f'config_{time.strftime("%m_%d_%H_%M")}.yaml'), 'w', encoding='UTF-8') as file:
-            config_assemble = munch.unmunchify(config)
-            yaml.dump(config_assemble, file, default_flow_style=False)
-    else:
-        test_distb_type = env_func().distb_type
-        test_distb_level = env_func().distb_level
-        env_func().close()
-        with open(os.path.join(config.output_dir, f'config_{time.strftime("%m_%d_%H_%M")}.yaml'), 'w', encoding='UTF-8') as file:
-            config_assemble = munch.unmunchify(config)
-            config_assemble['trained_task'] = config.trained_task
-            config_assemble['test_distb_type'] = test_distb_type
-            config_assemble['test_distb_level'] = test_distb_level
-            yaml.dump(config_assemble, file, default_flow_style=False)
+    # Initilalize the environment
+    initial_attacker = np.array([[0.0, 0.0]])
+    initial_defender = np.array([[-0.5, -0.5]])
+    
+    # Random test 
+    # initial_attacker = np.array([[-0.5, 0.0]])
+    # initial_defender = np.array([[0.3, 0.0]])
+    test_seed = 2024
+
+    fixed_defender_position = np.array([[-0.5, 0.5]])
+    plot_values_rarl(fixed_defender_position, model, value1vs1, grid1vs1, initial_attacker, config.output_dir)
+
+    
+    
+    # envs = ReachAvoidEasierGame(random_init=False,
+    #                           seed=test_seed,
+    #                           init_type='random',
+    #                           initial_attacker=initial_attacker, 
+    #                           initial_defender=initial_defender)
+    # print(f"The state space of the env is {envs.observation_space}. \n")  # Box(-1.0, 1.0, (4,)
+    # print(f"The action space of the env is {envs.action_space}. \n")  # Box(-1.0, 1.0, (2,)
+    
+    # step = 0
+    # attackers_status = []
+    # attackers_status.append(np.zeros(1))
+    # attackers_traj, defenders_traj = [], []
+
+    # obs, _ = envs.reset()  # obs.shape = (4,)
+    # initial_obs = obs.copy()
+    # print(f"========== The initial state is {initial_obs} in the test_game. ========== \n")
+    # print(f"========== The initial value function is {check_current_value(np.array(obs[:2].reshape(1,2)), np.array(obs[2:].reshape(1,2)), value1vs1, grid1vs1)}. ========== \n")
+
+    # attackers_traj.append(np.array([obs[:2]]))
+    # defenders_traj.append(np.array([obs[2:]]))
+
+    # for sim in range(int(10*200)):
+    #     actions = model.select_action(obs=obs)
+    #     # print(f"Step {step}: the action is {actions}. \n")
+    #     next_obs, reward, terminated, truncated, infos = envs.step(actions)
+    #     step += 1
+    #     # print(f"Step {step}: the reward is {reward}. \n")
+    #     attackers_traj.append(np.array([next_obs[:2]]))
+    #     defenders_traj.append(np.array([next_obs[2:]]))
+    #     # print(f"Step {step}: the relative distance is {np.linalg.norm(next_obs[:, :2] - next_obs[:, 2:])}. \n")
+    #     # print(f"Step {step}: the current position of the attacker is {next_obs[:2]}. \n")
+    #     attackers_status.append(getAttackersStatus(np.array([next_obs[:2]]), np.array([next_obs[2:]]), attackers_status[-1]))
+
+    #     if terminated or truncated:
+    #         break
+    #     else:
+    #         obs = next_obs
+    # # print(f"================ The {num} game is over at the {step} step ({step / 200} seconds. ================ \n")
+    # print(f"================ The game is over at the {step} step ({step / 200} seconds. ================ \n")
+    # current_status_check(attackers_status[-1], step)
+    # animation_easier_game(attackers_traj, defenders_traj, attackers_status)
+    
+        
+    model.close()
 
 
 if __name__ == '__main__':
     test()
+    # python safe_control_gym/experiments/test_easiergame_rarl.py --task rarl_game --algo rarl --use_gpu True --seed 42
