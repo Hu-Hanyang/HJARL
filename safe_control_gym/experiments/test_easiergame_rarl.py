@@ -150,6 +150,7 @@ def test():
     assert os.path.exists(model_path), f"[ERROR] The path '{model_path}' does not exist, please check the loading path or train one first."
     ctrl.load(model_path)
     print(f"==============Model is loaded.============== \n")
+    #TODO: create an env instance here and use the ctrl as the controller to test the env.
     ctrl.reset()
     
     if config.render:
