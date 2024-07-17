@@ -29,7 +29,7 @@ train_protagonist: True
 train_adversary: True
 
 # runner args
-max_env_steps: 10000000
+max_env_steps: 20000000
 num_workers: 1
 rollout_batch_size: 32
 rollout_steps: 2048

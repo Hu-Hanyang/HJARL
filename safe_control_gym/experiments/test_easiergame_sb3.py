@@ -167,10 +167,8 @@ def test_sb3(optimality='1vs1', init_type='random', total_steps=2e7):
     # print(f"========== The initial value is {value} in the test_game. ========== \n")
 
     # # plot the value network 
-    fixed_defender_position = np.array([[-0.5, -0.5]])
-    # fixed_defender_position = np.array([[0.5, 0.5]])
-    # plot_network_value(fixed_defender_position, model)
-    plot_values(fixed_defender_position, model, value1vs1, grid1vs1, initial_attacker, trained_path)
+    # fixed_defender_position = np.array([[-0.5, -0.5]])
+    # plot_values(fixed_defender_position, model, value1vs1, grid1vs1, initial_attacker, trained_path)
 
     attackers_traj.append(np.array([obs[:2]]))
     defenders_traj.append(np.array([obs[2:]]))
