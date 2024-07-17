@@ -110,3 +110,4 @@ def make_plots(config):
 
 if __name__ == '__main__':
     train()
+    # python safe_control_gym/experiments/train_rl_controller.py --algo rap --task rarl_game --seed 2024 --use_gpu 

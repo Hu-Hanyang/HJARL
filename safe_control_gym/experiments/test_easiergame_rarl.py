@@ -97,7 +97,7 @@ def test():
     model.reset()
 
     # Initilalize the environment
-    initial_attacker = np.array([[0.0, 0.0]])
+    initial_attacker = np.array([[-0.5, 0.5]])
     initial_defender = np.array([[-0.5, -0.5]])
     
     # Random test 
@@ -159,3 +159,5 @@ def test():
 if __name__ == '__main__':
     test()
     # python safe_control_gym/experiments/test_easiergame_rarl.py --task rarl_game --algo rarl --use_gpu True --seed 42
+    # python safe_control_gym/experiments/test_easiergame_rarl.py --task rarl_game --algo rap --use_gpu True --seed 2024
+    
