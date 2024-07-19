@@ -34,7 +34,7 @@ def plot_batch_scores(fixed_defender, scores, x_range, y_range, save_path=None):
     
 
 
-fixed_defender_position = np.array([[0.0, 0.0]])  # np.array([[-0.5, -0.5]])
+fixed_defender_position = np.array([[-0.5, 0.0]])  # np.array([[-0.5, -0.5]]), np.array([[0.0, 0.0]])
 x_range = np.arange(-0.95, 1.0, 0.05)  # from -0.95 to 0.95
 y_range = np.arange(-0.95, 1.0, 0.05)
 # loaded_scores = np.load(f'training_results/easier_game/sb3/random/1vs0_1vs1/seed_2024/10000000.0steps/score_matrix_{fixed_defender_position[0]}.npy')
@@ -47,9 +47,14 @@ y_range = np.arange(-0.95, 1.0, 0.05)
 # rarl scores
 # loaded_scores = np.load('training_results/rarl_game/rarl/seed_42/score_matrix_[-0.5, -0.5].npy')
 # loaded_scores = np.load('training_results/rarl_game/rarl/seed_42/score_matrix_[0., 0.].npy')
+# loaded_scores = np.load('training_results/rarl_game/rarl/seed_42/score_matrix_[0.5, 0.0].npy')
 
 # rap scores
-loaded_scores = np.load('training_results/rarl_game/rap/seed_2024/score_matrix_[0.0, 0.0].npy')
+# loaded_scores = np.load('training_results/rarl_game/rap/seed_2024/score_matrix_[0.0, 0.0].npy')
+# loaded_scores = np.load('training_results/rarl_game/rap/seed_2024/score_matrix_[-0.5, -0.5].npy')
+# loaded_scores = np.load('training_results/rarl_game/rap/seed_2024/score_matrix_[0.5, 0.0].npy')
+loaded_scores = np.load('training_results/rarl_game/rap/seed_2024/score_matrix_[-0.5, 0.0].npy')
+
 loaded_scores = loaded_scores.T
 # print(loaded_scores.shape)
 
