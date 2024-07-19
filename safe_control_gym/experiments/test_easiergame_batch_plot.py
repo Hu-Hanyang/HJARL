@@ -34,7 +34,7 @@ def plot_batch_scores(fixed_defender, scores, x_range, y_range, save_path=None):
     
 
 
-fixed_defender_position = np.array([[-0.5, 0.5]])  # np.array([[-0.5, -0.5]]), np.array([[0.0, 0.0]])
+fixed_defender_position = np.array([[-0.5, -0.5]])  # np.array([[-0.5, -0.5]]), np.array([[0.0, 0.0]])
 x_range = np.arange(-0.95, 1.0, 0.05)  # from -0.95 to 0.95
 y_range = np.arange(-0.95, 1.0, 0.05)
 # loaded_scores = np.load(f'training_results/easier_game/sb3/random/1vs0_1vs1/seed_2024/10000000.0steps/score_matrix_{fixed_defender_position[0]}.npy')
@@ -45,10 +45,11 @@ y_range = np.arange(-0.95, 1.0, 0.05)
 # loaded_scores = np.load('training_results/easier_game/sb3/random/1vs0_1vs1/seed_2024/10000000.0steps/score_matrix_[0. 0.].npy')
 
 # rarl scores
-# loaded_scores = np.load('training_results/rarl_game/rarl/seed_42/score_matrix_[-0.5, -0.5].npy')
+loaded_scores = np.load('training_results/rarl_game/rarl/seed_42/score_matrix_[-0.5, -0.5].npy')
 # loaded_scores = np.load('training_results/rarl_game/rarl/seed_42/score_matrix_[0., 0.].npy')
 # loaded_scores = np.load('training_results/rarl_game/rarl/seed_42/score_matrix_[0.5, 0.0].npy')
-loaded_scores = np.load('training_results/rarl_game/rarl/seed_42/score_matrix_[-0.5, 0.5].npy')
+# loaded_scores = np.load('training_results/rarl_game/rarl/seed_42/score_matrix_[-0.5, 0.5].npy')
+# loaded_scores = np.load('training_results/rarl_game/rarl/seed_42/score_matrix_[-0.5, 0.0].npy')
 
 # rap scores
 # loaded_scores = np.load('training_results/rarl_game/rap/seed_2024/score_matrix_[0.0, 0.0].npy')
@@ -70,7 +71,7 @@ value1vs1 = np.load(('safe_control_gym/envs/gym_game/values/1vs1Defender_easier.
 grid1vs0 = Grid(np.array([-1.0, -1.0]), np.array([1.0, 1.0]), 2, np.array([100, 100])) 
 grid1vs1 = Grid(np.array([-1.0, -1.0, -1.0, -1.0]), np.array([1.0, 1.0, 1.0, 1.0]), 4, np.array([45, 45, 45, 45]))
 
-initial_attacker = np.array([[0.0, 0.0]])
+initial_attacker = np.array([[-0.5, 0.0]])
 a1x_slice, a1y_slice, d1x_slice, d1y_slice = po2slice1vs1(initial_attacker[0], fixed_defender_position[0], value1vs1.shape[0])
 value_function1vs1 = value1vs1[:, :, d1x_slice, d1y_slice].squeeze()
 value_function1vs1 = np.swapaxes(value_function1vs1, 0, 1)

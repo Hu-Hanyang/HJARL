@@ -121,7 +121,7 @@ def test():
     for i in range(len(x_range)):
         for j in range(len(y_range)):
             initial_attacker = np.array(([[x_range[i], y_range[j]]]))
-            initial_defender = np.array([[-0.5, 0.5]])
+            initial_defender = np.array([[-0.5, 0.0]])
             # print(f"========== The attacker starts at {initial_attacker}. =========== \n")
     
             envs = ReachAvoidEasierGame(random_init=False,
