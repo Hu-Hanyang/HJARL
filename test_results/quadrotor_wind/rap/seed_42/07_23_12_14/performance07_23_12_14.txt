@@ -1,0 +1,5 @@
+Test task: quadrotor_wind
+Controller: rap trained in the quadrotor_null
+Number of episodes: 10
+Performances of returns: -62.05 ±  20.70
+Performances of lengths: 801 ±  397.00

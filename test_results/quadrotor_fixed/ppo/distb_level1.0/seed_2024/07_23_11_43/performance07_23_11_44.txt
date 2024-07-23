@@ -1,0 +1,5 @@
+Test task: quadrotor_fixed_distb_level1.0
+Controller: ppo trained in the quadrotor_boltz
+Number of episodes: 10
+Performances of returns: -91.10 ±  15.99
+Performances of lengths: 305 ±  454.99

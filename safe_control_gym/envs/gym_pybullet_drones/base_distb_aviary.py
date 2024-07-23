@@ -151,7 +151,6 @@ class BaseDistbAviary(BenchmarkEnv):
         self.GRAVITY = self.GRAVITY_ACC * self.MASS
         self.HOVER_RPM = np.sqrt(self.GRAVITY / (4 * self.KF))
         self.MAX_RPM = np.sqrt((self.THRUST2WEIGHT_RATIO * self.GRAVITY) / (4 * self.KF))
-        # TODO: Hanyang: need to revise some constants
         # self.MAX_THRUST = (4 * self.KF * self.MAX_RPM**2)
         self.MAX_THRUST = self.GRAVITY * self.THRUST2WEIGHT_RATIO / 4
         self.MAX_XY_TORQUE = (self.L * self.KF * self.MAX_RPM**2)
@@ -358,21 +357,27 @@ class BaseDistbAviary(BenchmarkEnv):
             for i in range(self.NUM_DRONES):
                 # Hanayng: calculate the HJ disturbances or randomized disturbances
                 if self.distb_type == 'random':
-                    # low = np.array([-5.3e-3, -5.3e-3, -1.43e-4])
-                    # high = np.array([5.3e-3, 5.3e-3, 1.43e-4])
-                    low = np.array([-7e-3, -7e-3, -1.5e-4])
-                    high = np.array([6e-3, 6e-3, 1.5e-4])
+                    # Original random ranges
+                    low = np.array([-5.3e-3, -5.3e-3, -1.43e-4])
+                    high = np.array([5.3e-3, 5.3e-3, 1.43e-4])
                     # Generate a random sample
                     hj_distbs = np.random.uniform(low, high)
                 elif self.distb_type == 'wind':  # contant wind disturbances
-                    hj_distbs = np.array([0.0, 0.0037099999999999998, 0.0])
-                    # print(f"[INFO] The disturbance in the wind distb is {hj_distbs}. \n")
+                    # hj_distbs = np.array([0.0, 0.004, 0.0])
+                    # low = np.array([-5.3e-3, -5.3e-3, -1.43e-4])
+                    # high = np.array([5.3e-3, 5.3e-3, 1.43e-4])
+                    # Generate a random sample
+                    # hj_distbs = np.random.uniform(low, high)
+                    # hj_distbs = np.array([0.0, hj_distbs[1], 0.0])
+                    # hj_distbs = np.array([-0.00424, -0.00424, 0.0])
+                    hj_distbs = (-0.00424, 0.0, 0.0)
+                    print(f"[INFO] The disturbance in the wind distb is {hj_distbs}. \n")
                 else: # HJ based fixed, random_hj or boltzmann disturbances
                     current_angles = quat2euler(self._get_drone_state_vector(i)[3:7])  # convert quaternion to eulers
                     current_angle_rates = self._get_drone_state_vector(i)[13:16]
                     current_state = np.concatenate((current_angles, current_angle_rates), axis=0)
                     _, hj_distbs = distur_gener_quadrotor(current_state, self.distb_level)
-                    # print(f"[INFO] The disturbance for drone {i} is {hj_distbs}. \n")
+                    print(f"[INFO] The type-{self.distb_type} with {self.distb_level}-level is {hj_distbs}. \n")
                 
                 if self.PHYSICS == Physics.PYB:
                     # self._physics(clipped_action[i, :], i)
