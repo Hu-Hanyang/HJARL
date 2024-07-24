@@ -1,5 +1,5 @@
 Test task: quadrotor_wind
 Controller: ppo trained in the quadrotor_boltz
 Number of episodes: 10
-Performances of returns: -66.88 ±  10.61
-Performances of lengths: 1000 ±  0.00
+Performances of returns: -130.23 ±  18.87
+Performances of lengths: 703 ±  453.53

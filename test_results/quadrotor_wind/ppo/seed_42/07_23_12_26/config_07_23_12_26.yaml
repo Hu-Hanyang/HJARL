@@ -32,7 +32,7 @@ algo_config:
   use_clipped_value: false
   use_gae: false
 device: cpu
-output_dir: test_results/quadrotor_wind/ppo/seed_42/07_23_11_51
+output_dir: test_results/quadrotor_wind/ppo/seed_42/07_23_12_26
 render: false
 restore: null
 seed: 42
@@ -75,5 +75,5 @@ task_config:
 test_distb_level: 1.0
 test_distb_type: wind
 trained_distb_level: 1.0
-trained_task: quadrotor_null
+trained_task: quadrotor_boltz
 use_gpu: false
