@@ -12,6 +12,10 @@ Relative path: `/gym_pybullet_drones`
 | quadrotor_fixed | The quadrotor env with constant HJ disturbance | Need manually tune the distb_level, combined with ppo |
 | quadrotor_random | The quadrotor env with bounded random disturbance | Need manually set bounds, combined with ppo | 
 
+The observation is (17,) = [pos (3: xyz), quat (4), vel (3), ang_v (3), last_clipped_action (4)]
+
+The action is (4,) = pwm for each motor (pwm = 30000 + np.clip(action, -1, +1) * 30000, where action is the output of the policy network)
+
 ### 1 vs. 1 reach-avoid game
 Relative path:`/gym_game`
 
