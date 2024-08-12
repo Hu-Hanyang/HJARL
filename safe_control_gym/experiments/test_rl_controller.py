@@ -83,6 +83,8 @@ def log_performance(eval_results, config):
         f.write(f'Number of episodes: {num_episodes}\n')
         f.write(f'Performances of returns: {mean_returns: .2f} ± {std_returns: .2f}\n')
         f.write(f'Performances of lengths: {int(mean_lengths)} ± {std_lengths: .2f}\n')
+        f.write(f'Original returns: \n {eval_results["ep_returns"]} \n')
+        f.write(f'Original lengths: \n {eval_results["ep_lengths"]} \n')
 
     print((f"****************** The performances are logged.\n ******************"))
 
