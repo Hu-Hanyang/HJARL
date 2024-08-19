@@ -66,56 +66,6 @@ class RARLGameEnv(BenchmarkEnv):
 
     DISTURBANCE_MODES = {'observation': {'dim': 4}, 'action': {'dim': 2}, 'dynamics': {'dim': 2}}
 
-    # INERTIAL_PROP_RAND_INFO = {
-    #     'pole_length': {  # Nominal: 1
-    #         'distrib': 'choice',
-    #         'args': [[1, 5, 10]]
-    #     },
-    #     'cart_mass': {  # Nominal: 1
-    #         'distrib': 'uniform',
-    #         'low': 0.5,
-    #         'high': 1.5
-    #     },
-    #     'pole_mass': {  # Nominal: 0.1
-    #         'distrib': 'uniform',
-    #         'low': 0.05,
-    #         'high': 0.15
-    #     }
-    # }
-
-    # INIT_STATE_RAND_INFO = {
-    #     'init_x': {
-    #         'distrib': 'uniform',
-    #         'low': -0.05,
-    #         'high': 0.05
-    #     },
-    #     'init_x_dot': {
-    #         'distrib': 'uniform',
-    #         'low': -0.05,
-    #         'high': 0.05
-    #     },
-    #     'init_theta': {
-    #         'distrib': 'uniform',
-    #         'low': -0.05,
-    #         'high': 0.05
-    #     },
-    #     'init_theta_dot': {
-    #         'distrib': 'uniform',
-    #         'low': -0.05,
-    #         'high': 0.05
-    #     }
-    # }
-
-    # TASK_INFO = {
-    #     'stabilization_goal': [0],
-    #     'stabilization_goal_tolerance': 0.05,
-    #     'trajectory_type': 'circle',
-    #     'num_cycles': 1,
-    #     'trajectory_plane': 'zx',
-    #     'trajectory_position_offset': [0, 0],
-    #     'trajectory_scale': 0.2
-    # }
-
     def __init__(self,
                  init_state=None,
                  inertial_prop=None,

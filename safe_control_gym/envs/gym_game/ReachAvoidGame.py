@@ -253,7 +253,7 @@ class ReachAvoidGameEnv(BaseRLGameEnv):
         current_defender_state = self.defenders._get_state().copy()
         reward += -100 if self._check_area(current_defender_state[0], self.obstacles) else 0.0  # which is 0 when there's no obs
         # check the relative distance difference or relative distance
-        current_attacker_state = self.attackers._get_state().copy()
+        current_attacker_state = self.attackers._get_state().copy()  # (num_agents, state_dim)
         current_relative_distance = np.linalg.norm(current_attacker_state[0] - current_defender_state[0])  # [0.10, 2.82]
         # last_relative_distance = np.linalg.norm(self.attackers_traj[-2][0] - self.defenders_traj[-2][0])
         # reward += (current_relative_distance - last_relative_distance) * -1.0 / (2*np.sqrt(2))
@@ -609,14 +609,9 @@ class ReachAvoidGameTest(ReachAvoidGameEnv):
 
 class ReachAvoidEasierGame(ReachAvoidGameEnv):
     NAME = 'reach_avoid_easier'
-    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
-        # Set disturbance_type to 'fixed' regardless of the input
-        # kwargs['random_init'] = False
-        # kwargs['initial_attacker'] = np.array([[-0.5, 0.5]])
-        # kwargs['initial_defender'] = np.array([[0.3, -0.2]])
+    def __init__(self, *args,  **kwargs):  
         kwargs['init_type'] = 'random' # 'distance_init'
         kwargs['obstacles'] = {'obs1': [100, 100, 100, 100]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
-        # kwargs['seed'] = 2024
         super().__init__(*args, **kwargs)
         self.grid1vs0 = Grid(np.array([-1.0, -1.0]), np.array([1.0, 1.0]), 2, np.array([100, 100])) 
         self.grid1vs1 = Grid(np.array([-1.0, -1.0, -1.0, -1.0]), np.array([1.0, 1.0, 1.0, 1.0]), 4, np.array([45, 45, 45, 45]))

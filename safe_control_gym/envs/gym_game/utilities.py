@@ -8,7 +8,7 @@ import numpy as np
 
 from odp.Grid import Grid
 from safe_control_gym.envs.gym_game.dynamics.SingleIntegrator import SingleIntegrator
-
+from safe_control_gym.envs.gym_game.dynamics.DubinCar3D import DubinsCar
 
 
 def make_agents(physics_info, numbers, initials, freqency):
@@ -24,8 +24,43 @@ def make_agents(physics_info, numbers, initials, freqency):
         return SingleIntegrator(number=numbers, initials=initials, frequency=freqency, speed=physics_info['speed'])
     elif physics_info['id'] == 'fsig':
         return SingleIntegrator(number=numbers, initials=initials, frequency=freqency, speed=physics_info['speed'])
+    elif physics_info['id'] == 'dub3d':
+        return DubinsCar(number=numbers, initials=initials, frequency=freqency, speed=physics_info['speed'])
+    elif physics_info['id'] == 'fdub3d':
+        return DubinsCar(number=numbers, initials=initials, frequency=freqency, speed=physics_info['speed'])
+    
     else:
         raise ValueError("Invalid physics info while generating agents.")
+    
+
+def dubin_inital_check(initial_attacker, initial_defender):
+    """ Make sure the angle is in the range of [-pi, pi), if not, change it.
+    
+    Args:
+        inital_attacker (np.ndarray, (num_attacker, 3)): the initial state of the attacker
+        initial_defender (np.ndarray, (num_defender, 3)): the initial state of the defender
+    
+    Returns:
+        initial_attacker (np.ndarray, (num_attacker, 3)): the initial state of the attacker after revision if necessary
+        initial_defender (np.ndarray, (num_defender, 3)): the initial state of the defender after revision if necessary
+    """
+    def normalize_angle(angle):
+        while angle >= np.pi:
+            angle -= 2 * np.pi
+        while angle < -np.pi:
+            angle += 2 * np.pi
+        return angle
+    
+    def normalize_states(states):
+        if states is not None:
+            for state in states:
+                state[2] = normalize_angle(state[2])
+        return states
+    
+    initial_attacker = normalize_states(initial_attacker)
+    initial_defender = normalize_states(initial_defender)
+    
+    return initial_attacker, initial_defender
 
 
 def hj_preparations_sig():

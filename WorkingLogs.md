@@ -3,7 +3,7 @@
 ## Environment and Algorithm Info
 Path: `safe_control_gym/envs`
 
-### Quadrotor and its derivatives
+### 1. Quadrotor and its derivatives
 Relative path: `/gym_pybullet_drones`
 | Env Name  | Description | Characteristic | 
 | --------- | ----------- |  ----------- |
@@ -16,8 +16,15 @@ The observation is (17,) = [pos (3: xyz), quat (4), vel (3), ang_v (3), last_cli
 
 The action is (4,) = pwm for each motor (pwm = 30000 + np.clip(action, -1, +1) * 30000, where action is the output of the policy network)
 
-### 1 vs. 1 reach-avoid game
+### 2.  One vs. one reach-avoid game
 Relative path:`/gym_game`
+| Env Name  | Description | Characteristic | 
+| --------- | ----------- |  ----------- |
+| easier_game | A 1 vs. 1 reach-avoid game using SIG dynamics without obstacles | Our proposed method |
+| rarl_game | The quadrotor env with Boltzman distributed disturbance | Combined with ppo | 
+| rap_game | The quadrotor env with constant HJ disturbance | Need manually tune the distb_level, combined with ppo |
+| dubin_game | A 1 vs. 1 readch-avoid game using DubinCar3D dynamics without obstacles | Our proposed method | 
+
 
 
 ## Training
@@ -53,6 +60,7 @@ python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_null
 | `easier_game`| `ppo` | `none` | `python safe_control_gym/experiments/train_easiergame_sb3.py  --optimality 1vs0 --init_type random --total_steps 1e7` | Our proposed method |
 | `rarl_game`| `rarl` | `rarl_easiergame.yaml` | `python safe_control_gym/experiments/train_rl_controller.py --task rarl_game --algo rarl --use_gpu True --seed 42` | Baseline0 |
 | `rap_game`| `rap` | `rap_easiergame.yaml` | `python safe_control_gym/experiments/train_rl_controller.py --algo rap --task rarl_game --seed 2024 --use_gpu ` | Baseline1 |
+| `dubin_game`| `ppo` | `none` | `python safe_control_gym/experiments/.py ` | Real-world experiment |
 
 
 ## Test

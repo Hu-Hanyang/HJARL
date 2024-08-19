@@ -5,7 +5,7 @@ This module also contains enumerations for cost functions, tasks, disturbances, 
 
 import numpy as np
 import gymnasium as gym
-from safe_control_gym.envs.gym_game.utilities import make_agents
+from safe_control_gym.envs.gym_game.utilities import make_agents, dubin_inital_check
 
 
 class Dynamics:
@@ -13,6 +13,8 @@ class Dynamics:
 
     SIG = {'id': 'sig', 'action_dim': 2, 'state_dim': 2, 'speed': 1.0}           # Base single integrator dynamics
     FSIG = {'id': 'fsig', 'action_dim': 2, 'state_dim': 2, 'speed': 1.5}         # Faster single integrator dynamics with feedback
+    DUB3D = {'id': 'dub3d', 'action_dim': 1, 'state_dim': 3, 'speed': 0.22}       # 3D Dubins car dynamics
+    FDUB3D = {'id': 'fdub3d', 'action_dim': 1, 'state_dim': 3, 'speed': 0.22}     # Faster 3D Dubins car dynamics with feedback
     
     
 class BaseGameEnv(gym.Env):
@@ -57,7 +59,7 @@ class BaseGameEnv(gym.Env):
 
         """
         #### Constants #############################################
-        self.CTRL_FREQ = ctrl_freq
+        self.CTRL_FREQ = ctrl_freq  # normally 200Hz
         self.SIM_TIMESTEP = 1. / self.CTRL_FREQ  # 0.005s
         self.seed = seed
         self.initial_players_seed = seed
@@ -92,7 +94,7 @@ class BaseGameEnv(gym.Env):
         if self.random_init:
             self.init_attackers, self.init_defenders = self.initial_players()
         else:
-            assert self.init_attackers is not None and self.init_defenders is not None, "Need to provide initial positions for all players."     
+            assert self.init_attackers is not None and self.init_defenders is not None, "Need to provide initial positions for all players." 
         #### Set attackers and defenders ##########################
         self.attackers = make_agents(self.ATTACKER_PHYSICS, self.NUM_ATTACKERS, self.init_attackers, self.CTRL_FREQ)
         self.defenders = make_agents(self.DEFENDER_PHYSICS, self.NUM_DEFENDERS, self.init_defenders, self.CTRL_FREQ)
