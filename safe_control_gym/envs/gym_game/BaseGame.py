@@ -121,9 +121,6 @@ class BaseGameEnv(gym.Env):
         self.attackers_traj.append(current_attackers)
         self.defenders_traj.append(current_defenders)
         self.attackers_status.append(self._getAttackersStatus().copy())
-        # for i in range(self.NUM_ATTACKERS):
-        #     for j in range(self.NUM_DEFENDERS):
-        #         self.last_relative_distance[i, j] = np.linalg.norm(current_attackers[i] - current_defenders[j])
     
     
     def initial_players(self):

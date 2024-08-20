@@ -12,17 +12,18 @@ from stable_baselines3.common.env_checker import check_env
 # Map boundaries
 map = ([-0.99, 0.99], [-0.99, 0.99])  # The map boundaries
 # Obstacles and target areas
-obstacles = [
-    ([-0.1, 0.1], [-1.0, -0.3]),  # First obstacle
-    ([-0.1, 0.1], [0.3, 0.6])     # Second obstacle
-]
+obstacles = {'obs1': [100, 100, 100, 100]}
 target = ([0.6, 0.8], [0.1, 0.3])
 des={'goal0': [0.6, 0.8, 0.1, 0.3]}
 
 
 env = DubinReachAvoidEasierGame()
 # env = ReachAvoidEasierGame()
-print(env.observation_space)
-print(env.action_space)
-print(env.state)
 
+# print(env.observation_space)
+# print(env.action_space)
+# print(env.state)
+
+for i in range(10):
+    obs, info = env.reset()
+    print(env.state)

@@ -16,6 +16,7 @@ class DubinReachAvoidEasierGame(ReachAvoidGameEnv):
     def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
         kwargs['attackers_dynamics']=Dynamics.DUB3D
         kwargs['defenders_dynamics']=Dynamics.DUB3D
+        kwargs['game_length_sec'] = 15
         # kwargs['random_init'] = False
         # kwargs['initial_attacker'] = np.array([[-0.5, 0.5]])
         # kwargs['initial_defender'] = np.array([[0.3, -0.2]])
@@ -24,13 +25,11 @@ class DubinReachAvoidEasierGame(ReachAvoidGameEnv):
         kwargs['obstacles'] = {'obs1': [100, 100, 100, 100]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax], no obstacle here
         super().__init__(*args, **kwargs)
 
-        self.grid1vs0 = Grid(np.array([-1.0, -1.0, -math.pi]), np.array([1.0, 1.0, math.pi]), 3, np.array([100, 100, 200]), [2])
-        self.grid1vs1 = Grid(np.array([-1.0, -1.0, -math.pi, -1.0, -1.0, -math.pi]), np.array([1.0, 1.0, math.pi, 1.0, 1.0, math.pi]), 
+        self.grid1vs0 = Grid(np.array([-1.1, -1.1, -math.pi]), np.array([1.1, 1.1, math.pi]), 3, np.array([100, 100, 200]), [2])
+        self.grid1vs1 = Grid(np.array([-1.1, -1.1, -math.pi, -1.1, -1.1, -math.pi]), np.array([1.1, 1.1, math.pi, 1.1, 1.1, math.pi]), 
                              6, np.array([28, 28, 28, 28, 28, 28]), [2, 5])
-        #TODO: value functions are being computed now
-        self.value1vs1_easier = np.load('safe_control_gym/envs/gym_game/values/1vs1Attacker_easier.npy')
+        self.value1vs1_easier = np.load('safe_control_gym/envs/gym_game/values/1vs1Dubin_easier.npy')
         self.value1vs0_easier = np.load('safe_control_gym/envs/gym_game/values/1vs0Dubin_easier.npy')
-        self.value1vs1 = np.load('safe_control_gym/envs/gym_game/values/1vs1Defender_easier.npy')
 
         assert self.ATTACKER_PHYSICS == Dynamics.DUB3D, "The attacker physics is not DubinCar3D."
         assert self.DEFENDER_PHYSICS == Dynamics.DUB3D, "The defender physics is not DubinCar3D."
@@ -69,7 +68,7 @@ class DubinReachAvoidEasierGame(ReachAvoidGameEnv):
         #### Step the simulation using the desired physics update ##        
         attackers_action = self._computeAttackerActions()  # ndarray, shape (num_defenders, dim_action)
         clipped_action = np.clip(action.copy(), -1.0, +1.0)  # Hanyang: clip the action to [-1, 1]
-        defenders_action = clipped_action.reshape(self.NUM_DEFENDERS, 2)  # ndarray, shape (num_defenders, dim_action)
+        defenders_action = clipped_action.reshape(self.NUM_DEFENDERS, 1)  # ndarray, shape (num_defenders, dim_action)
         self.attackers.step(attackers_action)
         self.defenders.step(defenders_action)
         #### Update and all players' information #####
@@ -112,10 +111,10 @@ class DubinReachAvoidEasierGame(ReachAvoidGameEnv):
                     # check if the attacker arrive at the des this time
                     if self._check_area(current_attacker_state[num], self.des):
                         new_status[num] = 1
-                    # # check if the attacker gets stuck in the obstacles this time (it won't usually)
-                    elif self._check_area(current_attacker_state[num], self.obstacles):
-                        new_status[num] = -2
-                        continue
+                    # # # check if the attacker gets stuck in the obstacles this time (it won't usually)
+                    # elif self._check_area(current_attacker_state[num], self.obstacles):
+                    #     new_status[num] = -2
+                    #     continue
                     else:
                         # check if the attacker is captured
                         for j in range(self.NUM_DEFENDERS):
@@ -179,44 +178,83 @@ class DubinReachAvoidEasierGame(ReachAvoidGameEnv):
         # check the relative distance difference or relative distance
         current_attacker_state = self.attackers._get_state().copy()  # (num_agents, state_dim)
         current_relative_distance = np.linalg.norm(current_attacker_state[0][:2] - current_defender_state[0][:2])  # [0.10, 2.82]
-        # last_relative_distance = np.linalg.norm(self.attackers_traj[-2][0] - self.defenders_traj[-2][0])
-        # reward += (current_relative_distance - last_relative_distance) * -1.0 / (2*np.sqrt(2))
         reward += -(current_relative_distance)
         
         return reward
 
 
     def _computeAttackerActions(self):
-        #TODO: Not implemented yet, 2024.8.19
-        """Computes the the sub-optimal + optimal control (1 vs. 0 + 1 vs. 1 value functions) of the attacker.
+        """Computes the the sub-optimal (1 vs. 0 value function) of the attacker.
 
         """
-        control_attackers = np.zeros((self.NUM_ATTACKERS, 2))
+        control_attackers = np.zeros((self.NUM_ATTACKERS, 1))
         current_attacker_state = self.attackers._get_state().copy()
-        current_defender_state = self.defenders._get_state().copy()
-        current_joint_state = np.concatenate((current_attacker_state[0], current_defender_state[0]))
-        # print(f"========== The current_joint_state is {current_joint_state} in ReachAvoidEasierGame.py. ========= \n")
-        current_state_slice = self.grid1vs1.get_index(current_joint_state)
-
-        current_value = self.value1vs1[current_state_slice]
-        # print(f"========== The current_value is {current_value} in ReachAvoidEasierGame.py. ========= \n")
-
-        if current_value >= 0:
-            for i in range(self.NUM_ATTACKERS):
-                neg2pos, pos2neg = find_sign_change1vs0(self.grid1vs0, self.value1vs0_easier, current_attacker_state[i])
-                if len(neg2pos):
-                    control_attackers[i] = self.attacker_control_1vs0(self.grid1vs0, self.value1vs0_easier, current_attacker_state[i], neg2pos)
-                else:
-                    control_attackers[i] = (0.0, 0.0)
-        else:
-            for i in range(self.NUM_ATTACKERS):
-                neg2pos, pos2neg = find_sign_change1vs1(self.grid1vs1, self.value1vs1_easier, current_joint_state)
-                if len(neg2pos):
-                    control_attackers[i] = self.attacker_control_1vs1(self.grid1vs1, self.value1vs1_easier, current_joint_state, neg2pos)
-                else:
-                    control_attackers[i] = (0.0, 0.0)
-
+        for i in range(self.NUM_ATTACKERS):# the attacker is free
+            neg2pos, pos2neg = self.find_sign_change1vs0_dub(self.grid1vs0, self.value1vs0_easier, current_attacker_state[i])
+            if len(neg2pos):
+                control_attackers[i] = self.attacker_control_1vs0_dub(self.grid1vs0, self.value1vs0_easier, current_attacker_state[i], neg2pos)
+            else:
+                control_attackers[i] = (0.0)
+        
         return control_attackers
+    
+
+    def find_sign_change1vs0_dub(self, grid1vs0, value1vs0, attacker):
+        """Return two positions (neg2pos, pos2neg) of the value function
+
+        Args:
+        grid1vs0 (class): the instance of grid
+        value1vs0 (ndarray): including all the time slices, shape = [100, 100, 200, len(tau)]
+        attacker (ndarray, (dim,)): the current state of one attacker
+        """
+        current_slices = grid1vs0.get_index(attacker)
+        current_value = value1vs0[current_slices[0], current_slices[1], current_slices[2], :]  # current value in all time slices
+        neg_values = (current_value<=0).astype(int)  # turn all negative values to 1, and all positive values to 0
+        checklist = neg_values - np.append(neg_values[1:], neg_values[-1])
+        # neg(True) - pos(False) = 1 --> neg to pos
+        # pos(False) - neg(True) = -1 --> pos to neg
+        return np.where(checklist==1)[0], np.where(checklist==-1)[0]
+    
+
+    def attacker_control_1vs0_dub(self, grid1vs0, value1vs0, attacker, neg2pos):
+        """Return a list of 2-dimensional control inputs of one defender based on the value function
+        
+        Args:
+        grid1vs0 (class): the corresponding Grid instance
+        value1vs0 (ndarray): 1v0 HJ reachability value function with only final slice
+        attacker (ndarray, (dim,)): the current state of one attacker
+        neg2pos (list): the positions of the value function that change from negative to positive
+        """
+        current_value = grid1vs0.get_value(value1vs0[..., 0], list(attacker))
+        if current_value > 0:
+            value1vs0 = value1vs0 - current_value
+        v = value1vs0[..., neg2pos] # Minh: v = value1v0[..., neg2pos[0]]
+        spat_deriv_vector = spa_deriv(grid1vs0.get_index(attacker), v, grid1vs0, [2])
+        opt_u = self.optCtrl_1vs0_dub(spat_deriv_vector)
+
+        return (opt_u)
+    
+
+    def optCtrl_1vs0_dub(self, spat_deriv):
+        """Computes the optimal control (disturbance) for the attacker in a 1 vs. 0 game.
+        
+        Parameters:
+            spat_deriv (tuple): spatial derivative in all dimensions
+        
+        Returns:
+            tuple: a tuple of optimal control of the defender (disturbances)
+        """
+        opt_u = self.attackers.uMax
+
+        if spat_deriv[2] > 0:
+            if self.uMode == "min":
+                opt_u = - self.attackers.uMax
+        else:
+            if self.uMode == "max":
+                opt_u = - self.attackers.uMax
+        
+        return opt_u
+
     
 
     def initial_players(self):
