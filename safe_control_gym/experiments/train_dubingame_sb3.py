@@ -18,8 +18,8 @@ from stable_baselines3.common.monitor import Monitor
 
 def train_game(init_type='random', total_steps=1e7):
     # Set up env hyperparameters.
-    n_env = 4
-    env_seed = 2022
+    n_env = 2
+    env_seed = 42
     # Setp up algorithm hyperparameters.
     total_timesteps = total_steps
     batch_size = 64
@@ -31,7 +31,7 @@ def train_game(init_type='random', total_steps=1e7):
     env = DubinReachAvoidEasierGame()
     assert env.init_type == init_type, f"init_type is not matched. The env.init_type is {env.init_type}, but the input is {init_type}."
     
-    filename = os.path.join('training_results', f"dubin_game/sb3/{init_type}init/", f'seed_{env_seed}', f'{total_timesteps}steps')
+    filename = os.path.join('training_results', f"dubin_game/sb3/{init_type}_init/", f'seed_{env_seed}', f'{total_timesteps}steps')
 
     # Create the environment.
     train_env = make_vec_env(DubinReachAvoidEasierGame, 
@@ -70,9 +70,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     train_game(init_type=args.init_type, total_steps=args.total_steps)
-    # python safe_control_gym/experiments/train_easiergame_sb3.py --init_type distance_init --total_steps 2e6
-    # python safe_control_gym/experiments/train_easiergame_sb3.py --init_type random --total_steps 2e6
-    # python safe_control_gym/experiments/train_easiergame_sb3.py  --optimality 1vs1 --init_type random --total_steps 2e6
-    # python safe_control_gym/experiments/train_easiergame_sb3.py  --optimality 1vs0_1vs1 --init_type random --total_steps 1e7
-    # python safe_control_gym/experiments/train_easiergame_sb3.py  --optimality 1vs0 --init_type random --total_steps 1e7
+    # python safe_control_gym/experiments/train_dubingame_sb3.py --init_type random --total_steps 1e7
 

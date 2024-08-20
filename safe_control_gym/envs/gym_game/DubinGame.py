@@ -28,7 +28,7 @@ class DubinReachAvoidEasierGame(ReachAvoidGameEnv):
         self.grid1vs0 = Grid(np.array([-1.1, -1.1, -math.pi]), np.array([1.1, 1.1, math.pi]), 3, np.array([100, 100, 200]), [2])
         self.grid1vs1 = Grid(np.array([-1.1, -1.1, -math.pi, -1.1, -1.1, -math.pi]), np.array([1.1, 1.1, math.pi, 1.1, 1.1, math.pi]), 
                              6, np.array([28, 28, 28, 28, 28, 28]), [2, 5])
-        self.value1vs1_easier = np.load('safe_control_gym/envs/gym_game/values/1vs1Dubin_easier.npy')
+        # self.value1vs1_easier = np.load('safe_control_gym/envs/gym_game/values/1vs1Dubin_easier.npy')
         self.value1vs0_easier = np.load('safe_control_gym/envs/gym_game/values/1vs0Dubin_easier.npy')
 
         assert self.ATTACKER_PHYSICS == Dynamics.DUB3D, "The attacker physics is not DubinCar3D."
