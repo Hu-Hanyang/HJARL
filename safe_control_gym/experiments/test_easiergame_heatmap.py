@@ -105,8 +105,10 @@ def test():
     # initial_defender = np.array([[0.3, 0.0]])
     test_seed = 2024
 
-    fixed_defender_position = np.array([[-0.5, 0.5]])
-    plot_values_rarl(fixed_defender_position, model, value1vs1, grid1vs1, initial_attacker, config.output_dir)
+    # fixed_defender_position = np.array([[-0.5, -0.5]])
+    fixed_defender_position = np.array([[0.5, 0.0]])
+    
+    plot_values_rarl(config.algo, fixed_defender_position, model, value1vs1, grid1vs1, initial_attacker, config.output_dir)
 
     
     
@@ -158,6 +160,6 @@ def test():
 
 if __name__ == '__main__':
     test()
-    # python safe_control_gym/experiments/test_easiergame_rarl.py --task rarl_game --algo rarl --use_gpu True --seed 42
-    # python safe_control_gym/experiments/test_easiergame_rarl.py --task rarl_game --algo rap --use_gpu True --seed 2024
+    # python safe_control_gym/experiments/test_easiergame_heatmap.py --task rarl_game --algo rarl --use_gpu True --seed 42
+    # python safe_control_gym/experiments/test_easiergame_heatmap.py --task rarl_game --algo rap --use_gpu True --seed 2024
     

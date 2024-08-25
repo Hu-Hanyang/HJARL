@@ -759,29 +759,28 @@ def plot_values(fixed_defender_position, model, value1vs1, grid1vs1, attacker, s
     x_hj = np.linspace(-1, 1, value_function1vs1.shape[dim1])
     y_hj = np.linspace(-1, 1, value_function1vs1.shape[dim2])
 
-    #TODO:  Load the scores
     # if save_dir is not None:
     #     scores = np.load(f'{save_dir}/scores_matrix_{fixed_defender_position[0].tolist()}.npy')
     # Plot the value function as a heatmap
-    plt.figure(figsize=(8, 6))
+    plt.figure(figsize=(8, 8))
     # plt.imshow(Z, extent=[-1, 1, -1, 1], origin='lower', cmap='viridis', aspect='auto')
     # plt.colorbar(label='Value')
     # plt.colorbar(contour, label='Value')
-    contourf = plt.contourf(X, Y, Z, levels=50, cmap='viridis')  # viridis
+    contourf = plt.contourf(X, Y, Z, levels=50, cmap='coolwarm')  # viridis, cividis, coolwarm
     # contour = plt.contour(X, Y, Z, levels=50, colors='black', linewidths=0.5)
-    contour = plt.contour(x_hj, y_hj, value_function1vs1, levels=0, colors='magenta', linewidths=1.0, linestyles='dashed')
-    plt.scatter(fixed_defender_position[0][0], fixed_defender_position[0][1], color='red', marker='*', label='Fixed Defender')
+    contour = plt.contour(x_hj, y_hj, value_function1vs1, levels=0, colors='#4B0082', linewidths=3.0, linestyles='dashed') # colors='magenta', colors='#4B0082'
+    plt.scatter(fixed_defender_position[0][0], fixed_defender_position[0][1], color='magenta', marker='*', s=100, label='Fixed Defender')
 
-    plt.colorbar(contourf, label='Value')
-    plt.xlabel('X')
-    plt.ylabel('Y')
-    plt.title(f'Value function heatmap with the fixed defender at {fixed_defender_position[0]}')
+    # plt.colorbar(contourf, label='Value')
+    # plt.xlabel('X')
+    # plt.ylabel('Y')
+    # plt.title(f'Value function heatmap with the fixed defender at {fixed_defender_position[0]}')
     if save_dir is not None:
         plt.savefig(os.path.join(save_dir, f'hj_network_values{fixed_defender_position[0]}.png'))
     plt.show()
 
 
-def plot_values_rarl(fixed_defender_position, model, value1vs1, grid1vs1, attacker, save_dir=None):
+def plot_values_rarl(algo, fixed_defender_position, model, value1vs1, grid1vs1, attacker, save_dir=None):
     # Plot the hj value and the trained value network value in one figure
     # Define the fixed values for the last two dimensions
     fixed_values = fixed_defender_position[0].tolist()  # list like [0.0, 0.0]
@@ -817,19 +816,19 @@ def plot_values_rarl(fixed_defender_position, model, value1vs1, grid1vs1, attack
     # if save_dir is not None:
     #     scores = np.load(f'{save_dir}/scores_matrix_{fixed_defender_position[0].tolist()}.npy')
     # Plot the value function as a heatmap
-    plt.figure(figsize=(8, 6))
+    plt.figure(figsize=(8, 8))
     # plt.imshow(Z, extent=[-1, 1, -1, 1], origin='lower', cmap='viridis', aspect='auto')
     # plt.colorbar(label='Value')
     # plt.colorbar(contour, label='Value')
-    contourf = plt.contourf(X, Y, Z, levels=50, cmap='viridis')  # viridis
+    contourf = plt.contourf(X, Y, Z, levels=50, cmap='coolwarm')  # viridis
     # contour = plt.contour(X, Y, Z, levels=50, colors='black', linewidths=0.5)
-    contour = plt.contour(x_hj, y_hj, value_function1vs1, levels=0, colors='magenta', linewidths=1.0, linestyles='dashed')
-    plt.scatter(fixed_defender_position[0][0], fixed_defender_position[0][1], color='red', marker='*', label='Fixed Defender')
+    contour = plt.contour(x_hj, y_hj, value_function1vs1, levels=0, colors='#4B0082', linewidths=3.0, linestyles='dashed') # colors='magenta', colors='#4B0082'
+    plt.scatter(fixed_defender_position[0][0], fixed_defender_position[0][1], color='magenta', marker='*', s=100, label='Fixed Defender')
 
-    plt.colorbar(contourf, label='Value')
-    plt.xlabel('X')
-    plt.ylabel('Y')
-    plt.title(f'RARL value network with the fixed defender at {fixed_defender_position[0]}')
+    # plt.colorbar(contourf, label='Value')
+    # plt.xlabel('X')
+    # plt.ylabel('Y')
+    # plt.title(f'{algo} value network with the fixed defender at {fixed_defender_position[0]}')
     if save_dir is not None:
-        plt.savefig(os.path.join(save_dir, f'hj_rarl_network_values{fixed_defender_position[0]}.png'))
+        plt.savefig(os.path.join(save_dir, f'{algo}_network_values{fixed_defender_position[0]}.png'))
     plt.show()
