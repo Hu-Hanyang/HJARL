@@ -718,6 +718,8 @@ class QuadrotorBoltzDistb(QuadrotorDistb):
         kwargs['record'] = False
         kwargs['seed'] = 40226
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
+        print(f"The self.MAX_THRUST is {self.MAX_THRUST}. \n")
+
 
 
 class QuadrotorNullDistb(QuadrotorDistb):
