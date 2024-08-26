@@ -867,14 +867,14 @@ def plot_values(fixed_defender_position, model, value1vs1, grid1vs1, attacker, s
     contourf = plt.contourf(X, Y, Z, levels=50, cmap='coolwarm')  # viridis, cividis, coolwarm
     # contour = plt.contour(X, Y, Z, levels=50, colors='black', linewidths=0.5)
     contour = plt.contour(x_hj, y_hj, value_function1vs1, levels=0, colors='#4B0082', linewidths=3.0, linestyles='dashed') # colors='magenta', colors='#4B0082'
-    plt.scatter(fixed_defender_position[0][0], fixed_defender_position[0][1], color='magenta', marker='*', s=100, label='Fixed Defender')
+    plt.scatter(fixed_defender_position[0][0], fixed_defender_position[0][1], color='magenta', marker='*', s=300, label='Fixed Defender')
 
     # plt.colorbar(contourf, label='Value')
     # plt.xlabel('X')
     # plt.ylabel('Y')
     # plt.title(f'Value function heatmap with the fixed defender at {fixed_defender_position[0]}')
     if save_dir is not None:
-        plt.savefig(os.path.join(save_dir, f'hj_network_values{fixed_defender_position[0]}.png'))
+        plt.savefig(os.path.join(save_dir, f'ours_network_values{fixed_defender_position[0]}.png'))
     plt.show()
 
 
@@ -921,7 +921,7 @@ def plot_values_rarl(algo, fixed_defender_position, model, value1vs1, grid1vs1, 
     contourf = plt.contourf(X, Y, Z, levels=50, cmap='coolwarm')  # viridis
     # contour = plt.contour(X, Y, Z, levels=50, colors='black', linewidths=0.5)
     contour = plt.contour(x_hj, y_hj, value_function1vs1, levels=0, colors='#4B0082', linewidths=3.0, linestyles='dashed') # colors='magenta', colors='#4B0082'
-    plt.scatter(fixed_defender_position[0][0], fixed_defender_position[0][1], color='magenta', marker='*', s=100, label='Fixed Defender')
+    plt.scatter(fixed_defender_position[0][0], fixed_defender_position[0][1], color='magenta', marker='*', s=300, label='Fixed Defender')
 
     # plt.colorbar(contourf, label='Value')
     # plt.xlabel('X')

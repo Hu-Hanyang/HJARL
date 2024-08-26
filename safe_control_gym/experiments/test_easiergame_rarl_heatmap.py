@@ -98,7 +98,7 @@ def test():
 
     # Initilalize the environment
     initial_attacker = np.array([[-0.5, 0.5]])
-    initial_defender = np.array([[-0.5, -0.5]])
+    # initial_defender = np.array([[-0.5, -0.5]])
     
     # Random test 
     # initial_attacker = np.array([[-0.5, 0.0]])
@@ -110,8 +110,7 @@ def test():
     
     plot_values_rarl(config.algo, fixed_defender_position, model, value1vs1, grid1vs1, initial_attacker, config.output_dir)
 
-    
-    
+    # run a game
     # envs = ReachAvoidEasierGame(random_init=False,
     #                           seed=test_seed,
     #                           init_type='random',
@@ -129,7 +128,6 @@ def test():
     # initial_obs = obs.copy()
     # print(f"========== The initial state is {initial_obs} in the test_game. ========== \n")
     # print(f"========== The initial value function is {check_current_value(np.array(obs[:2].reshape(1,2)), np.array(obs[2:].reshape(1,2)), value1vs1, grid1vs1)}. ========== \n")
-
     # attackers_traj.append(np.array([obs[:2]]))
     # defenders_traj.append(np.array([obs[2:]]))
 
@@ -153,7 +151,6 @@ def test():
     # print(f"================ The game is over at the {step} step ({step / 200} seconds. ================ \n")
     # current_status_check(attackers_status[-1], step)
     # animation_easier_game(attackers_traj, defenders_traj, attackers_status)
-    
         
     model.close()
 
