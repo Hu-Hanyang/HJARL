@@ -734,6 +734,19 @@ class QuadrotorNullDistb(QuadrotorDistb):
         # kwargs['adversary_disturbance'] = 'dynamics'  # Hanyang: for rarl and rap
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
         
+
+class QuadrotorRARLDistb(QuadrotorDistb):
+    NAME = 'quadrotor_rarl'
+    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
+        # Set disturbance_type to 'fixed' regardless of the input
+        kwargs['distb_type'] = 'fixed'
+        kwargs['distb_level'] = 0.0
+        kwargs['randomized_init'] = True
+        kwargs['record'] = False
+        kwargs['seed'] = 2024
+        kwargs['adversary_disturbance'] = 'dynamics'  # Hanyang: for rarl and rap
+        super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
+        
         
 class QuadrotorRandomHJDistb(QuadrotorDistb):
     NAME = 'quadrotor_randomhj'

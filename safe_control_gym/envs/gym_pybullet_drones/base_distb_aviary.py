@@ -372,13 +372,13 @@ class BaseDistbAviary(BenchmarkEnv):
                     # hj_distbs = np.array([-0.00424, -0.00424, 0.0])
                     hj_distbs = (0.00424, 0.0, 0.0)
                     # hj_distbs = (0.00424, 0.00424, 0.0)
-                    print(f"[INFO] The disturbance in the wind distb is {hj_distbs}. \n")
-                else: # HJ based fixed, random_hj or boltzmann disturbances
+                    # print(f"[INFO] The disturbance in the wind distb is {hj_distbs}. \n")
+                else: # fixed-hj, null, random_hj or boltzmann disturbances
                     current_angles = quat2euler(self._get_drone_state_vector(i)[3:7])  # convert quaternion to eulers
                     current_angle_rates = self._get_drone_state_vector(i)[13:16]
                     current_state = np.concatenate((current_angles, current_angle_rates), axis=0)
                     _, hj_distbs = distur_gener_quadrotor(current_state, self.distb_level)
-                    print(f"[INFO] The type-{self.distb_type} with {self.distb_level}-level is {hj_distbs}. \n")
+                    # print(f"[INFO] The type-{self.distb_type} with {self.distb_level}-level is {hj_distbs}. \n")
                 
                 if self.PHYSICS == Physics.PYB:
                     # self._physics(clipped_action[i, :], i)

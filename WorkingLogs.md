@@ -39,7 +39,8 @@ Some necessary arguments need to be added:
 **Working procedures**
 1. Select the `env` and `algo` to be trained, if it's a fixed env, then choose the `distb_level` in the `env`;
 2. Configure the `algo.yaml` file (path: `safe_control_gym/controllers/algo/algo.yaml`) corresponding to the selected `env` (copy the `algo_env.yaml` content to the `algo.yaml` file);
-3. Choose other necessary arguments. 
+3. Configure the `seed` and other hyperparameters in the corresponding env class, for example `QuadrotorNullDistb`;
+4. Choose other necessary arguments. 
 
 
 ### Quadrotor and its derivatives

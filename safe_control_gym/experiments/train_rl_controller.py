@@ -115,6 +115,7 @@ def make_plots(config):
 
 if __name__ == '__main__':
     train()
-    # python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_null --algo rap --use_gpu True --seed 2024
-    # python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_null --algo rarl --use_gpu True --seed 2024
+    #TODO remmenber to revise the seed in the corresponding env class
+    # python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_rarl --algo rap --use_gpu True --seed 2024
+    # python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_rarl --algo rarl --use_gpu True --seed 2024
     # python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_null --algo ppo --use_gpu True --seed 2024
