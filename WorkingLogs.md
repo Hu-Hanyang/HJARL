@@ -62,6 +62,8 @@ python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_null
 | `rarl_game`| `rarl` | `rarl_easiergame.yaml` | `python safe_control_gym/experiments/train_rl_controller.py --task rarl_game --algo rarl --use_gpu True --seed 42` | Baseline0 |
 | `rap_game`| `rap` | `rap_easiergame.yaml` | `python safe_control_gym/experiments/train_rl_controller.py --algo rap --task rarl_game --seed 2024 --use_gpu ` | Baseline1 |
 | `dubin_game`| `ppo` | `none` | `python safe_control_gym/experiments/.py ` | Real-world experiment |
+| `dubin_rarl_game`| `rarl` | `none` | `python safe_control_gym/experiments/train_rl_controller.py --task dubin_rarl_game --algo rarl --use_gpu True --seed 42 ` | Real-world experiment baseline1 |
+| `dubin_rarl_game`| `rap` | `none` | `python safe_control_gym/experiments/train_rl_controller.py --task dubin_rarl_game --algo rap --use_gpu True --seed 42 ` | Real-world experiment baseline1 |
 
 
 ## Test
@@ -86,6 +88,8 @@ python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrot
 <!-- python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_random --algo ppo --task quadrotor_random  --seed 42 -->
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo ppo --task quadrotor_random  --seed 42
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rarl --task quadrotor_random  --seed 42
+python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rap --task quadrotor_random  --seed 42
+
 
 ### test in the quadrotor_fixed
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_fixed --test_distb_level 1.0 --seed 2024

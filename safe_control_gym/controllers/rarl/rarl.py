@@ -249,7 +249,7 @@ class RARL(BaseController):
                 print(f'obs {obs} | act {action}')
 
             if done:
-                print(f"======this done is working:=======")
+                # print(f"======this done is working:=======")
                 assert 'episode' in info
                 ep_returns.append(info['episode']['r'])
                 ep_lengths.append(info['episode']['l'])
@@ -257,7 +257,7 @@ class RARL(BaseController):
                     eval_results['frames'].append(frames)
                     frames = []
                 obs, _ = env.reset()
-                print(f"======The reset obs is {obs} =======")
+                print(f"The {len(ep_returns)} episode starts to run with the initial state {obs}. \n")
                 
             obs = self.obs_normalizer(obs)
 

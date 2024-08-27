@@ -1,0 +1,11 @@
+Test task: quadrotor_randomhj with env seed 42.
+Controller: ppo trained in the quadrotor_boltz with 42 seed 
+Number of episodes: 10
+Performances of returns: -81.44 ±  21.82
+Performances of lengths: 701 ±  455.51
+Original returns: 
+ [ -87.26404853  -84.59900949  -97.96127261  -86.19349799 -102.47611074
+ -100.52935406  -53.65422454  -66.20574538 -101.17559764  -34.32292862] 
+Original lengths: 
+ [1000 1000 1000 1000   12    2 1000 1000    4 1000] 
+ # I block out the adversary_disturbance choice this time, but the results are the same with the last one performances.

@@ -756,7 +756,7 @@ class QuadrotorRandomHJDistb(QuadrotorDistb):
         kwargs['distb_level'] = 0.0
         kwargs['randomized_init'] = True
         kwargs['record'] = False
-        kwargs['seed'] = 42
+        kwargs['seed'] = 2024 # 42  # 2024  2025  2022
         kwargs['adversary_disturbance'] = 'dynamics'  # TODO: for rarl test, but not sure whether it has influences on the performances or not
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
 

@@ -60,7 +60,7 @@ def generate_gifs(frames, output_dir):
         print(f"******************Generate {filename} successfully. \n****************")
 
 
-def log_performance(eval_results, config):
+def log_performance(eval_results, config, env_seed):
     output_dir = config.output_dir
     num_episodes = len(eval_results['ep_returns'])
     mean_returns = np.mean(eval_results['ep_returns'])
@@ -78,8 +78,8 @@ def log_performance(eval_results, config):
         test_task = config.task
 
     with open(os.path.join(output_dir, f'performance{time.strftime("%m_%d_%H_%M")}.txt'), 'w') as f:
-        f.write(f'Test task: {test_task}\n')
-        f.write(f'Controller: {config.algo} trained in the {trained_task}\n')
+        f.write(f'Test task: {test_task} with env seed {env_seed}.\n')
+        f.write(f'Controller: {config.algo} trained in the {trained_task} with {config.seed} seed \n')
         f.write(f'Number of episodes: {num_episodes}\n')
         f.write(f'Performances of returns: {mean_returns: .2f} ± {std_returns: .2f}\n')
         f.write(f'Performances of lengths: {int(mean_lengths)} ± {std_lengths: .2f}\n')
@@ -122,6 +122,8 @@ def test():
                        output_dir=config.output_dir,
                        **config.task_config
                        )
+    env_seed = env_func().SEED
+    print(f"============== The test env is {env_func().NAME} with env seed {env_func().SEED}.============== \n")
     print(f"==============Env is ready.============== \n")
     
     # Create the controller/control_agent.
@@ -131,6 +133,7 @@ def test():
                 output_dir=config.output_dir,
                 use_gpu=config.use_gpu,
                 seed=config.seed,  #TODO: seed is not used in the controller.
+                # seed = env_seed,
                 **config.algo_config)
     print(f"==============Controller is ready.============== \n")
     
@@ -181,9 +184,9 @@ def test():
         
     ctrl.close()
     # Hanyang: generate videos and gifs
-    print("Start to generate videos and gifs.")
-    generate_gifs(eval_results['frames'], config.output_dir)
-    log_performance(eval_results, config)
+    # print("Start to generate videos and gifs.")
+    # generate_gifs(eval_results['frames'], config.output_dir)
+    log_performance(eval_results, config, env_seed)
 
     # Save the configuration.
     if config.task == 'cartpole' or config.task == 'cartpole_v0':

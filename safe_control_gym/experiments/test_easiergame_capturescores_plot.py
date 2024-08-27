@@ -62,9 +62,13 @@ loaded_scores = np.load('training_results/rarl_game/rap/seed_2024/score_matrix_[
 # loaded_scores = np.load('training_results/rarl_game/rap/seed_2024/score_matrix_[-0.5, 0.0].npy')
 # loaded_scores = np.load('training_results/rarl_game/rap/seed_2024/score_matrix_[-0.5, 0.5].npy')
 
+
+# # dubin car scores
+# loaded_scores = np.load('training_results/dubin_game/sb3/random_init/seed_42/10000000.0steps/score_matrix_[0.7, -0.5, 1.00].npy')
+
+# Process
 loaded_scores = loaded_scores.T
 # print(loaded_scores.shape)
-
 
 # Ensure that x_range and y_range cover from -1.0 to 1.0 for plotting purposes
 extended_x_range = np.linspace(-1.0, 1.0, len(x_range))

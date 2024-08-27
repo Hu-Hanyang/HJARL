@@ -1,10 +1,10 @@
 # Simulation options
 info_in_reset: True
-ctrl_freq: 200
-pyb_freq: 200
+ctrl_freq: 20
+pyb_freq: 20
 gui: False
 normalized_rl_action_space: False
-episode_len_sec: 10
+episode_len_sec: 15
 render_height: 400
 render_width: 640
 # State initialization

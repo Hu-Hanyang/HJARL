@@ -195,6 +195,7 @@ class BenchmarkEnv(gym.Env, ABC):
         self.adversary_disturbance_scale = adversary_disturbance_scale
         self._setup_disturbances()
         # Default seed None means pure randomness/no seeding.
+        self.SEED = seed
         self.seed(seed)
         self.initial_reset = False
         self.at_reset = False
@@ -474,6 +475,7 @@ class BenchmarkEnv(gym.Env, ABC):
             extended_obs = obs
 
         return extended_obs
+
 
     def after_step(self, obs, rew, done, info):
         '''Post-processing after calling `.step()`.

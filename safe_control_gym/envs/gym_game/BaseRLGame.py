@@ -134,8 +134,8 @@ class BaseRLGameEnv(BaseGameEnv):
             attacker_lower_bound = np.array([-1.0, -1.0])
             attacker_upper_bound = np.array([+1.0, +1.0])
         elif self.ATTACKER_PHYSICS == Dynamics.DUB3D:
-            attacker_lower_bound = np.array([-1.0, -1.0, -1.0])
-            attacker_upper_bound = np.array([+1.0, +1.0, +1.0])
+            attacker_lower_bound = np.array([-1.0, -1.0, -np.pi])
+            attacker_upper_bound = np.array([+1.0, +1.0, +np.pi])
         else:
             print("[ERROR] Attacker Obs Space in BaseRLGameEnv._observationSpace()")
             exit()
@@ -144,8 +144,8 @@ class BaseRLGameEnv(BaseGameEnv):
             defender_lower_bound = np.array([-1.0, -1.0])
             defender_upper_bound = np.array([+1.0, +1.0])
         elif self.DEFENDER_PHYSICS == Dynamics.DUB3D:
-            defender_lower_bound = np.array([-1.0, -1.0, -1.0])
-            defender_upper_bound = np.array([+1.0, +1.0, +1.0])
+            defender_lower_bound = np.array([-1.0, -1.0, -np.pi])
+            defender_upper_bound = np.array([+1.0, +1.0, +np.pi])
         else:
             print("[ERROR] in Defender Obs Space, BaseRLGameEnv._observationSpace()")
             exit()

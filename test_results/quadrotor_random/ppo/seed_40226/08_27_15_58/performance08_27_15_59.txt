@@ -1,0 +1,10 @@
+Test task: quadrotor_random with env seed 2024.
+Controller: ppo trained in the quadrotor_boltz with 40226 seed 
+Number of episodes: 10
+Performances of returns: -69.78 ±  8.27
+Performances of lengths: 1000 ±  0.00
+Original returns: 
+ [-77.43397975 -70.64460789 -62.51471837 -87.84567603 -56.62710112
+ -70.86653866 -65.048295   -71.73553176 -71.75206237 -63.3012152 ] 
+Original lengths: 
+ [1000 1000 1000 1000 1000 1000 1000 1000 1000 1000] 

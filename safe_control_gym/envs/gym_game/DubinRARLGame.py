@@ -1,4 +1,4 @@
-'''1 vs. 1 reach-avoid game (no obstacles) environment.
+'''1 vs. 1 reach-avoid game uing DubinCar3D dynamics (no obstacles) environment.
 
 '''
 
@@ -18,44 +18,15 @@ from safe_control_gym.envs.constraints import GENERAL_CONSTRAINTS, SymmetricStat
 from safe_control_gym.math_and_models.normalization import normalize_angle
 from safe_control_gym.math_and_models.symbolic_systems import SymbolicModel
 
-#TODO: Hanyang: need to unify the shape of the state from (x,) to (1,x)
-class RARLGameEnv(BenchmarkEnv):
-    '''1 vs. 1 reach-avoid game environment for rarl and rap algorithm.
+
+class DubinRARLGameEnv(BenchmarkEnv):
+    '''1 vs. 1 reach-avoid game uing DubinCar3D dynamics environment for rarl and rap algorithm.
 
     Including symbolic model, constraints, randomization, adversarial disturbances,
     multiple cost functions, stabilization and trajectory tracking references.
-
-    task_config:
-        info_in_reset: True
-        randomized_inertial_prop: True
-        inertial_prop_randomization_info:
-            pole_length:
-                distrib: choice
-                args: [[1,5,10]]
-            pole_mass:
-                distrib: uniform
-                low: 1
-                high: 5
-        constraints:
-        - constraint_form: bounded_constraint
-          constrained_variable: STATE
-          active_dims: [2, 3]
-          lower_bounds: [-0.2, -0.2]
-          upper_bounds: [0.2, 0.2]
-          tolerance: [0.05, 0.05, 0.05, 0.05]
-        done_on_violation: True
-        disturbances:
-            observation:
-            - disturbance_func: white_noise
-              std: 4.0
-            action:
-            - disturbance_func: white_noise
-              std: 4.0
-        adversary_disturbance: dynamics
-        adversary_disturbance_scale: 0.01
     '''
 
-    NAME = 'rarlgame'
+    NAME = 'dubin-rarleasiergame'
 
     # URDF_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets', 'cartpole_template.urdf')
 
@@ -64,15 +35,17 @@ class RARLGameEnv(BenchmarkEnv):
     }
     AVAILABLE_CONSTRAINTS.update(deepcopy(GENERAL_CONSTRAINTS))
 
-    DISTURBANCE_MODES = {'observation': {'dim': 4}, 'action': {'dim': 2}, 'dynamics': {'dim': 2}}
+    DISTURBANCE_MODES = {'observation': {'dim': 6}, 'action': {'dim': 1}, 'dynamics': {'dim': 3}}
 
     def __init__(self,
                  init_state=None,
                  inertial_prop=None,
                  random_init=True,
-                 initial_attacker=np.array([-0.5, 0.5]), 
-                 initial_defender=np.array([0.0, 0.0]),
-                 ctrl_freq=200,
+                 initial_attacker=np.array([[-0.7, 0.5, -1.0]]),  # Hanyang: shape (1, 3)
+                 initial_defender=np.array([[0.7, -0.5, 1.00]]),  # Hanyang: shape (1, 3)
+                 ctrl_freq=20,
+                 pyb_freq=20,
+                 episode_len_sec=15,
                  # custom args
                  obs_goal_horizon=0,
                  obs_wrap_angle=False,
@@ -102,18 +75,12 @@ class RARLGameEnv(BenchmarkEnv):
         self.rew_act_weight = np.array(rew_act_weight, ndmin=1, dtype=float)
         self.rew_exponential = rew_exponential
         self.done_on_out_of_bound = done_on_out_of_bound
+        self.init_player_call_counter = 0
         # BenchmarkEnv constructor, called after defining the custom args,
         # since some BenchmarkEnv init setup can be task(custom args)-dependent.
-        super().__init__(init_state=init_state, inertial_prop=inertial_prop, **kwargs)
-        
-        # # Create PyBullet client connection.
-        # self.PYB_CLIENT = -1
-        # if self.GUI:
-        #     self.PYB_CLIENT = p.connect(p.GUI)
-        # else:
-        #     self.PYB_CLIENT = p.connect(p.DIRECT)
-        # # disable urdf caching for randomization via reloading urdf
-        # p.setPhysicsEngineParameter(enableFileCaching=0)
+        super().__init__(init_state=init_state, inertial_prop=inertial_prop,
+                         ctrl_freq=ctrl_freq, pyb_freq=pyb_freq, seed=seed,
+                         episode_len_sec=episode_len_sec, **kwargs)
 
         # Set GUI and rendering constants.
         self.RENDER_HEIGHT = int(400)
@@ -137,9 +104,9 @@ class RARLGameEnv(BenchmarkEnv):
         else:
             raise ValueError('[ERROR] in RARLGame.__init__(), init_state incorrect format.')
         # Save the attacker and defender current states.
-        self.current_attacker = self.init_attackers.copy()
-        self.current_defender = self.init_defenders.copy()
-        self.state = np.concatenate((self.current_attacker.copy(), self.current_defender.copy()))
+        self.current_attacker = self.init_attackers.copy()  # shape (1, 3)
+        self.current_defender = self.init_defenders.copy()  # shape (1, 3)
+        self.state = np.vstack([self.current_attacker.copy(), self.current_defender.copy()])  # shape (2, 3)
         #### Initialize/reset counters, players' trajectories and attackers status ###
         self.step_counter = 0
         self.attackers_traj = []
@@ -153,25 +120,23 @@ class RARLGameEnv(BenchmarkEnv):
         '''Set the initial positions for all players.
         
         Returns:
-            attackers (np.ndarray): the initial positions of the attackers
-            defenders (np.ndarray): the initial positions of the defenders
+            attackers (np.ndarray, (3,)): the initial positions of the attackers
+            defenders (np.ndarray, (3,)): the initial positions of the defenders
         '''
-        np.random.seed(self.initial_players_seed)
-    
         # Map boundaries
-        min_val, max_val = -0.99, 0.99
-        
+        map = ([-0.99, 0.99], [-0.99, 0.99])  # The map boundaries
         # # Obstacles and target areas
         # obstacles = [
         #     ([-0.1, 0.1], [-1.0, -0.3]),  # First obstacle
         #     ([-0.1, 0.1], [0.3, 0.6])     # Second obstacle
         # ]
         target = ([0.6, 0.8], [0.1, 0.3])
-        
-        def is_valid_position(pos):
-            x, y = pos
-            # Check boundaries
-            if not (min_val <= x <= max_val and min_val <= y <= max_val):
+
+        def _is_valid_attacker(pos):
+            # pos shape: (3, )
+            x, y, theta = pos
+            # Check map boundaries
+            if not (map[0][0] <= x <= map[0][1] and map[1][0] <= y <= map[1][1]):
                 return False
             # # Check obstacles
             # for (ox, oy) in obstacles:
@@ -180,32 +145,81 @@ class RARLGameEnv(BenchmarkEnv):
             # Check target
             if target[0][0] <= x <= target[0][1] and target[1][0] <= y <= target[1][1]:
                 return False
+            # Check the angle
+            if theta < -np.pi or theta >= np.pi:
+                return False
             return True
         
-        def generate_position(current_seed):
-            np.random.seed(current_seed)
-            while True:
-                pos = np.round(np.random.uniform(min_val, max_val, 2), 1)
-                if is_valid_position(pos):
-                    return pos
+        def _is_valid_defender(defender_state, attacker_state):
+            x, y, theta = defender_state
+            # Check map boundaries
+            if not (map[0][0] <= x <= map[0][1] and map[1][0] <= y <= map[1][1]):
+                return False
+            # # Check obstacles
+            # for (ox, oy) in obstacles:
+            #     if ox[0] <= x <= ox[1] and oy[0] <= y <= oy[1]:
+            #         return False
+            # Check the relative distance
+            if np.linalg.norm(defender_state[:2] - attacker_state[:2]) <= 0.30:
+                return False
+            # Check the angle
+            if theta < -np.pi or theta >= np.pi:
+                return False
+            return True
         
-        def distance(pos1, pos2):
-            return np.sqrt((pos1[0] - pos2[0]) ** 2 + (pos1[1] - pos2[1]) ** 2)
-        
-        attacker_seed = self.initial_players_seed
-        defender_seed = self.initial_players_seed + 1
-        
-        while True:
-            attacker_pos = generate_position(attacker_seed)
-            defender_pos = generate_position(defender_seed)
+        def _generate_attacker_state():
+            """Generate a random state for the attacker.
             
-            if distance(attacker_pos, defender_pos) > 1.0:
-                break
-            defender_seed += 1  # Change the seed for the defender until a valid position is found
+            Returns:
+                attacker_state (tuple): the attacker state.
+            """
+            while True:
+                attacker_x = np.random.uniform(map[0][0], map[0][1])
+                attacker_y = np.random.uniform(map[1][0], map[1][1])
+                attacker_theta = np.random.uniform(-np.pi, np.pi)
+                attacker_pos = np.round((attacker_x, attacker_y), 1)
+                attacker_state = np.array([attacker_pos[0], attacker_pos[1], attacker_theta])
+                if _is_valid_attacker(attacker_state):
+                    break
+            return attacker_state
         
-        self.initial_players_seed += 1
+        def _generate_random_positions(current_seed, init_player_call_counter):
+            """Generate a random position for the attacker and defender.
+
+            Args:
+                current_seed (int): the random seed.
+                self.init_player_call_counter (int): the init_player function call counter.
+            
+            Returns:
+                attacker_pos (tuple): the attacker position.
+                defender_pos (tuple): the defender position.
+            """
+            np.random.seed(current_seed)
+            # Generate the attacker position
+            attacker_state = _generate_attacker_state()
+            # Generate the defender position
+            while True:
+                defender_x = np.random.uniform(map[0][0], map[0][1])
+                defender_y = np.random.uniform(map[1][0], map[1][1])
+                defender_theta = np.random.uniform(-np.pi, np.pi)
+                defender_pos = np.round((defender_x, defender_y), 1)
+                defender_state = np.asarray([defender_pos[0], defender_pos[1], defender_theta])
+                if _is_valid_defender(defender_state, attacker_state):
+                    break
+            
+            return attacker_state, defender_state
         
-        return attacker_pos, defender_pos
+        attacker_state, defender_state = _generate_random_positions(self.initial_players_seed, self.init_player_call_counter)
+
+        # print(f"========== attacker_pos: {attacker_state} in DubinGame.py. ==========")
+        # print(f"========== defender_pos: {defender_state} in DubinGame.py. ==========")
+        # print(f"========== The relative distance is {np.linalg.norm(attacker_state[:2] - defender_state[:2]):.2f} in DubinGame.py. ========== \n ")
+        
+        self.initial_players_seed += 1  # Increment the random seed
+        self.init_player_call_counter += 1  # Increment the call counter
+        
+        return np.array([attacker_state]), np.array([defender_state])
+    
     
 
     def _check_area(self, state, area):
@@ -218,7 +232,7 @@ class RARLGameEnv(BenchmarkEnv):
         Returns:
             bool: True if the state is inside the area, False otherwise.
         """
-        x, y = state  # Unpack the state assuming it's a 2D coordinate
+        x, y, theta = state  # Unpack the state assuming it's a 2D coordinate
 
         for bounds in area.values():
             x_lower, x_upper, y_lower, y_upper = bounds
@@ -240,7 +254,7 @@ class RARLGameEnv(BenchmarkEnv):
             return new_status
         else:       
             last_status = self.attackers_status[-1]
-            current_attacker_state = self.current_attacker.copy()  # (2,)
+            current_attacker_state = self.current_attacker.copy() 
             current_defender_state = self.current_defender.copy()
 
             for num in range(self.NUM_ATTACKERS):
@@ -248,14 +262,12 @@ class RARLGameEnv(BenchmarkEnv):
                     new_status[num] = last_status[num]
                 else: # attacker is free last time
                     # check if the attacker arrive at the des this time
-                    # print(f"========== The attacker's position is {current_attacker_state} in the _getAttackersStatus() in ReachAvoidGame.py. ========= \n")
-                    # print(f"The des is {self.des} in the _getAttackersStatus() in ReachAvoidGame.py. \n")
-                    if self._check_area(current_attacker_state, self.des):
+                    if self._check_area(current_attacker_state[num], self.des):
                         new_status[num] = 1
                     else:
                         # check if the attacker is captured
                         for j in range(self.NUM_DEFENDERS):
-                            if np.linalg.norm(current_attacker_state - current_defender_state) <= 0.1:  # Hanyang: 0.1 is the threshold
+                            if np.linalg.norm(current_attacker_state[num][:2] - current_defender_state[j][:2]) <= 0.30:
                                 new_status[num] = -1
                                 break
 
@@ -282,12 +294,12 @@ class RARLGameEnv(BenchmarkEnv):
         elif self.init_state is None and self.random_init is True:
             self.init_attackers, self.init_defenders = self.initial_players()
         else:
-            raise ValueError('[ERROR] in RARLGame.__init__(), init_state incorrect format.')
+            raise ValueError('[ERROR] in DubinRARLGame.__init__(), init_state incorrect format.')
         
         # Save the attacker and defender current states.
-        self.current_attacker = self.init_attackers.copy()
-        self.current_defender = self.init_defenders.copy()
-        self.state = np.concatenate((self.current_attacker.copy(), self.current_defender.copy()))
+        self.current_attacker = self.init_attackers.copy()  # shape (1, 3)
+        self.current_defender = self.init_defenders.copy()  # shape (1, 3)
+        self.state = np.concatenate((self.current_attacker.copy(), self.current_defender.copy()))  # shape (2, 3)
         #### Initialize/reset counters, players' trajectories and attackers status ###
         self.step_counter = 0
         self.attackers_traj = []
@@ -300,7 +312,7 @@ class RARLGameEnv(BenchmarkEnv):
         self.defenders_traj.append(self.current_defender.copy())
         self.attackers_status.append(self._getAttackersStatus().copy())
 
-        obs, info = self._get_observation(), self._get_reset_info()
+        obs, info = self._computeObs(), self._get_reset_info()
         obs, info = super().after_reset(obs, info)
         # Return either an observation and dictionary or just the observation.
         if self.INFO_IN_RESET:
@@ -333,10 +345,10 @@ class RARLGameEnv(BenchmarkEnv):
         self.attackers_status.append(self._getAttackersStatus().copy())
         self.step_counter += 1
         # Standard Gym return.
-        obs = self._get_observation()
-        rew = self._get_reward()
-        done = self._get_done()
-        info = self._get_info()
+        obs = self._computeObs()
+        rew = self._computeReward()
+        done = self._computeDone()
+        info = self._computeInfo()
         obs, rew, done, info = super().after_step(obs, rew, done, info)
         return obs, rew, done, info
 
@@ -351,8 +363,8 @@ class RARLGameEnv(BenchmarkEnv):
 
     def _set_action_space(self):
         # Hanyang: for adversarial agent action space
-        defender_lower_bound = np.array([-1.0, -1.0])
-        defender_upper_bound = np.array([+1.0, +1.0])
+        defender_lower_bound = np.array([-1.0])
+        defender_upper_bound = np.array([+1.0])
     
         defenders_lower_bound = np.array([defender_lower_bound for i in range(1)])
         defenders_upper_bound = np.array([defender_upper_bound for i in range(1)])
@@ -360,7 +372,7 @@ class RARLGameEnv(BenchmarkEnv):
         act_lower_bound = defenders_lower_bound.flatten()
         act_upper_bound = defenders_upper_bound.flatten()
 
-        self.action_scale = 1
+        self.action_scale = 1  # Hanyang: the control ranges of the DubinCar3D is [-1, +1]
         self.physical_action_bounds = (-1 * np.atleast_1d(self.action_scale), np.atleast_1d(self.action_scale))
 
         self.action_space = spaces.Box(low=act_lower_bound, high=act_upper_bound, dtype=np.float32)
@@ -370,10 +382,10 @@ class RARLGameEnv(BenchmarkEnv):
         # Hanyang: for adversarial agent observation space
         '''Sets the observation space of the environment.'''
         
-        attacker_lower_bound = np.array([-1.0, -1.0])
-        attacker_upper_bound = np.array([+1.0, +1.0])
-        defender_lower_bound = np.array([-1.0, -1.0])
-        defender_upper_bound = np.array([+1.0, +1.0])
+        attacker_lower_bound = np.array([-1.0, -1.0, -np.pi])
+        attacker_upper_bound = np.array([+1.0, +1.0, +np.pi])
+        defender_lower_bound = np.array([-1.0, -1.0, -np.pi])
+        defender_upper_bound = np.array([+1.0, +1.0, +np.pi])
         
         attackers_lower_bound = np.array([attacker_lower_bound for i in range(1)])
         attackers_upper_bound = np.array([attacker_upper_bound for i in range(1)])
@@ -447,46 +459,62 @@ class RARLGameEnv(BenchmarkEnv):
         return action
     
 
-    def _sig_step(self, current_state, action, speed):
+    def _dubin_step(self, current_state, action, speed):
         '''Update the state of the game using the single integrator dynamics.
 
         Args:
-            current_state (ndarray, (2,)): The current state of the cartpole.
-            action (ndarray, (2,)): The action to apply to the cartpole.
+            current_state (ndarray, (3,)): The current state of the dubin car.
+            action (ndarray, (1,)): The action to apply to the dubin car
             speed (float): The speed at which to apply the
 
         Returns:
-            x_new (float): The new x position of the cartpole.
-            y_new (float): The new y position of the cartpole.
+            x_new (float): The new x position of the dubin car.
+            y_new (float): The new y position of the dubin car.
+            o_new (float): The new orientation of the dubin car.
         '''
+        def _check_theta(angle):
+            # Make sure the angle is in the range of [-pi, pi)
+            while angle >=np.pi:
+                angle -= 2 * np.pi
+            while angle < -np.pi:
+                angle += 2 * np.pi
 
-        def dynamics(current_state, action, speed):
-            dx = speed * action[0]
-            dy = speed * action[1]
-            return (dx, dy)
+            return angle
+
+        def _dynamics(current_state, action, speed):
+            dx = speed * np.cos(current_state[2])
+            dy = speed * np.sin(current_state[2])
+            dtheta = action[0]
+
+            return (dx, dy, dtheta)
         # 4th order Runge-Kutta
-        dx, dy = dynamics(current_state, action, speed)
+        x, y, theta = current_state
+        u = action[0]
+        dt = 1.0 / self.frequency
+        # dx, dy, dtheta = self._dynamics(state, action)
+        # Runge Kutta method
         # Compute the k1 terms
-        k1_x = 1/self.frequency * dx
-        k1_y = 1/self.frequency * dy
-        
-        # Compute the k2 terms
-        k2_x = 1/self.frequency * dx
-        k2_y = 1/self.frequency * dy
-        
-        # Compute the k3 terms
-        k3_x = 1/self.frequency * dx
-        k3_y = 1/self.frequency * dy
-        
-        # Compute the k4 terms
-        k4_x = 1/self.frequency * dx
-        k4_y = 1/self.frequency * dy
-        
-        # Combine to get the final state
-        next_x = current_state[0] + (1/6) * (k1_x + 2 * k2_x + 2 * k3_x + k4_x)
-        next_y = current_state[1] + (1/6) * (k1_y + 2 * k2_y + 2 * k3_y + k4_y)
+        k1_state = _dynamics(current_state, action, speed)
+        k1_x, k1_y, k1_theta = k1_state
+        k2 = _dynamics((x+0.5*dt*k1_x, y+0.5*dt*k1_y, theta+0.5*dt*k1_theta), action, speed)
+        k2_x, k2_y, k2_theta = k2
+        k3 = _dynamics((x+0.5*dt*k2_x, y+0.5*dt*k2_y, theta+0.5*dt*k2_theta), action, speed)
+        k3_x, k3_y, k3_theta = k3
+        k4 = _dynamics((x+dt*k3_x, y+dt*k3_y, theta+dt*k3_theta), action, speed)
 
-        return np.array([next_x, next_y]) 
+        next_state = (x + dt/6*(k1_x + 2*k2_x + 2*k3_x + k4[0]), 
+                      y + dt/6*(k1_y + 2*k2_y + 2*k3_y + k4[1]),
+                      theta + dt/6*(k1_theta + 2*k2_theta + 2*k3_theta + k4[2]))
+
+        # Check the boundary
+        x_min, x_max, y_min, y_max = -1.0, 1.0, -1.0, 1.0
+        x_new = max(min(next_state[0], x_max), x_min)
+        y_new = max(min(next_state[1], y_max), y_min)
+        theta_new = _check_theta(next_state[2])
+        # print(f"theta_new is {theta_new}. \n")
+        next_state = (x_new, y_new, theta_new)
+
+        return np.array([next_state[0], next_state[1], next_state[2]]) 
 
 
     def _advance_simulation(self, processed_action):
@@ -497,35 +525,35 @@ class RARLGameEnv(BenchmarkEnv):
             processed_action (float): The control action for the defender.
         '''
         # Apply the defender's action.
-        self.current_defender = self._sig_step(self.current_defender.copy(), processed_action.copy(), 1.5)
-        # print(f"========== The defender's position is {self.current_defender} in the _advance_simulation() in ReachAvoidGame.py. ========= \n")
-        # Apply the attacker's action.
+        for d in range(self.NUM_DEFENDERS):
+            self.current_defender[d] = self._dubin_step(self.current_defender[d].copy(), processed_action.copy(), 0.22)
+        # Apply the attacker's action (adversary)
         adv_disturb = self.adversary_disturbance == 'dynamics'
         assert adv_disturb and self.adv_action is not None, 'Adversary action is required.'
-        self.current_attacker = self._sig_step(self.current_attacker.copy(), self.adv_action.copy(), 1.0)
-        # print(f"========== The attacker's position is {self.current_attacker} in the _advance_simulation() in ReachAvoidGame.py. ========= \n")
+        for a in range(self.NUM_ATTACKERS):
+            self.current_attacker[a] = self._dubin_step(self.current_attacker[a].copy(), self.adv_action.copy(), 0.22)
 
 
-    def _get_observation(self):
+    def _computeObs(self):
         '''Returns the current observation (state) of the environment.
 
         Returns:
-            obs (ndarray): The state (ax, ay, dx, dy) of the 1 vs. 1 reach-avoid game.
+            obs (ndarray, shape (6,)): The state (ax, ay, ao, dx, dy, do) of the 1 vs. 1 reach-avoid game.
         '''
-        if not np.array_equal(self.state, np.clip(self.state, self.state_space.low, self.state_space.high)) and self.VERBOSE:
-            print('[WARNING]: observation was clipped in RARLGame._get_observation().')
+        if not np.array_equal(self.state.flatten(), np.clip(self.state.flatten(), self.state_space.low, self.state_space.high)) and self.VERBOSE:
+            print('[WARNING]: observation was clipped in DubinRARLGame._get_observation().')
         # Apply observation disturbance.
-        obs = deepcopy(self.state)
-        if 'observation' in self.disturbances:
-            obs = self.disturbances['observation'].apply(obs, self)
-        if self.at_reset:
-            obs = self.extend_obs(obs, 1)
-        else:
-            obs = self.extend_obs(obs, self.ctrl_step_counter + 2)
+        obs = deepcopy(self.state.flatten())
+        # if 'observation' in self.disturbances:
+        #     obs = self.disturbances['observation'].apply(obs, self)
+        # if self.at_reset:
+        #     obs = self.extend_obs(obs, 1)
+        # else:
+        #     obs = self.extend_obs(obs, self.ctrl_step_counter + 2)
         return obs
 
 
-    def _get_reward(self):
+    def _computeReward(self):
         """Computes the current reward value.
 
         Once the attacker is captured: +200
@@ -554,17 +582,16 @@ class RARLGameEnv(BenchmarkEnv):
             reward += 0.0
         # check the defender status
         current_defender_state = self.current_defender.copy()
-        reward += -100 if self._check_area(current_defender_state, self.obstacles) else 0.0  # which is 0 when there's no obs
+        reward += -100 if self._check_area(current_defender_state[0], self.obstacles) else 0.0  # which is 0 when there's no obs
         # check the relative distance difference or relative distance
         current_attacker_state = self.current_attacker.copy()
-        current_relative_distance = np.linalg.norm(current_attacker_state - current_defender_state)  # [0.10, 2.82]
-
+        current_relative_distance = np.linalg.norm(current_attacker_state[0][:2] - current_defender_state[0][:2])  # [0.10, 2.82]
         reward += -(current_relative_distance)
         
         return reward
 
 
-    def _get_done(self):
+    def _computeDone(self):
         """Computes the current done value.
         done = True if all attackers have arrived or been captured.
 
@@ -577,23 +604,26 @@ class RARLGameEnv(BenchmarkEnv):
         # defender hits the obstacle or the attacker is captured or the attacker has arrived or the attacker hits the obstacle
         # check the attacker status
         current_attacker_status = self.attackers_status[-1]
-        attacker_done = np.all((current_attacker_status == 1) | (current_attacker_status == -1))
+        attacker_done = np.all((current_attacker_status == 1) | (current_attacker_status == -1)) | (current_attacker_status == -2)
         # if attacker_done:
         #     print(" ========== The attacker is captured or arrived in the _computeTerminated() in ReachAvoidGame.py. ========= \n")
         # check the defender status: hit the obstacle, or the attacker is captured
         current_defender_state = self.current_defender.copy()
-        defender_done = self._check_area(current_defender_state, self.obstacles)
+        defender_done = self._check_area(current_defender_state[0], self.obstacles)
         # print(f"========== The defender_done is {defender_done} in ReachAvoidGame.py. ========= \n")
         # if defender_done:
             # print(" ========== The defender hits the obstacle in the _computeTerminated() in ReachAvoidGame.py. ========= \n")
-            
+        # check the time limit of the game
+        time_done = False
+        if self.step_counter/self.CTRL_FREQ > self.EPISODE_LEN_SEC:
+            time_done = True
         # final done
-        done = True if attacker_done or defender_done else False
+        done = attacker_done or defender_done or time_done
         
         return done
 
 
-    def _get_info(self):
+    def _computeInfo(self):
         """Computes the current info dict(s).
 
         Unused.

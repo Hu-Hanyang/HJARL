@@ -81,3 +81,7 @@ register(idx='reach_avoid_test',
 register(idx='rarl_game',
          entry_point='safe_control_gym.envs.gym_game.RARLGame:RARLGameEnv',
          config_entry_point='safe_control_gym.envs.gym_game:game.yaml')
+
+register(idx='dubin_rarl_game',
+         entry_point='safe_control_gym.envs.gym_game.DubinRARLGame:DubinRARLGameEnv',
+         config_entry_point='safe_control_gym.envs.gym_game:dubin_game.yaml')
