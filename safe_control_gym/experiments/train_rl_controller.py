@@ -2,6 +2,7 @@
 
 import os
 import shutil
+import time
 from functools import partial
 
 import munch
@@ -62,9 +63,13 @@ def train():
 
     # Training.
     print(f"==============Start training.============== \n")
+    start_time = time.perf_counter()
     ctrl.learn()
     ctrl.close()
     print(f"==============Training done.============== \n")
+    duration = time.perf_counter() - start_time
+    print(f"========== The time of training is {duration//3600}hours-{(duration%3600)//60}minutes-{(duration%3600)%60}seconds. ========== \n")
+
 
     # Save the configuration.
     if config.task == 'cartpole' or config.task == 'cartpole_v0':
@@ -110,4 +115,6 @@ def make_plots(config):
 
 if __name__ == '__main__':
     train()
-    # python safe_control_gym/experiments/train_rl_controller.py --algo rap --task rarl_game --seed 2024 --use_gpu 
+    # python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_null --algo rap --use_gpu True --seed 2024
+    # python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_null --algo rarl --use_gpu True --seed 2024
+    # python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_null --algo ppo --use_gpu True --seed 2024

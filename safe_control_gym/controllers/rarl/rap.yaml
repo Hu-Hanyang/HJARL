@@ -1,4 +1,4 @@
-# easier_game
+# quadrotor_null
 # model args
 hidden_dim: 64
 norm_obs: False
