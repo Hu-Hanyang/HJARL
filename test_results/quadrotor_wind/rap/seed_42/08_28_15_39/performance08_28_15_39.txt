@@ -1,0 +1,10 @@
+Test task: quadrotor_wind with env seed 2024.
+Controller: rap trained in the quadrotor_null with 42 seed 
+Number of episodes: 10
+Performances of returns: -101.73 ±  11.14
+Performances of lengths: 316 ±  447.79
+Original returns: 
+ [-104.26279651 -103.73429072  -84.69334895 -104.85973707 -103.39479634
+ -111.28473524 -101.82138484  -97.91322875  -82.39829458 -122.90843668] 
+Original lengths: 
+ [  18   15 1000   15   10   37   11 1000 1000   57] 

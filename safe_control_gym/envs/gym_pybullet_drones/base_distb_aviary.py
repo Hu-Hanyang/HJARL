@@ -373,7 +373,9 @@ class BaseDistbAviary(BenchmarkEnv):
                     # hj_distbs = np.random.uniform(low, high)
                     # hj_distbs = np.array([0.0, hj_distbs[1], 0.0])
                     # hj_distbs = np.array([-0.00424, -0.00424, 0.0])
-                    hj_distbs = (0.00424, 0.0, 0.0)
+                    # hj_distbs = (0.00424, 0.0, 0.0)
+                    hj_distbs = (0.0, 0.00424, 0.0)
+
                     # hj_distbs = (0.00424, 0.00424, 0.0)
                     # print(f"[INFO] The disturbance in the wind distb is {hj_distbs}. \n")
                 else: # fixed-hj, null, random_hj or boltzmann disturbances

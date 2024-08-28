@@ -1,5 +1,0 @@
-Test task: quadrotor_wind
-Controller: ppo trained in the quadrotor_null
-Number of episodes: 10
-Performances of returns: -87.49 ±  13.18
-Performances of lengths: 705 ±  450.33

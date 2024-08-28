@@ -731,7 +731,7 @@ class QuadrotorNullDistb(QuadrotorDistb):
         kwargs['randomized_init'] = True
         kwargs['record'] = False
         kwargs['seed'] = 2024
-        # kwargs['adversary_disturbance'] = 'dynamics'  # Hanyang: for rarl and rap
+        kwargs['adversary_disturbance'] = 'dynamics'  # Hanyang: for rarl and rap
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
         
 
