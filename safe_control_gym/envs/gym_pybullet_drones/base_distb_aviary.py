@@ -357,9 +357,12 @@ class BaseDistbAviary(BenchmarkEnv):
             for i in range(self.NUM_DRONES):
                 # Hanayng: calculate the HJ disturbances or randomized disturbances
                 if self.distb_type == 'random':
-                    # Original random ranges
-                    low = np.array([-5.3e-3, -5.3e-3, -1.43e-4])
-                    high = np.array([5.3e-3, 5.3e-3, 1.43e-4])
+                    # # Original random ranges
+                    # low = np.array([-5.3e-3, -5.3e-3, -1.43e-4])
+                    # high = np.array([5.3e-3, 5.3e-3, 1.43e-4])
+                    # test random ranges: 1.2 times the original ranges
+                    low = np.array([-5.3e-3*1.2, -5.3e-3*1.2, -1.43e-4*1.2])
+                    high = np.array([5.3e-3*1.2, 5.3e-3*1.2, 1.43e-4*1.2])
                     # Generate a random sample
                     hj_distbs = np.random.uniform(low, high)
                 elif self.distb_type == 'wind':  # contant wind disturbances

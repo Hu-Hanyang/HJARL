@@ -176,6 +176,7 @@ class SubprocVecEnv(VecEnv):
         remote_indices = [idx // self.n_workers for idx in indices]
         remote_env_indices = [idx % self.n_workers for idx in indices]
         remote_indices, splits = np.unique(np.array(remote_indices), return_index=True)
+        print(f"remote_indices: {remote_indices}")
         target_remotes = [self.remotes[idx] for idx in remote_indices]
         remote_env_indices = np.split(np.array(remote_env_indices), splits[1:])
         remote_env_indices = remote_env_indices.tolist()
