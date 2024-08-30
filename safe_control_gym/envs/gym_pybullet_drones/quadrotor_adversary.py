@@ -1,34 +1,37 @@
-'''1D, 2D, and 3D quadrotor environment using PyBullet physics.
-
-Based on UTIAS Dynamic Systems Lab's gym-pybullet-drones:
-    * https://github.com/utiasDSL/gym-pybullet-drones
-'''
-
-import math
+import os
+import time
 from copy import deepcopy
+from datetime import datetime
 
 import casadi as cs
 import numpy as np
+import pybullet_data
 import pybullet as p
+import torch
 from gymnasium import spaces
+import xml.etree.ElementTree as etxml
 
+from safe_control_gym.envs.benchmark_env import BenchmarkEnv
 from safe_control_gym.envs.benchmark_env import Cost, Task
-from safe_control_gym.utils.utils import Boltzmann, transfer
 from safe_control_gym.envs.constraints import GENERAL_CONSTRAINTS
-from safe_control_gym.envs.gym_pybullet_drones.base_distb_aviary import BaseDistbAviary, Physics
-from safe_control_gym.envs.gym_pybullet_drones.quadrotor_utils import QuadType, cmd2pwm, pwm2rpm
+from safe_control_gym.envs.gym_pybullet_drones.base_distb_aviary import DroneModel, Physics
 from safe_control_gym.math_and_models.symbolic_systems import SymbolicModel
-from safe_control_gym.math_and_models.transformations import csRotXYZ, transform_trajectory
+from safe_control_gym.math_and_models.transformations import csRotXYZ
+from safe_control_gym.utils.utils import Boltzmann, quat2euler, distur_gener_quadrotor, transfer
+from safe_control_gym.utils.configuration import ConfigFactoryTestAdversary
+from safe_control_gym.utils.registration import make
+from safe_control_gym.envs.gym_pybullet_drones.quadrotor_distb import QuadrotorNullDistb
 
 
-class QuadrotorDistb(BaseDistbAviary):
-    '''6D quadrotor environment task.
+class QuadrotorAdversary(BenchmarkEnv):
+    '''6D quadrotor environment with trained adversary networks for testing.
 
     Including symbolic model, constraints, randomization, adversarial disturbances,
     multiple cost functions, stabilization and trajectory tracking references.
     '''
 
-    NAME = 'quadrotor_distb'
+    NAME = 'quadrotor_adversary'
+    URDF_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets')
     AVAILABLE_CONSTRAINTS = deepcopy(GENERAL_CONSTRAINTS)
 
     DISTURBANCE_MODES = {  # Set at runtime by QUAD_TYPE
@@ -147,8 +150,16 @@ class QuadrotorDistb(BaseDistbAviary):
     }
 
     def __init__(self,
+                 drone_model: DroneModel = DroneModel.CF2X,
                  num_drones: int = 1,
+                 physics: Physics = Physics.PYB,
                  record=False,
+                 gui=False,
+                 verbose=False,
+                 # Hanyang: derive the following parameters from the BenchmarkEnv
+                 pyb_freq: int = 200,
+                 ctrl_freq: int = 100,
+                 episode_len_sec: int = 10,
                  init_state=None,
                  init_xyzs=np.array([[0, 0, 1]], dtype=np.float32),
                  init_rpys=np.array([[0, 0, 0]], dtype=np.float32),
@@ -157,12 +168,11 @@ class QuadrotorDistb(BaseDistbAviary):
                  norm_act_scale=0.1,
                  obs_goal_horizon=0,
                  # Hanyang: initialize some important attributes disturbances parameters 
-                 episode_len_sec: int = 10,
                  randomized_init: bool = True,
-                 distb_type = 'fixed', 
+                 distb_type = 'adversary', 
                  distb_level: float=0.0,
                  seed=None,
-                 adversary_disturbance=None,
+                 adversary_disturbance='dynamics',
                  **kwargs
                  ):
         '''Initialize a quadrotor with hj distb environment.
@@ -191,13 +201,80 @@ class QuadrotorDistb(BaseDistbAviary):
         '''
         self.norm_act_scale = norm_act_scale
         self.obs_goal_horizon = obs_goal_horizon
+
+        # Constants.
+        self.GRAVITY_ACC = 9.8
+        self.RAD2DEG = 180 / np.pi
+        self.DEG2RAD = np.pi / 180
+        # Parameters.
+        self.DRONE_MODEL = DroneModel(drone_model)
+        self.URDF_PATH = os.path.join(self.URDF_DIR, self.DRONE_MODEL.value + '.urdf')
+        self.NUM_DRONES = num_drones
+        self.PHYSICS = Physics(physics)
+        self.RECORD = record
+        # Load the drone properties from the .urdf file.
+        self.MASS, \
+            self.L, \
+            self.THRUST2WEIGHT_RATIO, \
+            self.J, \
+            self.J_INV, \
+            self.KF, \
+            self.KM, \
+            self.COLLISION_H, \
+            self.COLLISION_R, \
+            self.COLLISION_Z_OFFSET, \
+            self.MAX_SPEED_KMH, \
+            self.GND_EFF_COEFF, \
+            self.PROP_RADIUS, \
+            self.DRAG_COEFF, \
+            self.DW_COEFF_1, \
+            self.DW_COEFF_2, \
+            self.DW_COEFF_3, \
+            self.PWM2RPM_SCALE, \
+            self.PWM2RPM_CONST, \
+            self.MIN_PWM, \
+            self.MAX_PWM = self._parse_urdf_parameters(self.URDF_PATH)
+        self.GROUND_PLANE_Z = -0.05
+        if verbose:
+            print(
+                '[INFO] QuadrotorAdversary.__init__() loaded parameters from the drone\'s .urdf: \
+                \n[INFO] m {:f}, L {:f},\n[INFO] ixx {:f}, iyy {:f}, izz {:f}, \
+                \n[INFO] kf {:f}, km {:f},\n[INFO] t2w {:f}, max_speed_kmh {:f}, \
+                \n[INFO] gnd_eff_coeff {:f}, prop_radius {:f}, \
+                \n[INFO] drag_xy_coeff {:f}, drag_z_coeff {:f}, \
+                \n[INFO] dw_coeff_1 {:f}, dw_coeff_2 {:f}, dw_coeff_3 {:f} \
+                \n[INFO] pwm2rpm_scale {:f}, pwm2rpm_const {:f}, min_pwm {:f}, max_pwm {:f}'
+                .format(self.MASS, self.L, self.J[0, 0], self.J[1, 1], self.J[2, 2],
+                        self.KF, self.KM, self.THRUST2WEIGHT_RATIO,
+                        self.MAX_SPEED_KMH, self.GND_EFF_COEFF, self.PROP_RADIUS,
+                        self.DRAG_COEFF[0], self.DRAG_COEFF[2], self.DW_COEFF_1,
+                        self.DW_COEFF_2, self.DW_COEFF_3, self.PWM2RPM_SCALE,
+                        self.PWM2RPM_CONST, self.MIN_PWM, self.MAX_PWM))
+        # Compute constants.
+        self.GRAVITY = self.GRAVITY_ACC * self.MASS
+        self.HOVER_RPM = np.sqrt(self.GRAVITY / (4 * self.KF))
+        self.MAX_RPM = np.sqrt((self.THRUST2WEIGHT_RATIO * self.GRAVITY) / (4 * self.KF))
+        # self.MAX_THRUST = (4 * self.KF * self.MAX_RPM**2)
+        self.MAX_THRUST = self.GRAVITY * self.THRUST2WEIGHT_RATIO / 4
+        self.MAX_XY_TORQUE = (self.L * self.KF * self.MAX_RPM**2)
+        self.MAX_Z_TORQUE = (2 * self.KM * self.MAX_RPM**2)
+        self.GND_EFF_H_CLIP = 0.25 * self.PROP_RADIUS * np.sqrt(
+            (15 * self.MAX_RPM**2 * self.KF * self.GND_EFF_COEFF) / self.MAX_THRUST)
+        # Hanyang: initialize the disturbance parameters and the initial state randomization parameters here.
+        self.distb_type = distb_type
+        self.distb_level = distb_level
+        assert self.distb_type in ['fixed', 'boltzmann', 'random_hj', 'random', 'wind', 'adversary', None], f"[ERROR] The disturbance type '{self.distb_type}' is not supported now. \n"
+        self.init_xy_lim = 0.25
+        self.init_z_lim = 0.1
+        self.init_rp_lim = np.pi/6
+        self.init_y_lim = 2*np.pi
+        self.init_vel_lim = 0.1
+        self.init_rp_vel_lim = 200 * self.DEG2RAD
+        self.init_y_vel_lim = 20 * self.DEG2RAD
        
-        super().__init__(num_drones=num_drones, record=record, 
-                         init_state=init_state, init_xyzs=init_xyzs, init_rpys=init_rpys,
-                         inertial_prop=inertial_prop, episode_len_sec=episode_len_sec, 
-                         randomized_init=randomized_init,  distb_type=distb_type, 
-                         distb_level=distb_level, seed=seed, adversary_disturbance=adversary_disturbance,
-                         **kwargs)
+        super().__init__(gui=gui, verbose=verbose, pyb_freq=pyb_freq, ctrl_freq=ctrl_freq, 
+                         episode_len_sec=episode_len_sec, init_state=init_state, randomized_init=randomized_init,
+                         seed=seed, adversary_disturbance=adversary_disturbance, **kwargs)
 
         # Hanyang: Create X_GOAL and U_GOAL references for the assigned task.
         self.U_GOAL = np.ones(self.action_dim) * self.MASS * self.GRAVITY_ACC / self.action_dim
@@ -237,6 +314,166 @@ class QuadrotorDistb(BaseDistbAviary):
         # Set prior/symbolic info.
         self._setup_symbolic()
 
+        # Connect to PyBullet.
+        self.PYB_CLIENT = -1
+        if gui:
+            # With debug GUI.
+            self.PYB_CLIENT = p.connect(p.GUI)  # p.connect(p.GUI, options='--opengl2')
+            p.resetDebugVisualizerCamera(cameraDistance=3,
+                                         cameraYaw=-30,
+                                         cameraPitch=-30,
+                                         cameraTargetPosition=[0, 0, 0],
+                                         physicsClientId=self.PYB_CLIENT)
+            ret = p.getDebugVisualizerCamera(physicsClientId=self.PYB_CLIENT)
+            if verbose:
+                print('viewMatrix', ret[2])
+                print('projectionMatrix', ret[3])
+        else:
+            # Without debug GUI.
+            self.PYB_CLIENT = p.connect(p.DIRECT)
+            # Uncomment the following line to use EGL Render Plugin #
+            # Instead of TinyRender (CPU-based) in PYB's Direct mode
+            # if platform == 'linux':
+            #     p.setAdditionalSearchPath(pybullet_data.getDataPath())
+            #     plugin = p.loadPlugin(egl.get_filename(), '_eglRendererPlugin')
+            #     print('plugin=', plugin)
+        self.RENDER_WIDTH = int(1920)
+        self.RENDER_HEIGHT = int(1440)
+        self.FRAME_PER_SEC = 24
+        self.CAPTURE_FREQ = int(self.PYB_FREQ / self.FRAME_PER_SEC)
+        self.CAM_VIEW = p.computeViewMatrixFromYawPitchRoll(
+            distance=3,
+            yaw=-30,
+            pitch=-30,
+            roll=0,
+            cameraTargetPosition=[0, 0, 0],
+            upAxisIndex=2,
+            physicsClientId=self.PYB_CLIENT)
+        self.CAM_PRO = p.computeProjectionMatrixFOV(fov=60.0,
+                                                    aspect=self.RENDER_WIDTH / self.RENDER_HEIGHT,
+                                                    nearVal=0.1,
+                                                    farVal=1000.0)
+        # Set default initial poses when loading drone's urdf model.
+        # can be overriden later for specific tasks (as sub-classes) in reset()
+        # Hanyang: add a if else statement to set the initial position of the drones
+        if init_xyzs is None:
+            self.INIT_XYZS = np.vstack([np.array([x * 4 * self.L for x in range(self.NUM_DRONES)]),
+                                        np.array([y * 4 * self.L for y in range(self.NUM_DRONES)]),
+                                        np.ones(self.NUM_DRONES) * (self.COLLISION_H / 2 - self.COLLISION_Z_OFFSET+.1)
+                                        ]).transpose().reshape(self.NUM_DRONES, 3)
+        elif np.array(init_xyzs).shape == (self.NUM_DRONES,3):
+            self.INIT_XYZS = init_xyzs
+        else:
+            print("[ERROR] invalid initial_xyzs in QuadrotorAdversary.__init__(), try init_xyzs.reshape(NUM_DRONES,3)")
+        if init_rpys is None:
+            self.INIT_RPYS = np.zeros((self.NUM_DRONES, 3))
+        elif np.array(init_rpys).shape == (self.NUM_DRONES,3):
+            self.INIT_RPYS = init_rpys
+        else:
+            print("[ERROR] invalid initial_rpys in QuadrotorAdversary.__init__(), try init_rpys.reshape(NUM_DRONES,3)")
+        # Hanyang: load trained adversarial model 
+        fac = ConfigFactoryTestAdversary()
+        config = fac.merge()
+        config.algo_config['training'] = False
+        config.output_dir = 'test_results/quadrotor_adversary'
+        total_steps = config.algo_config['max_env_steps']
+        # print(f"The config is {config}")
+        trained_model = 'training_results/quadrotor_null/rarl/seed_42/10000000steps/model_latest.pt'
+        env_func = QuadrotorNullDistb
+        self.rarl = make(config.algo,
+                    env_func,
+                    checkpoint_path=os.path.join(config.output_dir, 'model_latest.pt'),
+                    output_dir=config.output_dir,
+                    use_gpu=config.use_gpu,
+                    seed=config.seed,  #TODO: seed is not used in the controller.
+                    **config.algo_config)
+        self.rarl.load(trained_model)
+        self.rarl.reset()
+        self.rarl.agent.eval()
+        self.rarl.adversary.eval()
+        self.rarl.obs_normalizer.set_read_only()
+
+
+    def close(self):
+        '''Terminates the environment.'''
+        if self.RECORD and self.GUI:
+            p.stopStateLogging(self.VIDEO_ID, physicsClientId=self.PYB_CLIENT)
+        if self.PYB_CLIENT >= 0:
+            p.disconnect(physicsClientId=self.PYB_CLIENT)
+        self.PYB_CLIENT = -1 
+
+    
+    def _reset_simulation(self):
+        '''Housekeeping function.
+
+        Allocation and zero-ing of the variables, PyBullet's parameters/objects, 
+        and disturbances parameters in the `reset()` function.
+        '''
+        # Initialize/reset counters and zero-valued variables.
+        self.RESET_TIME = time.time()
+        self.first_render_call = True
+        self.X_AX = -1 * np.ones(self.NUM_DRONES)
+        self.Y_AX = -1 * np.ones(self.NUM_DRONES)
+        self.Z_AX = -1 * np.ones(self.NUM_DRONES)
+        self.GUI_INPUT_TEXT = -1 * np.ones(self.NUM_DRONES)
+        self.USE_GUI_RPM = False
+        self.last_input_switch = 0
+        self.last_clipped_action = np.zeros((self.NUM_DRONES, 4))
+        self.gui_input = np.zeros(4)
+        # Hanyang: add self.last_action and self.current_action
+        self.last_action = np.zeros((self.NUM_DRONES, 4)) # the last action executed just now
+        # Initialize the drones kinematic information.
+        # Hanyang: change the initial position of the drones to [0, 0, 1]
+        self.pos = np.zeros((self.NUM_DRONES, 3))
+        self.pos[:, 2] = 1
+        self.quat = np.zeros((self.NUM_DRONES, 4))
+        self.rpy = np.zeros((self.NUM_DRONES, 3))
+        self.vel = np.zeros((self.NUM_DRONES, 3))
+        self.ang_v = np.zeros((self.NUM_DRONES, 3))
+        if self.PHYSICS == Physics.DYN:
+            self.rpy_rates = np.zeros((self.NUM_DRONES, 3))
+            
+        # Hanyang: set the disturbances parameters
+        if self.distb_type == 'boltzmann':
+            self.distb_level = Boltzmann(low=0.0, high=2.1, accuracy=0.1)
+        elif self.distb_type == 'random_hj':
+            self.distb_level = np.round(np.random.uniform(0.0, 2.1), 1)
+        # Check the validity of the disturbance level
+        if self.distb_type == None:
+                assert self.distb_level == 0.0, "distb_level should be 0.0 when distb_type is None"
+        elif self.distb_type == 'fixed':
+            assert transfer(self.distb_level) in np.arange(0.0, 2.1, 0.1), "distb_level should be in np.arange(0.0, 2.1, 0.1)"
+        
+        # Set PyBullet's parameters.
+        p.resetSimulation(physicsClientId=self.PYB_CLIENT)
+        p.setGravity(0, 0, -self.GRAVITY_ACC, physicsClientId=self.PYB_CLIENT)
+        p.setRealTimeSimulation(0, physicsClientId=self.PYB_CLIENT)
+        p.setTimeStep(self.PYB_TIMESTEP, physicsClientId=self.PYB_CLIENT)
+        p.setAdditionalSearchPath(pybullet_data.getDataPath(),
+                                  physicsClientId=self.PYB_CLIENT)
+        # Load ground plane, drone and obstacles models.
+        # self.PLANE_ID = p.loadURDF('plane.urdf', [0, 0, self.GROUND_PLANE_Z], physicsClientId=self.PYB_CLIENT)
+        self.PLANE_ID = p.loadURDF('plane.urdf', physicsClientId=self.PYB_CLIENT)
+        
+        self.DRONE_IDS = np.array([
+            p.loadURDF(self.URDF_PATH,
+                       self.INIT_XYZS[i, :],
+                       p.getQuaternionFromEuler(self.INIT_RPYS[i, :]),
+                       flags=p.URDF_USE_INERTIA_FROM_FILE,
+                       physicsClientId=self.PYB_CLIENT)
+            for i in range(self.NUM_DRONES)
+        ])
+        for i in range(self.NUM_DRONES):
+            p.changeDynamics(self.DRONE_IDS[i], -1, linearDamping=0, angularDamping=0)
+        # Update and store the drones kinematic information.
+        # self._update_and_store_kinematic_information()  # Hanyang: comment out this line since it's called in the reset function
+        # Start video recording.
+        self._start_video_recording()
+        # # Show frame of references of drones, will severly slow down the GUI.
+        # for i in range(self.NUM_DRONES):
+        # if gui:
+        #     self._show_drone_local_axes(i)
+
 
     def reset(self, seed=None):
         '''(Re-)initializes the environment to start an episode.
@@ -253,7 +490,7 @@ class QuadrotorDistb(BaseDistbAviary):
 
         super().before_reset(seed=seed)
         # PyBullet simulation reset.
-        super()._reset_simulation()
+        self._reset_simulation()
 
         # Hanyang: Add some randomization to initial conditions
         if self.RANDOMIZED_INIT:
@@ -285,6 +522,7 @@ class QuadrotorDistb(BaseDistbAviary):
         else:
             return obs
 
+
     def step(self, action):
         '''Advances the environment by one control step.
 
@@ -303,10 +541,10 @@ class QuadrotorDistb(BaseDistbAviary):
 
         # Get the preprocessed pwm for each motor
         pwm = super().before_step(action)
-        # Determine disturbance force.
-        disturb_force = None
+        #Hanyang: generate adversary disturbance with the trained NN here deepcopy(self.state)
+        disturbance_force = None
         # Advance the simulation.
-        super()._advance_simulation(pwm, disturb_force)
+        self._advance_simulation(pwm, disturbance_force)
         # Standard Gym return.
         # Hanyang: revise the following code to get the obs, rew, done, info
         obs = self._get_observation()
@@ -317,6 +555,151 @@ class QuadrotorDistb(BaseDistbAviary):
         # Hanyang: log the action generated by the policy network
         self.last_action = action.reshape((self.NUM_DRONES, 4)).copy()
         return obs, rew, done, info
+
+
+    def _advance_simulation(self, clipped_action, disturbance_force):
+        '''Advances the environment by one simulation step.
+
+        Args:
+            clipped_action (ndarray): The input action for one or more drone,
+                                         as PWMs by the specific implementation of
+                                         `_preprocess_control()` in each subclass.
+            disturbance_force (ndarray, optional): Disturbance force, applied to all drones.
+        '''
+        clipped_action = np.reshape(clipped_action, (self.NUM_DRONES, 4))
+        # Repeat for as many as the aggregate physics steps.
+        for _ in range(self.PYB_STEPS_PER_CTRL):
+            # Update and store the drones kinematic info for certain
+            # Between aggregate steps for certain types of update.
+            if self.PYB_STEPS_PER_CTRL > 1 and self.PHYSICS in [
+                    Physics.DYN, Physics.PYB_GND, Physics.PYB_DRAG,
+                    Physics.PYB_DW, Physics.PYB_GND_DRAG_DW
+            ]:
+                self._update_and_store_kinematic_information()
+            # Step the simulation using the desired physics update.
+            for i in range(self.NUM_DRONES):
+                # Hanayng: calculate the HJ disturbances or randomized disturbances
+                if self.distb_type == 'random':
+                    # # Original random ranges
+                    # low = np.array([-5.3e-3, -5.3e-3, -1.43e-4])
+                    # high = np.array([5.3e-3, 5.3e-3, 1.43e-4])
+                    # test random ranges: 1.2 times the original ranges
+                    low = np.array([-5.3e-3*1.2, -5.3e-3*1.2, -1.43e-4*1.2])
+                    high = np.array([5.3e-3*1.2, 5.3e-3*1.2, 1.43e-4*1.2])
+                    # Generate a random sample
+                    hj_distbs = np.random.uniform(low, high)
+                elif self.distb_type == 'wind':  # contant wind disturbances
+                    # hj_distbs = np.array([0.0, 0.004, 0.0])
+                    # low = np.array([-5.3e-3, -5.3e-3, -1.43e-4])
+                    # high = np.array([5.3e-3, 5.3e-3, 1.43e-4])
+                    # Generate a random sample
+                    # hj_distbs = np.random.uniform(low, high)
+                    # hj_distbs = np.array([0.0, hj_distbs[1], 0.0])
+                    # hj_distbs = np.array([-0.00424, -0.00424, 0.0])
+                    # hj_distbs = (0.00424, 0.0, 0.0)
+                    hj_distbs = (0.0, 0.00424, 0.0)
+                    # hj_distbs = (0.00424, 0.00424, 0.0)
+                    # print(f"[INFO] The disturbance in the wind distb is {hj_distbs}. \n")
+                elif self.distb_type == 'adversary':  # adversary disturbances
+                    hj_distbs = (0.0, 0.0, 0.0)
+                else: # fixed-hj, null, random_hj or boltzmann disturbances
+                    current_angles = quat2euler(self._get_drone_state_vector(i)[3:7])  # convert quaternion to eulers
+                    current_angle_rates = self._get_drone_state_vector(i)[13:16]
+                    current_state = np.concatenate((current_angles, current_angle_rates), axis=0)
+                    _, hj_distbs = distur_gener_quadrotor(current_state, self.distb_level)
+                    # print(f"[INFO] The type-{self.distb_type} with {self.distb_level}-level is {hj_distbs}. \n")
+                
+                if self.PHYSICS == Physics.PYB:
+                    # self._physics(clipped_action[i, :], i)
+                    # Hanyang: add the disturbances to the physics
+                    self._physics_pwm(clipped_action[i, :], hj_distbs, i)
+                elif self.PHYSICS == Physics.DYN:
+                    self._dynamics(clipped_action[i, :], i)
+                elif self.PHYSICS == Physics.PYB_GND:
+                    self._physics(clipped_action[i, :], i)
+                    self._ground_effect(clipped_action[i, :], i)
+                elif self.PHYSICS == Physics.PYB_DRAG:
+                    self._physics(clipped_action[i, :], i)
+                    self._drag(self.last_clipped_action[i, :], i)
+                elif self.PHYSICS == Physics.PYB_DW:
+                    self._physics(clipped_action[i, :], i)
+                    self._downwash(i)
+                elif self.PHYSICS == Physics.PYB_GND_DRAG_DW:
+                    self._physics(clipped_action[i, :], i)
+                    self._ground_effect(clipped_action[i, :], i)
+                    self._drag(self.last_clipped_action[i, :], i)
+                    self._downwash(i)
+                # # Apply disturbance
+                # if disturbance_force is not None:
+                #     pos = self._get_drone_state_vector(i)[:3]
+                #     p.applyExternalForce(
+                #         self.DRONE_IDS[i],
+                #         linkIndex=4,  # Link attached to the quadrotor's center of mass.
+                #         forceObj=disturbance_force,
+                #         posObj=pos,
+                #         flags=p.WORLD_FRAME,
+                #         physicsClientId=self.PYB_CLIENT)
+            # PyBullet computes the new state, unless Physics.DYN.
+            if self.PHYSICS != Physics.DYN:
+                p.stepSimulation(physicsClientId=self.PYB_CLIENT)
+            # Save the last applied action (e.g. to compute drag).
+            self.last_clipped_action = clipped_action
+        # Update and store the drones kinematic information.
+        self._update_and_store_kinematic_information()
+
+
+    def _physics_pwm(self, pwm, hj_distbs, nth_drone):
+        """Base PyBullet physics implementation.
+
+        Parameters
+        ----------
+        pwm : ndarray
+            (4)-shaped array of ints containing the RPMs values of the 4 motors.
+        disturbances : ndarray
+            (3)-shaped array of floats containin 
+        nth_drone : int
+            The ordinal number/position of the desired drone in list self.DRONE_IDS.
+
+        """
+        thrust_normed = pwm / 60000  # cast into [0, 1]
+        # Hanyang: the former one used is motor model, in agents.py, disturbance-CrazyFlie-simulation
+        forces = self.MAX_THRUST * np.clip(thrust_normed, 0, 1)  # self.angvel2thrust(n)
+        torques = 5.96e-3 * forces + 1.56e-5  # # Parameters from Julian Förster
+        z_torque = (-torques[0] + torques[1] - torques[2] + torques[3])
+
+        # if self.DRONE_MODEL == DroneModel.RACE:
+        #     torques = -torques
+        # Hanyang: debug
+        # print(f"The forces are {forces}")
+        # print(f"The z_torques are {z_torque}")
+        for i in range(4):
+            p.applyExternalForce(self.DRONE_IDS[nth_drone],
+                                 i,
+                                 forceObj=[0, 0, forces[i]],
+                                 posObj=[0, 0, 0],
+                                 flags=p.LINK_FRAME,
+                                 physicsClientId=self.PYB_CLIENT
+                                 )
+        p.applyExternalTorque(self.DRONE_IDS[nth_drone],
+                              4,
+                              torqueObj=[0, 0, z_torque],
+                              flags=p.LINK_FRAME,
+                              physicsClientId=self.PYB_CLIENT
+                              )
+        # # Hanyang: Apply disturbances (torques) 
+        # p.applyExternalTorque(self.DRONE_IDS[nth_drone],
+        #                       4,
+        #                       torqueObj=[hj_distbs[0], 0, 0],
+        #                       flags=p.LINK_FRAME,
+        #                       physicsClientId=self.PYB_CLIENT
+        #                       )
+        # p.applyExternalTorque(self.DRONE_IDS[nth_drone],
+        #                       4,
+        #                       torqueObj=[0, hj_distbs[1], 0],
+        #                       flags=p.LINK_FRAME,
+        #                       physicsClientId=self.PYB_CLIENT
+        #                       )
+
 
     def render(self, mode='human'):
         '''Retrieves a frame from PyBullet rendering.
@@ -342,6 +725,7 @@ class QuadrotorDistb(BaseDistbAviary):
         rgb_array = rgb_array[:, :, :3]
         
         return rgb_array
+
 
     def _setup_symbolic(self, prior_prop={}, **kwargs):
         #TODO: Hanyang: not implemented 12D dynamics yet
@@ -512,6 +896,9 @@ class QuadrotorDistb(BaseDistbAviary):
         self.DISTURBANCE_MODES['action']['dim'] = self.action_dim
         # self.DISTURBANCE_MODES['dynamics']['dim'] = int(self.QUAD_TYPE)
         self.DISTURBANCE_MODES['dynamics']['dim'] = 4  # Hanyang: revise this from 6 to 4
+        # Hanyang: add adversary observation and action space for rarl
+        self.adversary_observation_space = self.observation_space
+        self.adversary_action_space = self.action_space
         
         super()._setup_disturbances()
 
@@ -528,13 +915,19 @@ class QuadrotorDistb(BaseDistbAviary):
         action = self.denormalize_action(action)  # Hanayng: this line doesn't work actually
         self.current_physical_action = action
 
-        # Apply disturbances.
-        if 'action' in self.disturbances:  # Hanyang: self.disturbances = {}
-            action = self.disturbances['action'].apply(action, self)
+        # Hanyang: calculate and apply the adversary action
+        precess_current_obs = self.rarl.obs_normalizer(deepcopy(self.state))
+        with torch.no_grad():
+            action_adv = self.rarl.adversary.ac.act(torch.from_numpy(precess_current_obs).float())
+        clipped_adv_action = np.clip(action_adv, self.adversary_action_space.low, self.adversary_action_space.high)
+        self.adv_action = clipped_adv_action * self.adversary_disturbance_scale + self.adversary_disturbance_offset
+        action = action + self.adv_action
 
-        if self.adversary_disturbance == 'action':  # Hanyang: default is None in benchmark.py
-            action = action + self.adv_action
-            self.adv_action = None
+        # # Apply disturbances.
+        # if 'action' in self.disturbances:  # Hanyang: self.disturbances = {}
+        #     action = self.disturbances['action'].apply(action, self)
+        # if self.adversary_disturbance == 'action':  # Hanyang: default is None in benchmark.py
+        #     action = action + self.adv_action
         self.current_noisy_physical_action = action
         
         pwm = 30000 + np.clip(action, -1, +1) * 30000
@@ -700,116 +1093,96 @@ class QuadrotorDistb(BaseDistbAviary):
         # if self.constraints is not None:
         #     info['symbolic_constraints'] = self.constraints.get_all_symbolic_models()
             
-        return info
+        return info 
+    
 
+    def _start_video_recording(self):
+        '''Starts the recording of a video output.
 
-class QuadrotorFixedDistb(QuadrotorDistb):
-    NAME = 'quadrotor_fixed'
-    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
-        # Set disturbance_type to 'fixed' regardless of the input
-        kwargs['distb_type'] = 'fixed'
-        kwargs['distb_level'] = 0.8
-        kwargs['randomized_init'] = True
-        kwargs['record'] = False
-        kwargs['seed'] = 42
-        # Hanyang: adversary disturbances
-        kwargs['adversary_disturbance'] = 'action'  # Hanyang: for rarl and rap
-        kwargs['adversary_disturbance_offset'] = 0.0
-        kwargs['adversary_disturbance_scale'] = 2.0
-        super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
+        The format of the video output is .mp4, if GUI is True, or .png, otherwise.
+        The video is saved under folder `files/videos`.
+        '''
+        if self.RECORD and self.GUI:
+            self.VIDEO_ID = p.startStateLogging(
+                loggingType=p.STATE_LOGGING_VIDEO_MP4,
+                fileName=os.path.join(self.output_dir, 'videos/video-{}.mp4'.format(datetime.now().strftime('%m.%d.%Y_%H.%M.%S'))),
+                physicsClientId=self.PYB_CLIENT)
+        if self.RECORD and not self.GUI:
+            self.FRAME_NUM = 0
+            self.IMG_PATH = os.path.join(self.output_dir, 'quadrotor_videos/video-{}/'.format(datetime.now().strftime('%m.%d.%Y_%H.%M.%S')))
+            os.makedirs(os.path.dirname(self.IMG_PATH), exist_ok=True)
+    
 
+    def _update_and_store_kinematic_information(self):
+        '''Updates and stores the drones kinematic information.
 
-class QuadrotorBoltzDistb(QuadrotorDistb):
-    NAME = 'quadrotor_boltz'
-    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
-        # Set disturbance_type to 'fixed' regardless of the input
-        kwargs['distb_type'] = 'boltzmann'
-        kwargs['distb_level'] = 0.0
-        kwargs['randomized_init'] = True
-        kwargs['record'] = False
-        kwargs['seed'] = 40226
-        super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
-        print(f"The self.MAX_THRUST is {self.MAX_THRUST}. \n")
+        This method is meant to limit the number of calls to PyBullet in each step
+        and improve performance (at the expense of memory).
+        '''
+        for i in range(self.NUM_DRONES):
+            self.pos[i], self.quat[i] = p.getBasePositionAndOrientation(
+                self.DRONE_IDS[i], physicsClientId=self.PYB_CLIENT)
+            self.rpy[i] = p.getEulerFromQuaternion(self.quat[i])
+            self.vel[i], self.ang_v[i] = p.getBaseVelocity(
+                self.DRONE_IDS[i], physicsClientId=self.PYB_CLIENT)
+    
 
+    def _get_drone_state_vector(self, nth_drone):
+        '''Returns the state vector of the n-th drone.
 
+        Args:
+            nth_drone (int): The ordinal number/position of the desired drone in list self.DRONE_IDS.
 
-class QuadrotorNullDistb(QuadrotorDistb):
-    NAME = 'quadrotor_null'
-    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
-        # Set disturbance_type to 'fixed' regardless of the input
-        kwargs['distb_type'] = 'fixed'
-        kwargs['distb_level'] = 0.0
-        kwargs['randomized_init'] = True
-        kwargs['record'] = False
-        kwargs['seed'] = 2024
-        # Hanyang: adversary disturbances
-        kwargs['adversary_disturbance'] = 'action'  # Hanyang: for rarl and rap
-        kwargs['adversary_disturbance_offset'] = 0.0
-        kwargs['adversary_disturbance_scale'] = 2.0
-        super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
-        
+        Returns:
+            ndarray. (20,)-shaped array of floats containing the state vector of the n-th drone.
+                     Check the only line in this method and `_update_and_store_kinematic_information()`
+                     to understand its format.
+        '''
+        # Hanyang: use self.last_action (the output of the controller) instead of self.last_clipped_action (the rmp or pwm signals)
+        state = np.hstack([
+            self.pos[nth_drone, :], self.quat[nth_drone, :],
+            self.rpy[nth_drone, :], self.vel[nth_drone, :],
+            self.ang_v[nth_drone, :], self.last_action[nth_drone, :]
+        ])
+        return state.reshape(20,)
+    
 
-class QuadrotorRARLDistb(QuadrotorDistb):
-    NAME = 'quadrotor_rarl'
-    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
-        # Set disturbance_type to 'fixed' regardless of the input
-        kwargs['distb_type'] = 'fixed'
-        kwargs['distb_level'] = 0.0
-        kwargs['randomized_init'] = True
-        kwargs['record'] = False
-        kwargs['seed'] = 2024
-        # Hanyang: adversary disturbances
-        kwargs['adversary_disturbance'] = 'action'  # Hanyang: for rarl and rap
-        kwargs['adversary_disturbance_offset'] = 0.0
-        kwargs['adversary_disturbance_scale'] = 2.0
-        super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
-        
-        
-class QuadrotorRandomHJDistb(QuadrotorDistb):
-    NAME = 'quadrotor_randomhj'
-    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
-        # Set disturbance_type to 'fixed' regardless of the input
-        kwargs['distb_type'] = 'random_hj'
-        kwargs['distb_level'] = 0.0
-        kwargs['randomized_init'] = True
-        kwargs['record'] = False
-        kwargs['seed'] = 2024 # 42  # 2024  2025  2022
-        # Hanyang: adversary disturbances
-        kwargs['adversary_disturbance'] = 'action'  # Hanyang: for rarl and rap
-        kwargs['adversary_disturbance_offset'] = 0.0
-        kwargs['adversary_disturbance_scale'] = 2.0
-        super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
+    def _parse_urdf_parameters(self, file_name):
+        '''Loads parameters from an URDF file.
 
-
-class QuadrotorRandomDistb(QuadrotorDistb):
-    NAME = 'quadrotor_random'
-    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
-        # Set disturbance_type to 'fixed' regardless of the input
-        kwargs['distb_type'] = 'random'
-        kwargs['distb_level'] = 0.0
-        kwargs['randomized_init'] = True
-        kwargs['record'] = False
-        kwargs['seed'] = 2024
-        # Hanyang: adversary disturbances
-        kwargs['adversary_disturbance'] = 'action'  # Hanyang: for rarl and rap
-        kwargs['adversary_disturbance_offset'] = 0.0
-        kwargs['adversary_disturbance_scale'] = 2.0
-        super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
-
-
-class QuadrotorWindDistb(QuadrotorDistb):
-    NAME = 'quadrotor_wind'
-    #TODO: Hanyang: add contant wind torque disturbance
-    # Hanyang: add contant wind torque disturbance
-    def __init__(self, *args,  **kwargs):  # distb_level=1.0, randomization_reset=False,
-        # Set disturbance_type to 'fixed' regardless of the input
-        kwargs['distb_type'] = 'wind'
-        kwargs['distb_level'] = 1.0
-        kwargs['randomized_init'] = True
-        kwargs['record'] = False
-        kwargs['seed'] = 2024
-       # Hanyang: adversary disturbances
-        kwargs['adversary_disturbance'] = 'action'  # Hanyang: for rarl and rap
-        kwargs['adversary_disturbance_offset'] = 0.0
-        kwargs['adversary_disturbance_scale'] = 2.0
-        super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
+        This method is nothing more than a custom XML parser for the .urdf
+        files in folder `assets/`.
+        '''
+        URDF_TREE = etxml.parse(file_name).getroot()
+        M = float(URDF_TREE[1][0][1].attrib['value'])
+        L = float(URDF_TREE[0].attrib['arm'])
+        THRUST2WEIGHT_RATIO = float(URDF_TREE[0].attrib['thrust2weight'])
+        IXX = float(URDF_TREE[1][0][2].attrib['ixx'])
+        IYY = float(URDF_TREE[1][0][2].attrib['iyy'])
+        IZZ = float(URDF_TREE[1][0][2].attrib['izz'])
+        J = np.diag([IXX, IYY, IZZ])
+        J_INV = np.linalg.inv(J)
+        KF = float(URDF_TREE[0].attrib['kf'])
+        KM = float(URDF_TREE[0].attrib['km'])
+        COLLISION_H = float(URDF_TREE[1][2][1][0].attrib['length'])
+        COLLISION_R = float(URDF_TREE[1][2][1][0].attrib['radius'])
+        COLLISION_SHAPE_OFFSETS = [
+            float(s) for s in URDF_TREE[1][2][0].attrib['xyz'].split(' ')
+        ]
+        COLLISION_Z_OFFSET = COLLISION_SHAPE_OFFSETS[2]
+        MAX_SPEED_KMH = float(URDF_TREE[0].attrib['max_speed_kmh'])
+        GND_EFF_COEFF = float(URDF_TREE[0].attrib['gnd_eff_coeff'])
+        PROP_RADIUS = float(URDF_TREE[0].attrib['prop_radius'])
+        DRAG_COEFF_XY = float(URDF_TREE[0].attrib['drag_coeff_xy'])
+        DRAG_COEFF_Z = float(URDF_TREE[0].attrib['drag_coeff_z'])
+        DRAG_COEFF = np.array([DRAG_COEFF_XY, DRAG_COEFF_XY, DRAG_COEFF_Z])
+        DW_COEFF_1 = float(URDF_TREE[0].attrib['dw_coeff_1'])
+        DW_COEFF_2 = float(URDF_TREE[0].attrib['dw_coeff_2'])
+        DW_COEFF_3 = float(URDF_TREE[0].attrib['dw_coeff_3'])
+        PWM2RPM_SCALE = float(URDF_TREE[0].attrib['pwm2rpm_scale'])
+        PWM2RPM_CONST = float(URDF_TREE[0].attrib['pwm2rpm_const'])
+        MIN_PWM = float(URDF_TREE[0].attrib['pwm_min'])
+        MAX_PWM = float(URDF_TREE[0].attrib['pwm_max'])
+        return M, L, THRUST2WEIGHT_RATIO, J, J_INV, KF, KM, COLLISION_H, COLLISION_R, COLLISION_Z_OFFSET, MAX_SPEED_KMH, \
+            GND_EFF_COEFF, PROP_RADIUS, DRAG_COEFF, DW_COEFF_1, DW_COEFF_2, DW_COEFF_3, \
+            PWM2RPM_SCALE, PWM2RPM_CONST, MIN_PWM, MAX_PWM

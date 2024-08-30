@@ -18,7 +18,7 @@ from safe_control_gym.envs.constraints import GENERAL_CONSTRAINTS, SymmetricStat
 from safe_control_gym.math_and_models.normalization import normalize_angle
 from safe_control_gym.math_and_models.symbolic_systems import SymbolicModel
 
-#TODO: Hanyang: need to unify the shape of the state from (x,) to (1,x)
+
 class RARLGameEnv(BenchmarkEnv):
     '''1 vs. 1 reach-avoid game environment for rarl and rap algorithm.
 
@@ -81,6 +81,10 @@ class RARLGameEnv(BenchmarkEnv):
                  rew_exponential=True,
                  done_on_out_of_bound=True,
                  seed=42,  # Hanyang: feed the seed
+                 # Hanyang: adversary settings
+                 adversary_disturbance='action',
+                 adversary_disturbance_offset=0.0,
+                 adversary_disturbance_scale=1.0,
                  **kwargs
                  ):
         '''Initialize a cartpole environment.
@@ -104,7 +108,11 @@ class RARLGameEnv(BenchmarkEnv):
         self.done_on_out_of_bound = done_on_out_of_bound
         # BenchmarkEnv constructor, called after defining the custom args,
         # since some BenchmarkEnv init setup can be task(custom args)-dependent.
-        super().__init__(init_state=init_state, inertial_prop=inertial_prop, **kwargs)
+        super().__init__(init_state=init_state, inertial_prop=inertial_prop,
+                         adversary_disturbance=adversary_disturbance,
+                         adversary_disturbance_offset=adversary_disturbance_offset,
+                         adversary_disturbance_scale=adversary_disturbance_scale,
+                         **kwargs)
         
         # # Create PyBullet client connection.
         # self.PYB_CLIENT = -1
@@ -500,9 +508,10 @@ class RARLGameEnv(BenchmarkEnv):
         self.current_defender = self._sig_step(self.current_defender.copy(), processed_action.copy(), 1.5)
         # print(f"========== The defender's position is {self.current_defender} in the _advance_simulation() in ReachAvoidGame.py. ========= \n")
         # Apply the attacker's action.
-        adv_disturb = self.adversary_disturbance == 'dynamics'
-        assert adv_disturb and self.adv_action is not None, 'Adversary action is required.'
+        assert self.adversary_disturbance == 'action'
+        assert self.adv_action is not None, 'Adversary action is required.'
         self.current_attacker = self._sig_step(self.current_attacker.copy(), self.adv_action.copy(), 1.0)
+        self.adv_action = None
         # print(f"========== The attacker's position is {self.current_attacker} in the _advance_simulation() in ReachAvoidGame.py. ========= \n")
 
 

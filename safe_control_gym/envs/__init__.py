@@ -57,7 +57,7 @@ register(idx='quadrotor_null',
 
 register(idx='quadrotor_rarl',
          entry_point='safe_control_gym.envs.gym_pybullet_drones.quadrotor_distb:QuadrotorRARLDistb',
-         config_entry_point='safe_control_gym.envs.gym_pybullet_drones:quadrotor_distb.yaml')
+         config_entry_point='safe_control_gym.envs.gym_pybullet_drones:quadrotor_adversary.yaml')
 
 register(idx='quadrotor_random',
          entry_point='safe_control_gym.envs.gym_pybullet_drones.quadrotor_distb:QuadrotorRandomDistb',
@@ -69,6 +69,10 @@ register(idx='quadrotor_randomhj',
 
 register(idx='quadrotor_wind',
          entry_point='safe_control_gym.envs.gym_pybullet_drones.quadrotor_distb:QuadrotorWindDistb',
+         config_entry_point='safe_control_gym.envs.gym_pybullet_drones:quadrotor_distb.yaml')
+
+register(idx='quadrotor_adversary',
+         entry_point='safe_control_gym.envs.gym_pybullet_drones.quadrotor_adversary:QuadrotorAdversary',
          config_entry_point='safe_control_gym.envs.gym_pybullet_drones:quadrotor_distb.yaml')
 
 register(idx='reach_avoid',

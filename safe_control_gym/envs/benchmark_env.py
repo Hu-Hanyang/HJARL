@@ -317,7 +317,7 @@ class BenchmarkEnv(gym.Env, ABC):
                 self.disturbances[mode] = create_disturbance_list(disturb_specs, mode_shared_args, self)
         # Adversary disturbance (set from outside of env, active/non-passive).
         if self.adversary_disturbance is not None:
-            assert self.adversary_disturbance in self.DISTURBANCE_MODES, '[ERROR] in Cartpole._setup_disturbances()'
+            assert self.adversary_disturbance in self.DISTURBANCE_MODES, '[ERROR] in benchmark_env._setup_disturbances()'
             shared_args = self.DISTURBANCE_MODES[self.adversary_disturbance]
             dim = shared_args['dim']
             self.adversary_action_space = spaces.Box(low=-1, high=1, shape=(dim,))
@@ -347,6 +347,7 @@ class BenchmarkEnv(gym.Env, ABC):
         '''
         raise NotImplementedError
 
+
     def before_reset(self, seed=None):
         '''Pre-processing before calling `.reset()`.
 
@@ -372,6 +373,7 @@ class BenchmarkEnv(gym.Env, ABC):
         if seed is not None:
             self.seed(seed)
 
+
     def after_reset(self, obs, info):
         '''Post-processing after calling `.reset()`.
 
@@ -390,6 +392,7 @@ class BenchmarkEnv(gym.Env, ABC):
         self.at_reset = False
         return obs, info
 
+
     @abstractmethod
     def _preprocess_control(self, action):
         '''Pre-processes the action passed to `.step()`, default is identity.
@@ -405,6 +408,7 @@ class BenchmarkEnv(gym.Env, ABC):
         '''
         raise NotImplementedError
 
+
     @abstractmethod
     def normalize_action(self, action):
         '''Converts a physical action into an normalized action if necessary.
@@ -417,6 +421,7 @@ class BenchmarkEnv(gym.Env, ABC):
         '''
         raise NotImplementedError
 
+
     @abstractmethod
     def denormalize_action(self, action):
         '''Converts a normalized action into a physical action if necessary.
@@ -428,6 +433,7 @@ class BenchmarkEnv(gym.Env, ABC):
             physical_action (ndarray): The physical action.
         '''
         raise NotImplementedError
+
 
     def before_step(self, action):
         '''Pre-processing before calling `.step()`.
@@ -450,6 +456,7 @@ class BenchmarkEnv(gym.Env, ABC):
         # Pre-process/clip the action
         processed_action = self._preprocess_control(action)
         return processed_action
+
 
     def extend_obs(self, obs, next_step):
         '''Extends an observation with the next self.obs_goal_horizon reference points.
@@ -517,14 +524,14 @@ class BenchmarkEnv(gym.Env, ABC):
 
         # Hanyang: not sure about the influence of this reward addment
         # Apply penalized reward when close to constraint violation
-        if self.COST == Cost.RL_REWARD:
-            if self.constraints is not None and self.use_constraint_penalty and self.constraints.is_violated(self, c_value=c_value):
-                if self.rew_exponential:
-                    rew = np.log(rew)
-                    rew += self.constraint_penalty
-                    rew = np.exp(rew)
-                else:
-                    rew += self.constraint_penalty
+        # if self.COST == Cost.RL_REWARD:
+        #     if self.constraints is not None and self.use_constraint_penalty and self.constraints.is_violated(self, c_value=c_value):
+        #         if self.rew_exponential:
+        #             rew = np.log(rew)
+        #             rew += self.constraint_penalty
+        #             rew = np.exp(rew)
+        #         else:
+        #             rew += self.constraint_penalty
 
         # Terminate when reaching time limit,
         # but distinguish between done due to true termination or time limit reached
@@ -532,6 +539,7 @@ class BenchmarkEnv(gym.Env, ABC):
             info['TimeLimit.truncated'] = not done
             done = True
         return obs, rew, done, info
+
 
     def _generate_trajectory(self,
                              traj_type='figure8',
@@ -589,6 +597,7 @@ class BenchmarkEnv(gym.Env, ABC):
             speed_traj[t[0]] = np.linalg.norm(vel_ref_traj[t[0]])
         return pos_ref_traj, vel_ref_traj, speed_traj
 
+
     def _get_coordinates(self,
                          t,
                          traj_type,
@@ -636,6 +645,7 @@ class BenchmarkEnv(gym.Env, ABC):
         vel_ref[coord_index_b] = coords_b_dot
         return pos_ref, vel_ref
 
+
     def _figure8(self,
                  t,
                  traj_period,
@@ -662,6 +672,7 @@ class BenchmarkEnv(gym.Env, ABC):
         coords_b_dot = scaling * traj_freq * (np.cos(traj_freq * t)**2 - np.sin(traj_freq * t)**2)
         return coords_a, coords_b, coords_a_dot, coords_b_dot
 
+
     def _circle(self,
                 t,
                 traj_period,
@@ -687,6 +698,7 @@ class BenchmarkEnv(gym.Env, ABC):
         coords_a_dot = -scaling * traj_freq * np.sin(traj_freq * t)
         coords_b_dot = scaling * traj_freq * np.cos(traj_freq * t)
         return coords_a, coords_b, coords_a_dot, coords_b_dot
+
 
     def _square(self,
                 t,
@@ -743,6 +755,7 @@ class BenchmarkEnv(gym.Env, ABC):
             coords_a_dot = traverse_speed
             coords_b_dot = 0.0
         return coords_a, coords_b, coords_a_dot, coords_b_dot
+
 
     def _plot_trajectory(self,
                          traj_type,

@@ -18,47 +18,7 @@ from safe_control_gym.utils.registration import make
 from safe_control_gym.utils.utils import mkdirs, set_device_from_config, set_seed_from_config
 
 
-
-def generate_videos(frames, render_width, render_height, output_dir):
-    """Hanyang
-    Input:
-        frames: list, a list contains several lists, each containts a sequence of numpy ndarrays 
-        env: the quadrotor and task environment
-    """
-    # Define the output video parameters
-    fps = 24  # Frames per second
-    episodes = len(frames)
-    
-    for episode in range(episodes):
-        filename = f'Episode{episode}_{len(frames[episode])}steps_{time.strftime("%m_%d_%H_%M")}.mp4'
-
-        # Define the codec and create VideoWriter object
-        fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # You can use other codecs as well (e.g., 'XVID')
-        out = cv2.VideoWriter(output_dir+'/'+filename, fourcc, fps, (render_height, render_width))
-        # Write frames to the video file
-        for frame in frames[episode]:
-            frame = np.asarray(frame, dtype=np.uint8)
-            out.write(frame)
-        # Release the VideoWriter object
-        out.release()
-
-
-def generate_gifs(frames, output_dir):
-    """Hanyang
-    Input:
-        frames: list, a list contains several lists, each containts a sequence of numpy ndarrays 
-        env: the quadrotor and task environment
-    """
-    episodes = len(frames)
-    
-    for episode in range(episodes):
-        images = []
-        filename = f'Episode{episode}_{len(frames[episode])}steps_{time.strftime("%m_%d_%H_%M")}.gif'
-        for frame in frames[episode]:
-            images.append(frame.astype(np.uint8))
-        imageio.mimsave(output_dir+'/'+filename, images, duration=20)
-        print(f"******************Generate {filename} successfully. \n****************")
-
+#TODO: Hanyang: not started yet, 2024.8.29
 
 def log_performance(eval_results, config, env_seed):
     output_dir = config.output_dir
@@ -100,7 +60,6 @@ def test():
     config.output_dir = 'test_results'
     total_steps = config.algo_config['max_env_steps']
     print(f"The config.adversary_disturbance is {config.task_config.adversary_disturbance}")
-    
 
     # Hanyang: make output_dir
     if config.task == 'cartpole_fixed' or config.task == 'quadrotor_fixed':
@@ -125,7 +84,8 @@ def test():
                        **config.task_config
                        )
     env_seed = env_func().SEED
-    print(f"============== The test env is {env_func().NAME} with env seed {env_func().SEED}.============== \n")
+    env_adversary = env_func().adversary_disturbance
+    print(f"============== The test env is {env_func().NAME} with env seed {env_func().SEED} and {env_adversary} adversary_disturbance.============== \n")
     print(f"==============Env is ready.============== \n")
     
     # Create the controller/control_agent.
@@ -134,7 +94,7 @@ def test():
                 checkpoint_path=os.path.join(config.output_dir, 'model_latest.pt'),
                 output_dir=config.output_dir,
                 use_gpu=config.use_gpu,
-                seed=config.seed,  #TODO: seed is not used in the controller.
+                seed=42,  #TODO: seed is not used in the controller.
                 **config.algo_config)
     print(f"==============Controller is ready.============== \n")
     
@@ -209,3 +169,6 @@ def test():
 
 if __name__ == '__main__':
     test()
+    # python safe_control_gym/experiments/test_quadrotor_adversary.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_adversary --seed 2024
+    # python safe_control_gym/experiments/test_quadrotor_adversary.py --trained_task quadrotor_null --algo rarl --task quadrotor_adversary --seed 42
+    

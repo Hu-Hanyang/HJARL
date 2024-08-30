@@ -47,8 +47,8 @@ Some necessary arguments need to be added:
 | env | algo  | algo_env.yaml | commands | else
 | --------- | ----------- |  ----------- | ----------- | ----------- |
 | `quadrotor_null`| `ppo` | `ppo_quadrotor.yaml` | `python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_null --algo ppo --use_gpu True --seed 42` | Baseline0 |
-| `quadrotor_null`| `rarl` | `rarl_quadrotor.yaml` | `python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_null --algo rarl --use_gpu True --seed 42` | Baseline1 |
-| `quadrotor_null`| `rap` | `rap_quadrotor.yaml` | `python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_null --algo rap --use_gpu True --seed 2024` | Baseline2 |
+| `quadrotor_rarl`| `rarl` | `rarl_quadrotor.yaml` | `python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_rarl --algo rarl --use_gpu True --seed 42` | Baseline1 |
+| `quadrotor_rarl`| `rap` | `rap_quadrotor.yaml` | `python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_rarl --algo rap --use_gpu True --seed 2024` | Baseline2 |
 | `quadrotor_boltz`| `ppo` | `ppo_quadrotor.yaml` | `python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_boltz --algo ppo --use_gpu True --seed 42` | Our proposed method |
 | `quadrotor_fixed`| `ppo` | `ppo_quadrotor.yaml` | `python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_fixed --algo ppo --use_gpu True --seed 42 --distb_level 1.0` | Baseline4, take care of the distb_level |
 | `quadrotor_random`| `ppo` | `ppo_quadrotor.yaml` | `python safe_control_gym/experiments/train_rl_controller.py --task quadrotor_random --algo ppo --use_gpu True --seed 42` | Baseline5 (not trained)|

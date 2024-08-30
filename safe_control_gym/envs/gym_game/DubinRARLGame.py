@@ -54,6 +54,10 @@ class DubinRARLGameEnv(BenchmarkEnv):
                  rew_exponential=True,
                  done_on_out_of_bound=True,
                  seed=42,  # Hanyang: feed the seed
+                 # Hanyang: adversary settings
+                 adversary_disturbance='action',
+                 adversary_disturbance_offset=0.0,
+                 adversary_disturbance_scale=1.0,
                  **kwargs
                  ):
         '''Initialize a cartpole environment.
@@ -80,7 +84,11 @@ class DubinRARLGameEnv(BenchmarkEnv):
         # since some BenchmarkEnv init setup can be task(custom args)-dependent.
         super().__init__(init_state=init_state, inertial_prop=inertial_prop,
                          ctrl_freq=ctrl_freq, pyb_freq=pyb_freq, seed=seed,
-                         episode_len_sec=episode_len_sec, **kwargs)
+                         episode_len_sec=episode_len_sec, 
+                         adversary_disturbance=adversary_disturbance,
+                         adversary_disturbance_offset=adversary_disturbance_offset,
+                         adversary_disturbance_scale=adversary_disturbance_scale,
+                         **kwargs)
 
         # Set GUI and rendering constants.
         self.RENDER_HEIGHT = int(400)
@@ -106,7 +114,7 @@ class DubinRARLGameEnv(BenchmarkEnv):
         # Save the attacker and defender current states.
         self.current_attacker = self.init_attackers.copy()  # shape (1, 3)
         self.current_defender = self.init_defenders.copy()  # shape (1, 3)
-        self.state = np.vstack([self.current_attacker.copy(), self.current_defender.copy()])  # shape (2, 3)
+        self.state = np.concatenate((self.current_attacker.copy(), self.current_defender.copy())).flatten()  # shape (6,)
         #### Initialize/reset counters, players' trajectories and attackers status ###
         self.step_counter = 0
         self.attackers_traj = []
@@ -299,7 +307,7 @@ class DubinRARLGameEnv(BenchmarkEnv):
         # Save the attacker and defender current states.
         self.current_attacker = self.init_attackers.copy()  # shape (1, 3)
         self.current_defender = self.init_defenders.copy()  # shape (1, 3)
-        self.state = np.concatenate((self.current_attacker.copy(), self.current_defender.copy()))  # shape (2, 3)
+        self.state = np.concatenate((self.current_attacker.copy(), self.current_defender.copy())).flatten()  # shape (6,)
         #### Initialize/reset counters, players' trajectories and attackers status ###
         self.step_counter = 0
         self.attackers_traj = []
@@ -338,7 +346,7 @@ class DubinRARLGameEnv(BenchmarkEnv):
         # Advance the simulation.
         self._advance_simulation(processed_action)
         # Update the state.
-        self.state = np.concatenate((self.current_attacker.copy(), self.current_defender.copy()))
+        self.state = np.concatenate((self.current_attacker.copy(), self.current_defender.copy())).flatten()  # shape (6,)
         # Log the state and trajectory information
         self.attackers_traj.append(self.current_attacker.copy())
         self.defenders_traj.append(self.current_defender.copy())
@@ -528,10 +536,11 @@ class DubinRARLGameEnv(BenchmarkEnv):
         for d in range(self.NUM_DEFENDERS):
             self.current_defender[d] = self._dubin_step(self.current_defender[d].copy(), processed_action.copy(), 0.22)
         # Apply the attacker's action (adversary)
-        adv_disturb = self.adversary_disturbance == 'dynamics'
-        assert adv_disturb and self.adv_action is not None, 'Adversary action is required.'
+        assert self.adversary_disturbance == 'action'
+        assert self.adv_action is not None, 'Adversary action is required.'
         for a in range(self.NUM_ATTACKERS):
             self.current_attacker[a] = self._dubin_step(self.current_attacker[a].copy(), self.adv_action.copy(), 0.22)
+        self.adv_action = None
 
 
     def _computeObs(self):
@@ -540,10 +549,10 @@ class DubinRARLGameEnv(BenchmarkEnv):
         Returns:
             obs (ndarray, shape (6,)): The state (ax, ay, ao, dx, dy, do) of the 1 vs. 1 reach-avoid game.
         '''
-        if not np.array_equal(self.state.flatten(), np.clip(self.state.flatten(), self.state_space.low, self.state_space.high)) and self.VERBOSE:
+        if not np.array_equal(self.state, np.clip(self.state, self.state_space.low, self.state_space.high)) and self.VERBOSE:
             print('[WARNING]: observation was clipped in DubinRARLGame._get_observation().')
         # Apply observation disturbance.
-        obs = deepcopy(self.state.flatten())
+        obs = deepcopy(self.state)
         # if 'observation' in self.disturbances:
         #     obs = self.disturbances['observation'].apply(obs, self)
         # if self.at_reset:
@@ -604,7 +613,7 @@ class DubinRARLGameEnv(BenchmarkEnv):
         # defender hits the obstacle or the attacker is captured or the attacker has arrived or the attacker hits the obstacle
         # check the attacker status
         current_attacker_status = self.attackers_status[-1]
-        attacker_done = np.all((current_attacker_status == 1) | (current_attacker_status == -1)) | (current_attacker_status == -2)
+        attacker_done = np.all((current_attacker_status == 1) | (current_attacker_status == -1))
         # if attacker_done:
         #     print(" ========== The attacker is captured or arrived in the _computeTerminated() in ReachAvoidGame.py. ========= \n")
         # check the defender status: hit the obstacle, or the attacker is captured

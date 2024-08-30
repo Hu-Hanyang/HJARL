@@ -30,7 +30,7 @@ train_adversary: True
 
 # runner args
 max_env_steps: 10000000
-num_workers: 1
+num_workers: 2
 rollout_batch_size: 32
 rollout_steps: 2048
 deque_size: 10

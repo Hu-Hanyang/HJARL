@@ -1,7 +1,13 @@
 from safe_control_gym.envs.gym_pybullet_drones.quadrotor import Quadrotor
 from safe_control_gym.envs.gym_pybullet_drones.quadrotor_distb import QuadrotorDistb, QuadrotorFixedDistb, QuadrotorBoltzDistb, QuadrotorNullDistb, QuadrotorRandomDistb
+from safe_control_gym.envs.gym_pybullet_drones.quadrotor_adversary import QuadrotorAdversary
 import numpy as np
-import imageio
+import imageio, os
+import torch
+from safe_control_gym.utils.registration import make
+from safe_control_gym.controllers.rarl.rarl import RARL
+from safe_control_gym.utils.configuration import ConfigFactoryTestAdversary
+
 
 
 # Function to create GIF
@@ -12,19 +18,68 @@ def create_gif(image_list, filename, duration=0.1):
     imageio.mimsave(f'{filename}', images, duration=duration)
 
 
+# # --trained_task quadrotor_null --algo rarl --task quadrotor_randomhj  --seed 42
+# fac = ConfigFactoryTestAdversary()
+# config = fac.merge()
+# config.algo_config['training'] = False
+# config.output_dir = 'test_results/quadrotor_adversary'
+# total_steps = config.algo_config['max_env_steps']
+# # print(f"The config is {config}")
+# trained_model = 'training_results/quadrotor_null/rarl/seed_42/10000000steps/model_latest.pt'
+# env_func = QuadrotorNullDistb
+# rarl = make(config.algo,
+#             env_func,
+#             checkpoint_path=os.path.join(config.output_dir, 'model_latest.pt'),
+#             output_dir=config.output_dir,
+#             use_gpu=config.use_gpu,
+#             seed=config.seed,  #TODO: seed is not used in the controller.
+#             **config.algo_config)
+# rarl.load(trained_model)
+# rarl.reset()
+# rarl.agent.eval()
+# rarl.adversary.eval()
+# rarl.obs_normalizer.set_read_only()
 
-# env = CartPoleHJDistbEnv()
-# print(env.reset())
+
+# obs = env.reset()
+
+
+
+# obs = rarl.obs_normalizer(obs)
+# with torch.no_grad():
+#     action_adv = rarl.adversary.ac.act(torch.from_numpy(obs).float())
+#     print(f"The action_adv is {action_adv}")   
+#     print(f"The type of the action_adv is {type(action_adv)}")  # numpy.ndarray
+
+# # test trained rarl adversary
+# env_func = QuadrotorAdversaryDistb
+# rarl_ctrl = RARL(env_func=env_func, 
+#                  training=False, 
+#                  checkpoint_path='training_results/quadrotor_null/rarl/seed_42/10000000steps/model_latest.pt',
+#                  output_dir='test_results/quadrotor_adversary', 
+#                  use_gpu=False, 
+#                  seed=42)
+
+# rarl_ctrl.load(trained_model)
+# rarl_ctrl.reset()
+
+
 
 # # env = QuadrotorFixedDistb()
-env = QuadrotorBoltzDistb()
-# env = QuadrotorNullDistb()
-# env = QuadrotorRandomDistb()
+# env = QuadrotorBoltzDistb()
+# # env = QuadrotorNullDistb()
+# # env = QuadrotorRandomDistb()
+env = QuadrotorAdversary()
 
 obs = env.reset()
-print(f"The shape of the obs is {obs.shape}")
+
+# for i in range(10):
+#     obs = env.reset()
+#     print(f"The obs is {obs}.")
+
+# print(f"The shape of the obs is {obs.shape}")
 print(f"********* The self.disturbances is {env.disturbances}. ********* \n")
-# print(f"********* The self.adversary_disturbance is {env.adversary_disturbance}. ********* \n")  
+print(f"********* The self.adversary_disturbance is {env.adversary_disturbance}. ********* \n")  
 # print(f"********* The task is {env.TASK }. ********* \n")
 # print(f"********* The self.PHYSICS is {env.PHYSICS}. ********* \n")
 # print(f"********* The self.constraints is {env.constraints}. ********* \n")
@@ -36,10 +91,10 @@ print(f"********** The disturbance type is {env.distb_type}.********** \n")
 # print(f"********** The disturbance level is {env.distb_level}. ********** \n")
 print(f"********** The DISTURBANCE_MODES is {env.DISTURBANCE_MODES}. ********** \n")
 print(f"********** The self.DISTURBANCES is {env.DISTURBANCES}. ********** \n")
-# print(f"********** The enable reset distribution is {env.RANDOMIZED_INIT}. ********** \n")
+print(f"********** The enable reset distribution is {env.RANDOMIZED_INIT}. ********** \n")
 # print(f"********** The self.adversary_observation_space is {env.adversary_observation_space}. ********** \n")
 # print(f"********** The self.adversary_action_space is {env.adversary_action_space}. ********** \n")
-# print(f"********** The self.observation_space is {env.observation_space}. ********** \n")
+print(f"********** The self.observation_space is {env.observation_space}. ********** \n")
 
 # # Generate gifs to check
 # num_gifs = 1
@@ -122,3 +177,5 @@ print(f"********** The self.DISTURBANCES is {env.DISTURBANCES}. ********** \n")
 # sample = np.random.uniform(low, high)
 # print(f"The sample is {sample}")
 # print(f"The shape of the sample is {sample.shape}")
+
+# Create the controller/control_agent.
