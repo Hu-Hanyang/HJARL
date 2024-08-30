@@ -24,7 +24,7 @@ cost: rl_reward
 disturbances: null
 adversary_disturbance: action
 adversary_disturbance_offset: 0.0
-adversary_disturbance_scale: 2.0
+adversary_disturbance_scale: 1.0
 # Constraints
 constraints: null
 done_on_violation: False

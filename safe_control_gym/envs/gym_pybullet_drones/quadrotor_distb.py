@@ -757,11 +757,11 @@ class QuadrotorRARLDistb(QuadrotorDistb):
         kwargs['distb_level'] = 0.0
         kwargs['randomized_init'] = True
         kwargs['record'] = False
-        kwargs['seed'] = 2024
+        kwargs['seed'] = 42
         # Hanyang: adversary disturbances
         kwargs['adversary_disturbance'] = 'action'  # Hanyang: for rarl and rap
         kwargs['adversary_disturbance_offset'] = 0.0
-        kwargs['adversary_disturbance_scale'] = 2.0
+        kwargs['adversary_disturbance_scale'] = 1.0
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
         
         
