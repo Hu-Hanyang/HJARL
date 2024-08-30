@@ -17,7 +17,7 @@ randomized_inertial_prop: False
 inertial_prop_randomization_info: null
 # Disturbances
 disturbances: null
-adversary_disturbance: dynamics
+adversary_disturbance: action
 adversary_disturbance_offset: 0.0
 adversary_disturbance_scale: 1.0
 # Constraints
