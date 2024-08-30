@@ -16,7 +16,7 @@ algo_config:
   gamma: 0.99
   hidden_dim: 64
   log_interval: 10
-  max_ctrl_steps: 2000
+  max_ctrl_steps: 300
   max_env_steps: 10000000
   max_grad_norm: 0.5
   mini_batch_size: 64
@@ -40,22 +40,22 @@ algo_config:
   use_gae: false
 device: cuda
 distb_level: 1.0
-output_dir: training_results/rarl_game/rarl/seed_42/10000000steps
+output_dir: training_results/dubin_rarl_game/rarl/seed_42/10000000steps
 restore: null
 seed: 42
 tag: temp
-task: rarl_game
+task: dubin_rarl_game
 task_config:
   adversary_disturbance: action
   adversary_disturbance_offset: 0.0
   adversary_disturbance_scale: 1.0
   constraint_penalty: -1
   constraints: null
-  ctrl_freq: 200
+  ctrl_freq: 20
   disturbances: null
   done_on_out_of_bound: true
   done_on_violation: false
-  episode_len_sec: 10
+  episode_len_sec: 15
   gui: false
   inertial_prop: null
   inertial_prop_randomization_info: null
@@ -65,7 +65,7 @@ task_config:
   normalized_rl_action_space: false
   obs_goal_horizon: 0
   obs_wrap_angle: false
-  pyb_freq: 200
+  pyb_freq: 20
   randomized_inertial_prop: false
   randomized_init: true
   render_height: 400

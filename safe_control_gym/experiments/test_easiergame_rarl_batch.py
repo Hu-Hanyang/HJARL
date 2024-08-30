@@ -121,7 +121,8 @@ def test():
     for i in range(len(x_range)):
         for j in range(len(y_range)):
             initial_attacker = np.array(([[x_range[i], y_range[j]]]))
-            initial_defender = np.array([[-0.5, 0.0]])
+            # initial_defender = np.array([[0.5, 0.0]])
+            initial_defender = np.array([[-0.5, -0.5]])
             # print(f"========== The attacker starts at {initial_attacker}. =========== \n")
     
             envs = ReachAvoidEasierGame(random_init=False,
@@ -144,7 +145,7 @@ def test():
             attackers_traj.append(np.array([obs[:2]]))
             defenders_traj.append(np.array([obs[2:]]))
 
-            for sim in range(int(10*200)):
+            for sim in range(int(15*200)):
                 actions = model.select_action(obs=obs)
                 # print(f"Step {step}: the action is {actions}. \n")
                 next_obs, reward, terminated, truncated, infos = envs.step(actions)
@@ -164,7 +165,7 @@ def test():
             if attackers_status[-1] == -1 : # captured
                 # print(f"================ The attacker starts at {initial_attacker} is captured. ================ \n")
                 score_matrix[i, j] = +1
-            elif attackers_status[-1] == 1: # reached
+            elif attackers_status[-1] == 1 or attackers_status[-1] == 0: # reached the goal
                 # print(f"================ The attacker starts at {initial_attacker} reaches the goal. ================ \n")
                 score_matrix[i, j] = -1
             else:
@@ -193,5 +194,5 @@ def test():
 if __name__ == '__main__':
     test()
     # python safe_control_gym/experiments/test_easiergame_rarl_batch.py --task rarl_game --algo rarl --use_gpu True --seed 42
-    # python safe_control_gym/experiments/test_easiergame_rarl_batch.py --task rarl_game --algo rap --use_gpu True --seed 2024
+    # python safe_control_gym/experiments/test_easiergame_rarl_batch.py --task rarl_game --algo rap --use_gpu True --seed 42
     

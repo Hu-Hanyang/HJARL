@@ -64,6 +64,7 @@ def getAttackersStatus(attackers, defenders, last_status):
                 # check if the attacker arrive at the des this time
                 if check_area(current_attacker_state[num], des):
                     new_status[num] = 1
+                    print(f"================ The {num} attacker has arrived. ================ \n")
                 # # check if the attacker gets stuck in the obstacles this time (it won't usually)
                 # elif self._check_area(current_attacker_state[num], self.obstacles):
                 #     new_status[num] = -1

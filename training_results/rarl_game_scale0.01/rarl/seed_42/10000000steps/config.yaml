@@ -16,7 +16,7 @@ algo_config:
   gamma: 0.99
   hidden_dim: 64
   log_interval: 10
-  max_ctrl_steps: 2000
+  max_ctrl_steps: 500
   max_env_steps: 10000000
   max_grad_norm: 0.5
   mini_batch_size: 64
@@ -46,12 +46,12 @@ seed: 42
 tag: temp
 task: rarl_game
 task_config:
-  adversary_disturbance: action
+  adversary_disturbance: dynamics
   adversary_disturbance_offset: 0.0
   adversary_disturbance_scale: 1.0
   constraint_penalty: -1
   constraints: null
-  ctrl_freq: 200
+  ctrl_freq: 50
   disturbances: null
   done_on_out_of_bound: true
   done_on_violation: false
@@ -65,7 +65,7 @@ task_config:
   normalized_rl_action_space: false
   obs_goal_horizon: 0
   obs_wrap_angle: false
-  pyb_freq: 200
+  pyb_freq: 50
   randomized_inertial_prop: false
   randomized_init: true
   render_height: 400

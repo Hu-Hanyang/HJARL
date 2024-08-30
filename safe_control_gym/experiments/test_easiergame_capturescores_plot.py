@@ -50,17 +50,11 @@ y_range = np.arange(-0.95, 1.0, 0.05)
 
 # rarl scores
 # loaded_scores = np.load('training_results/rarl_game/rarl/seed_42/score_matrix_[-0.5, -0.5].npy')
-# loaded_scores = np.load('training_results/rarl_game/rarl/seed_42/score_matrix_[0., 0.].npy')
 # loaded_scores = np.load('training_results/rarl_game/rarl/seed_42/score_matrix_[0.5, 0.0].npy')
-# loaded_scores = np.load('training_results/rarl_game/rarl/seed_42/score_matrix_[-0.5, 0.5].npy')
-# loaded_scores = np.load('training_results/rarl_game/rarl/seed_42/score_matrix_[-0.5, 0.0].npy')
 
 # rap scores
-# loaded_scores = np.load('training_results/rarl_game/rap/seed_2024/score_matrix_[0.0, 0.0].npy')
-loaded_scores = np.load('training_results/rarl_game/rap/seed_2024/score_matrix_[-0.5, -0.5].npy')
-# loaded_scores = np.load('training_results/rarl_game/rap/seed_2024/score_matrix_[0.5, 0.0].npy')
-# loaded_scores = np.load('training_results/rarl_game/rap/seed_2024/score_matrix_[-0.5, 0.0].npy')
-# loaded_scores = np.load('training_results/rarl_game/rap/seed_2024/score_matrix_[-0.5, 0.5].npy')
+loaded_scores = np.load('training_results/rarl_game/rap/seed_42/score_matrix_[-0.5, -0.5].npy')
+# loaded_scores = np.load('training_results/rarl_game/rap/seed_42/score_matrix_[0.5, 0.0].npy')
 
 
 # # dubin car scores
@@ -106,6 +100,6 @@ contour = plt.contour(x_hj, y_hj, value_function1vs1, levels=0, colors='#4B0082'
 # plt.title('2D Plot of Scores')
 # plt.savefig(f'training_results/easier_game/sb3/random/1vs0_1vs1/seed_2024/10000000.0steps/score_matrix_{fixed_defender_position[0]}.png')
 # plt.savefig(f'training_results/rarl_game/rarl/seed_42/score_matrix_{fixed_defender_position[0]}.png')
-plt.savefig(f'training_results/rarl_game/rap/seed_2024/score_matrix_{fixed_defender_position[0]}.png')
+plt.savefig(f'training_results/rarl_game/rap/seed_42/score_matrix_{fixed_defender_position[0]}.png')
 # Show the plot
 plt.show()
