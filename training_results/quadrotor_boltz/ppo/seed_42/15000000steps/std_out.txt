@@ -3989,3 +3989,29 @@
 --------------------------------------
 
 2024-08-31 13:34:46,085 : Checkpoint | training_results/quadrotor_boltz/ppo/seed_42/15000000steps/model_latest.pt
+2024-08-31 13:36:13,281 : Eval | ep_lengths 702.20 +/- 454.90 | ep_return -116.736 +/- 15.124
+2024-08-31 13:36:13,282 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0142   |
+|    entropy_loss         | -6.45    |
+|    policy_loss          | -0.00758 |
+|    value_loss           | 15.3     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 578      |
+|    ep_return            | -99.3    |
+|    ep_reward            | -5.3     |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 702      |
+|    ep_return            | -117     |
+|    ep_reward            | -4.34    |
+|    mse                  | 588      |
+| time/                   |          |
+|    progress             | 0.416    |
+|    step                 | 6.24e+06 |
+|    step_time            | 266      |
+--------------------------------------
+
