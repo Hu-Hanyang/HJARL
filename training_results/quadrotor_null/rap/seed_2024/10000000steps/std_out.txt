@@ -778,3 +778,4 @@
 |    time                 | 1.26e+03 |
 --------------------------------------
 
+2024-08-30 14:58:48,486 : Checkpoint | training_results/quadrotor_null/rap/seed_2024/10000000steps/model_latest.pt
