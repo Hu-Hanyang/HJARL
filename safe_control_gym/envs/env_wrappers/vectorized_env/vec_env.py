@@ -135,6 +135,7 @@ class VecEnv(ABC):
                      ):
         '''Convert a flexibly-typed reference to environment indices to an implied list of indices.'''
         if indices is None:
+            print(f"========= self.num_envs: {self.num_envs} =========")
             indices = range(self.num_envs)
         elif isinstance(indices, int):
             indices = [indices]

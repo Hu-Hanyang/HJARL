@@ -47,8 +47,9 @@ def train():
                        output_dir=config.output_dir,
                        **config.task_config
                        )
-    # env_disturbances = env_func().disturbances
-    # print(f"==============The env is {env_func().NAME} with disturbances {env_disturbances}.============== \n")
+    env_disturbances = env_func().disturbances
+    env_advserary = env_func().adversary_disturbance
+    print(f"==============The env is {env_func().NAME} with disturbances {env_disturbances} and adversary {env_advserary}.============== \n")
     # input("Press Enter to continue...")
     print(f"==============The envs are ready.============== \n")
     

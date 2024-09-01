@@ -121,8 +121,8 @@ def test():
     for i in range(len(x_range)):
         for j in range(len(y_range)):
             initial_attacker = np.array(([[x_range[i], y_range[j]]]))
-            # initial_defender = np.array([[0.5, 0.0]])
-            initial_defender = np.array([[-0.5, -0.5]])
+            initial_defender = np.array([[0.5, 0.0]])
+            # initial_defender = np.array([[-0.5, -0.5]])
             # print(f"========== The attacker starts at {initial_attacker}. =========== \n")
     
             envs = ReachAvoidEasierGame(random_init=False,
@@ -165,7 +165,7 @@ def test():
             if attackers_status[-1] == -1 : # captured
                 # print(f"================ The attacker starts at {initial_attacker} is captured. ================ \n")
                 score_matrix[i, j] = +1
-            elif attackers_status[-1] == 1 or attackers_status[-1] == 0: # reached the goal
+            elif attackers_status[-1] == 1: # or attackers_status[-1] == 0: # reached the goal
                 # print(f"================ The attacker starts at {initial_attacker} reaches the goal. ================ \n")
                 score_matrix[i, j] = -1
             else:

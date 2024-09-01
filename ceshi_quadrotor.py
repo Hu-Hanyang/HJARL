@@ -95,6 +95,7 @@ print(f"********** The enable reset distribution is {env.RANDOMIZED_INIT}. *****
 # print(f"********** The self.adversary_observation_space is {env.adversary_observation_space}. ********** \n")
 # print(f"********** The self.adversary_action_space is {env.adversary_action_space}. ********** \n")
 print(f"********** The self.observation_space is {env.observation_space}. ********** \n")
+print(f"********** The self.INFO_IN_RESET is {env.INFO_IN_RESET}. ********** \n")
 
 # # Generate gifs to check
 # num_gifs = 1

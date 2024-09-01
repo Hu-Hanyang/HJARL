@@ -18,16 +18,17 @@ target = ([0.6, 0.8], [0.1, 0.3])
 des={'goal0': [0.6, 0.8, 0.1, 0.3]}
 
 
-# env = DubinReachAvoidEasierGame()
+env = DubinReachAvoidEasierGame()
+# env = ReachAvoidGameEnv()
 # env = ReachAvoidEasierGame()
-env = RARLGameEnv()
+# env = RARLGameEnv()
 # env = DubinRARLGameEnv()
 obs = env.reset()
 
-# print(env.observation_space)
-# print(env.action_space)
+print(env.observation_space)
+print(env.action_space)
 # print(env.state.shape)
-print(env.adversary_disturbance)
+# print(env.adversary_disturbance)
 # print(obs.shape)
 # print(env.PYB_FREQ)
 # print(env.CTRL_FREQ)

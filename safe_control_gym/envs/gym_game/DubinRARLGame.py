@@ -540,7 +540,7 @@ class DubinRARLGameEnv(BenchmarkEnv):
         assert self.adv_action is not None, 'Adversary action is required.'
         for a in range(self.NUM_ATTACKERS):
             self.current_attacker[a] = self._dubin_step(self.current_attacker[a].copy(), self.adv_action.copy(), 0.22)
-        self.adv_action = None
+        # self.adv_action = None
 
 
     def _computeObs(self):

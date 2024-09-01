@@ -534,7 +534,6 @@ class QuadrotorDistb(BaseDistbAviary):
 
         if self.adversary_disturbance == 'action':  # Hanyang: default is None in benchmark.py
             action = action + self.adv_action
-            self.adv_action = None
         self.current_noisy_physical_action = action
         
         pwm = 30000 + np.clip(action, -1, +1) * 30000
@@ -741,11 +740,11 @@ class QuadrotorNullDistb(QuadrotorDistb):
         kwargs['distb_level'] = 0.0
         kwargs['randomized_init'] = True
         kwargs['record'] = False
-        kwargs['seed'] = 2024
+        kwargs['seed'] = 2023
         # Hanyang: adversary disturbances
-        kwargs['adversary_disturbance'] = 'action'  # Hanyang: for rarl and rap
+        kwargs['adversary_disturbance'] = None # 'action'  # Hanyang: for rarl and rap
         kwargs['adversary_disturbance_offset'] = 0.0
-        kwargs['adversary_disturbance_scale'] = 2.0
+        kwargs['adversary_disturbance_scale'] = 0.0
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
         
 

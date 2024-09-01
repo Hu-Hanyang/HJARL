@@ -95,7 +95,7 @@ def test():
     model.load(model_path)
     print(f"==============Model is loaded.============== \n")
     model.agent.eval()
-    model.adversary.eval()
+    # model.adversary.eval()
     model.obs_normalizer.set_read_only()
     model.reset()
 
@@ -108,54 +108,54 @@ def test():
     # initial_defender = np.array([[0.3, 0.0]])
     test_seed = 2024
 
-    # # plot heatmaps
+    # plot heatmaps
     # fixed_defender_position = np.array([[-0.5, -0.5]])
-    # # fixed_defender_position = np.array([[0.5, 0.0]])
-    # plot_values_rarl(config.algo, fixed_defender_position, model, value1vs1, grid1vs1, initial_attacker, config.output_dir)
+    fixed_defender_position = np.array([[0.5, 0.0]])
+    plot_values_rarl(config.algo, fixed_defender_position, model, value1vs1, grid1vs1, initial_attacker, config.output_dir)
 
-    # run a game
-    envs = ReachAvoidEasierGame(random_init=False,
-                              seed=test_seed,
-                              init_type='random',
-                              initial_attacker=initial_attacker, 
-                              initial_defender=initial_defender)
-    print(f"The state space of the env is {envs.observation_space}. \n")  # Box(-1.0, 1.0, (4,)
-    print(f"The action space of the env is {envs.action_space}. \n")  # Box(-1.0, 1.0, (2,)
+    # # run a game
+    # envs = ReachAvoidEasierGame(random_init=False,
+    #                           seed=test_seed,
+    #                           init_type='random',
+    #                           initial_attacker=initial_attacker, 
+    #                           initial_defender=initial_defender)
+    # print(f"The state space of the env is {envs.observation_space}. \n")  # Box(-1.0, 1.0, (4,)
+    # print(f"The action space of the env is {envs.action_space}. \n")  # Box(-1.0, 1.0, (2,)
     
-    step = 0
-    attackers_status = []
-    attackers_status.append(np.zeros(1))
-    attackers_traj, defenders_traj = [], []
+    # step = 0
+    # attackers_status = []
+    # attackers_status.append(np.zeros(1))
+    # attackers_traj, defenders_traj = [], []
 
-    obs, info = envs.reset()  # obs.shape = (4,)
-    obs = model.obs_normalizer(obs)
-    initial_obs = obs.copy()
-    print(f"========== The initial state is {initial_obs} in the test_game. ========== \n")
-    print(f"========== The initial value function is {check_current_value(np.array(obs[:2].reshape(1,2)), np.array(obs[2:].reshape(1,2)), value1vs1, grid1vs1)}. ========== \n")
-    attackers_traj.append(np.array([obs[:2]]))
-    defenders_traj.append(np.array([obs[2:]]))
+    # obs, info = envs.reset()  # obs.shape = (4,)
+    # obs = model.obs_normalizer(obs)
+    # initial_obs = obs.copy()
+    # print(f"========== The initial state is {initial_obs} in the test_game. ========== \n")
+    # print(f"========== The initial value function is {check_current_value(np.array(obs[:2].reshape(1,2)), np.array(obs[2:].reshape(1,2)), value1vs1, grid1vs1)}. ========== \n")
+    # attackers_traj.append(np.array([obs[:2]]))
+    # defenders_traj.append(np.array([obs[2:]]))
 
-    for sim in range(int(10*200)):
-        actions = model.select_action(obs=obs, info=info)
-        # print(f"Step {step}: the action is {actions}. \n")
-        next_obs, reward, terminated, truncated, info = envs.step(actions)
-        step += 1
-        # print(f"Step {step}: the reward is {reward}. \n")
-        attackers_traj.append(np.array([next_obs[:2]]))
-        defenders_traj.append(np.array([next_obs[2:]]))
-        # print(f"Step {step}: the relative distance is {np.linalg.norm(next_obs[:, :2] - next_obs[:, 2:])}. \n")
-        print(f"Step {step}: the current position of the attacker is {next_obs[:2]}. \n")
-        attackers_status.append(getAttackersStatus(np.array([next_obs[:2]]), np.array([next_obs[2:]]), attackers_status[-1]))
+    # for sim in range(int(10*200)):
+    #     actions = model.select_action(obs=obs, info=info)
+    #     # print(f"Step {step}: the action is {actions}. \n")
+    #     next_obs, reward, terminated, truncated, info = envs.step(actions)
+    #     step += 1
+    #     # print(f"Step {step}: the reward is {reward}. \n")
+    #     attackers_traj.append(np.array([next_obs[:2]]))
+    #     defenders_traj.append(np.array([next_obs[2:]]))
+    #     # print(f"Step {step}: the relative distance is {np.linalg.norm(next_obs[:, :2] - next_obs[:, 2:])}. \n")
+    #     print(f"Step {step}: the current position of the attacker is {next_obs[:2]}. \n")
+    #     attackers_status.append(getAttackersStatus(np.array([next_obs[:2]]), np.array([next_obs[2:]]), attackers_status[-1]))
 
-        if terminated or truncated:
-            break
-        else:
-            obs = model.obs_normalizer(next_obs)
+    #     if terminated or truncated:
+    #         break
+    #     else:
+    #         obs = model.obs_normalizer(next_obs)
 
-    # print(f"================ The {num} game is over at the {step} step ({step / 200} seconds. ================ \n")
-    print(f"================ The game is over at the {step} step ({step / 200} seconds. ================ \n")
-    current_status_check(attackers_status[-1], step)
-    animation_easier_game(attackers_traj, defenders_traj, attackers_status)
+    # # print(f"================ The {num} game is over at the {step} step ({step / 200} seconds. ================ \n")
+    # print(f"================ The game is over at the {step} step ({step / 200} seconds. ================ \n")
+    # current_status_check(attackers_status[-1], step)
+    # animation_easier_game(attackers_traj, defenders_traj, attackers_status)
         
     model.close()
 

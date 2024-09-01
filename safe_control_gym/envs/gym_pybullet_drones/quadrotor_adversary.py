@@ -24,7 +24,7 @@ from safe_control_gym.envs.gym_pybullet_drones.quadrotor_distb import QuadrotorN
 
 
 class QuadrotorAdversary(BenchmarkEnv):
-    '''6D quadrotor environment with trained adversary networks for testing.
+    '''6D quadrotor environment with trained adversary networks for testing quadrotor with trained adversary.
 
     Including symbolic model, constraints, randomization, adversarial disturbances,
     multiple cost functions, stabilization and trajectory tracking references.
@@ -156,6 +156,7 @@ class QuadrotorAdversary(BenchmarkEnv):
                  record=False,
                  gui=False,
                  verbose=False,
+                 info_in_reset=True,
                  # Hanyang: derive the following parameters from the BenchmarkEnv
                  pyb_freq: int = 200,
                  ctrl_freq: int = 100,
@@ -172,7 +173,10 @@ class QuadrotorAdversary(BenchmarkEnv):
                  distb_type = 'adversary', 
                  distb_level: float=0.0,
                  seed=None,
-                 adversary_disturbance='dynamics',
+                 disturbances=None,
+                 adversary_disturbance='action',
+                 adversary_disturbance_offset=0.0,
+                 adversary_disturbance_scale=1.0,
                  **kwargs
                  ):
         '''Initialize a quadrotor with hj distb environment.
@@ -272,9 +276,11 @@ class QuadrotorAdversary(BenchmarkEnv):
         self.init_rp_vel_lim = 200 * self.DEG2RAD
         self.init_y_vel_lim = 20 * self.DEG2RAD
        
-        super().__init__(gui=gui, verbose=verbose, pyb_freq=pyb_freq, ctrl_freq=ctrl_freq, 
+        super().__init__(gui=gui, verbose=verbose, pyb_freq=pyb_freq, ctrl_freq=ctrl_freq, info_in_reset=info_in_reset,
                          episode_len_sec=episode_len_sec, init_state=init_state, randomized_init=randomized_init,
-                         seed=seed, adversary_disturbance=adversary_disturbance, **kwargs)
+                         seed=seed, disturbances=disturbances, adversary_disturbance=adversary_disturbance, 
+                         adversary_disturbance_offset=adversary_disturbance_offset, adversary_disturbance_scale=adversary_disturbance_scale,
+                         **kwargs)
 
         # Hanyang: Create X_GOAL and U_GOAL references for the assigned task.
         self.U_GOAL = np.ones(self.action_dim) * self.MASS * self.GRAVITY_ACC / self.action_dim
@@ -371,7 +377,7 @@ class QuadrotorAdversary(BenchmarkEnv):
             self.INIT_RPYS = init_rpys
         else:
             print("[ERROR] invalid initial_rpys in QuadrotorAdversary.__init__(), try init_rpys.reshape(NUM_DRONES,3)")
-        # Hanyang: load trained adversarial model 
+        # Hanyang: load the trained adversarial model 
         fac = ConfigFactoryTestAdversary()
         config = fac.merge()
         config.algo_config['training'] = False
@@ -385,7 +391,7 @@ class QuadrotorAdversary(BenchmarkEnv):
                     checkpoint_path=os.path.join(config.output_dir, 'model_latest.pt'),
                     output_dir=config.output_dir,
                     use_gpu=config.use_gpu,
-                    seed=config.seed,  #TODO: seed is not used in the controller.
+                    seed=config.seed,  
                     **config.algo_config)
         self.rarl.load(trained_model)
         self.rarl.reset()
@@ -599,7 +605,7 @@ class QuadrotorAdversary(BenchmarkEnv):
                     # hj_distbs = (0.00424, 0.0, 0.0)
                     hj_distbs = (0.0, 0.00424, 0.0)
                     # hj_distbs = (0.00424, 0.00424, 0.0)
-                    # print(f"[INFO] The disturbance in the wind distb is {hj_distbs}. \n")
+                    print(f"[INFO] The disturbance in the wind distb is {hj_distbs}. \n")
                 elif self.distb_type == 'adversary':  # adversary disturbances
                     hj_distbs = (0.0, 0.0, 0.0)
                 else: # fixed-hj, null, random_hj or boltzmann disturbances
@@ -914,20 +920,23 @@ class QuadrotorAdversary(BenchmarkEnv):
         '''
         action = self.denormalize_action(action)  # Hanayng: this line doesn't work actually
         self.current_physical_action = action
-
-        # Hanyang: calculate and apply the adversary action
-        precess_current_obs = self.rarl.obs_normalizer(deepcopy(self.state))
-        with torch.no_grad():
-            action_adv = self.rarl.adversary.ac.act(torch.from_numpy(precess_current_obs).float())
-        clipped_adv_action = np.clip(action_adv, self.adversary_action_space.low, self.adversary_action_space.high)
-        self.adv_action = clipped_adv_action * self.adversary_disturbance_scale + self.adversary_disturbance_offset
-        action = action + self.adv_action
-
         # # Apply disturbances.
         # if 'action' in self.disturbances:  # Hanyang: self.disturbances = {}
         #     action = self.disturbances['action'].apply(action, self)
         # if self.adversary_disturbance == 'action':  # Hanyang: default is None in benchmark.py
         #     action = action + self.adv_action
+        # Hanyang: apply the adversarial action generated by the trained adversary
+        # Hanyang: calculate and apply the adversary action
+        assert self.distb_type == 'adversary', print("The distb_type of this env should be adversary. \n")
+        precess_current_obs = self.rarl.obs_normalizer(deepcopy(self.state))
+        with torch.no_grad():
+            action_adv = self.rarl.adversary.ac.act(torch.from_numpy(precess_current_obs).float())
+        clipped_adv_action = np.clip(action_adv, self.adversary_action_space.low, self.adversary_action_space.high)
+        self.adv_action = clipped_adv_action * self.adversary_disturbance_scale + self.adversary_disturbance_offset
+        # print(f"[INFO] The adversary action is {self.adv_action}.")
+        # print(f"[INFO] The original action is {action}. \n")
+        action = action + self.adv_action
+        
         self.current_noisy_physical_action = action
         
         pwm = 30000 + np.clip(action, -1, +1) * 30000

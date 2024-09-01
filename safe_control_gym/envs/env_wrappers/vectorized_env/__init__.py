@@ -60,6 +60,7 @@ def make_vec_envs(env_func,
         env_configs = [{}] * batch_size
     env_fns = [make_env_fn(env_func, env_configs[i], seed, i) for i in range(batch_size)]
     if n_processes > 1:
+        print(f"========= n_processes: {n_processes} =========")
         return SubprocVecEnv(env_fns, n_workers=n_processes)
     else:
         # E.g. can use in evaluation (with seed -1).

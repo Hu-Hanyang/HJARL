@@ -18,8 +18,8 @@ class DubinReachAvoidEasierGame(ReachAvoidGameEnv):
         kwargs['defenders_dynamics']=Dynamics.DUB3D
         kwargs['game_length_sec'] = 15
         kwargs['random_init'] = False
-        # kwargs['initial_attacker'] = np.array([[-0.5, 0.5]])
-        # kwargs['initial_defender'] = np.array([[0.3, -0.2]])
+        kwargs['initial_attacker'] = np.array([[-0.5, 0.5, 1.0]])
+        kwargs['initial_defender'] = np.array([[0.3, -0.2, 1.0]])
         kwargs['ctrl_freq'] = 20
         kwargs['init_type'] = 'random' # 'distance_init'
         kwargs['obstacles'] = {'obs1': [100, 100, 100, 100]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax], no obstacle here

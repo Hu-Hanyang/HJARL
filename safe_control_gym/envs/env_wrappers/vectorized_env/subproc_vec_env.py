@@ -172,13 +172,19 @@ class SubprocVecEnv(VecEnv):
 
         assert indices is None or sorted(
             indices) == indices, 'Indices must be ordered'
+        print(f"============ indices: {indices}============")
         indices = self._get_indices(indices)
+        print(f"============ indices: {indices}============")
         remote_indices = [idx // self.n_workers for idx in indices]
+        print(f"============ remote_indices: {remote_indices}============")
         remote_env_indices = [idx % self.n_workers for idx in indices]
         remote_indices, splits = np.unique(np.array(remote_indices), return_index=True)
         print(f"remote_indices: {remote_indices}")
+        print(f"========== self.remotes: {self.remotes} ==========")
         target_remotes = [self.remotes[idx] for idx in remote_indices]
+        print(f"============ remote_env_indices: {remote_env_indices}============")
         remote_env_indices = np.split(np.array(remote_env_indices), splits[1:])
+        print(f"============ remote_env_indices: {remote_env_indices}============")
         remote_env_indices = remote_env_indices.tolist()
         splits = np.append(splits, [len(indices)])
         return target_remotes, remote_env_indices, splits

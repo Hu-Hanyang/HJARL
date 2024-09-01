@@ -376,8 +376,8 @@ class BaseDistbAviary(BenchmarkEnv):
                     # hj_distbs = np.array([-0.00424, -0.00424, 0.0])
                     # hj_distbs = (0.00424, 0.0, 0.0)
                     hj_distbs = (0.0, 0.00424, 0.0)
-                elif self.distb_type == 'adversary':
-                    hj_distbs = (0.0, 0.0, 0.0)
+                # elif self.distb_type == 'adversary':
+                #     hj_distbs = (0.0, 0.0, 0.0)
                 else: # fixed-hj, null, random_hj or boltzmann disturbances
                     current_angles = quat2euler(self._get_drone_state_vector(i)[3:7])  # convert quaternion to eulers
                     current_angle_rates = self._get_drone_state_vector(i)[13:16]

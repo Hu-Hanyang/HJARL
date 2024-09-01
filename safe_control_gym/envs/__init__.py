@@ -73,7 +73,7 @@ register(idx='quadrotor_wind',
 
 register(idx='quadrotor_adversary',
          entry_point='safe_control_gym.envs.gym_pybullet_drones.quadrotor_adversary:QuadrotorAdversary',
-         config_entry_point='safe_control_gym.envs.gym_pybullet_drones:quadrotor_distb.yaml')
+         config_entry_point='safe_control_gym.envs.gym_pybullet_drones:quadrotor_adversary.yaml')
 
 register(idx='reach_avoid',
          entry_point='safe_control_gym.envs.gym_game.ReachAvoidGame:ReachAvoidGameEnv',
