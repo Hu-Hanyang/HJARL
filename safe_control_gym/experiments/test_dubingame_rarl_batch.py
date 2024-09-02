@@ -1,21 +1,26 @@
+'''Template training/plotting/testing script.'''
+
 import os
-import math
-import time
-import argparse
-from typing import Callable
+import shutil
+from functools import partial
+
+import munch
+import yaml
+import cv2
 import numpy as np
-import gymnasium as gym
-import torch
-import torch.nn as nn
+import time
+import imageio
+import psutil
 
 from odp.Grid import Grid
-import matplotlib.pyplot as plt
-from safe_control_gym.utils.plotting import animation_dub, current_status_check, record_video,  plot_values_dub, plot_value_1vs1_dub
+from safe_control_gym.utils.configuration import ConfigFactoryTest
+from safe_control_gym.utils.plotting import plot_from_logs
+from safe_control_gym.utils.registration import make
+from safe_control_gym.utils.utils import mkdirs, set_device_from_config, set_seed_from_config
 from safe_control_gym.envs.gym_game.DubinGame import DubinReachAvoidEasierGame
+from safe_control_gym.utils.plotting import plot_values_rarl
 
-
-from stable_baselines3 import PPO
-
+#TODO: Not started yet, 2024.9.1
 
 # Step 0 initilize the map 
 map = {'map': [-1., 1., -1., 1.]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
@@ -24,8 +29,8 @@ obstacles = {'obs1': [100, 100, 100, 100]}  # Hanyang: rectangele [xmin, xmax, y
 # Step 1 load the value function, initilize the grids
 value1vs0 = np.load('safe_control_gym/envs/gym_game/values/1vs0Dubin_easier.npy')
 value1vs1 = np.load('safe_control_gym/envs/gym_game/values/1vs1Dubin_easier.npy')
-grid1vs0 = Grid(np.array([-1.1, -1.1, -math.pi]), np.array([1.1, 1.1, math.pi]), 3, np.array([100, 100, 200]), [2])
-grid1vs1 = Grid(np.array([-1.1, -1.1, -math.pi, -1.1, -1.1, -math.pi]), np.array([1.1, 1.1, math.pi, 1.1, 1.1, math.pi]), 
+grid1vs0 = Grid(np.array([-1.1, -1.1, -np.pi]), np.array([1.1, 1.1, np.pi]), 3, np.array([100, 100, 200]), [2])
+grid1vs1 = Grid(np.array([-1.1, -1.1, -np.pi, -1.1, -1.1, -np.pi]), np.array([1.1, 1.1, np.pi, 1.1, 1.1, np.pi]), 
                         6, np.array([28, 28, 28, 28, 28, 28]), [2, 5])
 
 
@@ -107,9 +112,72 @@ def check_current_value_dub(attackers, defenders, value_function, grids):
     value = value_function[joint_slice]
 
     return value
-        
 
-def test_dubin_sb3(init_type, total_steps):
+
+def test():
+    '''Training template.
+    '''
+    # Create the configuration dictionary.
+    fac = ConfigFactoryTest()
+    config = fac.merge()
+    config.algo_config['training'] = False
+    config.output_dir = 'training_results'
+    total_steps = config.algo_config['max_env_steps']
+
+    # Hanyang: make output_dir
+    if config.task == 'cartpole_fixed' or config.task == 'quadrotor_fixed':
+        output_dir = os.path.join(config.output_dir, config.task, config.algo, 
+                                  f'distb_level{config.test_distb_level}', f'seed_{config.seed}')
+    else:
+        output_dir = os.path.join(config.output_dir, config.task, config.algo, 
+                                  f'seed_{config.seed}')
+    # if not os.path.exists(output_dir):
+    #     os.makedirs(output_dir+'/')
+        
+    config.output_dir = output_dir
+    print(f"==============The trained directory is {config.output_dir}.============== \n")
+
+    set_seed_from_config(config)
+    set_device_from_config(config)
+
+    # Define function to create task/env. env_func is the class, not the instance.
+    env_func = partial(make,
+                       config.task,
+                       output_dir=config.output_dir+f'/{total_steps}steps/test_results/',
+                       **config.task_config
+                       )
+    print(f"==============Env is ready.============== \n")
+    
+    # Create the controller/control_agent.
+    model = make(config.algo,
+                env_func,
+                checkpoint_path=os.path.join(config.output_dir, 'model_latest.pt'),
+                output_dir=config.output_dir+f'/{total_steps}steps/test_results/',
+                use_gpu=config.use_gpu,
+                seed=config.seed,  #TODO: seed is not used in the controller.
+                **config.algo_config)
+    print(f"==============Controller is ready.============== \n")
+    
+    # Hanyang: load the selected model, the default task (env) for the test is the same as that for training.
+    if config.trained_task is None:
+        # default: the same task as the training task
+        config.trained_task = config.task
+
+    if config.trained_task == 'cartpole_fixed' or config.trained_task == 'quadrotor_fixed':
+        model_path = os.path.join(os.path.join('training_results', config.trained_task, config.algo, 
+                                               f'distb_level{config.trained_distb_level}', f'seed_{config.seed}', f'{total_steps}steps', 
+                                               'model_latest.pt'))
+    else:
+        # model_path = os.path.join(os.path.join('training_results', config.trained_task, config.algo, 
+        #                                        f'seed_{config.seed}', f'{total_steps}steps', 'model_latest.pt'))
+        model_path = os.path.join(os.path.join('training_results', config.trained_task, config.algo, 
+                                               f'seed_{config.seed}', f'{total_steps}steps', 'model_latest.pt'))
+    
+    assert os.path.exists(model_path), f"[ERROR] The path '{model_path}' does not exist, please check the loading path or train one first."
+    model.load(model_path)
+    print(f"==============Model: {model_path} is loaded.============== \n")
+    model.reset()
+
     # Set up env hyperparameters.
     env_seed = 42  # 2024
     # Setp up algorithm hyperparameters.
@@ -118,15 +186,10 @@ def test_dubin_sb3(init_type, total_steps):
     T = 15.0  # time for the game
     ctrl_freq = 20 # control frequency
 
-    # Load the trained model
-    trained_path = os.path.join('training_results', f"dubin_game/sb3/{init_type}_init/", f'seed_{env_seed}', f'{total_timesteps}steps')
-    trained_model = os.path.join(trained_path, 'final_model.zip')
-    assert os.path.exists(trained_model), f"[ERROR] The trained model {trained_model} does not exist, please check the loading path or train one first."
-    print(f"========== The trained model is loaded from {trained_model}. =========== \n")
-    model = PPO.load(trained_model)
+    # fixed_defender_position = np.array([[-0.5, 0.5]])
+    # plot_values_rarl(fixed_defender_position, model, value1vs1, grid1vs1, initial_attacker, config.output_dir)
 
-
-    # Generate the attacker positions
+   # Generate the attacker positions
     x_range = np.arange(-0.95, 1.0, 0.05)  # from -0.95 to 0.95
     y_range = np.arange(-0.95, 1.0, 0.05)
     # attacker_positions = np.array([(x, y) for x in x_range for y in y_range])
@@ -146,13 +209,13 @@ def test_dubin_sb3(init_type, total_steps):
                               init_type='random',
                               initial_attacker=initial_attacker, 
                               initial_defender=initial_defender)
-            
+
             step = 0
             attackers_status = []
             attackers_status.append(np.zeros(1))
             attackers_traj, defenders_traj = [], []
 
-            obs = envs._computeObs()  # obs.shape = (6,)
+            obs = envs._computeObs()  # obs.shape = (4,)
             print(f"========== The initial state is {obs}. ===========")
             # print(f"========== The initial defender is {envs.init_defenders}. ===========")
             # print(f"========== The initial attacker is {envs.init_attackers}. ===========")
@@ -162,7 +225,7 @@ def test_dubin_sb3(init_type, total_steps):
             defenders_traj.append(np.array([obs[3:]]))
 
             for sim in range(int(T*ctrl_freq)):
-                actions, _ = model.predict(obs, deterministic=True)
+                actions = model.select_action(obs=obs)
                 # print(f"Step {step}: the action is {actions}. \n")
                 next_obs, reward, terminated, truncated, infos = envs.step(actions)
                 step += 1
@@ -181,25 +244,34 @@ def test_dubin_sb3(init_type, total_steps):
             if attackers_status[-1] == -1 : # captured
                 # print(f"================ The attacker starts at {initial_attacker} is captured. ================ \n")
                 score_matrix[i, j] = +1
-            elif attackers_status[-1] == 1: # reached
+            elif attackers_status[-1] == 1: # or attackers_status[-1] == 0: # reached the goal
                 # print(f"================ The attacker starts at {initial_attacker} reaches the goal. ================ \n")
                 score_matrix[i, j] = -1
             else:
                 assert False, "The game is not terminated correctly."
 
-    np.save(f'{trained_path}/score_matrix_{initial_defender[0].tolist()}.npy', score_matrix)
-    print(f"========== The score matrix is saved to {trained_path}/score_matrix.npy. =========== \n")
+    np.save(f'{config.output_dir}/score_matrix_{initial_defender[0].tolist()}.npy', score_matrix)
+    print(f"========== The score matrix is saved to {config.output_dir}/score_matrix.npy. =========== \n")
     duration = time.perf_counter() - start_time
     print(f"========== The game is finished. The total time is {duration//60} min {duration%60} seconds. =========== \n")
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Single agent reinforcement learning example script')
-    parser.add_argument('--init_type',           default="random",        type=str,           help='The initilaization method (default: random)', metavar='')
-    parser.add_argument('--total_steps',         default=1e7,             type=float,         help='The total training steps (default: 2e7)', metavar='')
     
-    args = parser.parse_args()
-    
-    test_dubin_sb3(init_type=args.init_type, total_steps=args.total_steps)
+    # # Plot the score matrix
+    # fig, ax = plt.subplots()
+    # cax = ax.matshow(score_matrix, cmap='coolwarm')
+    # fig.colorbar(cax)
+    # plt.title(f'The score matrix of the game with {optimality} and {init_type} initialization')
+    # plt.xlabel('x-axis')
+    # plt.ylabel('y-axis')
+    # # plt.savefig(f'{trained_path}/score_matrix.png')
+    # plt.show()
+    # print(f"========== The score matrix is saved to {trained_path}/score_matrix.png. =========== \n")
 
-    # python safe_control_gym/experiments/test_dubingame_sb3_batch.py --init_type random --total_steps 1e7
+        
+    model.close()
+
+
+if __name__ == '__main__':
+    test()
+    # python safe_control_gym/experiments/test_dubingame_rarl_batch.py --task dubin_rarl_game --algo rarlgame --use_gpu True --seed 42
+    # python safe_control_gym/experiments/test_dubingame_rarl_batch.py --task dubin_rarl_game --algo rapgame --use_gpu True --seed 42
+    

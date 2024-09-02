@@ -26,10 +26,10 @@ agent_iterations: 10
 adversary_iterations: 10
 
 # runner args
-max_env_steps: 100 #25000000
+max_env_steps: 10000000
 num_workers: 8
 rollout_batch_size: 8
-rollout_steps: 10 # 300
+rollout_steps: 300
 deque_size: 10
 eval_batch_size: 10
 

@@ -20,7 +20,7 @@ from safe_control_gym.math_and_models.transformations import csRotXYZ
 from safe_control_gym.utils.utils import Boltzmann, quat2euler, distur_gener_quadrotor, transfer
 from safe_control_gym.utils.configuration import ConfigFactoryTestAdversary
 from safe_control_gym.utils.registration import make
-from safe_control_gym.envs.gym_pybullet_drones.quadrotor_distb import QuadrotorNullDistb
+from safe_control_gym.envs.gym_pybullet_drones.quadrotor_distb import QuadrotorNullDistb, QuadrotorRARLDistb
 
 
 class QuadrotorAdversary(BenchmarkEnv):
@@ -176,7 +176,7 @@ class QuadrotorAdversary(BenchmarkEnv):
                  disturbances=None,
                  adversary_disturbance='action',
                  adversary_disturbance_offset=0.0,
-                 adversary_disturbance_scale=1.0,
+                 adversary_disturbance_scale=2.0,
                  **kwargs
                  ):
         '''Initialize a quadrotor with hj distb environment.

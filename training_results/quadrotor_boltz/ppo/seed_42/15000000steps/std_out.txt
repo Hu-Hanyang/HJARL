@@ -9371,3 +9371,286 @@
 |    step_time            | 309      |
 --------------------------------------
 
+2024-09-01 11:18:36,618 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0152   |
+|    entropy_loss         | -11      |
+|    policy_loss          | -0.0135  |
+|    value_loss           | 32.8     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 510      |
+|    ep_return            | -107     |
+|    ep_reward            | -9.81    |
+| time/                   |          |
+|    progress             | 0.973    |
+|    step                 | 1.46e+07 |
+|    step_time            | 551      |
+--------------------------------------
+
+2024-09-01 11:27:41,186 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0147   |
+|    entropy_loss         | -11.1    |
+|    policy_loss          | -0.0121  |
+|    value_loss           | 34       |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 577      |
+|    ep_return            | -112     |
+|    ep_reward            | -4.32    |
+| time/                   |          |
+|    progress             | 0.975    |
+|    step                 | 1.46e+07 |
+|    step_time            | 545      |
+--------------------------------------
+
+2024-09-01 11:36:52,718 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0135   |
+|    entropy_loss         | -11.1    |
+|    policy_loss          | -0.0129  |
+|    value_loss           | 34.1     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 310      |
+|    ep_return            | -106     |
+|    ep_reward            | -13.6    |
+| time/                   |          |
+|    progress             | 0.977    |
+|    step                 | 1.47e+07 |
+|    step_time            | 552      |
+--------------------------------------
+
+2024-09-01 11:45:54,199 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0144   |
+|    entropy_loss         | -11.1    |
+|    policy_loss          | -0.0125  |
+|    value_loss           | 28.9     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 504      |
+|    ep_return            | -101     |
+|    ep_reward            | -8.97    |
+| time/                   |          |
+|    progress             | 0.979    |
+|    step                 | 1.47e+07 |
+|    step_time            | 541      |
+--------------------------------------
+
+2024-09-01 11:54:33,280 : Checkpoint | training_results/quadrotor_boltz/ppo/seed_42/15000000steps/model_latest.pt
+2024-09-01 11:56:34,906 : Eval | ep_lengths 403.30 +/- 487.21 | ep_return -99.534 +/- 3.581
+2024-09-01 11:56:34,915 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0156   |
+|    entropy_loss         | -11.1    |
+|    policy_loss          | -0.0121  |
+|    value_loss           | 25.4     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 437      |
+|    ep_return            | -107     |
+|    ep_reward            | -10.6    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 403      |
+|    ep_return            | -99.5    |
+|    ep_reward            | -12.7    |
+|    mse                  | 369      |
+| time/                   |          |
+|    progress             | 0.981    |
+|    step                 | 1.47e+07 |
+|    step_time            | 519      |
+--------------------------------------
+
+2024-09-01 12:05:32,211 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0147   |
+|    entropy_loss         | -11.1    |
+|    policy_loss          | -0.0126  |
+|    value_loss           | 55.4     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 637      |
+|    ep_return            | -129     |
+|    ep_reward            | -1.6     |
+| time/                   |          |
+|    progress             | 0.983    |
+|    step                 | 1.48e+07 |
+|    step_time            | 537      |
+--------------------------------------
+
+2024-09-01 12:14:38,127 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0126   |
+|    entropy_loss         | -11.1    |
+|    policy_loss          | -0.0114  |
+|    value_loss           | 8.2      |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 504      |
+|    ep_return            | -98.4    |
+|    ep_reward            | -9.03    |
+| time/                   |          |
+|    progress             | 0.986    |
+|    step                 | 1.48e+07 |
+|    step_time            | 546      |
+--------------------------------------
+
+2024-09-01 12:23:45,316 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.014    |
+|    entropy_loss         | -11.2    |
+|    policy_loss          | -0.0128  |
+|    value_loss           | 27.3     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 551      |
+|    ep_return            | -104     |
+|    ep_reward            | -11.4    |
+| time/                   |          |
+|    progress             | 0.988    |
+|    step                 | 1.48e+07 |
+|    step_time            | 547      |
+--------------------------------------
+
+2024-09-01 12:32:27,648 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0168   |
+|    entropy_loss         | -11.2    |
+|    policy_loss          | -0.0124  |
+|    value_loss           | 31       |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 519      |
+|    ep_return            | -97.6    |
+|    ep_reward            | -11.6    |
+| time/                   |          |
+|    progress             | 0.99     |
+|    step                 | 1.48e+07 |
+|    step_time            | 522      |
+--------------------------------------
+
+2024-09-01 12:41:25,909 : Checkpoint | training_results/quadrotor_boltz/ppo/seed_42/15000000steps/model_latest.pt
+2024-09-01 12:45:21,814 : Eval | ep_lengths 801.20 +/- 397.60 | ep_return -103.460 +/- 7.550
+2024-09-01 12:45:21,816 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0166   |
+|    entropy_loss         | -11.3    |
+|    policy_loss          | -0.0126  |
+|    value_loss           | 27.5     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 351      |
+|    ep_return            | -109     |
+|    ep_reward            | -8.92    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 801      |
+|    ep_return            | -103     |
+|    ep_reward            | -6.13    |
+|    mse                  | 711      |
+| time/                   |          |
+|    progress             | 0.992    |
+|    step                 | 1.49e+07 |
+|    step_time            | 538      |
+--------------------------------------
+
+2024-09-01 12:54:18,332 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0149   |
+|    entropy_loss         | -11.3    |
+|    policy_loss          | -0.0134  |
+|    value_loss           | 19.8     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 845      |
+|    ep_return            | -110     |
+|    ep_reward            | -1.14    |
+| time/                   |          |
+|    progress             | 0.994    |
+|    step                 | 1.49e+07 |
+|    step_time            | 537      |
+--------------------------------------
+
+2024-09-01 13:03:23,124 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0153   |
+|    entropy_loss         | -11.3    |
+|    policy_loss          | -0.0119  |
+|    value_loss           | 28.3     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 530      |
+|    ep_return            | -101     |
+|    ep_reward            | -10.9    |
+| time/                   |          |
+|    progress             | 0.996    |
+|    step                 | 1.49e+07 |
+|    step_time            | 545      |
+--------------------------------------
+
+2024-09-01 13:11:40,479 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0161   |
+|    entropy_loss         | -11.3    |
+|    policy_loss          | -0.0129  |
+|    value_loss           | 25.5     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 502      |
+|    ep_return            | -102     |
+|    ep_reward            | -12      |
+| time/                   |          |
+|    progress             | 0.998    |
+|    step                 | 1.5e+07  |
+|    step_time            | 497      |
+--------------------------------------
+
+2024-09-01 13:20:45,546 : Checkpoint | training_results/quadrotor_boltz/ppo/seed_42/15000000steps/model_latest.pt
+2024-09-01 13:20:45,547 : 
+--------------------------------------
+| loss/                   |          |
+|    approx_kl            | 0.0147   |
+|    entropy_loss         | -11.3    |
+|    policy_loss          | -0.0125  |
+|    value_loss           | 28       |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 522      |
+|    ep_return            | -101     |
+|    ep_reward            | -7.05    |
+| time/                   |          |
+|    progress             | 1        |
+|    step                 | 1.5e+07  |
+|    step_time            | 545      |
+--------------------------------------
+

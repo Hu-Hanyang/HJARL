@@ -49,11 +49,11 @@ def test():
     else:
         output_dir = os.path.join(config.output_dir, config.task, config.algo, 
                                   f'seed_{config.seed}')
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir+'/')
+    # if not os.path.exists(output_dir):
+    #     os.makedirs(output_dir+'/')
         
     config.output_dir = output_dir
-    print(f"==============The saving directory is {config.output_dir}.============== \n")
+    print(f"==============The trained directory is {config.output_dir}.============== \n")
 
     set_seed_from_config(config)
     set_device_from_config(config)

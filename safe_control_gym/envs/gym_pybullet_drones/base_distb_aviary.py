@@ -375,7 +375,10 @@ class BaseDistbAviary(BenchmarkEnv):
                     # hj_distbs = np.array([0.0, hj_distbs[1], 0.0])
                     # hj_distbs = np.array([-0.00424, -0.00424, 0.0])
                     # hj_distbs = (0.00424, 0.0, 0.0)
-                    hj_distbs = (0.0, 0.00424, 0.0)
+                    hj_distbs = (0.003, 0.003, 0.0)  # seems good!
+                    # hj_distbs = (0.002, 0.002, 0.0)  # seems good!
+                    # hj_distbs = (0.0, 0.00424, 0.0)
+                    # hj_distbs = (-0.00424, 0.00424, 0.0)  # disaster
                 # elif self.distb_type == 'adversary':
                 #     hj_distbs = (0.0, 0.0, 0.0)
                 else: # fixed-hj, null, random_hj or boltzmann disturbances

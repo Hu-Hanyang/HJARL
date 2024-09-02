@@ -18,16 +18,16 @@ class DubinReachAvoidEasierGame(ReachAvoidGameEnv):
         kwargs['defenders_dynamics']=Dynamics.DUB3D
         kwargs['game_length_sec'] = 15
         kwargs['random_init'] = False
-        kwargs['initial_attacker'] = np.array([[-0.5, 0.5, 1.0]])
-        kwargs['initial_defender'] = np.array([[0.3, -0.2, 1.0]])
+        # kwargs['initial_attacker'] = np.array([[-0.5, 0.5, 1.0]])
+        # kwargs['initial_defender'] = np.array([[0.3, -0.2, 1.0]])
         kwargs['ctrl_freq'] = 20
         kwargs['init_type'] = 'random' # 'distance_init'
         kwargs['obstacles'] = {'obs1': [100, 100, 100, 100]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax], no obstacle here
         super().__init__(*args, **kwargs)
 
         self.grid1vs0 = Grid(np.array([-1.1, -1.1, -math.pi]), np.array([1.1, 1.1, math.pi]), 3, np.array([100, 100, 200]), [2])
-        self.grid1vs1 = Grid(np.array([-1.1, -1.1, -math.pi, -1.1, -1.1, -math.pi]), np.array([1.1, 1.1, math.pi, 1.1, 1.1, math.pi]), 
-                             6, np.array([28, 28, 28, 28, 28, 28]), [2, 5])
+        # self.grid1vs1 = Grid(np.array([-1.1, -1.1, -math.pi, -1.1, -1.1, -math.pi]), np.array([1.1, 1.1, math.pi, 1.1, 1.1, math.pi]), 
+        #                      6, np.array([28, 28, 28, 28, 28, 28]), [2, 5])
         # self.value1vs1_easier = np.load('safe_control_gym/envs/gym_game/values/1vs1Dubin_easier.npy')
         self.value1vs0_easier = np.load('safe_control_gym/envs/gym_game/values/1vs0Dubin_easier.npy')
 
