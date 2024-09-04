@@ -6,6 +6,8 @@ from safe_control_gym.envs.gym_game.ReachAvoidGame import ReachAvoidGameEnv, Rea
 from safe_control_gym.envs.gym_game.DubinGame import DubinReachAvoidEasierGame
 from safe_control_gym.envs.gym_game.RARLGame import RARLGameEnv
 from safe_control_gym.envs.gym_game.DubinRARLGame import DubinRARLGameEnv
+from safe_control_gym.utils.configuration import ConfigFactoryTestAdversary
+from safe_control_gym.utils.registration import make
 from odp.Grid import Grid
 
 from stable_baselines3.common.env_checker import check_env
@@ -22,19 +24,38 @@ value1vs1 = np.load('safe_control_gym/envs/gym_game/values/1vs1Dubin_easier.npy'
 grid1vs1 = Grid(np.array([-1.1, -1.1, -math.pi, -1.1, -1.1, -math.pi]), np.array([1.1, 1.1, math.pi, 1.1, 1.1, math.pi]), 
                         6, np.array([28, 28, 28, 28, 28, 28]), [2, 5])
 
-attackers = np.array([[-0.67, -0.67, 1.57], [-0.77, -0.78, 1.57], [-0.77, -0.72, 1.57], [-0.77, 0.02, 0.02], 
-                              [-0.64, -0.7, 1.56], [0.05, -0.74, 1.55], [-0.61, 0.71, -np.pi/2], [-0.02, 0.76, 0.02]])  # Hanyang: shape (8, 3)
-defenders = np.array([[0.72, 0.73, -np.pi/2], [0.7, 0.79, -np.pi/2], [0.68, -0.72, 1.57], [0.68, -0.72, 1.57],
-                              [-0.69, 0.71, 0.02], [0.64, 0.75, -np.pi/2], [-0.64, -0.67, 1.57], [-0.67, -0.10, -np.pi/2]])
+# attackers = np.array([[-0.67, -0.67, 1.57], [-0.77, -0.78, 1.57], [-0.77, -0.72, 1.57], [-0.77, 0.02, 0.02], 
+#                               [-0.64, -0.7, 1.56], [0.05, -0.74, 1.55], [-0.61, 0.71, -np.pi/2], [-0.02, 0.76, 0.02]])  # Hanyang: shape (8, 3)
+# defenders = np.array([[0.72, 0.73, -np.pi/2], [0.7, 0.79, -np.pi/2], [0.68, -0.72, 1.57], [0.68, -0.72, 1.57],
+#                               [-0.69, 0.71, 0.02], [0.64, 0.75, -np.pi/2], [-0.64, -0.67, 1.57], [-0.67, -0.10, -np.pi/2]])
 
 
-num_experiments = 8
+# num_experiments = 8
 
-for i in range(num_experiments):
-    joint_slice = grid1vs1.get_index(np.concatenate((attackers[i], defenders[i])))
-    print(f"The {i+1}th initial value is {value1vs1[joint_slice]}. \n")
-    
+# for i in range(num_experiments):
+#     joint_slice = grid1vs1.get_index(np.concatenate((attackers[i], defenders[i])))
+#     print(f"The {i+1}th initial value is {value1vs1[joint_slice]}. \n")
 
+fac = ConfigFactoryTestAdversary()
+config = fac.merge()
+config.algo_config['training'] = False
+config.output_dir = "training_results/dubin_rarl_game"
+# rarl model
+# model_path = '/home/marslab/catkin_ws/src/turtlebot3_controller/scripts/training_results/dubin_rarl_game/rarlgame/seed_42/10000000steps/model_latest.pt'
+# rap model
+model_path = 'training_results/dubin_rarl_game/rapgame/seed_42/10000000steps/model_latest.pt'
+env_func = DubinRARLGameEnv
+model = make(config.algo,
+             env_func,
+             checkpoint_path=model_path,
+             use_gpu=False,
+             seed=config.seed,
+             **config.algo_config)
+model.load(model_path)
+model.reset()
+model.agent.eval()
+# model.adversary.eval()
+model.obs_normalizer.set_read_only()
 
 # env = DubinReachAvoidEasierGame()
 # env = ReachAvoidGameEnv()

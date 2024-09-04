@@ -49,12 +49,28 @@ rarl_42_random = [1000, 1000, 1000, 1000, 1000, 12, 1000, 1000, 1000, 72]
 rap_42_random = [1000, 1000, 1000, 10, 1000, 1000, 1000, 1000, 1000, 1000] 
 
 # # quadrotor_wind
-# # ours in wind: 1 = hj_distbs = (0.00424, 0.0, 0.0); 2 = hj_distbs = (0.0, 0.00424, 0.0)
+# # ours in wind: 1 = hj_distbs = (0.00424, 0.0, 0.0); 2 = hj_distbs = (0.0, 0.00424, 0.0), 3:hj_distbs = (0.003, 0.003, 0.0)
 # ours_42_wind1 = [1000, 1000, 1000, 1000, 4, 17, 1000, 11, 1000, 1000] 
 # ours_42_wind2 = [1000, 1000, 1000, 17, 113, 1000, 1000, 48, 1000, 1000]
 # ours_40226_wind1 = [10, 11, 1000, 1000, 1000, 1000, 7, 1000, 1000, 11] 
 # ours_40226_wind2 = [7, 69, 1000, 1000, 1000, 6, 5, 1000, 85, 1000]
 # ours_40026_wind1 = [46, 29, 16, 1000, 1000, 1000, 12, 1000, 1000, 9] 
+
+ours_42_wind3 = [1000, 1000, 1000, 1000, 6, 1000, 1000, 10, 1000, 1000] 
+# ours_40226_wind3 = [8, 66, 1000, 1000, 1000, 17, 10, 1000, 1000, 5]
+ours_40026_wind3 =  [90, 16, 49, 1000, 1000, 1000, 1000, 1000, 1000, 83]
+ours_45_wind3 = [1000, 1000, 1000, 1000, 5, 4, 1000, 11, 36, 1000]
+
+# pure ppo in wind
+ppo_42_wind3 = [1000, 33, 7, 1000, 1000, 1000, 1000, 5, 1000, 1000]
+ppo_2024_wind3 = [1000, 1000, 1000, 1000, 13, 1000, 1000, 1000, 53, 1000] 
+ppo_40226_wind3 = [5, 1000, 14, 6, 1000, 6, 22, 1000, 1000, 4]
+
+# rap in wind
+rap_42_wind3 = [68, 1000, 1000, 45, 11, 1000, 1000, 1000, 1000, 1000] 
+
+# rarl in wind
+rarl_42_wind3 = [7, 16, 1000, 6, 9, 27, 15, 1000, 1000, 12] 
 
 
 
@@ -71,11 +87,17 @@ if __name__ == '__main__':
     # calculate_mean_std(ours_randomhj)
     # print(f"========== Ours in the env quadrotor_random:")
     # calculate_mean_std(ours_random)
+    print(f"========== Ours in the env quadrotor_wind3:")
+    calculate_mean_std([ours_42_wind3, ours_40026_wind3, ours_45_wind3])
 
     # Pure PPO
     ppo_randomhj = [ppo_42_randomhj, ppo_2024_randomhj, ppo_40226_randomhj]
     ppo_random = [ppo_42_random, ppo_2024_random, ppo_40226_random]
-    print(f"========== Pure PPO in the env quadrotor_randomhj:")
-    calculate_mean_std(ppo_randomhj)
-    print(f"========== Pure PPO in the env quadrotor_random:")
-    calculate_mean_std(ppo_random)
+    ppo_wind3 = [ppo_42_wind3, ppo_2024_wind3, ppo_40226_wind3]
+    # print(f"========== Pure PPO in the env quadrotor_randomhj:")
+    # calculate_mean_std(ppo_randomhj)
+    # print(f"========== Pure PPO in the env quadrotor_random:")
+    # calculate_mean_std(ppo_random)
+    print(f"========== Pure PPO in the env quadrotor_wind3:")
+    calculate_mean_std(ppo_wind3)
+    

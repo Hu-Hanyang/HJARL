@@ -232,8 +232,11 @@ class ConfigFactoryTestAdversary:
         config_dict = self.base_dict
         args, _ = self.parser.parse_known_args()
         # Hanyang: add fixed algo and task 
-        args.algo = 'rarl'
-        args.task = 'quadrotor_null'
+        # args.algo = 'rarl'
+        # args.task = 'quadrotor_null'
+        # Hanyang: for dubin_rarl_game
+        args.algo = 'rapgame'
+        args.task = 'dubin_rarl_game'
 
         if config_override is not None:
             args.overrides = config_override
