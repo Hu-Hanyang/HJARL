@@ -1,0 +1,1890 @@
+2024-08-31 05:12:17,001 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-08-31 05:12:26,331 : Eval | ep_lengths 21.90 +/- 5.63 | ep_return -105.759 +/- 2.017
+2024-08-31 05:12:26,343 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -3.65    |
+|    policy_loss          | -0.00408 |
+|    value_loss           | 168      |
+| loss_adv/               |          |
+|    entropy_loss         | -3.64    |
+|    policy_loss          | -0.0114  |
+|    value_loss           | 160      |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 10       |
+|    ep_return            | -102     |
+|    ep_reward            | -12.1    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 21.9     |
+|    ep_return            | -106     |
+|    ep_reward            | -5.13    |
+|    mse                  | 38.9     |
+| time/                   |          |
+|    progress             | 0.016    |
+|    step                 | 1.6e+05  |
+|    time                 | 6.23e+03 |
+--------------------------------------
+
+2024-08-31 06:59:02,844 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-08-31 06:59:09,534 : Eval | ep_lengths 18.80 +/- 4.71 | ep_return -105.009 +/- 1.551
+2024-08-31 06:59:09,544 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -3.7     |
+|    policy_loss          | -0.00889 |
+|    value_loss           | 1.67     |
+| loss_adv/               |          |
+|    entropy_loss         | -3.18    |
+|    policy_loss          | -0.0206  |
+|    value_loss           | 1.06     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 7        |
+|    ep_return            | -102     |
+|    ep_reward            | -15.2    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 18.8     |
+|    ep_return            | -105     |
+|    ep_reward            | -5.94    |
+|    mse                  | 25       |
+| time/                   |          |
+|    progress             | 0.032    |
+|    step                 | 3.2e+05  |
+|    time                 | 6.4e+03  |
+--------------------------------------
+
+2024-08-31 08:38:02,843 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-08-31 08:38:06,265 : Eval | ep_lengths 9.10 +/- 1.70 | ep_return -102.614 +/- 0.758
+2024-08-31 08:38:06,274 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.03    |
+|    policy_loss          | -0.0178  |
+|    value_loss           | 0.423    |
+| loss_adv/               |          |
+|    entropy_loss         | -2.43    |
+|    policy_loss          | -0.0107  |
+|    value_loss           | 0.552    |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 6.9      |
+|    ep_return            | -102     |
+|    ep_reward            | -15.5    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 9.1      |
+|    ep_return            | -103     |
+|    ep_reward            | -11.6    |
+|    mse                  | 10.7     |
+| time/                   |          |
+|    progress             | 0.048    |
+|    step                 | 4.8e+05  |
+|    time                 | 5.93e+03 |
+--------------------------------------
+
+2024-08-31 10:10:40,788 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-08-31 10:10:42,733 : Eval | ep_lengths 5.10 +/- 1.51 | ep_return -101.443 +/- 0.478
+2024-08-31 10:10:42,742 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.53    |
+|    policy_loss          | -0.0239  |
+|    value_loss           | 1.14     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.94    |
+|    policy_loss          | -0.00331 |
+|    value_loss           | 3.01     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 18.2     |
+|    ep_return            | -105     |
+|    ep_reward            | -6.21    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 5.1      |
+|    ep_return            | -101     |
+|    ep_reward            | -21.6    |
+|    mse                  | 5.58     |
+| time/                   |          |
+|    progress             | 0.064    |
+|    step                 | 6.4e+05  |
+|    time                 | 5.55e+03 |
+--------------------------------------
+
+2024-08-31 11:49:11,419 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-08-31 11:49:14,022 : Eval | ep_lengths 5.40 +/- 1.02 | ep_return -101.535 +/- 0.517
+2024-08-31 11:49:14,027 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.59    |
+|    policy_loss          | -0.0105  |
+|    value_loss           | 4.76     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.83    |
+|    policy_loss          | -0.00261 |
+|    value_loss           | 7.83     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 25.4     |
+|    ep_return            | -107     |
+|    ep_reward            | -5.52    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 5.4      |
+|    ep_return            | -102     |
+|    ep_reward            | -19.5    |
+|    mse                  | 6.78     |
+| time/                   |          |
+|    progress             | 0.08     |
+|    step                 | 8e+05    |
+|    time                 | 5.91e+03 |
+--------------------------------------
+
+2024-08-31 13:36:44,779 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-08-31 13:36:47,510 : Eval | ep_lengths 6.00 +/- 1.95 | ep_return -101.455 +/- 0.848
+2024-08-31 13:36:47,514 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.49    |
+|    policy_loss          | -0.00686 |
+|    value_loss           | 7.87     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.85    |
+|    policy_loss          | -0.00246 |
+|    value_loss           | 27.6     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 29.7     |
+|    ep_return            | -108     |
+|    ep_reward            | -4.31    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 6        |
+|    ep_return            | -101     |
+|    ep_reward            | -18.3    |
+|    mse                  | 6.93     |
+| time/                   |          |
+|    progress             | 0.096    |
+|    step                 | 9.6e+05  |
+|    time                 | 6.45e+03 |
+--------------------------------------
+
+2024-08-31 15:24:03,226 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-08-31 15:24:05,482 : Eval | ep_lengths 4.90 +/- 0.83 | ep_return -101.029 +/- 0.326
+2024-08-31 15:24:05,492 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.5     |
+|    policy_loss          | -0.00626 |
+|    value_loss           | 13.8     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.88    |
+|    policy_loss          | -0.00397 |
+|    value_loss           | 10.6     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 34.1     |
+|    ep_return            | -113     |
+|    ep_reward            | -4.23    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 4.9      |
+|    ep_return            | -101     |
+|    ep_reward            | -21.2    |
+|    mse                  | 5.42     |
+| time/                   |          |
+|    progress             | 0.112    |
+|    step                 | 1.12e+06 |
+|    time                 | 6.44e+03 |
+--------------------------------------
+
+2024-08-31 17:11:01,675 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-08-31 17:11:04,028 : Eval | ep_lengths 5.20 +/- 0.87 | ep_return -101.242 +/- 0.282
+2024-08-31 17:11:04,034 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.45    |
+|    policy_loss          | -0.00642 |
+|    value_loss           | 11.3     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.85    |
+|    policy_loss          | -0.00374 |
+|    value_loss           | 11.9     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 25.6     |
+|    ep_return            | -109     |
+|    ep_reward            | -6.43    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 5.2      |
+|    ep_return            | -101     |
+|    ep_reward            | -20      |
+|    mse                  | 5.68     |
+| time/                   |          |
+|    progress             | 0.128    |
+|    step                 | 1.28e+06 |
+|    time                 | 6.42e+03 |
+--------------------------------------
+
+2024-08-31 18:51:16,919 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-08-31 18:51:19,374 : Eval | ep_lengths 5.80 +/- 1.66 | ep_return -101.233 +/- 0.259
+2024-08-31 18:51:19,377 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.49    |
+|    policy_loss          | -0.0064  |
+|    value_loss           | 10.8     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.86    |
+|    policy_loss          | -0.00343 |
+|    value_loss           | 13.4     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 41.9     |
+|    ep_return            | -113     |
+|    ep_reward            | -3.95    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 5.8      |
+|    ep_return            | -101     |
+|    ep_reward            | -18.6    |
+|    mse                  | 6.97     |
+| time/                   |          |
+|    progress             | 0.144    |
+|    step                 | 1.44e+06 |
+|    time                 | 6.01e+03 |
+--------------------------------------
+
+2024-08-31 20:08:59,764 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-08-31 20:09:01,878 : Eval | ep_lengths 6.40 +/- 1.56 | ep_return -101.691 +/- 0.803
+2024-08-31 20:09:01,881 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.6     |
+|    policy_loss          | -0.00753 |
+|    value_loss           | 12       |
+| loss_adv/               |          |
+|    entropy_loss         | -1.95    |
+|    policy_loss          | -0.00454 |
+|    value_loss           | 13       |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 38.7     |
+|    ep_return            | -115     |
+|    ep_reward            | -4.86    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 6.4      |
+|    ep_return            | -102     |
+|    ep_reward            | -16.7    |
+|    mse                  | 6.45     |
+| time/                   |          |
+|    progress             | 0.16     |
+|    step                 | 1.6e+06  |
+|    time                 | 4.66e+03 |
+--------------------------------------
+
+2024-08-31 21:39:39,520 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-08-31 21:39:41,791 : Eval | ep_lengths 5.40 +/- 1.11 | ep_return -101.409 +/- 0.578
+2024-08-31 21:39:41,794 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.64    |
+|    policy_loss          | -0.00689 |
+|    value_loss           | 9.52     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.99    |
+|    policy_loss          | -0.00549 |
+|    value_loss           | 9.68     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 40.3     |
+|    ep_return            | -112     |
+|    ep_reward            | -7.35    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 5.4      |
+|    ep_return            | -101     |
+|    ep_reward            | -19.5    |
+|    mse                  | 6.02     |
+| time/                   |          |
+|    progress             | 0.176    |
+|    step                 | 1.76e+06 |
+|    time                 | 5.44e+03 |
+--------------------------------------
+
+2024-08-31 23:16:42,460 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-08-31 23:16:45,315 : Eval | ep_lengths 7.40 +/- 2.33 | ep_return -102.007 +/- 0.724
+2024-08-31 23:16:45,319 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.66    |
+|    policy_loss          | -0.00812 |
+|    value_loss           | 9.42     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.96    |
+|    policy_loss          | -0.00538 |
+|    value_loss           | 10.5     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 48.3     |
+|    ep_return            | -118     |
+|    ep_reward            | -4.23    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 7.4      |
+|    ep_return            | -102     |
+|    ep_reward            | -15.1    |
+|    mse                  | 8.46     |
+| time/                   |          |
+|    progress             | 0.192    |
+|    step                 | 1.92e+06 |
+|    time                 | 5.82e+03 |
+--------------------------------------
+
+2024-09-01 00:53:32,013 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-01 00:53:34,534 : Eval | ep_lengths 6.30 +/- 1.10 | ep_return -101.564 +/- 0.557
+2024-09-01 00:53:34,537 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.7     |
+|    policy_loss          | -0.00834 |
+|    value_loss           | 8.99     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.98    |
+|    policy_loss          | -0.00606 |
+|    value_loss           | 10.2     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 57.4     |
+|    ep_return            | -120     |
+|    ep_reward            | -4.96    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 6.3      |
+|    ep_return            | -102     |
+|    ep_reward            | -16.7    |
+|    mse                  | 6.82     |
+| time/                   |          |
+|    progress             | 0.208    |
+|    step                 | 2.08e+06 |
+|    time                 | 5.81e+03 |
+--------------------------------------
+
+2024-09-01 02:29:58,834 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-01 02:30:01,869 : Eval | ep_lengths 7.40 +/- 2.62 | ep_return -101.719 +/- 0.837
+2024-09-01 02:30:01,872 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.72    |
+|    policy_loss          | -0.00878 |
+|    value_loss           | 8.93     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.95    |
+|    policy_loss          | -0.00543 |
+|    value_loss           | 8.32     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 27       |
+|    ep_return            | -110     |
+|    ep_reward            | -6.11    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 7.4      |
+|    ep_return            | -102     |
+|    ep_reward            | -15.3    |
+|    mse                  | 9.02     |
+| time/                   |          |
+|    progress             | 0.224    |
+|    step                 | 2.24e+06 |
+|    time                 | 5.78e+03 |
+--------------------------------------
+
+2024-09-01 04:05:44,621 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-01 04:05:47,314 : Eval | ep_lengths 6.50 +/- 2.20 | ep_return -101.500 +/- 0.452
+2024-09-01 04:05:47,317 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.67    |
+|    policy_loss          | -0.00788 |
+|    value_loss           | 9.4      |
+| loss_adv/               |          |
+|    entropy_loss         | -2.02    |
+|    policy_loss          | -0.00565 |
+|    value_loss           | 10.9     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 68.5     |
+|    ep_return            | -131     |
+|    ep_reward            | -4.38    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 6.5      |
+|    ep_return            | -101     |
+|    ep_reward            | -17.2    |
+|    mse                  | 7.67     |
+| time/                   |          |
+|    progress             | 0.24     |
+|    step                 | 2.4e+06  |
+|    time                 | 5.74e+03 |
+--------------------------------------
+
+2024-09-01 05:44:46,194 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-01 05:44:49,362 : Eval | ep_lengths 7.60 +/- 3.47 | ep_return -101.768 +/- 0.766
+2024-09-01 05:44:49,365 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.67    |
+|    policy_loss          | -0.00828 |
+|    value_loss           | 10.5     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.99    |
+|    policy_loss          | -0.00628 |
+|    value_loss           | 12       |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 144      |
+|    ep_return            | -173     |
+|    ep_reward            | -3.87    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 7.6      |
+|    ep_return            | -102     |
+|    ep_reward            | -15.5    |
+|    mse                  | 7.95     |
+| time/                   |          |
+|    progress             | 0.256    |
+|    step                 | 2.56e+06 |
+|    time                 | 5.94e+03 |
+--------------------------------------
+
+2024-09-01 07:25:00,322 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-01 07:25:03,245 : Eval | ep_lengths 7.00 +/- 3.03 | ep_return -101.598 +/- 1.079
+2024-09-01 07:25:03,248 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.6     |
+|    policy_loss          | -0.00859 |
+|    value_loss           | 12.7     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.95    |
+|    policy_loss          | -0.00594 |
+|    value_loss           | 14.4     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 64.3     |
+|    ep_return            | -131     |
+|    ep_reward            | -3.54    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 7        |
+|    ep_return            | -102     |
+|    ep_reward            | -16.7    |
+|    mse                  | 7.04     |
+| time/                   |          |
+|    progress             | 0.272    |
+|    step                 | 2.72e+06 |
+|    time                 | 6.01e+03 |
+--------------------------------------
+
+2024-09-01 09:01:16,759 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-01 09:01:19,545 : Eval | ep_lengths 6.90 +/- 3.33 | ep_return -101.689 +/- 0.772
+2024-09-01 09:01:19,547 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.6     |
+|    policy_loss          | -0.00857 |
+|    value_loss           | 15.5     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.95    |
+|    policy_loss          | -0.00626 |
+|    value_loss           | 17       |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 87.7     |
+|    ep_return            | -139     |
+|    ep_reward            | -4.39    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 6.9      |
+|    ep_return            | -102     |
+|    ep_reward            | -17.9    |
+|    mse                  | 7.52     |
+| time/                   |          |
+|    progress             | 0.288    |
+|    step                 | 2.88e+06 |
+|    time                 | 5.77e+03 |
+--------------------------------------
+
+2024-09-01 10:36:53,486 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-01 10:36:56,211 : Eval | ep_lengths 6.50 +/- 2.01 | ep_return -101.771 +/- 0.528
+2024-09-01 10:36:56,215 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.63    |
+|    policy_loss          | -0.00887 |
+|    value_loss           | 21.7     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.91    |
+|    policy_loss          | -0.00661 |
+|    value_loss           | 25.6     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 80.3     |
+|    ep_return            | -134     |
+|    ep_reward            | -4.02    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 6.5      |
+|    ep_return            | -102     |
+|    ep_reward            | -16.9    |
+|    mse                  | 6.87     |
+| time/                   |          |
+|    progress             | 0.304    |
+|    step                 | 3.04e+06 |
+|    time                 | 5.73e+03 |
+--------------------------------------
+
+2024-09-01 12:11:34,281 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-01 12:11:37,418 : Eval | ep_lengths 7.80 +/- 3.03 | ep_return -101.977 +/- 1.104
+2024-09-01 12:11:37,421 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.64    |
+|    policy_loss          | -0.0091  |
+|    value_loss           | 33.9     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.96    |
+|    policy_loss          | -0.0071  |
+|    value_loss           | 33.5     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 155      |
+|    ep_return            | -168     |
+|    ep_reward            | -4.5     |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 7.8      |
+|    ep_return            | -102     |
+|    ep_reward            | -14.8    |
+|    mse                  | 8.9      |
+| time/                   |          |
+|    progress             | 0.32     |
+|    step                 | 3.2e+06  |
+|    time                 | 5.68e+03 |
+--------------------------------------
+
+2024-09-01 13:49:35,529 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-01 13:49:38,717 : Eval | ep_lengths 7.60 +/- 2.73 | ep_return -102.024 +/- 0.649
+2024-09-01 13:49:38,720 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.64    |
+|    policy_loss          | -0.00841 |
+|    value_loss           | 40.6     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.98    |
+|    policy_loss          | -0.00703 |
+|    value_loss           | 44.4     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 121      |
+|    ep_return            | -158     |
+|    ep_reward            | -3.05    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 7.6      |
+|    ep_return            | -102     |
+|    ep_reward            | -15      |
+|    mse                  | 9.2      |
+| time/                   |          |
+|    progress             | 0.336    |
+|    step                 | 3.36e+06 |
+|    time                 | 5.88e+03 |
+--------------------------------------
+
+2024-09-01 15:32:10,501 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-01 15:32:14,939 : Eval | ep_lengths 10.80 +/- 4.62 | ep_return -102.385 +/- 1.550
+2024-09-01 15:32:14,942 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.62    |
+|    policy_loss          | -0.00844 |
+|    value_loss           | 39.6     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.97    |
+|    policy_loss          | -0.00641 |
+|    value_loss           | 24.2     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 742      |
+|    ep_return            | -302     |
+|    ep_reward            | -1.18    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 10.8     |
+|    ep_return            | -102     |
+|    ep_reward            | -11.1    |
+|    mse                  | 11.9     |
+| time/                   |          |
+|    progress             | 0.352    |
+|    step                 | 3.52e+06 |
+|    time                 | 6.15e+03 |
+--------------------------------------
+
+2024-09-01 16:56:31,313 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-01 16:56:34,180 : Eval | ep_lengths 8.80 +/- 4.60 | ep_return -102.023 +/- 1.189
+2024-09-01 16:56:34,183 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.61    |
+|    policy_loss          | -0.00806 |
+|    value_loss           | 19.2     |
+| loss_adv/               |          |
+|    entropy_loss         | -2.03    |
+|    policy_loss          | -0.00732 |
+|    value_loss           | 17.3     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 421      |
+|    ep_return            | -197     |
+|    ep_reward            | -4.38    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 8.8      |
+|    ep_return            | -102     |
+|    ep_reward            | -14.2    |
+|    mse                  | 11.2     |
+| time/                   |          |
+|    progress             | 0.368    |
+|    step                 | 3.68e+06 |
+|    time                 | 5.06e+03 |
+--------------------------------------
+
+2024-09-01 18:15:04,619 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-01 18:15:08,506 : Eval | ep_lengths 9.80 +/- 6.03 | ep_return -102.293 +/- 1.932
+2024-09-01 18:15:08,511 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.59    |
+|    policy_loss          | -0.00856 |
+|    value_loss           | 18.5     |
+| loss_adv/               |          |
+|    entropy_loss         | -2.05    |
+|    policy_loss          | -0.00779 |
+|    value_loss           | 16.9     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 573      |
+|    ep_return            | -278     |
+|    ep_reward            | -2.43    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 9.8      |
+|    ep_return            | -102     |
+|    ep_reward            | -13.8    |
+|    mse                  | 12.8     |
+| time/                   |          |
+|    progress             | 0.384    |
+|    step                 | 3.84e+06 |
+|    time                 | 4.71e+03 |
+--------------------------------------
+
+2024-09-01 19:49:07,624 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-01 19:49:10,868 : Eval | ep_lengths 8.00 +/- 3.13 | ep_return -101.756 +/- 1.105
+2024-09-01 19:49:10,897 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.59    |
+|    policy_loss          | -0.00901 |
+|    value_loss           | 20.6     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.97    |
+|    policy_loss          | -0.00794 |
+|    value_loss           | 36.3     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 327      |
+|    ep_return            | -221     |
+|    ep_reward            | -1.89    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 8        |
+|    ep_return            | -102     |
+|    ep_reward            | -14.2    |
+|    mse                  | 9.97     |
+| time/                   |          |
+|    progress             | 0.4      |
+|    step                 | 4e+06    |
+|    time                 | 5.64e+03 |
+--------------------------------------
+
+2024-09-01 21:30:52,666 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-01 21:30:55,755 : Eval | ep_lengths 7.50 +/- 1.80 | ep_return -101.615 +/- 0.594
+2024-09-01 21:30:55,759 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.55    |
+|    policy_loss          | -0.00939 |
+|    value_loss           | 41.8     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.92    |
+|    policy_loss          | -0.00872 |
+|    value_loss           | 28.8     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 337      |
+|    ep_return            | -197     |
+|    ep_reward            | -5.91    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 7.5      |
+|    ep_return            | -102     |
+|    ep_reward            | -14.5    |
+|    mse                  | 8.48     |
+| time/                   |          |
+|    progress             | 0.416    |
+|    step                 | 4.16e+06 |
+|    time                 | 6.1e+03  |
+--------------------------------------
+
+2024-09-01 23:16:28,341 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-01 23:16:32,516 : Eval | ep_lengths 9.40 +/- 4.27 | ep_return -102.285 +/- 1.126
+2024-09-01 23:16:32,519 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.6     |
+|    policy_loss          | -0.00986 |
+|    value_loss           | 31.5     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.85    |
+|    policy_loss          | -0.00735 |
+|    value_loss           | 14.6     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 411      |
+|    ep_return            | -176     |
+|    ep_reward            | -4.07    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 9.4      |
+|    ep_return            | -102     |
+|    ep_reward            | -12.5    |
+|    mse                  | 12.5     |
+| time/                   |          |
+|    progress             | 0.432    |
+|    step                 | 4.32e+06 |
+|    time                 | 6.33e+03 |
+--------------------------------------
+
+2024-09-02 00:59:59,586 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-02 01:00:04,229 : Eval | ep_lengths 10.70 +/- 6.90 | ep_return -103.026 +/- 2.297
+2024-09-02 01:00:04,233 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.63    |
+|    policy_loss          | -0.01    |
+|    value_loss           | 12.5     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.79    |
+|    policy_loss          | -0.00748 |
+|    value_loss           | 10.2     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 522      |
+|    ep_return            | -184     |
+|    ep_reward            | -3.51    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 10.7     |
+|    ep_return            | -103     |
+|    ep_reward            | -13.1    |
+|    mse                  | 14       |
+| time/                   |          |
+|    progress             | 0.448    |
+|    step                 | 4.48e+06 |
+|    time                 | 6.21e+03 |
+--------------------------------------
+
+2024-09-02 02:55:34,671 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-02 02:55:40,515 : Eval | ep_lengths 13.20 +/- 8.68 | ep_return -103.043 +/- 1.499
+2024-09-02 02:55:40,518 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.67    |
+|    policy_loss          | -0.00861 |
+|    value_loss           | 10.5     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.73    |
+|    policy_loss          | -0.00671 |
+|    value_loss           | 11.5     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 573      |
+|    ep_return            | -194     |
+|    ep_reward            | -3.14    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 13.2     |
+|    ep_return            | -103     |
+|    ep_reward            | -12      |
+|    mse                  | 20.9     |
+| time/                   |          |
+|    progress             | 0.464    |
+|    step                 | 4.64e+06 |
+|    time                 | 6.93e+03 |
+--------------------------------------
+
+2024-09-02 04:45:29,998 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-02 04:45:33,591 : Eval | ep_lengths 8.20 +/- 3.94 | ep_return -102.187 +/- 1.046
+2024-09-02 04:45:33,595 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.73    |
+|    policy_loss          | -0.00921 |
+|    value_loss           | 19.6     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.69    |
+|    policy_loss          | -0.00659 |
+|    value_loss           | 11       |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 324      |
+|    ep_return            | -178     |
+|    ep_reward            | -6.4     |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 8.2      |
+|    ep_return            | -102     |
+|    ep_reward            | -14.9    |
+|    mse                  | 9.58     |
+| time/                   |          |
+|    progress             | 0.48     |
+|    step                 | 4.8e+06  |
+|    time                 | 6.59e+03 |
+--------------------------------------
+
+2024-09-02 06:44:30,768 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-02 06:44:36,692 : Eval | ep_lengths 13.30 +/- 6.20 | ep_return -103.233 +/- 2.137
+2024-09-02 06:44:36,695 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.78    |
+|    policy_loss          | -0.00976 |
+|    value_loss           | 15.4     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.65    |
+|    policy_loss          | -0.00712 |
+|    value_loss           | 7.61     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 702      |
+|    ep_return            | -188     |
+|    ep_reward            | -5.06    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 13.3     |
+|    ep_return            | -103     |
+|    ep_reward            | -10.6    |
+|    mse                  | 18.3     |
+| time/                   |          |
+|    progress             | 0.496    |
+|    step                 | 4.96e+06 |
+|    time                 | 7.14e+03 |
+--------------------------------------
+
+2024-09-02 08:36:39,728 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-02 08:36:47,359 : Eval | ep_lengths 17.80 +/- 17.94 | ep_return -104.353 +/- 4.706
+2024-09-02 08:36:47,371 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.86    |
+|    policy_loss          | -0.0106  |
+|    value_loss           | 8.22     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.67    |
+|    policy_loss          | -0.00554 |
+|    value_loss           | 9.07     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 613      |
+|    ep_return            | -176     |
+|    ep_reward            | -2.53    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 17.8     |
+|    ep_return            | -104     |
+|    ep_reward            | -11.1    |
+|    mse                  | 34.3     |
+| time/                   |          |
+|    progress             | 0.512    |
+|    step                 | 5.12e+06 |
+|    time                 | 6.72e+03 |
+--------------------------------------
+
+2024-09-02 10:25:41,368 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-02 10:25:47,387 : Eval | ep_lengths 16.80 +/- 11.08 | ep_return -103.759 +/- 2.614
+2024-09-02 10:25:47,389 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.91    |
+|    policy_loss          | -0.0099  |
+|    value_loss           | 11.4     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.71    |
+|    policy_loss          | -0.00737 |
+|    value_loss           | 11.2     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 471      |
+|    ep_return            | -204     |
+|    ep_reward            | -8.67    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 16.8     |
+|    ep_return            | -104     |
+|    ep_reward            | -9       |
+|    mse                  | 31.1     |
+| time/                   |          |
+|    progress             | 0.528    |
+|    step                 | 5.28e+06 |
+|    time                 | 6.53e+03 |
+--------------------------------------
+
+2024-09-02 11:51:14,109 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-02 11:51:17,879 : Eval | ep_lengths 10.50 +/- 6.82 | ep_return -102.160 +/- 1.330
+2024-09-02 11:51:17,882 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -4.9     |
+|    policy_loss          | -0.0108  |
+|    value_loss           | 12.6     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.72    |
+|    policy_loss          | -0.00622 |
+|    value_loss           | 33       |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 356      |
+|    ep_return            | -165     |
+|    ep_reward            | -4.31    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 10.5     |
+|    ep_return            | -102     |
+|    ep_reward            | -13.6    |
+|    mse                  | 14.2     |
+| time/                   |          |
+|    progress             | 0.544    |
+|    step                 | 5.44e+06 |
+|    time                 | 5.13e+03 |
+--------------------------------------
+
+2024-09-02 13:16:25,222 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-02 13:16:28,655 : Eval | ep_lengths 10.70 +/- 6.69 | ep_return -102.318 +/- 1.780
+2024-09-02 13:16:28,657 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -5       |
+|    policy_loss          | -0.0102  |
+|    value_loss           | 25.1     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.76    |
+|    policy_loss          | -0.00624 |
+|    value_loss           | 9.81     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 315      |
+|    ep_return            | -142     |
+|    ep_reward            | -5.76    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 10.7     |
+|    ep_return            | -102     |
+|    ep_reward            | -13.5    |
+|    mse                  | 13.6     |
+| time/                   |          |
+|    progress             | 0.56     |
+|    step                 | 5.6e+06  |
+|    time                 | 5.11e+03 |
+--------------------------------------
+
+2024-09-02 14:33:20,135 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-02 14:33:22,254 : Eval | ep_lengths 6.40 +/- 2.20 | ep_return -101.452 +/- 0.880
+2024-09-02 14:33:22,257 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -5.11    |
+|    policy_loss          | -0.0104  |
+|    value_loss           | 15.6     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.74    |
+|    policy_loss          | -0.00638 |
+|    value_loss           | 15.2     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 636      |
+|    ep_return            | -181     |
+|    ep_reward            | -2.67    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 6.4      |
+|    ep_return            | -101     |
+|    ep_reward            | -17.4    |
+|    mse                  | 7.28     |
+| time/                   |          |
+|    progress             | 0.576    |
+|    step                 | 5.76e+06 |
+|    time                 | 4.61e+03 |
+--------------------------------------
+
+2024-09-02 15:48:20,656 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-02 15:48:29,461 : Eval | ep_lengths 27.80 +/- 33.29 | ep_return -108.743 +/- 12.160
+2024-09-02 15:48:29,463 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -5.24    |
+|    policy_loss          | -0.0116  |
+|    value_loss           | 24.4     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.69    |
+|    policy_loss          | -0.00721 |
+|    value_loss           | 27.5     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 204      |
+|    ep_return            | -131     |
+|    ep_reward            | -7.2     |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 27.8     |
+|    ep_return            | -109     |
+|    ep_reward            | -10.2    |
+|    mse                  | 46.9     |
+| time/                   |          |
+|    progress             | 0.592    |
+|    step                 | 5.92e+06 |
+|    time                 | 4.5e+03  |
+--------------------------------------
+
+2024-09-02 17:01:49,601 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-02 17:01:55,532 : Eval | ep_lengths 18.80 +/- 35.35 | ep_return -105.254 +/- 10.456
+2024-09-02 17:01:55,535 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -5.32    |
+|    policy_loss          | -0.0118  |
+|    value_loss           | 20.4     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.68    |
+|    policy_loss          | -0.00703 |
+|    value_loss           | 18.5     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 528      |
+|    ep_return            | -159     |
+|    ep_reward            | -1.8     |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 18.8     |
+|    ep_return            | -105     |
+|    ep_reward            | -16.1    |
+|    mse                  | 27.9     |
+| time/                   |          |
+|    progress             | 0.608    |
+|    step                 | 6.08e+06 |
+|    time                 | 4.4e+03  |
+--------------------------------------
+
+2024-09-02 18:17:12,472 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-02 18:17:17,622 : Eval | ep_lengths 17.10 +/- 15.75 | ep_return -103.703 +/- 2.958
+2024-09-02 18:17:17,625 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -5.39    |
+|    policy_loss          | -0.00973 |
+|    value_loss           | 22.7     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.76    |
+|    policy_loss          | -0.00697 |
+|    value_loss           | 29       |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 444      |
+|    ep_return            | -134     |
+|    ep_reward            | -4.42    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 17.1     |
+|    ep_return            | -104     |
+|    ep_reward            | -11.1    |
+|    mse                  | 26.8     |
+| time/                   |          |
+|    progress             | 0.624    |
+|    step                 | 6.24e+06 |
+|    time                 | 4.52e+03 |
+--------------------------------------
+
+2024-09-02 19:31:59,454 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-02 19:32:06,151 : Eval | ep_lengths 23.60 +/- 26.21 | ep_return -107.402 +/- 10.645
+2024-09-02 19:32:06,154 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -5.52    |
+|    policy_loss          | -0.0133  |
+|    value_loss           | 39.3     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.83    |
+|    policy_loss          | -0.00705 |
+|    value_loss           | 31.6     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 219      |
+|    ep_return            | -116     |
+|    ep_reward            | -6.25    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 23.6     |
+|    ep_return            | -107     |
+|    ep_reward            | -10.8    |
+|    mse                  | 37       |
+| time/                   |          |
+|    progress             | 0.64     |
+|    step                 | 6.4e+06  |
+|    time                 | 4.48e+03 |
+--------------------------------------
+
+2024-09-02 20:48:09,174 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-02 20:48:17,751 : Eval | ep_lengths 28.70 +/- 24.91 | ep_return -106.492 +/- 6.342
+2024-09-02 20:48:17,754 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -5.7     |
+|    policy_loss          | -0.0139  |
+|    value_loss           | 34.8     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.76    |
+|    policy_loss          | -0.00829 |
+|    value_loss           | 28.9     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 456      |
+|    ep_return            | -175     |
+|    ep_reward            | -5.59    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 28.7     |
+|    ep_return            | -106     |
+|    ep_reward            | -6.46    |
+|    mse                  | 40.7     |
+| time/                   |          |
+|    progress             | 0.656    |
+|    step                 | 6.56e+06 |
+|    time                 | 4.56e+03 |
+--------------------------------------
+
+2024-09-02 22:09:19,897 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-02 22:09:27,947 : Eval | ep_lengths 33.40 +/- 51.47 | ep_return -111.891 +/- 22.415
+2024-09-02 22:09:27,950 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -5.77    |
+|    policy_loss          | -0.0146  |
+|    value_loss           | 33.7     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.79    |
+|    policy_loss          | -0.00607 |
+|    value_loss           | 12.8     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 764      |
+|    ep_return            | -168     |
+|    ep_reward            | -0.469   |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 33.4     |
+|    ep_return            | -112     |
+|    ep_reward            | -8.74    |
+|    mse                  | 51.1     |
+| time/                   |          |
+|    progress             | 0.672    |
+|    step                 | 6.72e+06 |
+|    time                 | 4.86e+03 |
+--------------------------------------
+
+2024-09-02 23:31:21,102 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-02 23:32:33,699 : Eval | ep_lengths 205.50 +/- 348.15 | ep_return -170.924 +/- 123.470
+2024-09-02 23:32:33,702 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -5.83    |
+|    policy_loss          | -0.0127  |
+|    value_loss           | 13.1     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.83    |
+|    policy_loss          | -0.007   |
+|    value_loss           | 6.39     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 584      |
+|    ep_return            | -134     |
+|    ep_reward            | -3.87    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 206      |
+|    ep_return            | -171     |
+|    ep_reward            | -7.67    |
+|    mse                  | 311      |
+| time/                   |          |
+|    progress             | 0.688    |
+|    step                 | 6.88e+06 |
+|    time                 | 4.91e+03 |
+--------------------------------------
+
+2024-09-03 01:05:13,157 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-03 01:07:00,282 : Eval | ep_lengths 314.90 +/- 448.64 | ep_return -184.569 +/- 121.185
+2024-09-03 01:07:00,284 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -5.83    |
+|    policy_loss          | -0.0136  |
+|    value_loss           | 6.72     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.87    |
+|    policy_loss          | -0.00581 |
+|    value_loss           | 7.55     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 386      |
+|    ep_return            | -120     |
+|    ep_reward            | -5.99    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 315      |
+|    ep_return            | -185     |
+|    ep_reward            | -5.29    |
+|    mse                  | 445      |
+| time/                   |          |
+|    progress             | 0.704    |
+|    step                 | 7.04e+06 |
+|    time                 | 5.56e+03 |
+--------------------------------------
+
+2024-09-03 02:33:32,190 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-03 02:35:19,108 : Eval | ep_lengths 405.80 +/- 485.18 | ep_return -198.582 +/- 118.084
+2024-09-03 02:35:19,111 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -5.88    |
+|    policy_loss          | -0.0131  |
+|    value_loss           | 5.89     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.87    |
+|    policy_loss          | -0.00722 |
+|    value_loss           | 9.28     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 684      |
+|    ep_return            | -141     |
+|    ep_reward            | -5.8     |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 406      |
+|    ep_return            | -199     |
+|    ep_reward            | -8.67    |
+|    mse                  | 616      |
+| time/                   |          |
+|    progress             | 0.72     |
+|    step                 | 7.2e+06  |
+|    time                 | 5.19e+03 |
+--------------------------------------
+
+2024-09-03 03:44:54,037 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-03 03:44:57,690 : Eval | ep_lengths 12.70 +/- 7.77 | ep_return -102.893 +/- 1.261
+2024-09-03 03:44:57,692 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -5.98    |
+|    policy_loss          | -0.0127  |
+|    value_loss           | 9.78     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.84    |
+|    policy_loss          | -0.00721 |
+|    value_loss           | 4.66     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 702      |
+|    ep_return            | -126     |
+|    ep_reward            | -5.29    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 12.7     |
+|    ep_return            | -103     |
+|    ep_reward            | -10.9    |
+|    mse                  | 17.1     |
+| time/                   |          |
+|    progress             | 0.736    |
+|    step                 | 7.36e+06 |
+|    time                 | 4.17e+03 |
+--------------------------------------
+
+2024-09-03 04:54:26,111 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-03 04:54:54,589 : Eval | ep_lengths 106.80 +/- 169.68 | ep_return -141.492 +/- 69.978
+2024-09-03 04:54:54,591 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -6.04    |
+|    policy_loss          | -0.0128  |
+|    value_loss           | 4.17     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.89    |
+|    policy_loss          | -0.00735 |
+|    value_loss           | 4.15     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 605      |
+|    ep_return            | -121     |
+|    ep_reward            | -4.2     |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 107      |
+|    ep_return            | -141     |
+|    ep_reward            | -8.64    |
+|    mse                  | 179      |
+| time/                   |          |
+|    progress             | 0.752    |
+|    step                 | 7.52e+06 |
+|    time                 | 4.17e+03 |
+--------------------------------------
+
+2024-09-03 06:04:36,332 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-03 06:06:23,543 : Eval | ep_lengths 406.00 +/- 485.01 | ep_return -177.646 +/- 94.335
+2024-09-03 06:06:23,546 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -6.13    |
+|    policy_loss          | -0.0119  |
+|    value_loss           | 2.41     |
+| loss_adv/               |          |
+|    entropy_loss         | -1.93    |
+|    policy_loss          | -0.00608 |
+|    value_loss           | 1.34     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 702      |
+|    ep_return            | -122     |
+|    ep_reward            | -5.29    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 406      |
+|    ep_return            | -178     |
+|    ep_reward            | -7.59    |
+|    mse                  | 593      |
+| time/                   |          |
+|    progress             | 0.768    |
+|    step                 | 7.68e+06 |
+|    time                 | 4.18e+03 |
+--------------------------------------
+
+2024-09-03 07:15:59,533 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-03 07:16:59,280 : Eval | ep_lengths 227.70 +/- 389.81 | ep_return -143.999 +/- 75.521
+2024-09-03 07:16:59,289 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -6.19    |
+|    policy_loss          | -0.0116  |
+|    value_loss           | 1.4      |
+| loss_adv/               |          |
+|    entropy_loss         | -2.05    |
+|    policy_loss          | -0.00541 |
+|    value_loss           | 4.4      |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 603      |
+|    ep_return            | -103     |
+|    ep_reward            | -6.06    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 228      |
+|    ep_return            | -144     |
+|    ep_reward            | -9.68    |
+|    mse                  | 369      |
+| time/                   |          |
+|    progress             | 0.784    |
+|    step                 | 7.84e+06 |
+|    time                 | 4.18e+03 |
+--------------------------------------
+
+2024-09-03 08:26:29,917 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-03 08:29:25,895 : Eval | ep_lengths 662.50 +/- 396.22 | ep_return -236.116 +/- 79.054
+2024-09-03 08:29:25,897 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -6.27    |
+|    policy_loss          | -0.0113  |
+|    value_loss           | 4.18     |
+| loss_adv/               |          |
+|    entropy_loss         | -2.16    |
+|    policy_loss          | -0.00354 |
+|    value_loss           | 3.71     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 210      |
+|    ep_return            | -98      |
+|    ep_reward            | -9.44    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 662      |
+|    ep_return            | -236     |
+|    ep_reward            | -4.25    |
+|    mse                  | 1.09e+03 |
+| time/                   |          |
+|    progress             | 0.8      |
+|    step                 | 8e+06    |
+|    time                 | 4.17e+03 |
+--------------------------------------
+
+2024-09-03 09:39:15,652 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-03 09:40:36,800 : Eval | ep_lengths 305.90 +/- 454.40 | ep_return -168.183 +/- 101.128
+2024-09-03 09:40:36,803 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -6.36    |
+|    policy_loss          | -0.0119  |
+|    value_loss           | 6.81     |
+| loss_adv/               |          |
+|    entropy_loss         | -2.25    |
+|    policy_loss          | -0.00767 |
+|    value_loss           | 6.37     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 503      |
+|    ep_return            | -97.8    |
+|    ep_reward            | -9.07    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 306      |
+|    ep_return            | -168     |
+|    ep_reward            | -9.43    |
+|    mse                  | 541      |
+| time/                   |          |
+|    progress             | 0.816    |
+|    step                 | 8.16e+06 |
+|    time                 | 4.19e+03 |
+--------------------------------------
+
+2024-09-03 10:50:32,227 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-03 10:51:02,811 : Eval | ep_lengths 113.50 +/- 295.82 | ep_return -118.954 +/- 44.617
+2024-09-03 10:51:02,814 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -6.5     |
+|    policy_loss          | -0.0118  |
+|    value_loss           | 4.44     |
+| loss_adv/               |          |
+|    entropy_loss         | -2.29    |
+|    policy_loss          | -0.00665 |
+|    value_loss           | 1.78     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 307      |
+|    ep_return            | -103     |
+|    ep_reward            | -9.8     |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 114      |
+|    ep_return            | -119     |
+|    ep_reward            | -10.1    |
+|    mse                  | 174      |
+| time/                   |          |
+|    progress             | 0.832    |
+|    step                 | 8.32e+06 |
+|    time                 | 4.2e+03  |
+--------------------------------------
+
+2024-09-03 12:01:36,375 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-03 12:03:02,368 : Eval | ep_lengths 313.60 +/- 449.56 | ep_return -141.095 +/- 56.988
+2024-09-03 12:03:02,370 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -6.64    |
+|    policy_loss          | -0.0122  |
+|    value_loss           | 2.73     |
+| loss_adv/               |          |
+|    entropy_loss         | -2.43    |
+|    policy_loss          | -0.00649 |
+|    value_loss           | 0.947    |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 604      |
+|    ep_return            | -87.8    |
+|    ep_reward            | -4.58    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 314      |
+|    ep_return            | -141     |
+|    ep_reward            | -5.8     |
+|    mse                  | 467      |
+| time/                   |          |
+|    progress             | 0.848    |
+|    step                 | 8.48e+06 |
+|    time                 | 4.23e+03 |
+--------------------------------------
+
+2024-09-03 13:13:22,982 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-03 13:16:02,886 : Eval | ep_lengths 605.30 +/- 483.43 | ep_return -153.400 +/- 41.520
+2024-09-03 13:16:02,908 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -6.68    |
+|    policy_loss          | -0.00962 |
+|    value_loss           | 0.952    |
+| loss_adv/               |          |
+|    entropy_loss         | -2.55    |
+|    policy_loss          | -0.00501 |
+|    value_loss           | 0.932    |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 306      |
+|    ep_return            | -91.4    |
+|    ep_reward            | -11.6    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 605      |
+|    ep_return            | -153     |
+|    ep_reward            | -4.36    |
+|    mse                  | 834      |
+| time/                   |          |
+|    progress             | 0.864    |
+|    step                 | 8.64e+06 |
+|    time                 | 4.22e+03 |
+--------------------------------------
+
+2024-09-03 14:26:05,042 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-03 14:29:12,214 : Eval | ep_lengths 701.70 +/- 455.66 | ep_return -118.854 +/- 13.232
+2024-09-03 14:29:12,217 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -6.81    |
+|    policy_loss          | -0.0113  |
+|    value_loss           | 2.7      |
+| loss_adv/               |          |
+|    entropy_loss         | -2.75    |
+|    policy_loss          | -0.00626 |
+|    value_loss           | 3.73     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 606      |
+|    ep_return            | -84.9    |
+|    ep_reward            | -3.96    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 702      |
+|    ep_return            | -119     |
+|    ep_reward            | -5.49    |
+|    mse                  | 831      |
+| time/                   |          |
+|    progress             | 0.88     |
+|    step                 | 8.8e+06  |
+|    time                 | 4.2e+03  |
+--------------------------------------
+
+2024-09-03 15:38:52,638 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-03 15:41:06,742 : Eval | ep_lengths 504.50 +/- 495.51 | ep_return -108.115 +/- 8.321
+2024-09-03 15:41:06,745 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -6.96    |
+|    policy_loss          | -0.0104  |
+|    value_loss           | 1.65     |
+| loss_adv/               |          |
+|    entropy_loss         | -2.89    |
+|    policy_loss          | -0.00802 |
+|    value_loss           | 0.964    |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 604      |
+|    ep_return            | -92.4    |
+|    ep_reward            | -3.86    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 504      |
+|    ep_return            | -108     |
+|    ep_reward            | -7.4     |
+|    mse                  | 594      |
+| time/                   |          |
+|    progress             | 0.896    |
+|    step                 | 8.96e+06 |
+|    time                 | 4.18e+03 |
+--------------------------------------
+
+2024-09-03 16:51:26,212 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-03 16:52:49,707 : Eval | ep_lengths 310.40 +/- 451.47 | ep_return -115.023 +/- 19.255
+2024-09-03 16:52:49,709 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -7.17    |
+|    policy_loss          | -0.0121  |
+|    value_loss           | 3.45     |
+| loss_adv/               |          |
+|    entropy_loss         | -3.03    |
+|    policy_loss          | -0.00668 |
+|    value_loss           | 2.33     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 606      |
+|    ep_return            | -83.2    |
+|    ep_reward            | -3.91    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 310      |
+|    ep_return            | -115     |
+|    ep_reward            | -5.96    |
+|    mse                  | 407      |
+| time/                   |          |
+|    progress             | 0.912    |
+|    step                 | 9.12e+06 |
+|    time                 | 4.22e+03 |
+--------------------------------------
+
+2024-09-03 18:03:04,328 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-03 18:05:27,399 : Eval | ep_lengths 505.50 +/- 494.52 | ep_return -119.653 +/- 18.154
+2024-09-03 18:05:27,402 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -7.34    |
+|    policy_loss          | -0.0138  |
+|    value_loss           | 7.45     |
+| loss_adv/               |          |
+|    entropy_loss         | -3.14    |
+|    policy_loss          | -0.00971 |
+|    value_loss           | 1.56     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 506      |
+|    ep_return            | -89.5    |
+|    ep_reward            | -4.64    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 506      |
+|    ep_return            | -120     |
+|    ep_reward            | -5.98    |
+|    mse                  | 610      |
+| time/                   |          |
+|    progress             | 0.928    |
+|    step                 | 9.28e+06 |
+|    time                 | 4.21e+03 |
+--------------------------------------
+
+2024-09-03 19:16:20,598 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-03 19:18:40,114 : Eval | ep_lengths 513.80 +/- 486.47 | ep_return -119.335 +/- 14.664
+2024-09-03 19:18:40,116 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -7.48    |
+|    policy_loss          | -0.0128  |
+|    value_loss           | 1.11     |
+| loss_adv/               |          |
+|    entropy_loss         | -3.29    |
+|    policy_loss          | -0.0101  |
+|    value_loss           | 3.22     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 509      |
+|    ep_return            | -90.8    |
+|    ep_reward            | -3.22    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 514      |
+|    ep_return            | -119     |
+|    ep_reward            | -3.92    |
+|    mse                  | 621      |
+| time/                   |          |
+|    progress             | 0.944    |
+|    step                 | 9.44e+06 |
+|    time                 | 4.25e+03 |
+--------------------------------------
+
+2024-09-03 20:28:53,570 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-03 20:31:35,054 : Eval | ep_lengths 604.60 +/- 484.27 | ep_return -129.236 +/- 24.621
+2024-09-03 20:31:35,056 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -7.54    |
+|    policy_loss          | -0.0116  |
+|    value_loss           | 3.59     |
+| loss_adv/               |          |
+|    entropy_loss         | -3.43    |
+|    policy_loss          | -0.00956 |
+|    value_loss           | 2.02     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 406      |
+|    ep_return            | -87.9    |
+|    ep_reward            | -6.35    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 605      |
+|    ep_return            | -129     |
+|    ep_reward            | -4.53    |
+|    mse                  | 776      |
+| time/                   |          |
+|    progress             | 0.96     |
+|    step                 | 9.6e+06  |
+|    time                 | 4.21e+03 |
+--------------------------------------
+
+2024-09-03 21:55:27,039 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-03 21:57:49,099 : Eval | ep_lengths 424.20 +/- 472.10 | ep_return -121.429 +/- 18.752
+2024-09-03 21:57:49,102 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -7.67    |
+|    policy_loss          | -0.0128  |
+|    value_loss           | 8.43     |
+| loss_adv/               |          |
+|    entropy_loss         | -3.51    |
+|    policy_loss          | -0.0111  |
+|    value_loss           | 4.18     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 614      |
+|    ep_return            | -86.7    |
+|    ep_reward            | -2.69    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 424      |
+|    ep_return            | -121     |
+|    ep_reward            | -3.68    |
+|    mse                  | 521      |
+| time/                   |          |
+|    progress             | 0.976    |
+|    step                 | 9.76e+06 |
+|    time                 | 5.03e+03 |
+--------------------------------------
+
+2024-09-03 23:25:55,065 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-03 23:28:09,750 : Eval | ep_lengths 406.30 +/- 484.77 | ep_return -103.016 +/- 7.574
+2024-09-03 23:28:09,753 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -7.77    |
+|    policy_loss          | -0.0124  |
+|    value_loss           | 3.4      |
+| loss_adv/               |          |
+|    entropy_loss         | -3.5     |
+|    policy_loss          | -0.0119  |
+|    value_loss           | 15.8     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 412      |
+|    ep_return            | -92.6    |
+|    ep_reward            | -4.94    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 406      |
+|    ep_return            | -103     |
+|    ep_reward            | -7.57    |
+|    mse                  | 478      |
+| time/                   |          |
+|    progress             | 0.992    |
+|    step                 | 9.92e+06 |
+|    time                 | 5.29e+03 |
+--------------------------------------
+
+2024-09-04 00:56:03,722 : Checkpoint | training_results/quadrotor_rarl/rarl/seed_42/10000000steps/model_latest.pt
+2024-09-04 00:59:30,183 : Eval | ep_lengths 605.60 +/- 483.07 | ep_return -136.144 +/- 26.900
+2024-09-04 00:59:30,186 : 
+--------------------------------------
+| loss/                   |          |
+|    entropy_loss         | -7.89    |
+|    policy_loss          | -0.015   |
+|    value_loss           | 14.8     |
+| loss_adv/               |          |
+|    entropy_loss         | -3.53    |
+|    policy_loss          | -0.0115  |
+|    value_loss           | 14.1     |
+| stat/                   |          |
+|    constraint_violation | 0        |
+|    ep_constraint_vio... | 0        |
+|    ep_length            | 313      |
+|    ep_return            | -96.5    |
+|    ep_reward            | -5.32    |
+| stat_eval/              |          |
+|    constraint_violation | 0        |
+|    ep_length            | 606      |
+|    ep_return            | -136     |
+|    ep_reward            | -4.74    |
+|    mse                  | 785      |
+| time/                   |          |
+|    progress             | 1.01     |
+|    step                 | 1.01e+07 |
+|    time                 | 5.27e+03 |
+--------------------------------------
+

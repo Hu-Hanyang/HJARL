@@ -47,7 +47,7 @@ seed: 42
 tag: temp
 task: quadrotor_null
 task_config:
-  adversary_disturbance: null
+  adversary_disturbance: 'action'
   adversary_disturbance_offset: 0.0
   adversary_disturbance_scale: 0.01
   constraint_penalty: -1

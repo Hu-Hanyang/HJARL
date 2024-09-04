@@ -88,7 +88,7 @@ For rl_based controllers:
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_random  --seed 2024
 <!-- python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_random --algo ppo --task quadrotor_random  --seed 42 -->
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo ppo --task quadrotor_random  --seed 2024
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rarl --task quadrotor_random  --seed 42
+python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rarl --task quadrotor_random  --seed 2024
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rap --task quadrotor_random  --seed 42
 
 
@@ -107,12 +107,12 @@ python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrot
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_wind --seed 42
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo ppo --task quadrotor_wind --seed 42
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rarl --task quadrotor_wind --seed 42
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rap --task quadrotor_wind --seed 42
+python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_rarl --algo rap --task quadrotor_wind --seed 42
 
 ### test in the quadrotor_random_hj
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_randomhj --seed 2024
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo ppo --task quadrotor_randomhj --seed 42
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rarl --task quadrotor_randomhj  --seed 42
+python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rarl --task quadrotor_randomhj  --seed 2024
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rap --task quadrotor_randomhj  --seed 42
 
 

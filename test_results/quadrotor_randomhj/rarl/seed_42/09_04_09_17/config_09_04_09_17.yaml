@@ -1,4 +1,4 @@
-algo: rap
+algo: rarl
 algo_config:
   actor_lr: 0.0003
   adversary_iterations: 10
@@ -16,7 +16,6 @@ algo_config:
   gamma: 0.99
   hidden_dim: 64
   log_interval: 10
-  max_ctrl_steps: 1000
   max_env_steps: 10000000
   max_grad_norm: 0.5
   mini_batch_size: 64
@@ -26,28 +25,25 @@ algo_config:
   num_checkpoints: 10
   num_workers: 1
   opt_epochs: 10
-  render_height: 1920
-  render_width: 2560
-  rollout_batch_size: 32
-  rollout_steps: 2048
+  rollout_batch_size: 8
+  rollout_steps: 1000
   save_interval: 20000
   target_kl: 0.01
   tensorboard: true
-  training: true
+  training: false
   use_clipped_value: false
   use_gae: false
-device: cuda
-env_distb_level: 0.0
-env_distb_type: fixed
-output_dir: training_results/quadrotor_null/rap/seed_42/10000000steps
+device: cpu
+output_dir: test_results/quadrotor_randomhj/rarl/seed_42/09_04_09_17
+render: false
 restore: null
 seed: 42
 tag: temp
-task: quadrotor_null
+task: quadrotor_randomhj
 task_config:
-  adversary_disturbance: 'action'
+  adversary_disturbance: null
   adversary_disturbance_offset: 0.0
-  adversary_disturbance_scale: 0.01
+  adversary_disturbance_scale: 0.0
   constraint_penalty: -1
   constraints: null
   cost: rl_reward
@@ -69,8 +65,8 @@ task_config:
   pyb_freq: 200
   randomized_inertial_prop: false
   randomized_init: false
-  render_height: 1920
-  render_width: 2560
+  render_height: 960
+  render_width: 1280
   rew_act_weight: 0.0001
   rew_exponential: true
   rew_state_weight: 1.0
@@ -78,4 +74,8 @@ task_config:
   task_info: null
   use_constraint_penalty: false
   verbose: false
-use_gpu: true
+test_distb_level: 0.0
+test_distb_type: random_hj
+trained_distb_level: 1.0
+trained_task: quadrotor_rarl
+use_gpu: false
