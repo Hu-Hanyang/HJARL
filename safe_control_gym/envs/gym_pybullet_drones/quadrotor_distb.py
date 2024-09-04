@@ -760,7 +760,7 @@ class QuadrotorRARLDistb(QuadrotorDistb):
         # Hanyang: adversary disturbances
         kwargs['adversary_disturbance'] = 'action'  # Hanyang: for rarl and rap
         kwargs['adversary_disturbance_offset'] = 0.0
-        kwargs['adversary_disturbance_scale'] = 0.01
+        kwargs['adversary_disturbance_scale'] = 1.0
         super().__init__(*args, **kwargs)  # distb_level=distb_level, randomization_reset=randomization_reset,
         
         

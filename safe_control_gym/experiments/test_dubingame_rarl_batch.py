@@ -20,7 +20,6 @@ from safe_control_gym.utils.utils import mkdirs, set_device_from_config, set_see
 from safe_control_gym.envs.gym_game.DubinGame import DubinReachAvoidEasierGame
 from safe_control_gym.utils.plotting import plot_values_rarl
 
-#TODO: Not started yet, 2024.9.1
 
 # Step 0 initilize the map 
 map = {'map': [-1., 1., -1., 1.]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]

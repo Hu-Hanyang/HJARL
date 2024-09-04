@@ -29,6 +29,7 @@ ppo_40226_randomhj = [12, 1000, 1000, 58, 3, 21, 17, 1000, 1000, 13]
 rarl_42_randomhj =  [7, 1000, 56, 26, 8, 4, 1000, 1000, 5, 77] 
 rarl_2024_randomhj = [6, 68, 6, 1000, 23, 3, 1000, 1000, 28, 3] 
 rarl_422_randomhj = [13, 21, 18, 28, 13, 5, 13, 15, 6, 8]
+rarl_20242_randomhj = [9, 34, 20, 11, 74, 6, 22, 26, 22, 3]
 
 # rap in randomhj
 rap_42_randomhj = [49, 33, 22, 59, 13, 4, 1000, 1000, 5, 218] 
@@ -50,7 +51,8 @@ ppo_2024_random = [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
 # rarl in random
 rarl_42_random = [1000, 1000, 1000, 1000, 1000, 12, 1000, 1000, 1000, 72]
 rarl_2024_random = [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
-rarl_422_random = [22, 46, 15, 125, 12, 11, 104, 145, 1000, 244]
+rarl_422_random = [22, 46, 15, 125, 12, 11, 104, 145, 1000, 244] 
+rarl_20242_random = [1000, 1000, 13, 15, 9, 1000, 7, 1000, 21, 14] 
 
 # rap in random
 rap_42_random = [1000, 1000, 1000, 10, 1000, 1000, 1000, 1000, 1000, 1000] 
@@ -83,7 +85,8 @@ rap_422_wind3 =  [27, 44, 7, 23, 14, 585, 474, 5, 6, 250]
 # rarl in wind
 rarl_42_wind3 = [7, 16, 1000, 6, 9, 27, 15, 1000, 1000, 12] 
 rarl_2024_wind3 = [44, 30, 1000, 28, 6, 37, 1000, 29, 15, 38]
-rarl_422_wind3 = [12, 120, 4, 19, 422, 61, 51, 9, 11, 27]
+# rarl_422_wind3 = [12, 120, 4, 19, 422, 61, 51, 9, 11, 27]
+rarl_20242_wind3 = [1000, 1000, 8, 1000, 8, 1000, 9, 1000, 6, 1000] 
 
 
 
@@ -115,9 +118,9 @@ if __name__ == '__main__':
     # calculate_mean_std(ppo_wind3)
     
     # RARL
-    rarl_randomhj = [rarl_42_randomhj, rarl_2024_randomhj, rarl_422_randomhj]
-    rarl_random = [rarl_42_random, rarl_2024_random, rarl_422_random]
-    rarl_wind3 = [rarl_42_wind3, rarl_2024_wind3]
+    rarl_randomhj = [rarl_42_randomhj, rarl_2024_randomhj, rarl_20242_randomhj]
+    rarl_random = [rarl_42_random, rarl_2024_random, rarl_20242_random]
+    rarl_wind3 = [rarl_42_wind3, rarl_2024_wind3, rarl_20242_random]
     print(f"========== RARL in the env quadrotor_randomhj:")
     calculate_mean_std(rarl_randomhj)
     print(f"========== RARL in the env quadrotor_random:")
@@ -126,8 +129,8 @@ if __name__ == '__main__':
     calculate_mean_std(rarl_wind3)
     
     # RAP
-    rap_randomhj = [rap_42_randomhj, rap_2024_randomhj, rap_422_randomhj]
-    rap_random = [rap_42_random, rap_2024_random, rap_422_random]
+    rap_randomhj = [rap_42_randomhj, rap_2024_randomhj]
+    rap_random = [rap_42_random, rap_2024_random]
     rap_wind3 = [rap_42_wind3, rap_2024_wind3]
     print(f"========== RAP in the env quadrotor_randomhj:")
     calculate_mean_std(rap_randomhj)

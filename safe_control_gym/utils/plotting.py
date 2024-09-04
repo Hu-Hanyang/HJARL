@@ -870,11 +870,14 @@ def plot_values(fixed_defender_position, model, value1vs1, grid1vs1, attacker, s
     plt.scatter(fixed_defender_position[0][0], fixed_defender_position[0][1], color='magenta', marker='*', s=300, label='Fixed Defender')
 
     # plt.colorbar(contourf, label='Value')
-    # plt.xlabel('X')
-    # plt.ylabel('Y')
-    # plt.title(f'Value function heatmap with the fixed defender at {fixed_defender_position[0]}')
+    fontdict1 = {'fontsize': 30, 'fontweight': 'bold'}
+    fontdict2 = {'fontsize': 50, 'fontweight': 'bold'}
+    plt.xlabel('X', fontdict=fontdict1)
+    plt.ylabel('Y', fontdict=fontdict1)
+    # plt.title("HJARL", fontdict=fontdict2)
     if save_dir is not None:
-        plt.savefig(os.path.join(save_dir, f'ours_network_values{fixed_defender_position[0]}.png'))
+        print(f'========== The save directory is {save_dir} ==========')
+        plt.savefig(os.path.join(save_dir, f'HJARL_network_values{fixed_defender_position[0]}.png'))
     plt.show()
 
 
@@ -924,9 +927,12 @@ def plot_values_rarl(algo, fixed_defender_position, model, value1vs1, grid1vs1, 
     plt.scatter(fixed_defender_position[0][0], fixed_defender_position[0][1], color='magenta', marker='*', s=300, label='Fixed Defender')
 
     # plt.colorbar(contourf, label='Value')
-    # plt.xlabel('X')
-    # plt.ylabel('Y')
-    # plt.title(f'{algo} value network with the fixed defender at {fixed_defender_position[0]}')
+    # fontdict1 = {'fontsize': 16, 'fontweight': 'bold'}
+    fontdict2 = {'fontsize': 50, 'fontweight': 'bold'}
+    # plt.xlabel('X', fontdict=fontdict1)
+    # plt.ylabel('Y', fontdict=fontdict1)
+    plt.title("RARL", fontdict=fontdict2)
+    # plt.title("RAP", fontdict=fontdict2)
     if save_dir is not None:
         plt.savefig(os.path.join(save_dir, f'{algo}_network_values{fixed_defender_position[0]}.png'))
     plt.show()
@@ -951,14 +957,16 @@ def plot_values_dub(fixed_defender_position, model, value1vs1, grid1vs1, attacke
             obs = [X[i, j], Y[i, j], fixed_values[2]] + fixed_values
             obs_tensor = torch.tensor(obs, dtype=torch.float32).unsqueeze(0).to(model.device)
             
+            # First for sb3
+            # # Extract features using the vf_features_extractor
+            # features = model.policy.vf_features_extractor(obs_tensor)
+            # # Pass the features through the mlp_extractor value_net
+            # value_features = model.policy.mlp_extractor.value_net(features)
+            # # Pass the value features through the final value_net layer
+            # value = model.policy.value_net(value_features)
+            # Second for rarl
             # Extract features using the vf_features_extractor
-            features = model.policy.vf_features_extractor(obs_tensor)
-            
-            # Pass the features through the mlp_extractor value_net
-            value_features = model.policy.mlp_extractor.value_net(features)
-            
-            # Pass the value features through the final value_net layer
-            value = model.policy.value_net(value_features)
+            value = model.agent.ac.critic(obs_tensor)
             
             # Store the value in the Z array
             Z[i, j] = value.item()
@@ -990,6 +998,7 @@ def plot_values_dub(fixed_defender_position, model, value1vs1, grid1vs1, attacke
     # plt.ylabel('Y')
     # plt.title(f'Value function heatmap with the fixed defender at {fixed_defender_position[0]}')
     if save_dir is not None:
+        print(f"Saving the figure at {save_dir}")
         plt.savefig(os.path.join(save_dir, f'hj_network_values{fixed_defender_position[0]}.png'))
     plt.show()
 

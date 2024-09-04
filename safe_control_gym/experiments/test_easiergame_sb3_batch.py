@@ -25,6 +25,7 @@ value1vs1 = np.load(('safe_control_gym/envs/gym_game/values/1vs1Defender_easier.
 grid1vs0 = Grid(np.array([-1.0, -1.0]), np.array([1.0, 1.0]), 2, np.array([100, 100])) 
 grid1vs1 = Grid(np.array([-1.0, -1.0, -1.0, -1.0]), np.array([1.0, 1.0, 1.0, 1.0]), 4, np.array([45, 45, 45, 45]))
 
+
 def check_area(state, area):
     """Check if the state is inside the area.
 

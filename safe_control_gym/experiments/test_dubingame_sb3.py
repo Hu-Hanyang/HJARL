@@ -10,7 +10,7 @@ import torch.nn as nn
 from odp.Grid import Grid
 import matplotlib.pyplot as plt
 from torch.distributions.normal import Normal
-from safe_control_gym.utils.plotting import animation_dub, current_status_check, record_video,  plot_values_dub, plot_value_1vs1_dub
+from safe_control_gym.utils.plotting import animation_dub, plot_values_dub, plot_value_1vs1_dub
 from safe_control_gym.envs.gym_game.DubinGame import DubinReachAvoidEasierGame
 
 
@@ -127,7 +127,7 @@ def test_dubin_sb3(init_type, total_steps):
     initial_attacker = np.array([[-0.7, 0.5, -1.0]])
     initial_defender = np.array([[0.7, -0.5, 1.00]])  
     # Display the initial value function plot
-    plot_value_1vs1_dub(initial_attacker, initial_defender, 0, 0, 1, value1vs1, grid1vs1)
+    # plot_value_1vs1_dub(initial_attacker, initial_defender, 0, 0, 1, value1vs1, grid1vs1)
 
     
     # Random test 
@@ -161,34 +161,34 @@ def test_dubin_sb3(init_type, total_steps):
     # value = model.policy.value_net(value_features)
     # print(f"========== The initial value is {value} in the test_game. ========== \n")
 
-    # # plot the value network in the heat map
-    # fixed_defender_position = np.array([[0.7, -0.5, 1.00]]) 
-    # plot_values_dub(fixed_defender_position, model, value1vs1, grid1vs1, initial_attacker, trained_path)
+    # plot the value network in the heat map
+    fixed_defender_position = np.array([[0.7, -0.5, 1.00]]) 
+    plot_values_dub(fixed_defender_position, model, value1vs1, grid1vs1, initial_attacker, trained_path)
 
 
-    attackers_traj.append(np.array([obs[:3]]))
-    defenders_traj.append(np.array([obs[3:]]))
+    # attackers_traj.append(np.array([obs[:3]]))
+    # defenders_traj.append(np.array([obs[3:]]))
 
-    for sim in range(int(T * ctrl_freq)):
-        actions, _ = model.predict(obs, deterministic=True)
-        # print(f"Step {step}: the action is {actions}. \n")
-        next_obs, reward, terminated, truncated, infos = envs.step(actions)
-        step += 1
-        # print(f"Step {step}: the reward is {reward}. \n")
-        attackers_traj.append(np.array([next_obs[:3]]))
-        defenders_traj.append(np.array([next_obs[3:]]))
-        # print(f"Step {step}: the relative distance is {np.linalg.norm(next_obs[:, :2] - next_obs[:, 2:])}. \n")
-        # print(f"Step {step}: the current position of the attacker is {next_obs[:2]}. \n")
-        attackers_status.append(getAttackersStatus(np.array([next_obs[:3]]), np.array([next_obs[3:]]), attackers_status[-1]))
+    # for sim in range(int(T * ctrl_freq)):
+    #     actions, _ = model.predict(obs, deterministic=True)
+    #     # print(f"Step {step}: the action is {actions}. \n")
+    #     next_obs, reward, terminated, truncated, infos = envs.step(actions)
+    #     step += 1
+    #     # print(f"Step {step}: the reward is {reward}. \n")
+    #     attackers_traj.append(np.array([next_obs[:3]]))
+    #     defenders_traj.append(np.array([next_obs[3:]]))
+    #     # print(f"Step {step}: the relative distance is {np.linalg.norm(next_obs[:, :2] - next_obs[:, 2:])}. \n")
+    #     # print(f"Step {step}: the current position of the attacker is {next_obs[:2]}. \n")
+    #     attackers_status.append(getAttackersStatus(np.array([next_obs[:3]]), np.array([next_obs[3:]]), attackers_status[-1]))
 
-        if terminated or truncated:
-            break
-        else:
-            obs = next_obs
-    # print(f"================ The {num} game is over at the {step} step ({step / 200} seconds. ================ \n")
-    print(f"================ The game is over at the {step} step ({step / 20} seconds. ================ \n")
-    current_status_check(attackers_status[-1], step)
-    animation_dub(attackers_traj, defenders_traj, attackers_status)
+    #     if terminated or truncated:
+    #         break
+    #     else:
+    #         obs = next_obs
+    # # print(f"================ The {num} game is over at the {step} step ({step / 200} seconds. ================ \n")
+    # print(f"================ The game is over at the {step} step ({step / 20} seconds. ================ \n")
+    # current_status_check(attackers_status[-1], step)
+    # animation_dub(attackers_traj, defenders_traj, attackers_status)
 
 
 

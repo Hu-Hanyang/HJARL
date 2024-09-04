@@ -1,0 +1,10 @@
+Test task: quadrotor_wind with env seed 2024.
+Controller: rarl trained in the quadrotor_rarl with 2024 seed 
+Number of episodes: 10
+Performances of returns: -110.43 ±  7.68
+Performances of lengths: 603 ±  486.10
+Original returns: 
+ [-121.13152541 -112.38309124 -101.20146835 -121.55932872 -102.70747225
+ -116.67186319 -102.23614557 -108.68631189 -102.21114987 -115.53281101] 
+Original lengths: 
+ [1000 1000    8 1000    8 1000    9 1000    6 1000] 

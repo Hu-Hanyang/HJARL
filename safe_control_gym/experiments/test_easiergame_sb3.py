@@ -24,6 +24,7 @@ value1vs1 = np.load(('safe_control_gym/envs/gym_game/values/1vs1Defender_easier.
 grid1vs0 = Grid(np.array([-1.0, -1.0]), np.array([1.0, 1.0]), 2, np.array([100, 100])) 
 grid1vs1 = Grid(np.array([-1.0, -1.0, -1.0, -1.0]), np.array([1.0, 1.0, 1.0, 1.0]), 4, np.array([45, 45, 45, 45]))
 
+
 def check_area(state, area):
     """Check if the state is inside the area.
 
@@ -168,8 +169,8 @@ def test_sb3(optimality, init_type, total_steps):
     # print(f"========== The initial value is {value} in the test_game. ========== \n")
 
     # plot the value network in the heat map
-    fixed_defender_position = np.array([[0.5, 0.0]])
-    # fixed_defender_position = np.array([[-0.5, -0.5]])
+    # fixed_defender_position = np.array([[0.5, 0.0]])
+    fixed_defender_position = np.array([[-0.5, -0.5]])
     plot_values(fixed_defender_position, model, value1vs1, grid1vs1, initial_attacker, trained_path)
 
     # attackers_traj.append(np.array([obs[:2]]))
