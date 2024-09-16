@@ -22,9 +22,9 @@ map = {'map': [-1., 1., -1., 1.]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax
 des = {'goal0': [0.6, 0.8, 0.1, 0.3]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
 obstacles = {'obs1': [100, 100, 100, 100]}  # Hanyang: rectangele [xmin, xmax, ymin, ymax]
 # Step 1 load the value function, initilize the grids
-value1vs0 = np.load('safe_control_gym/envs/gym_game/values/1vs0Dubin_easier.npy')
+# value1vs0 = np.load('safe_control_gym/envs/gym_game/values/1vs0Dubin_easier.npy')
 value1vs1 = np.load('safe_control_gym/envs/gym_game/values/1vs1Dubin_easier.npy')
-grid1vs0 = Grid(np.array([-1.1, -1.1, -math.pi]), np.array([1.1, 1.1, math.pi]), 3, np.array([100, 100, 200]), [2])
+# grid1vs0 = Grid(np.array([-1.1, -1.1, -math.pi]), np.array([1.1, 1.1, math.pi]), 3, np.array([100, 100, 200]), [2])
 grid1vs1 = Grid(np.array([-1.1, -1.1, -math.pi, -1.1, -1.1, -math.pi]), np.array([1.1, 1.1, math.pi, 1.1, 1.1, math.pi]), 
                         6, np.array([28, 28, 28, 28, 28, 28]), [2, 5])
 
@@ -119,6 +119,7 @@ def test_dubin_sb3(init_type, total_steps):
     # Load the trained model
     trained_path = os.path.join('training_results', f"dubin_game/sb3/{init_type}_init/", f'seed_{env_seed}', f'{total_timesteps}steps')
     trained_model = os.path.join(trained_path, 'final_model.zip')
+    # trained_model = 'training_results/dubin_game/sb3/random_init/seed_42/20000000.0steps/checkpoints/model_3000000_steps.zip'
     assert os.path.exists(trained_model), f"[ERROR] The trained model {trained_model} does not exist, please check the loading path or train one first."
     print(f"========== The trained model is loaded from {trained_model}. =========== \n")
     model = PPO.load(trained_model)
@@ -152,7 +153,7 @@ def test_dubin_sb3(init_type, total_steps):
     obs, _ = envs.reset()  # obs.shape = (6,)
     initial_obs = obs.copy()
     print(f"========== The initial state is {initial_obs} in the test_game. ========== \n")
-    print(f"========== The initial HJ value function is {check_current_value_dub(envs.attackers.state, envs.defenders.state, value1vs1, grid1vs1)}. ========== \n")
+    # print(f"========== The initial HJ value function is {check_current_value_dub(envs.attackers.state, envs.defenders.state, value1vs1, grid1vs1)}. ========== \n")
     # check the trained value function
     # initial_obs_tensor = torch.tensor(initial_obs, dtype=torch.float32).unsqueeze(0)
     # initial_obs_tensor = initial_obs_tensor.to(torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu'))
@@ -162,7 +163,7 @@ def test_dubin_sb3(init_type, total_steps):
     # print(f"========== The initial value is {value} in the test_game. ========== \n")
 
     # plot the value network in the heat map
-    fixed_defender_position = np.array([[0.7, -0.5, 1.00]]) 
+    fixed_defender_position = np.array([[0.7, -0.4, -0.5]]) 
     plot_values_dub(fixed_defender_position, model, value1vs1, grid1vs1, initial_attacker, trained_path)
 
 
@@ -202,3 +203,4 @@ if __name__ == "__main__":
     test_dubin_sb3(init_type=args.init_type, total_steps=args.total_steps)
 
     # python safe_control_gym/experiments/test_dubingame_sb3.py --init_type random --total_steps 1e7
+    # python safe_control_gym/experiments/test_dubingame_sb3.py --init_type random --total_steps 2e7

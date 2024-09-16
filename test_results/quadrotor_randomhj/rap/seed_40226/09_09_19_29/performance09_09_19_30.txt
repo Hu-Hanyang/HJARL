@@ -1,0 +1,10 @@
+Test task: quadrotor_randomhj with env seed 2024.
+Controller: rap trained in the quadrotor_rarl with 40226 seed 
+Number of episodes: 10
+Performances of returns: -102.19 ±  11.75
+Performances of lengths: 312 ±  450.53
+Original returns: 
+ [-102.9842403   -72.20016188 -113.91678633 -120.11851269 -100.69318332
+ -103.06410633 -101.12165089  -99.54885675 -105.13842487 -103.09236439] 
+Original lengths: 
+ [   9 1000 1000   59    2   12    5 1000   25   10] 

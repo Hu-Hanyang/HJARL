@@ -165,11 +165,11 @@ def test():
             
         elif config.algo == 'rarl':
             # eval_results = ctrl.run(render=False, n_episodes=10, use_adv=False) 
-            eval_results = ctrl.run(render=True, n_episodes=5, use_adv=False) 
+            eval_results = ctrl.run(render=True, n_episodes=1, use_adv=False) 
             
         elif config.algo == 'rap':
             # eval_results = ctrl.run(render=False, n_episodes=10, use_adv=False) 
-            eval_results = ctrl.run(render=True, n_episodes=5, use_adv=False) 
+            eval_results = ctrl.run(render=True, n_episodes=3, use_adv=False) 
     else:
         if config.algo == 'ppo':
             eval_results = ctrl.run(render=False, n_episodes=10) # Hanyang: the maximum number of episodes is 3 if generating videos.

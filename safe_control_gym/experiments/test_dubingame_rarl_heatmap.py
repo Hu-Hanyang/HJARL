@@ -196,7 +196,7 @@ def test():
     test_seed = 2024
 
     # plot heatmaps
-    fixed_defender_position = np.array([[0.7, -0.5, 1.00]]) 
+    fixed_defender_position = np.array([[0.7, -0.4, -0.5]]) 
     plot_values_dub(fixed_defender_position, model, value1vs1, grid1vs1, initial_attacker, config.output_dir)
     # # run a game
     # envs = ReachAvoidEasierGame(random_init=False,

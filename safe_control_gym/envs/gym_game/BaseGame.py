@@ -366,9 +366,9 @@ class BaseGameEnv(gym.Env):
         else:
             raise ValueError(f"Invalid init_type: {self.init_type}.")
 
-        print(f"========== attacker_pos: {attacker_pos} in BaseGame.py. ==========")
-        print(f"========== defender_pos: {defender_pos} in BaseGame.py. ==========")
-        print(f"========== The relative distance is {np.linalg.norm(attacker_pos - defender_pos):.2f} in BaseGame.py. ========== \n ")
+        # print(f"========== attacker_pos: {attacker_pos} in BaseGame.py. ==========")
+        # print(f"========== defender_pos: {defender_pos} in BaseGame.py. ==========")
+        # print(f"========== The relative distance is {np.linalg.norm(attacker_pos - defender_pos):.2f} in BaseGame.py. ========== \n ")
         
         self.initial_players_seed += 1  # Increment the random seed
         self.init_player_call_counter += 1  # Increment the call counter
@@ -404,6 +404,7 @@ class BaseGameEnv(gym.Env):
         #### Prepare the observation #############################
         obs = self._computeObs()
         info = self._computeInfo()
+        # print(f"========== The initial state is {obs} in BaseGame.py. ==========")
         
         return obs, info
     

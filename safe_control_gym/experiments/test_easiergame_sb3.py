@@ -169,8 +169,8 @@ def test_sb3(optimality, init_type, total_steps):
     # print(f"========== The initial value is {value} in the test_game. ========== \n")
 
     # plot the value network in the heat map
-    # fixed_defender_position = np.array([[0.5, 0.0]])
-    fixed_defender_position = np.array([[-0.5, -0.5]])
+    fixed_defender_position = np.array([[0.5, 0.0]])
+    # fixed_defender_position = np.array([[-0.5, -0.5]])
     plot_values(fixed_defender_position, model, value1vs1, grid1vs1, initial_attacker, trained_path)
 
     # attackers_traj.append(np.array([obs[:2]]))

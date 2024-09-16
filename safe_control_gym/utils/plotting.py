@@ -871,10 +871,10 @@ def plot_values(fixed_defender_position, model, value1vs1, grid1vs1, attacker, s
 
     # plt.colorbar(contourf, label='Value')
     fontdict1 = {'fontsize': 30, 'fontweight': 'bold'}
-    fontdict2 = {'fontsize': 50, 'fontweight': 'bold'}
+    fontdict2 = {'fontsize': 40}  # , 'fontweight': 'bold'
     plt.xlabel('X', fontdict=fontdict1)
     plt.ylabel('Y', fontdict=fontdict1)
-    # plt.title("HJARL", fontdict=fontdict2)
+    plt.title("HJARL (ours)", fontdict=fontdict2)
     if save_dir is not None:
         print(f'========== The save directory is {save_dir} ==========')
         plt.savefig(os.path.join(save_dir, f'HJARL_network_values{fixed_defender_position[0]}.png'))
@@ -928,11 +928,11 @@ def plot_values_rarl(algo, fixed_defender_position, model, value1vs1, grid1vs1, 
 
     # plt.colorbar(contourf, label='Value')
     # fontdict1 = {'fontsize': 16, 'fontweight': 'bold'}
-    fontdict2 = {'fontsize': 50, 'fontweight': 'bold'}
+    fontdict2 = {'fontsize': 40}  # , 'fontweight': 'bold'
     # plt.xlabel('X', fontdict=fontdict1)
     # plt.ylabel('Y', fontdict=fontdict1)
-    plt.title("RARL", fontdict=fontdict2)
-    # plt.title("RAP", fontdict=fontdict2)
+    # plt.title("RARL [8]", fontdict=fontdict2)
+    plt.title("RAP [20]", fontdict=fontdict2)
     if save_dir is not None:
         plt.savefig(os.path.join(save_dir, f'{algo}_network_values{fixed_defender_position[0]}.png'))
     plt.show()
@@ -944,8 +944,8 @@ def plot_values_dub(fixed_defender_position, model, value1vs1, grid1vs1, attacke
     fixed_values = fixed_defender_position[0].tolist()  # list like [0.0, 0.0, 0.0]
 
     # Generate a grid of (x, y) values
-    x_values = np.linspace(-1.1, 1.1, 100)
-    y_values = np.linspace(-1.1, 1.1, 100)
+    x_values = np.linspace(-1.1, 1.1, 200)
+    y_values = np.linspace(-1.1, 1.1, 200)
     X, Y = np.meshgrid(x_values, y_values)
 
     # Initialize an empty array to store the value function
@@ -954,19 +954,20 @@ def plot_values_dub(fixed_defender_position, model, value1vs1, grid1vs1, attacke
     # Iterate over the grid and calculate the value for each (x, y) pair
     for i in range(X.shape[0]):
         for j in range(X.shape[1]):
-            obs = [X[i, j], Y[i, j], fixed_values[2]] + fixed_values
+            obs = [X[i, j], Y[i, j], fixed_values[2]] + fixed_values  # 
             obs_tensor = torch.tensor(obs, dtype=torch.float32).unsqueeze(0).to(model.device)
             
             # First for sb3
-            # # Extract features using the vf_features_extractor
-            # features = model.policy.vf_features_extractor(obs_tensor)
-            # # Pass the features through the mlp_extractor value_net
-            # value_features = model.policy.mlp_extractor.value_net(features)
-            # # Pass the value features through the final value_net layer
-            # value = model.policy.value_net(value_features)
-            # Second for rarl
             # Extract features using the vf_features_extractor
-            value = model.agent.ac.critic(obs_tensor)
+            features = model.policy.vf_features_extractor(obs_tensor)
+            # Pass the features through the mlp_extractor value_net
+            value_features = model.policy.mlp_extractor.value_net(features)
+            # Pass the value features through the final value_net layer
+            value = model.policy.value_net(value_features)
+
+            # # Second for rarl
+            # # Extract features using the vf_features_extractor
+            # value = model.agent.ac.critic(obs_tensor)
             
             # Store the value in the Z array
             Z[i, j] = value.item()
@@ -975,23 +976,38 @@ def plot_values_dub(fixed_defender_position, model, value1vs1, grid1vs1, attacke
     _, _, a1o_slice, d1x_slice, d1y_slice, d1o_slice = grid1vs1.get_index(np.concatenate((attacker[0], fixed_defender_position[0])))
     value_function1vs1 = value1vs1[:, :, a1o_slice, d1x_slice, d1y_slice, d1o_slice].squeeze()
     value_function1vs1 = np.swapaxes(value_function1vs1, 0, 1)
-    # print(f"The shape of the value_function1vs1 is {value_function1vs1.shape}")
+    print(f"The shape of the value_function1vs1 is {value_function1vs1.shape}")
     dims_plot = [0, 1]
     dim1, dim2 = dims_plot[0], dims_plot[1]
-    x_hj = np.linspace(-1, 1, value_function1vs1.shape[dim1])
-    y_hj = np.linspace(-1, 1, value_function1vs1.shape[dim2])
+    x_hj = np.linspace(-1.1, 1.1, value_function1vs1.shape[dim1])
+    y_hj = np.linspace(-1.1, 1.1, value_function1vs1.shape[dim2])
 
     # if save_dir is not None:
     #     scores = np.load(f'{save_dir}/scores_matrix_{fixed_defender_position[0].tolist()}.npy')
     # Plot the value function as a heatmap
     plt.figure(figsize=(8, 8))
-    # plt.imshow(Z, extent=[-1, 1, -1, 1], origin='lower', cmap='viridis', aspect='auto')
-    # plt.colorbar(label='Value')
-    # plt.colorbar(contour, label='Value')
+    fontdict1 = {'fontsize': 30, 'fontweight': 'bold'}
+    fontdict2 = {'fontsize': 40}  # , 'fontweight': 'bold'
+    
+    plt.xlabel('X', fontdict=fontdict1)
+    plt.ylabel('Y', fontdict=fontdict1)
+    plt.title("HJARL (ours)", fontdict=fontdict2)
+    
+    # plt.title("RARL [8]", fontdict=fontdict2)
+    # plt.title("RAP [20]", fontdict=fontdict2)
+    
     contourf = plt.contourf(X, Y, Z, levels=50, cmap='coolwarm')  # viridis, cividis, coolwarm
     # contour = plt.contour(X, Y, Z, levels=50, colors='black', linewidths=0.5)
     contour = plt.contour(x_hj, y_hj, value_function1vs1, levels=0, colors='#4B0082', linewidths=3.0, linestyles='dashed') # colors='magenta', colors='#4B0082'
-    plt.scatter(fixed_defender_position[0][0], fixed_defender_position[0][1], color='magenta', marker='*', s=100, label='Fixed Defender')
+    plt.scatter(fixed_defender_position[0][0], fixed_defender_position[0][1], color='magenta', marker='s', s=100, label='Fixed Defender')
+    # Draw an arrow on top of the square to represent the heading direction
+    defender_x, defender_y = fixed_defender_position[0][0], fixed_defender_position[0][1]
+    defender_heading = fixed_defender_position[0][2]
+    arrow_length = 0.2  # Adjust this value for arrow length
+    end_x = defender_x + arrow_length * np.cos(defender_heading)
+    end_y = defender_y + arrow_length * np.sin(defender_heading)
+    # plot arrow from the defender_x, defender_y to end_x, end_y
+    plt.arrow(defender_x, defender_y, end_x - defender_x, end_y - defender_y, head_width=0.05, head_length=0.05, fc='magenta', ec='magenta')
 
     # plt.colorbar(contourf, label='Value')
     # plt.xlabel('X')

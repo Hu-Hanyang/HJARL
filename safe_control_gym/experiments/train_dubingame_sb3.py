@@ -13,10 +13,32 @@ from stable_baselines3.common.callbacks import EvalCallback, StopTrainingOnRewar
 from stable_baselines3.common.evaluation import evaluate_policy
 from stable_baselines3.common.utils import obs_as_tensor, safe_mean, set_random_seed
 from stable_baselines3.common.monitor import Monitor
+from stable_baselines3.common.callbacks import BaseCallback
 
 
+class SaveEveryXStepsCallback(BaseCallback):
+    def __init__(self, save_freq, save_path, verbose=0):
+        super(SaveEveryXStepsCallback, self).__init__(verbose)
+        self.save_freq = save_freq
+        self.save_path = save_path+'/checkpoints/'
 
-def train_game(init_type='random', total_steps=1e7):
+    def _init_callback(self):
+        # Create the save directory if it does not exist
+        if self.save_path is not None:
+            os.makedirs(self.save_path, exist_ok=True)
+
+    def _on_step(self):
+        if self.n_calls % self.save_freq == 0:
+            # Save the model
+            model_path = os.path.join(self.save_path, f'model_{self.n_calls}_steps.zip')
+            self.model.save(model_path)
+            if self.verbose > 0:
+                print(f"Model saved at {self.n_calls} steps")
+        return True
+    
+
+
+def train_game(init_type, total_steps):
     # Set up env hyperparameters.
     n_env = 2
     env_seed = 42
@@ -24,7 +46,7 @@ def train_game(init_type='random', total_steps=1e7):
     total_timesteps = total_steps
     batch_size = 64
     n_epochs = 15
-    n_steps = 2048
+    n_steps = 2048  #TODO: test this to 300 also
     policy_seed = 42
     target_kl = 0.01
     # Set up saving directory.
@@ -48,11 +70,17 @@ def train_game(init_type='random', total_steps=1e7):
             target_kl=target_kl, 
             tensorboard_log=filename+'/tb/',
             verbose=1)
+    
+    print(f"==============The model is ready.============== \n")
+    # Create the callback list.
+    save_freq = 1000000
+    save_path = filename
+    save_callback = SaveEveryXStepsCallback(save_freq, save_path, verbose=1)
 
     #### Train the model #######################################
     print("Start training")
     start_time = time.perf_counter()
-    model.learn(total_timesteps=int(total_timesteps))
+    model.learn(total_timesteps=int(total_timesteps), callback=save_callback)
 
     #### Save the model ########################################
     model.save(filename+'/final_model.zip')
@@ -71,4 +99,5 @@ if __name__ == '__main__':
     
     train_game(init_type=args.init_type, total_steps=args.total_steps)
     # python safe_control_gym/experiments/train_dubingame_sb3.py --init_type random --total_steps 1e7
+    # python safe_control_gym/experiments/train_dubingame_sb3.py --init_type random --total_steps 2e7
 

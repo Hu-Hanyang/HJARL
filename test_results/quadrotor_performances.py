@@ -30,11 +30,13 @@ rarl_42_randomhj =  [7, 1000, 56, 26, 8, 4, 1000, 1000, 5, 77]
 rarl_2024_randomhj = [6, 68, 6, 1000, 23, 3, 1000, 1000, 28, 3] 
 rarl_422_randomhj = [13, 21, 18, 28, 13, 5, 13, 15, 6, 8]
 rarl_20242_randomhj = [9, 34, 20, 11, 74, 6, 22, 26, 22, 3]
+rarl_40226_randomhj = [19, 22, 150, 36, 2, 5, 6, 92, 943, 12]
 
 # rap in randomhj
 rap_42_randomhj = [49, 33, 22, 59, 13, 4, 1000, 1000, 5, 218] 
 rap_2024_randomhj = [5, 34, 22, 1000, 20, 5, 80, 1000, 24, 4]
 rap_422_randomhj = [13, 1000, 25, 17, 5, 3, 20, 22, 3, 29]
+rap_40226_randomhj = [9, 1000, 1000, 59, 2, 12, 5, 1000, 25, 10]
 
 ## quadrotor_random
 # ours in random
@@ -53,20 +55,16 @@ rarl_42_random = [1000, 1000, 1000, 1000, 1000, 12, 1000, 1000, 1000, 72]
 rarl_2024_random = [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
 rarl_422_random = [22, 46, 15, 125, 12, 11, 104, 145, 1000, 244] 
 rarl_20242_random = [1000, 1000, 13, 15, 9, 1000, 7, 1000, 21, 14] 
+rarl_40226_random = [16, 665, 140, 448, 63, 124, 6, 379, 4, 68] 
 
 # rap in random
 rap_42_random = [1000, 1000, 1000, 10, 1000, 1000, 1000, 1000, 1000, 1000] 
 rap_2024_random = [1000, 1000, 17, 1000, 1000, 1000, 1000, 1000, 1000, 1000]
 rap_422_random = [45, 16, 1000, 1000, 1000, 13, 1000, 12, 25, 1000] 
+rap_40226_random = [1000, 6, 1000, 1000, 19, 20, 1000, 1000, 7, 1000]
 
 # # quadrotor_wind
 # # ours in wind: 1 = hj_distbs = (0.00424, 0.0, 0.0); 2 = hj_distbs = (0.0, 0.00424, 0.0), 3:hj_distbs = (0.003, 0.003, 0.0)
-# ours_42_wind1 = [1000, 1000, 1000, 1000, 4, 17, 1000, 11, 1000, 1000] 
-# ours_42_wind2 = [1000, 1000, 1000, 17, 113, 1000, 1000, 48, 1000, 1000]
-# ours_40226_wind1 = [10, 11, 1000, 1000, 1000, 1000, 7, 1000, 1000, 11] 
-# ours_40226_wind2 = [7, 69, 1000, 1000, 1000, 6, 5, 1000, 85, 1000]
-# ours_40026_wind1 = [46, 29, 16, 1000, 1000, 1000, 12, 1000, 1000, 9] 
-
 ours_42_wind3 = [1000, 1000, 1000, 1000, 6, 1000, 1000, 10, 1000, 1000] 
 # ours_40226_wind3 = [8, 66, 1000, 1000, 1000, 17, 10, 1000, 1000, 5]
 ours_40026_wind3 =  [90, 16, 49, 1000, 1000, 1000, 1000, 1000, 1000, 83]
@@ -80,15 +78,15 @@ ppo_40226_wind3 = [5, 1000, 14, 6, 1000, 6, 22, 1000, 1000, 4]
 # rap in wind
 rap_42_wind3 = [68, 1000, 1000, 45, 11, 1000, 1000, 1000, 1000, 1000] 
 rap_2024_wind3 = [1000, 1000, 22, 1000, 7,  1000, 33, 1000, 1000, 1000]
-rap_422_wind3 =  [27, 44, 7, 23, 14, 585, 474, 5, 6, 250] 
+rap_422_wind3 =   [1000, 76, 1000, 1000, 5, 4, 1000, 6, 1000, 1000] # 422 means different hyperparameters but with the same 42 seed
+rap_40226_wind3 = [4, 6, 4, 10, 7, 6, 7, 1000, 5, 5]
 
 # rarl in wind
 rarl_42_wind3 = [7, 16, 1000, 6, 9, 27, 15, 1000, 1000, 12] 
 rarl_2024_wind3 = [44, 30, 1000, 28, 6, 37, 1000, 29, 15, 38]
 # rarl_422_wind3 = [12, 120, 4, 19, 422, 61, 51, 9, 11, 27]
 rarl_20242_wind3 = [1000, 1000, 8, 1000, 8, 1000, 9, 1000, 6, 1000] 
-
-
+rarl_40226_wind3 = [102, 88, 131, 5, 130, 7, 4, 73, 153, 120]
 
 
 
@@ -118,7 +116,7 @@ if __name__ == '__main__':
     # calculate_mean_std(ppo_wind3)
     
     # RARL
-    rarl_randomhj = [rarl_42_randomhj, rarl_2024_randomhj, rarl_20242_randomhj]
+    rarl_randomhj = [rarl_42_randomhj, rarl_2024_randomhj, rarl_40226_randomhj]
     rarl_random = [rarl_42_random, rarl_2024_random, rarl_20242_random]
     rarl_wind3 = [rarl_42_wind3, rarl_2024_wind3, rarl_20242_random]
     print(f"========== RARL in the env quadrotor_randomhj:")
@@ -129,9 +127,9 @@ if __name__ == '__main__':
     calculate_mean_std(rarl_wind3)
     
     # RAP
-    rap_randomhj = [rap_42_randomhj, rap_2024_randomhj]
-    rap_random = [rap_42_random, rap_2024_random]
-    rap_wind3 = [rap_42_wind3, rap_2024_wind3]
+    rap_randomhj = [rap_42_randomhj, rap_2024_randomhj, rap_40226_randomhj]
+    rap_random = [rap_42_random, rap_2024_random, rap_40226_random]
+    rap_wind3 = [rap_42_wind3, rap_2024_wind3, rap_422_wind3]
     print(f"========== RAP in the env quadrotor_randomhj:")
     calculate_mean_std(rap_randomhj)
     print(f"========== RAP in the env quadrotor_random:")

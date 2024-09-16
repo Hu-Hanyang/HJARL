@@ -85,35 +85,23 @@ For rl_based controllers:
 4. Choose other necessary arguments. 
 
 ### test in the quadrotor_random
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_random  --seed 2024
+python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_random  --seed 42  --render
 <!-- python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_random --algo ppo --task quadrotor_random  --seed 42 -->
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo ppo --task quadrotor_random  --seed 2024
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rarl --task quadrotor_random  --seed 2024
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rap --task quadrotor_random  --seed 42
-
-
-### test in the quadrotor_fixed
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_fixed --test_distb_level 1.0 --seed 2024
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo ppo --task quadrotor_fixed --test_distb_level 1.0  --seed 42
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rarl --task quadrotor_fixed --test_distb_level 1.0  --seed 42
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rap --task quadrotor_fixed  --test_distb_level 1.0 --seed 42
-
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_fixed --test_distb_level 0.8 --seed 42
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo ppo --task quadrotor_fixed --test_distb_level 0.8  --seed 42
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rarl --task quadrotor_fixed --test_distb_level 0.8  --seed 42
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rap --task quadrotor_fixed  --test_distb_level 0.8 --seed 42
+python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_rarl --algo rarl --task quadrotor_random  --seed 40226
+python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_rarl --algo rap --task quadrotor_random  --seed 40226
 
 ### test in the quadrotor_wind
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_wind --seed 42
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo ppo --task quadrotor_wind --seed 42
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rarl --task quadrotor_wind --seed 42
+python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_rarl --algo rarl --task quadrotor_wind --seed 40226
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_rarl --algo rap --task quadrotor_wind --seed 42
 
 ### test in the quadrotor_random_hj
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_boltz --algo ppo --task quadrotor_randomhj --seed 2024
 python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo ppo --task quadrotor_randomhj --seed 42
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rarl --task quadrotor_randomhj  --seed 2024
-python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_null --algo rap --task quadrotor_randomhj  --seed 42
+python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_rarl --algo rarl --task quadrotor_randomhj  --seed 40226
+python safe_control_gym/experiments/test_rl_controller.py --trained_task quadrotor_rarl --algo rap --task quadrotor_randomhj  --seed 40226
 
 
 ## Env Info
