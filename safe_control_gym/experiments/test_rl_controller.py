@@ -49,6 +49,7 @@ def generate_gifs(frames, output_dir):
         frames: list, a list contains several lists, each containts a sequence of numpy ndarrays 
         env: the quadrotor and task environment
     """
+    print("Start to generate videos and gifs.")
     episodes = len(frames)
     
     for episode in range(episodes):
@@ -158,10 +159,12 @@ def test():
     print(f"==============Model is loaded.============== \n")
     ctrl.reset()
     
+    print(f"==============Start testing.============== \n")
+    start_time = time.perf_counter()
     if config.render:
         if config.algo == 'ppo':
             # eval_results = ctrl.run(render=False, n_episodes=10) # Hanyang: the maximum number of episodes is 3 if generating videos.
-            eval_results = ctrl.run(render=True, n_episodes=3) # Hanyang: the maximum number of episodes is 3 if generating videos.
+            eval_results = ctrl.run(render=True, n_episodes=1) # Hanyang: the maximum number of episodes is 3 if generating videos.
             
         elif config.algo == 'rarl':
             # eval_results = ctrl.run(render=False, n_episodes=10, use_adv=False) 
@@ -169,7 +172,7 @@ def test():
             
         elif config.algo == 'rap':
             # eval_results = ctrl.run(render=False, n_episodes=10, use_adv=False) 
-            eval_results = ctrl.run(render=True, n_episodes=3, use_adv=False) 
+            eval_results = ctrl.run(render=True, n_episodes=1, use_adv=False) 
     else:
         if config.algo == 'ppo':
             eval_results = ctrl.run(render=False, n_episodes=10) # Hanyang: the maximum number of episodes is 3 if generating videos.
@@ -184,9 +187,11 @@ def test():
             # eval_results = ctrl.run(render=True, n_episodes=3, use_adv=False) 
         
     ctrl.close()
+    duration = time.perf_counter() - start_time
+    print(f"========== The time of testing is {duration//3600}hours-{(duration%3600)//60}minutes-{(duration%3600)%60}seconds. ========== \n")
+
     # Hanyang: generate videos and gifs
-    # print("Start to generate videos and gifs.")
-    # generate_gifs(eval_results['frames'], config.output_dir)
+    generate_gifs(eval_results['frames'], config.output_dir)
     log_performance(eval_results, config, env_seed)
 
     # Save the configuration.

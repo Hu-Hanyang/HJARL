@@ -267,6 +267,8 @@ class RAP(BaseController):
                     eval_results['frames'].append(frames)
                     frames = []
                 obs, _ = env.reset()
+                print(f"The {len(ep_returns)} episode starts to run with the initial state {obs}. \n")
+                
             obs = self.obs_normalizer(obs)
 
         # collect evaluation results
