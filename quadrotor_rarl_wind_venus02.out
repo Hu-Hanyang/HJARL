@@ -1,0 +1,38 @@
+Start to compile the sh file now!
+]2;conda activate quadrotor]1;]2;cd /localscratch/hha160/safe-control-gym]1;]2;echo 'Start to train now!']1;Start to train now!
+]2;python safe_control_gym/experiments/test_rl_controller.py --trained_task     ]1;pybullet build time: Apr  1 2024 13:12:41
+/home/hha160/miniconda3/envs/quadrotor/lib/python3.8/site-packages/gymnasium/spaces/box.py:130: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  gym.logger.warn(f"Box bound precision lowered by casting to {self.dtype}")
+CasADi - 2024-09-16 18:20:18 WARNING("The options 't0', 'tf', 'grid' and 'output_t0' have been deprecated.
+The same functionality is provided by providing additional input arguments to the 'integrator' function, in particular:
+ * Call integrator(..., t0, tf, options) for a single output time, or
+ * Call integrator(..., t0, grid, options) for multiple grid points.
+The legacy 'output_t0' option can be emulated by including or excluding 't0' in 'grid'.
+Backwards compatibility is provided in this release only.") [.../casadi/core/integrator.cpp:515]
+/home/hha160/miniconda3/envs/quadrotor/lib/python3.8/site-packages/torch/nn/functional.py:1956: UserWarning: nn.functional.tanh is deprecated. Use torch.tanh instead.
+  warnings.warn("nn.functional.tanh is deprecated. Use torch.tanh instead.")
+The config.adversary_disturbance is None
+==============The saving directory is test_results/quadrotor_wind/rarl/seed_40226/09_16_18_20.============== 
+
+Using device: cpu
+============== The test env is quadrotor_wind with env seed 2024.============== 
+
+==============Env is ready.============== 
+
+==============Controller is ready.============== 
+
+==============Model is loaded.============== 
+
+==============Start testing.============== 
+
+The 1 episode starts to run with the initial state [ 0.1007321  -0.09142236  1.00510522 -0.12686392  0.20936338  0.90939325
+ -0.33626839 -0.04472785 -0.02269347 -0.09593477  0.90163065  0.45766151
+ -0.36751984  0.          0.          0.          0.        ]. 
+
+========== The time of testing is 0.0hours-4.0minutes-20.39402988483198seconds. ========== 
+
+Start to generate videos and gifs.
+******************Generate Episode0_102steps_09_16_18_24.gif successfully. 
+****************
+****************** The performances are logged.
+ ******************
