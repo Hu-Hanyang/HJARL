@@ -1,0 +1,50 @@
+Start to compile the sh file now!
+]2;conda activate quadrotor]1;]2;cd /localscratch/hha160/safe-control-gym]1;]2;echo 'Start to record now!']1;Start to record now!
+]2;python safe_control_gym/experiments/test_rl_controller.py --trained_task   pp]1;pybullet build time: Apr  1 2024 13:12:41
+/home/hha160/miniconda3/envs/quadrotor/lib/python3.8/site-packages/gymnasium/spaces/box.py:130: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  gym.logger.warn(f"Box bound precision lowered by casting to {self.dtype}")
+CasADi - 2024-09-17 11:50:46 WARNING("The options 't0', 'tf', 'grid' and 'output_t0' have been deprecated.
+The same functionality is provided by providing additional input arguments to the 'integrator' function, in particular:
+ * Call integrator(..., t0, tf, options) for a single output time, or
+ * Call integrator(..., t0, grid, options) for multiple grid points.
+The legacy 'output_t0' option can be emulated by including or excluding 't0' in 'grid'.
+Backwards compatibility is provided in this release only.") [.../casadi/core/integrator.cpp:515]
+/home/hha160/miniconda3/envs/quadrotor/lib/python3.8/site-packages/torch/nn/functional.py:1956: UserWarning: nn.functional.tanh is deprecated. Use torch.tanh instead.
+  warnings.warn("nn.functional.tanh is deprecated. Use torch.tanh instead.")
+The config.adversary_disturbance is None
+==============The saving directory is test_results/quadrotor_random/ppo/seed_42/09_17_11_50.============== 
+
+Using device: cpu
+============== The test env is quadrotor_random with env seed 2024.============== 
+
+==============Env is ready.============== 
+
+==============Controller is ready.============== 
+
+==============Model is loaded.============== 
+
+==============Start testing.============== 
+
+The 1 episode starts to run with the initial state [-0.02252156  0.1267378   0.81623533  0.03329518  0.00896088 -0.49303872
+  0.86932385  0.07065696  0.07123072 -0.08015247 -0.03598942 -3.31133682
+ -0.09862243  0.          0.          0.          0.        ]. 
+
+The 2 episode starts to run with the initial state [-0.02605433 -0.09536556  1.00119926  0.03362783  0.1540487  -0.68196632
+  0.71418492  0.00870878 -0.05234752  0.07021838  2.00777729  0.27104046
+  0.50351122  0.          0.          0.          0.        ]. 
+
+The 3 episode starts to run with the initial state [-0.02553665 -0.21944852  1.17227819  0.05301289  0.19490692  0.17180595
+  0.96420104  0.08687491 -0.07045434  0.06193047  2.4228317   0.68165524
+  0.94516078  0.          0.          0.          0.        ]. 
+
+========== The time of testing is 1.0hours-6.0minutes-53.17877543787472seconds. ========== 
+
+Start to generate videos and gifs.
+******************Generate Episode0_1000steps_09_17_12_57.gif successfully. 
+****************
+******************Generate Episode1_1000steps_09_17_13_00.gif successfully. 
+****************
+******************Generate Episode2_1000steps_09_17_13_03.gif successfully. 
+****************
+****************** The performances are logged.
+ ******************
