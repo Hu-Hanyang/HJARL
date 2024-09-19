@@ -1,0 +1,9 @@
+Test task: quadrotor_random with env seed 2024.
+Controller: ppo trained in the quadrotor_null with 2024 seed 
+Number of episodes: 3
+Performances of returns: -34.58 ±  2.39
+Performances of lengths: 1000 ±  0.00
+Original returns: 
+ [-33.18059183 -32.61645993 -37.95467663] 
+Original lengths: 
+ [1000 1000 1000] 
