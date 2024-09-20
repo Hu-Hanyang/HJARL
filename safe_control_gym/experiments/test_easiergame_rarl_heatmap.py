@@ -100,8 +100,8 @@ def test():
     model.reset()
 
     # Initilalize the environment
-    initial_attacker = np.array([[0.0, 0.0]])
-    initial_defender = np.array([[-0.5, -0.5]])
+    initial_attacker = np.array([[-0.5, 0.5]])
+    initial_defender = np.array([[0.3, -0.3]])
     
     # Random test 
     # initial_attacker = np.array([[-0.5, 0.0]])
