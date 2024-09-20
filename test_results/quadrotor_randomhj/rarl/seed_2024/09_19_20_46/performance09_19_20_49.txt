@@ -1,0 +1,9 @@
+Test task: quadrotor_randomhj with env seed 2024.
+Controller: rarl trained in the quadrotor_rarl with 2024 seed 
+Number of episodes: 3
+Performances of returns: -104.33 ±  1.78
+Performances of lengths: 21 ±  10.23
+Original returns: 
+ [-102.76965743 -106.81571088 -103.40721477] 
+Original lengths: 
+ [ 9 34 20] 
