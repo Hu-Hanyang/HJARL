@@ -168,34 +168,34 @@ def test_sb3(optimality, init_type, total_steps):
     # value = model.policy.value_net(value_features)
     # print(f"========== The initial value is {value} in the test_game. ========== \n")
 
-    # plot the value network in the heat map
-    fixed_defender_position = np.array([[0.5, 0.0]])
-    # fixed_defender_position = np.array([[-0.5, -0.5]])
-    plot_values(fixed_defender_position, model, value1vs1, grid1vs1, initial_attacker, trained_path)
+    # # plot the value network in the heat map
+    # fixed_defender_position = np.array([[0.5, 0.0]])
+    # # fixed_defender_position = np.array([[-0.5, -0.5]])
+    # plot_values(fixed_defender_position, model, value1vs1, grid1vs1, initial_attacker, trained_path)
 
-    # attackers_traj.append(np.array([obs[:2]]))
-    # defenders_traj.append(np.array([obs[2:]]))
+    attackers_traj.append(np.array([obs[:2]]))
+    defenders_traj.append(np.array([obs[2:]]))
 
-    # for sim in range(int(10*200)):
-    #     actions, _ = model.predict(obs, deterministic=True)
-    #     # print(f"Step {step}: the action is {actions}. \n")
-    #     next_obs, reward, terminated, truncated, infos = envs.step(actions)
-    #     step += 1
-    #     # print(f"Step {step}: the reward is {reward}. \n")
-    #     attackers_traj.append(np.array([next_obs[:2]]))
-    #     defenders_traj.append(np.array([next_obs[2:]]))
-    #     # print(f"Step {step}: the relative distance is {np.linalg.norm(next_obs[:, :2] - next_obs[:, 2:])}. \n")
-    #     # print(f"Step {step}: the current position of the attacker is {next_obs[:2]}. \n")
-    #     attackers_status.append(getAttackersStatus(np.array([next_obs[:2]]), np.array([next_obs[2:]]), attackers_status[-1]))
+    for sim in range(int(10*200)):
+        actions, _ = model.predict(obs, deterministic=True)
+        # print(f"Step {step}: the action is {actions}. \n")
+        next_obs, reward, terminated, truncated, infos = envs.step(actions)
+        step += 1
+        # print(f"Step {step}: the reward is {reward}. \n")
+        attackers_traj.append(np.array([next_obs[:2]]))
+        defenders_traj.append(np.array([next_obs[2:]]))
+        # print(f"Step {step}: the relative distance is {np.linalg.norm(next_obs[:, :2] - next_obs[:, 2:])}. \n")
+        # print(f"Step {step}: the current position of the attacker is {next_obs[:2]}. \n")
+        attackers_status.append(getAttackersStatus(np.array([next_obs[:2]]), np.array([next_obs[2:]]), attackers_status[-1]))
 
-    #     if terminated or truncated:
-    #         break
-    #     else:
-    #         obs = next_obs
-    # # print(f"================ The {num} game is over at the {step} step ({step / 200} seconds. ================ \n")
-    # print(f"================ The game is over at the {step} step ({step / 200} seconds. ================ \n")
-    # current_status_check(attackers_status[-1], step)
-    # animation_easier_game(attackers_traj, defenders_traj, attackers_status)
+        if terminated or truncated:
+            break
+        else:
+            obs = next_obs
+    # print(f"================ The {num} game is over at the {step} step ({step / 200} seconds. ================ \n")
+    print(f"================ The game is over at the {step} step ({step / 200} seconds. ================ \n")
+    current_status_check(attackers_status[-1], step)
+    animation_easier_game(attackers_traj, defenders_traj, attackers_status)
     # # # record_video(attackers_traj, defenders_traj, attackers_status, filename=f'1vs1_{datetime.now().strftime("%Y.%m.%d_%H:%M")}.mp4', fps=10)
 
 
