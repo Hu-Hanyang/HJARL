@@ -100,12 +100,14 @@ def test():
     model.reset()
 
     # Initilalize the environment
+    # # Video 1
+    # initial_attacker = np.array([[-0.5, 0.5]])
+    # initial_defender = np.array([[-0.5, -0.5]])
+    
+    # Video 2
     initial_attacker = np.array([[-0.5, 0.5]])
     initial_defender = np.array([[0.3, -0.3]])
     
-    # Random test 
-    # initial_attacker = np.array([[-0.5, 0.0]])
-    # initial_defender = np.array([[0.3, 0.0]])
     test_seed = 2024
 
     # # plot heatmaps

@@ -129,16 +129,13 @@ def test_sb3(optimality, init_type, total_steps):
     model = PPO.load(trained_model)
     
     # Create the environment.
-    #TODO the defender hits the obs
-    # initial_attacker = np.array([[-0.5, 0.8]])
-    # initial_defender = np.array([[0.3, -0.3]])
-    #TODO the defender hits the obs
+    # Video 1
+    # initial_attacker = np.array([[-0.5, 0.5]])
+    # initial_defender = np.array([[-0.5, -0.5]])
+    # Video 2
     initial_attacker = np.array([[-0.5, 0.5]])
     initial_defender = np.array([[0.3, -0.3]])
     
-    # Random test 
-    # initial_attacker = np.array([[-0.5, 0.0]])
-    # initial_defender = np.array([[0.3, 0.0]])
     
     
     envs = ReachAvoidEasierGame(random_init=False,
